@@ -36,6 +36,7 @@ hidden:
   field_first_name: true
   field_ged: true
   field_last_name: true
+  field_my_party_list: true
   field_personal_id: true
   field_phone: true
   field_politician: true

@@ -89,6 +89,7 @@ content:
 hidden:
   contact: true
   field_address: true
+  field_my_party_list: true
   field_politician: true
   field_referral_url: true
   google_analytics: true

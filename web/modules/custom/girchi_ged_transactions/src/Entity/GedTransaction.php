@@ -56,14 +56,16 @@ use Drupal\user\UserInterface;
  *   field_ui_base_route = "ged_transaction.settings"
  * )
  */
-class GedTransaction extends ContentEntityBase implements GedTransactionInterface {
+class GedTransaction extends ContentEntityBase implements GedTransactionInterface
+{
 
   use EntityChangedTrait;
 
   /**
    * {@inheritdoc}
    */
-  public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
+  public static function preCreate(EntityStorageInterface $storage_controller, array &$values)
+  {
     parent::preCreate($storage_controller, $values);
     $values += [
       'user_id' => \Drupal::currentUser()->id(),
@@ -73,14 +75,16 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
   /**
    * {@inheritdoc}
    */
-  public function getName() {
+  public function getName()
+  {
     return $this->get('name')->value;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setName($name) {
+  public function setName($name)
+  {
     $this->set('name', $name);
     return $this;
   }
@@ -88,14 +92,16 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
   /**
    * {@inheritdoc}
    */
-  public function getCreatedTime() {
+  public function getCreatedTime()
+  {
     return $this->get('created')->value;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setCreatedTime($timestamp) {
+  public function setCreatedTime($timestamp)
+  {
     $this->set('created', $timestamp);
     return $this;
   }
@@ -103,21 +109,24 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
   /**
    * {@inheritdoc}
    */
-  public function getOwner() {
+  public function getOwner()
+  {
     return $this->get('user_id')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getOwnerId() {
+  public function getOwnerId()
+  {
     return $this->get('user_id')->target_id;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setOwnerId($uid) {
+  public function setOwnerId($uid)
+  {
     $this->set('user_id', $uid);
     return $this;
   }
@@ -125,7 +134,8 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
   /**
    * {@inheritdoc}
    */
-  public function setOwner(UserInterface $account) {
+  public function setOwner(UserInterface $account)
+  {
     $this->set('user_id', $account->id());
     return $this;
   }
@@ -133,14 +143,16 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
   /**
    * {@inheritdoc}
    */
-  public function isPublished() {
-    return (bool) $this->getEntityKey('status');
+  public function isPublished()
+  {
+    return (bool)$this->getEntityKey('status');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setPublished($published) {
+  public function setPublished($published)
+  {
     $this->set('status', $published ? TRUE : FALSE);
     return $this;
   }
@@ -148,7 +160,8 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type)
+  {
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
@@ -268,8 +281,8 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['referral'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Referral'))
+    $fields['user'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('User'))
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
@@ -294,4 +307,26 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
 
     return $fields;
   }
+
+
+
+  public function postSave(EntityStorageInterface $storage, $update = TRUE)
+  {
+    //get id of destination user
+    $uidArray = $this->get('user')->getValue();
+    $uID =($uidArray[0]['target_id']);
+
+    //calculate GeD amount
+    $service = \Drupal::service('girchi_ged_transactions.ged_agregator_service');
+    $newTransaction = $service->calculateAndUpdateTotalGeds($uID);
+    
+
+    //Get GeD amount of destination user
+    $account = \Drupal\user\Entity\User::load($uID);
+    $currentGeDAmount = $account->set('field_ged', $newTransaction);
+    $account->save();
+
+    parent::postSave($storage);
+  }
+
 }

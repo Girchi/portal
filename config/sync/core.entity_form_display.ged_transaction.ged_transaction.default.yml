@@ -1,5 +1,5 @@
-uuid: 243a4017-7a60-4f95-9a79-e9b2a7f1951a
-langcode: ka
+uuid: 14191182-798e-4fa0-833a-e335a0659300
+langcode: en
 status: true
 dependencies:
   module:
@@ -31,15 +31,6 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
-  referral:
-    type: entity_reference_autocomplete
-    weight: 2
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
   title:
     type: string_textfield
     settings:
@@ -47,6 +38,15 @@ content:
       placeholder: ''
     region: content
     weight: 1
+    third_party_settings: {  }
+  user:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
     third_party_settings: {  }
 hidden:
   name: true
