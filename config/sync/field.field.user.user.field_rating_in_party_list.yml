@@ -1,0 +1,24 @@
+uuid: fc5a74af-834c-4428-8534-0aa1099e86a4
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_rating_in_party_list
+  module:
+    - user
+id: user.user.field_rating_in_party_list
+field_name: field_rating_in_party_list
+entity_type: user
+bundle: user
+label: 'Rating in party list'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

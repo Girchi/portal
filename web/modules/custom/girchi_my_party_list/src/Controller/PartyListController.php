@@ -30,10 +30,11 @@ class PartyListController extends ControllerBase {
    */
   protected $entityTypeManager;
 
-    /**
-     * Constructs a new PartyListController object.
-     * @param EntityTypeManagerInterface $entity_type_manager
-     */
+
+  /**
+   * Constructs a new PartyListController object.
+   * @param EntityTypeManagerInterface $entity_type_manager
+   */
   public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
   }
@@ -43,7 +44,7 @@ class PartyListController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager')
+        $container->get('entity_type.manager')
     );
   }
 

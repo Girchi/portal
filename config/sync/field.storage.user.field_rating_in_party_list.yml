@@ -1,0 +1,20 @@
+uuid: fbf829bb-0189-4d7d-8d7b-03b23549448d
+langcode: ka
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_rating_in_party_list
+field_name: field_rating_in_party_list
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

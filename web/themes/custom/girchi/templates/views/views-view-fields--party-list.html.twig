@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * Default view template to display all the fields in a row.
+ *
+ * Available variables:
+ * - view: The view in use.
+ * - fields: A list of fields, each one contains:
+ *   - content: The output of the field.
+ *   - raw: The raw data for the field, if it exists. This is NOT output safe.
+ *   - class: The safe class ID to use.
+ *   - handler: The Views field handler controlling this field.
+ *   - inline: Whether or not the field should be inline.
+ *   - wrapper_element: An HTML element for a wrapper.
+ *   - wrapper_attributes: List of attributes for wrapper element.
+ *   - separator: An optional separator that may appear before a field.
+ *   - label: The field's label text.
+ *   - label_element: An HTML element for a label wrapper.
+ *   - label_attributes: List of attributes for label wrapper.
+ *   - label_suffix: Colon after the label.
+ *   - element_type: An HTML element for the field content.
+ *   - element_attributes: List of attributes for HTML element for field content.
+ *   - has_label_colon: A boolean indicating whether to display a colon after
+ *     the label.
+ *   - element_type: An HTML element for the field content.
+ *   - element_attributes: List of attributes for HTML element for field content.
+ * - row: The raw result from the query, with all data it fetched.
+ *
+ * @see template_preprocess_views_view_fields()
+ *
+ * @ingroup themeable
+ */
+#}
+<li class="list-group-item pl-group-item">
+    <div class="d-flex w-100 align-items-center py-0 py-sm-3 px-0 flex-wrap flex-md-nowrap">
+        <span class="text-warning d-block font-size-4 font-weight-bold politician-rank mr-3">
+            {{ '#' ~ fields.field_rating_in_party_list.content | striptags }}
+        </span>
+        <div class="rounded-circle overflow-hidden d-inline-block mx-auto mx-sm-0 mb-3 mb-sm-0">
+            <img src="{{ fields.user_picture.content | striptags }}" width="60" class="rounded">
+        </div>
+        <h6 class="text-center text-sm-left w-100 w-sm-auto text-uppercase line-height-1-2 font-size-4 font-size-md-3 font-size-xl-4 mb-0 mx-2 mx-xl-3">
+                          <span class="text-decoration-none d-inline-block">
+                            <span>{{ fields.field_first_name.content }}</span>
+                            <span class="font-weight-bold">{{ fields.field_last_name.content }}</span>
+                          </span>
+            <span class="d-flex  font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center justify-content-sm-start">
+                                                      {{ 'Politician' | t }}
+                                                    </span>
+        </h6>
+    </div>
+</li>

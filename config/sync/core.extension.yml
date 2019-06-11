@@ -102,6 +102,7 @@ module:
   video_embed_field: 0
   video_embed_wysiwyg: 0
   view_unpublished: 0
+  views_infinite_scroll: 0
   views_ui: 0
   menu_link_content: 1
   pathauto: 1

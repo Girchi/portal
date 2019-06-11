@@ -2,6 +2,9 @@
 #
 msgid ""
 msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2019-06-11 13:32+0000\n"
+"PO-Revision-Date: 2019-06-11 13:32+0000\n"
 
 "Project-Id-Version: PROJECT VERSION\n"D
 "POT-Creation-Date: 2019-06-07 13:29+0000\n"
@@ -335,6 +338,9 @@ msgstr "სურათი"
 
 msgid "Types"
 msgstr "ტიპები"
+
+msgid "Hierarchy"
+msgstr "იერარქია"
 
 msgid "Required"
 msgstr "სავალდებულო"
@@ -2537,6 +2543,9 @@ msgstr "მეტი დახმარება"
 msgid "Sizes"
 msgstr "ზომები"
 
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
+
 msgid "« first"
 msgstr "« პირველი"
 
@@ -2810,6 +2819,15 @@ msgstr "საიტის ინსტალაცია"
 msgid "Finish translations"
 msgstr "თარგმანის დასრულება"
 
+msgid ""
+"By default, dates in this site will be displayed in the chosen time "
+"zone."
+msgstr ""
+"ნაგულისხმევად, ამ საიტზე "
+"თარიღები გამოჩნდება "
+"არჩეული დროის სარტყლის "
+"შესაბამისად."
+
 msgid "Update notifications"
 msgstr "განახლების შეტყობინებები"
 
@@ -3048,21 +3066,6 @@ msgstr "Ged-ების რაოდენობა"
 
 msgid "Active"
 msgstr "აქტიური"
-
-msgid "Hierarchy"
-msgstr "იერარქია"
-
-msgid "Add terms"
-msgstr "ტერმინების დამატება"
-
-msgid ""
-"By default, dates in this site will be displayed in the chosen time "
-"zone."
-msgstr ""
-"ნაგულისხმევად, ამ საიტზე "
-"თარიღები გამოჩნდება "
-"არჩეული დროის სარტყლის "
-"შესაბამისად."
 
 msgid "Enter your email address or username."
 msgstr ""
@@ -3515,6 +3518,8 @@ msgstr "აირჩიეთ პოლიტიკოსი"
 msgid "Referral"
 msgstr "რეფერალი"
 
+msgid "Party list"
+msgstr "პარტიული სია"
 
 msgid "Ged amount"
 msgstr "Ged-ების რაოდენობა"

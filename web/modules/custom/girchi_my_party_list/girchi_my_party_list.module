@@ -6,7 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-
+use Drupal\girchi_my_party_list\PartyListCalculatorService;
 /**
  * Implements hook_help().
  */
@@ -37,4 +37,17 @@ function girchi_my_party_list_theme() {
       ],
     ],
   ];
+}
+
+
+/**
+ * Implements hook_cron().
+ */
+function girchi_my_party_list_cron()
+{
+  /**
+   * @var PartyListCalculatorService $party_list_calculator
+   */
+  $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
+  $party_list_calculator->calculate();
 }
