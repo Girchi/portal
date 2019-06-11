@@ -1,0 +1,26 @@
+girchi_my_party_list.party_list_controller_partyList:
+  path: '/user/party-list'
+  defaults:
+    _controller: '\Drupal\girchi_my_party_list\Controller\PartyListController::partyList'
+    _title: 'My Party List'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+
+girchi_my_party_list.party_list_controller_getUsers:
+  path: '/api/party-list/my-supported-members'
+  defaults:
+    _controller: '\Drupal\girchi_my_party_list\Controller\PartyListController::getUsers'
+    _title: 'Get users'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+
+girchi_my_party_list.party_list_controller_updateUser:
+  path: '/api/party-list/submit'
+  defaults:
+    _controller: '\Drupal\girchi_my_party_list\Controller\PartyListController::updateUser'
+    _title: 'Update user'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

@@ -1,27 +1,27 @@
-4:
+3:
   id:
-    value: '4'
+    value: '3'
   uuid:
-    value: a98afbea-14a0-4e40-a7a1-a3c7314f3d4e
+    value: a852e6a4-376b-4565-9d46-5d45c6f9e2b5
   revision_id:
-    value: '4'
+    value: '2'
   langcode:
     value: ka
   bundle:
     value: menu_link_content
   revision_created:
-    value: '1559295116'
+    value: '1560185029'
   revision_user: false
   revision_log_message: false
   enabled:
     value: '1'
   title:
-    value: 'ჩვენი ხედვა'
+    value: 'ჩემი პარტიული სია'
   description: false
   menu_name:
-    value: about-us
+    value: account
   link:
-    uri: 'internal:/'
+    uri: 'internal:/user/party-list'
     title: ''
     options: {  }
   external:
@@ -29,12 +29,12 @@
   rediscover:
     value: '1'
   weight:
-    value: '-50'
+    value: '0'
   expanded:
     value: '0'
   parent: false
   changed:
-    value: '1559295180'
+    value: '1560185029'
   default_langcode:
     value: '1'
   revision_default:
@@ -51,220 +51,4 @@
   content_translation_status:
     value: '1'
   content_translation_created:
-    value: '1559295116'
-5:
-  id:
-    value: '5'
-  uuid:
-    value: d17bbbbc-00b2-473a-8e6c-fdd85740816e
-  revision_id:
-    value: '5'
-  langcode:
-    value: ka
-  bundle:
-    value: menu_link_content
-  revision_created:
-    value: '1559295129'
-  revision_user: false
-  revision_log_message: false
-  enabled:
-    value: '1'
-  title:
-    value: 'ჩვენი ამბავი'
-  description: false
-  menu_name:
-    value: about-us
-  link:
-    uri: 'internal:/'
-    title: ''
-    options: {  }
-  external:
-    value: '0'
-  rediscover:
-    value: '1'
-  weight:
-    value: '-49'
-  expanded:
-    value: '0'
-  parent: false
-  changed:
-    value: '1559295180'
-  default_langcode:
-    value: '1'
-  revision_default:
-    value: '1'
-  revision_translation_affected:
-    value: '1'
-  metatag: false
-  content_translation_source:
-    value: und
-  content_translation_outdated:
-    value: '0'
-  content_translation_uid:
-    target_id: '1'
-  content_translation_status:
-    value: '1'
-  content_translation_created:
-    value: '1559295129'
-6:
-  id:
-    value: '6'
-  uuid:
-    value: 509b94d1-cb9e-4627-b701-2e762839c27f
-  revision_id:
-    value: '6'
-  langcode:
-    value: ka
-  bundle:
-    value: menu_link_content
-  revision_created:
-    value: '1559295147'
-  revision_user: false
-  revision_log_message: false
-  enabled:
-    value: '1'
-  title:
-    value: 'მთავარი პრობლემა'
-  description: false
-  menu_name:
-    value: about-us
-  link:
-    uri: 'internal:/'
-    title: ''
-    options: {  }
-  external:
-    value: '0'
-  rediscover:
-    value: '1'
-  weight:
-    value: '-48'
-  expanded:
-    value: '0'
-  parent: false
-  changed:
-    value: '1559295180'
-  default_langcode:
-    value: '1'
-  revision_default:
-    value: '1'
-  revision_translation_affected:
-    value: '1'
-  metatag: false
-  content_translation_source:
-    value: und
-  content_translation_outdated:
-    value: '0'
-  content_translation_uid:
-    target_id: '1'
-  content_translation_status:
-    value: '1'
-  content_translation_created:
-    value: '1559295147'
-7:
-  id:
-    value: '7'
-  uuid:
-    value: 849546dd-7692-455a-aab7-fe34f1b8b0a2
-  revision_id:
-    value: '7'
-  langcode:
-    value: ka
-  bundle:
-    value: menu_link_content
-  revision_created:
-    value: '1559295155'
-  revision_user: false
-  revision_log_message: false
-  enabled:
-    value: '1'
-  title:
-    value: ბორდი
-  description: false
-  menu_name:
-    value: about-us
-  link:
-    uri: 'internal:/'
-    title: ''
-    options: {  }
-  external:
-    value: '0'
-  rediscover:
-    value: '1'
-  weight:
-    value: '-47'
-  expanded:
-    value: '0'
-  parent: false
-  changed:
-    value: '1559295180'
-  default_langcode:
-    value: '1'
-  revision_default:
-    value: '1'
-  revision_translation_affected:
-    value: '1'
-  metatag: false
-  content_translation_source:
-    value: und
-  content_translation_outdated:
-    value: '0'
-  content_translation_uid:
-    target_id: '1'
-  content_translation_status:
-    value: '1'
-  content_translation_created:
-    value: '1559295155'
-8:
-  id:
-    value: '8'
-  uuid:
-    value: 15bf8e3c-c999-4999-bc80-3cbd9c47b90d
-  revision_id:
-    value: '8'
-  langcode:
-    value: ka
-  bundle:
-    value: menu_link_content
-  revision_created:
-    value: '1559295163'
-  revision_user: false
-  revision_log_message: false
-  enabled:
-    value: '1'
-  title:
-    value: 'ჩვენი გუნდი'
-  description: false
-  menu_name:
-    value: about-us
-  link:
-    uri: 'internal:/'
-    title: ''
-    options: {  }
-  external:
-    value: '0'
-  rediscover:
-    value: '1'
-  weight:
-    value: '-46'
-  expanded:
-    value: '0'
-  parent: false
-  changed:
-    value: '1559295180'
-  default_langcode:
-    value: '1'
-  revision_default:
-    value: '1'
-  revision_translation_affected:
-    value: '1'
-  metatag: false
-  content_translation_source:
-    value: und
-  content_translation_outdated:
-    value: '0'
-  content_translation_uid:
-    target_id: '1'
-  content_translation_status:
-    value: '1'
-  content_translation_created:
-    value: '1559295163'
+    value: '1560185029'

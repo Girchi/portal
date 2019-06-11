@@ -1,0 +1,5 @@
+name: 'Girchi My Party List'
+type: module
+description: 'Module for my party list form'
+core: 8.x
+package: 'girchi'

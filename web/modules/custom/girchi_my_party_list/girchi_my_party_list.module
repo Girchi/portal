@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_my_party_list.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_my_party_list_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_my_party_list module.
+    case 'help.page.girchi_my_party_list':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for my party list form') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_my_party_list_theme() {
+  return [
+    'girchi_my_party_list' => [
+      'render element' => 'children',
+      'variables' => [
+        'my_party_list' => NULL,
+        'max_percentage' => NULL,
+        'top_politicians' => NULL,
+      ],
+    ],
+  ];
+}

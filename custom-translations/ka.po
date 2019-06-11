@@ -2,9 +2,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-06 14:23+0000\n"
-"PO-Revision-Date: 2019-06-06 14:23+0000\n"
+"Project-Id-Version: PROJECT VERSION\n"D
+"POT-Creation-Date: 2019-06-07 13:29+0000\n"
+"PO-Revision-Date: 2019-06-07 13:29+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3462,9 +3462,55 @@ msgstr "ყველა სიახლე"
 msgid "Last month Top partners"
 msgstr "წინა თვის ტოპ პარტნიორები"
 
+msgid ""
+"Select a politician, Specify the percentage of your weight\n"
+"          "
+"          you support him/her with and participate\n"
+"                  "
+"  in establishing a party list."
+msgstr ""
+" აირჩიეთ პოლიტიკოსი, "
+"მიუთითეთ თქვენი წონის "
+"რამდენი %-ით\r\n"
+"                      "
+"უჭერთ მას მხარს და მიიღე "
+"მონაწილეობა პარტიული "
+"სიის\r\n"
+"                      "
+"ჩამოყალიბებაში."
+
+msgid "Politician"
+msgstr ""
+"პოლიტიკოსი\r\n"
+""
+
+msgid "Support"
+msgstr ""
+"მხარდაჭერა\r\n"
+""
+
+msgid "Specify the percentage of your weight you support him/her with"
+msgstr ""
+"მიუთითეთ თქვენი წონის "
+"რამდენი პროცენტით უჭერთ "
+"მას\r\n"
+"                          მხარს"
+
+msgid "Percentage Left"
+msgstr "დაგრჩათ"
+
+msgid "Establish your party list"
+msgstr ""
+"შეადგინე შენი პარტიული "
+"სია"
+
+msgid "Select a politician"
+msgstr "აირჩიეთ პოლიტიკოსი"
+
 msgid "Referral"
 msgstr "რეფერალი"
 
 msgid "Ged amount"
 msgstr "Ged-ების რაოდენობა"
+
 

@@ -38,5 +38,5 @@ $(document).ready(function () {
                 .addClass('w-lg-500');
             $('.navbar-search').submit();
         }
-    })
+    });
 });

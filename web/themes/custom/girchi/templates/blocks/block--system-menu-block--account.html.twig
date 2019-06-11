@@ -20,25 +20,9 @@
             ></i>
         </button>
     </div>
+
     <div class="card-body p-0">
-        <nav class="navbar navbar-expand-lg p-0 d-block">
-            <div class="collapse navbar-collapse" id="categories">
-                <div
-                        class="nav-vertical list-group list-group-flush font-weight-bold w-100"
-                >
-
-                    {% for item in content['#items']  %}
-                    <a
-                            class="py-3 px-3 px-md-4 d-block list-group-item list-group-item-action text-uppercase font-size-3"
-                            href="{{ item['url'] }}"
-                    >
-                        {{ item['title'] }}
-                    </a>
-                    {% endfor %}
-
-                </div>
-            </div>
-        </nav>
+        {{ content }}
     </div>
 </div>
 

@@ -7,6 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\Core\Render\BubbleableMetadata;
 
@@ -190,7 +191,8 @@ function girchi_utils_theme($existing, $type, $theme, $path)
 function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_id)
 {
     $currentUser = Drupal::currentUser()->getRoles();
-
+    /** Getting Politician text from omedia_settings */
+    $config = \Drupal::config('om_site_settings.site_settings');
     if ($form_id == "user_register_form") {
 
         if (reset($currentUser) == "anonymous") {
@@ -291,17 +293,12 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 
             $form['field_politician']['#theme_wrappers'] = array();
 
-            /** Getting Politician text from omedia_settings */
-            $config = \Drupal::config('om_site_settings.site_settings');
-
-
             /** Get politician text from settings.*/
             $form['politician_text'] = array(
                 '#type' => 'html',
                 '#markup' => $config->get('politician_checkbox_text')['value'],
                 '#theme' => ''
             );
-            $form['enable_user_ui'] =  $config->get('enable_user_ui');
 
             $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
             $form['#after_build'][] = 'girchi_utils_after_build';
@@ -368,7 +365,7 @@ function terms_and_conditions_validate($form, &$form_state)
  */
 function girchi_utils_preprocess_block(&$variables)
 {
-    $variables['base_path'] = base_path();
+  $variables['base_path'] = base_path();
 }
 
 function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)

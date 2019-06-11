@@ -8,3 +8,8 @@ global-styling:
     js/global.js: {}
     dist/js/script.js: {weight: -999}
   dependencies:
+
+myparty-list:
+  version: 1.x
+  js:
+    js/mypartylist.js: {}

@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - girchi_utils
+    - system
   theme:
     - girchi
 id: userprofile
@@ -19,4 +20,9 @@ settings:
   label_display: '0'
   ged: 1
   member: 1
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: "/user/*\r\n"
+    negate: false
+    context_mapping: {  }

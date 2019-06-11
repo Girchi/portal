@@ -1,0 +1,15 @@
+uuid: 2e1a6c6f-35ae-4dbe-ae1f-167f4dccb5d1
+langcode: en
+status: true
+dependencies: {  }
+name: party_member
+label: 'Party member'
+effects:
+  03c426ed-1bbe-40b7-b594-af252d29df88:
+    uuid: 03c426ed-1bbe-40b7-b594-af252d29df88
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 120
+      height: 120
+      anchor: center-center

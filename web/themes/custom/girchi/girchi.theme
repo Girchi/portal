@@ -218,8 +218,10 @@ function girchi_preprocess_views_view(&$variables)
 /**
  * Implements hook_preprocess_form().
  */
-function girchi_preprocess_form(array &$variables) {
-  //$variables['attributes']['novalidate'] = 'novalidate';
+function girchi_preprocess_form(array &$variables)
+{
+    $config = \Drupal::config('om_site_settings.site_settings');
+    $variables['enable_user_ui'] =  $config->get('enable_user_ui');
 }
 
 /**

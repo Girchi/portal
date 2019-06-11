@@ -1,0 +1,151 @@
+<div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3">
+    <div class="card-body p-3 p-md-4">
+        <div class="d-flex flex-column flex-md-row">
+            <div>
+                <h5 class="text-uppercase text-success font-weight-bold">
+                    {{ 'Establish your party list' | t  }}
+                </h5>
+                <p class="font-size-3 mb-0">
+                    {{ 'Select a politician, Specify the percentage of your weight
+                    you support him/her with and participate
+                    in establishing a party list.' | t }}
+                </p>
+            </div>
+            <div
+                    class="border-top border-left-0 border-left-md-1 border-top-md-0 text-center px-0 pr-md-4 pl-md-6 ml-0 ml-md-2 mt-3 mt-md-0 pt-3 pt-md-0"
+            >
+                    <span
+                            class="text-uppercase text-grey font-size-1"
+                <span
+                        class="text-uppercase text-grey font-size-1"
+                >{{ 'Percentage Left' | t }}</span
+                >
+                <span
+                        class="d-block font-size-8 text-nowrap font-weight-bold text-warning line-height-1-0 pl-available-percentage"
+                >{{ max_percentage }}%</span
+                >
+                <span
+                        class="text-uppercase text-grey font-size-1 text-nowrap"
+                >out of
+                      <span class="text-success font-size-2">100%</span></span
+                >
+            </div>
+        </div>
+        <hr class="mx-md-n4  mt-3 mt-md-4" />
+        <form action="{{ path('girchi_my_party_list.party_list_controller_updateUser') }}" method="post">
+            <ul class="list-group my-3 my-md-4 pl-group">
+                {% for partyMember in my_party_list  %}
+                    <li class="list-group-item pl-group-item">
+                        <div class="d-flex w-100 align-items-center py-0 py-sm-3 px-0 flex-wrap flex-md-nowrap">
+                            <div class="rounded-circle overflow-hidden d-inline-block mx-auto mx-sm-0 mb-3 mb-sm-0">
+                                <img src="{{ partyMember.imgUrl }}"
+                                     width="60" class="rounded" alt="{{ partyMember.firstName }} {{ partyMember.lastName }}">
+                            </div>
+                            <h6 class="text-center text-sm-left w-100 w-sm-auto text-uppercase line-height-1-2
+                             font-size-4 font-size-md-3 font-size-xl-4 mb-0 mx-2 mx-xl-3">
+          <span class="text-decoration-none d-inline-block">
+            <span>{{ partyMember.firstName }} </span>
+            <span class="font-weight-bold">{{ partyMember.lastName }}</span>
+          </span>
+                                <span class="d-flex  font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center
+                                 justify-content-sm-start">
+                {{ 'Politician' | t }}
+                </span>
+                            </h6>
+                            <div class="font-size-4 font-size-xl-5 ml-0 ml-md-auto w-100 w-md-auto pt-3
+                            pt-sm-4 p-md-0 border-top border-top-md-0 mt-3 mt-md-0 text-center">
+
+                                <span class="font-size-1 font-size-md-3 text-grey font-weight-bold">{{ 'Support' | t }}</span>
+                                <input type="hidden" name="list[{{ partyMember.id }}][politician]"
+                                       value="{{ partyMember.id }}">
+                                <input type="number"
+                                       class="form-control form-control-spin-none border form-control-lg py-3
+                                       px-1 px-sm-4 ml-2 d-inline-block mr-0 font-size-4 font-weight-bold
+                                       text-center max-px-sm-100 max-px-75"
+                                       placeholder="{{ partyMember.percentage }}" min="0" name="list[{{ partyMember.id }}][percentage]"
+                                       value="{{ partyMember.percentage }}" data-original-title="" title="">
+                                <span class="ml-1 mr-0 mr-md-2 font-size-5">%</span>
+                                <button class="btn font-size-4 p-0 shadow-none text-dark-silver
+                                ml-0 ml-md-2 text-hover-danger pl-delete">
+                                    <i class="icon-delete"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                <li
+                        class="list-group-item last border-dashed bg-dark-white p-2 p-md-3"
+                >
+                    <div
+                            class="d-flex flex-wrap flex-md-nowrap w-100 align-items-center"
+                    >
+                        <select
+                                id="politician"
+                                class="select w-100 w-md-40 mb-2 mb-md-0"
+                                data-live-search="true"
+                                data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                title="{{ 'Select a politician' | t }}"
+                                data-none-results-text="{{ 'No users found' | t }}"
+                        >
+                            {% for politician in top_politicians %}
+                            <option
+                                value="{{ politician.id }}"
+                                data-content='
+                                <div class="d-flex w-100 align-items-center p-1">
+                                  <span
+                                    class="rounded-circle overflow-hidden d-inline-block"
+                                  >
+                                    <img
+                                      src="{{ politician.imgUrl }}"
+                                      width="35"
+                                      class="rounded pl-politician-avatar"
+                                      alt="..."
+                                    />
+                                  </span>
+                                  <h6
+                                    class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                  >
+                                    <span
+                                      class="text-decoration-none d-inline-block text-hover-success"
+                                    >
+                                      <span class="pl-politician-first-name">{{ politician.firstName }}</span>
+                                      <span class="font-weight-bold pl-politician-last-name">{{ politician.lastName }}</span>
+                                    </span>
+                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                      {{ 'Politician' | t}}
+                                    </span>
+                                  </h6>
+                                '
+                            ></option>
+                            {% endfor %}
+                        </select>
+                        <span
+                                class="font-size-1 max-w-210 w-50  w-md-30   font-weight-bold text-grey line-height-1-4 ml-0 ml-md-auto"
+                        >
+                          {{ 'Specify the percentage of your weight you support him/her with' | t }}
+                        </span>
+                        <input
+                                type="number"
+                                id="percent"
+                                class="form-control form-control-spin-none form-control-lg py-3 px-4 ml-auto ml-md-3  mr-0 font-size-4 font-weight-bold text-center max-px-sm-100 max-px-90"
+                                placeholder="0"
+                                data-msg-text="{{ 'Maximum value' | t }} {value}%"
+                        />
+                        <span class="ml-2 mr-0 mr-md-5 font-size-5">
+                          %
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <div class="text-center">
+                <button
+                        type="submit"
+                        class="btn btn-lg btn-success text-uppercase min-w-200"
+                >
+                    {{ 'Save' | t }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{{ attach_library('girchi/myparty-list') }}
