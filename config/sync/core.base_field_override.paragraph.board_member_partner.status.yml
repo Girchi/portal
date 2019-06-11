@@ -1,0 +1,22 @@
+uuid: 587268d2-9662-486b-a964-a4089431245b
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.board_member_partner
+id: paragraph.board_member_partner.status
+field_name: status
+entity_type: paragraph
+bundle: board_member_partner
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

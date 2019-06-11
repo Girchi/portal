@@ -1,0 +1,18 @@
+uuid: 8bb2db84-e96e-451f-8068-e95c21148ba9
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.lead_partner
+id: taxonomy_term.lead_partner.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: lead_partner
+label: Changed
+description: 'The time that the term was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

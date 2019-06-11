@@ -252,6 +252,7 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
       ->setTranslatable(TRUE)
       ->setDisplayOptions('form', array(
         'type' => 'string_textfield',
+        'weight' => -5,
         'settings' => array(
           'display_label' => TRUE,
         ),
@@ -261,8 +262,8 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
         'type' => 'string',
       ))
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
+      ->setDisplayConfigurable('view', TRUE);
+
 
     $fields['Description'] = BaseFieldDefinition::create('string_long')
       ->setLabel(t('Description'))
@@ -308,8 +309,6 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
     return $fields;
   }
 
-
-
   public function postSave(EntityStorageInterface $storage, $update = TRUE)
   {
     //get id of destination user
@@ -319,7 +318,6 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
     //calculate GeD amount
     $service = \Drupal::service('girchi_ged_transactions.ged_agregator_service');
     $newTransaction = $service->calculateAndUpdateTotalGeds($uID);
-    
 
     //Get GeD amount of destination user
     $account = \Drupal\user\Entity\User::load($uID);

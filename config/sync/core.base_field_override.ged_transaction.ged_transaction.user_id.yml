@@ -1,0 +1,20 @@
+uuid: 21288044-62ed-4b5c-85eb-395682df25d8
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_ged_transactions
+id: ged_transaction.ged_transaction.user_id
+field_name: user_id
+entity_type: ged_transaction
+bundle: ged_transaction
+label: 'Authored by'
+description: 'The user ID of author of the GED transaction entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

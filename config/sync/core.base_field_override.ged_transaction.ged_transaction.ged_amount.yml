@@ -1,0 +1,22 @@
+uuid: e1f7d8d5-c2d6-4d15-ade2-f05f871f49c1
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_ged_transactions
+id: ged_transaction.ged_transaction.ged_amount
+field_name: ged_amount
+entity_type: ged_transaction
+bundle: ged_transaction
+label: 'Ged amount'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,20 @@
+uuid: 79698433-5fba-4736-bb94-c03181397a02
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.lead_partner
+  module:
+    - text
+id: taxonomy_term.lead_partner.description
+field_name: description
+entity_type: taxonomy_term
+bundle: lead_partner
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -3,7 +3,7 @@ langcode: ka
 status: true
 dependencies: {  }
 id: social_analytics_manager
-label: 'Social Analytics Manager'
+label: 'სოციალური ანალიტიკის მენეჯერი'
 weight: -4
 is_admin: null
 permissions:

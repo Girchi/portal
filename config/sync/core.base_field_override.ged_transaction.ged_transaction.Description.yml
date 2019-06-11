@@ -1,0 +1,18 @@
+uuid: 469cd0ae-78cd-45ac-8dfe-3638a1940a21
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_ged_transactions
+id: ged_transaction.ged_transaction.Description
+field_name: Description
+entity_type: ged_transaction
+bundle: ged_transaction
+label: Description
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

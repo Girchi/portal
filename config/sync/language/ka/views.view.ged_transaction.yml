@@ -1,0 +1,18 @@
+display:
+  default:
+    display_options:
+      filters:
+        field_last_name_value:
+          expose:
+            label: 'გაფილტრე გვარით'
+        created_1:
+          expose:
+            label: თარიღიდან
+      header:
+        area:
+          content:
+            value: "<p><a class=\"button button-action button--primary button--small\" href=\"/admin/content/ged_transaction/add\">Add GeD transaction</a></p>\r\n"
+            format: basic_html
+      exposed_form:
+        options:
+          submit_button: გაფილტვრა

@@ -5,6 +5,7 @@ dependencies:
   module:
     - node
     - user
+    - view_unpublished
 _core:
   default_config_hash: tS8PbpJX90aRFC3-UTgXzdqkq7_2frk2pz4TMijEebM
 id: content
@@ -580,9 +581,11 @@ display:
         type: 'default tab'
         title: Content
         description: ''
-        menu_name: admin
+        expanded: false
+        parent: ''
         weight: -10
-        context: ''
+        context: '0'
+        menu_name: admin
       tab_options:
         type: normal
         title: Content

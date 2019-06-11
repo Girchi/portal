@@ -1,0 +1,17 @@
+uuid: 6219209c-98e2-4f80-b595-bcd256b87829
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_translation
+    - girchi_ged_transactions
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: ged_transaction.ged_transaction
+target_entity_type_id: ged_transaction
+target_bundle: ged_transaction
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,18 @@
+uuid: dd14f51a-4e5e-4538-b121-e17682c1a160
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_ged_transactions
+id: ged_transaction.ged_transaction.title
+field_name: title
+entity_type: ged_transaction
+bundle: ged_transaction
+label: Title
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

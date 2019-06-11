@@ -1,0 +1,18 @@
+uuid: 63acf714-8fb8-478e-9309-ba53022d3c3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.board_member_politician
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.board_member_politician
+target_entity_type_id: paragraph
+target_bundle: board_member_politician
+default_langcode: site_default
+language_alterable: false

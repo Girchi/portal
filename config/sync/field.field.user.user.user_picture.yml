@@ -13,7 +13,7 @@ id: user.user.user_picture
 field_name: user_picture
 entity_type: user
 bundle: user
-label: სურათი
+label: Picture
 description: 'Your virtual face or picture.'
 required: false
 translatable: false

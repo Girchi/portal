@@ -1,0 +1,18 @@
+uuid: ca3e3522-ee1e-4b7b-8a68-2fdaa501d1e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.lead_partner
+id: taxonomy_term.lead_partner.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: lead_partner
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

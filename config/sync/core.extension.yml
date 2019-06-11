@@ -40,7 +40,6 @@ module:
   filter: 0
   girchi_contact: 0
   girchi_ged_transactions: 0
-  girchi_my_party_list: 0
   girchi_referral: 0
   girchi_utils: 0
   google_analytics: 0

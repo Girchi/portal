@@ -1,0 +1,20 @@
+uuid: 61b50f34-0b07-49d7-a275-eda791d3951e
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_ged_transactions
+id: ged_transaction.ged_transaction.user
+field_name: user
+entity_type: ged_transaction
+bundle: ged_transaction
+label: User
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

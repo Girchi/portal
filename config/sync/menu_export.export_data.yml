@@ -1,27 +1,27 @@
-3:
+1:
   id:
-    value: '3'
+    value: '1'
   uuid:
-    value: a852e6a4-376b-4565-9d46-5d45c6f9e2b5
+    value: a2ed1ec9-f011-4732-aa69-6cdfbeb7fc5c
   revision_id:
-    value: '2'
+    value: '1'
   langcode:
-    value: ka
+    value: en
   bundle:
     value: menu_link_content
   revision_created:
-    value: '1560185029'
+    value: '1560179640'
   revision_user: false
   revision_log_message: false
   enabled:
     value: '1'
   title:
-    value: 'ჩემი პარტიული სია'
+    value: 'GeD transaction'
   description: false
   menu_name:
-    value: account
+    value: admin
   link:
-    uri: 'internal:/user/party-list'
+    uri: 'internal:/admin/ged-transaction'
     title: ''
     options: {  }
   external:
@@ -29,12 +29,13 @@
   rediscover:
     value: '1'
   weight:
-    value: '0'
+    value: '2'
   expanded:
     value: '0'
-  parent: false
+  parent:
+    value: system.admin
   changed:
-    value: '1560185029'
+    value: '1560179756'
   default_langcode:
     value: '1'
   revision_default:
@@ -51,4 +52,4 @@
   content_translation_status:
     value: '1'
   content_translation_created:
-    value: '1560185029'
+    value: '1560179640'

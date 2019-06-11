@@ -15,14 +15,14 @@ content:
       placeholder: ''
       rows: 5
     region: content
-    weight: 4
+    weight: 3
     third_party_settings: {  }
   ged_amount:
     type: number
     settings:
       placeholder: ''
     region: content
-    weight: 3
+    weight: 2
     third_party_settings: {  }
   langcode:
     type: language_select
@@ -31,17 +31,9 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
-  title:
-    type: string_textfield
-    settings:
-      size: 60
-      placeholder: ''
-    region: content
-    weight: 1
-    third_party_settings: {  }
   user:
     type: entity_reference_autocomplete
-    weight: 2
+    weight: 1
     settings:
       match_operator: CONTAINS
       size: 60
@@ -50,4 +42,5 @@ content:
     third_party_settings: {  }
 hidden:
   name: true
+  title: true
   user_id: true

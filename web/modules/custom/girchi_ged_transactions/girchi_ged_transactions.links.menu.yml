@@ -4,11 +4,9 @@ entity.ged_transaction.collection:
   title: 'GED transaction list'
   route_name: entity.ged_transaction.collection
   description: 'List GED transaction entities'
-  parent: system.admin_content
   weight: 100
 
 ged_transaction.admin.structure.settings:
   title: 'GED transaction settings'
   description: 'Configure GED transaction entities'
   route_name: ged_transaction.settings
-  parent: system.admin_content

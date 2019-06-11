@@ -35,12 +35,96 @@ definitions:
     parent: ''
     expanded: false
     weight: -10
-  masquerade__unmasquerade:
-    enabled: false
-    menu_name: account
-    parent: ''
+  admin_toolbar_tools__help:
+    weight: 1
+    menu_name: admin
+    parent: system.admin
     expanded: false
-    weight: -50
+    enabled: true
+  system__admin_content:
+    weight: 3
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  system__admin_structure:
+    weight: 4
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  system__themes_page:
+    weight: 5
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  system__modules_list:
+    weight: 6
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  system__admin_config:
+    weight: 7
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  entity__user__collection:
+    weight: 8
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  system__admin_reports:
+    weight: 9
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
+  system__admin_index:
+    weight: 1
+    menu_name: admin
+    parent: admin_toolbar_tools.help
+    expanded: false
+    enabled: true
+  admin_toolbar_tools__flush:
+    weight: 2
+    menu_name: admin
+    parent: admin_toolbar_tools.help
+    expanded: false
+    enabled: true
+  admin_development:
+    weight: 4
+    menu_name: admin
+    parent: admin_toolbar_tools.help
+    expanded: false
+    enabled: true
+  system__run_cron:
+    weight: 5
+    menu_name: admin
+    parent: admin_toolbar_tools.help
+    expanded: false
+    enabled: true
+  system__db_update:
+    weight: 6
+    menu_name: admin
+    parent: admin_toolbar_tools.help
+    expanded: false
+    enabled: true
+  admin_toolbar_tools__user__logout:
+    weight: 7
+    menu_name: admin
+    parent: admin_toolbar_tools.help
+    expanded: false
+    enabled: true
+  help__main:
+    weight: 10
+    menu_name: admin
+    parent: system.admin
+    expanded: false
+    enabled: true
 _core:
   default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
 langcode: ka

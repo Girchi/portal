@@ -6,14 +6,7 @@ dependencies:
     - field.storage.node.field_image
     - node.type.article
   module:
-    - content_translation
     - image
-third_party_settings:
-  content_translation:
-    translation_sync:
-      title: title
-      file: '0'
-      alt: '0'
 id: node.article.field_image
 field_name: field_image
 entity_type: node

@@ -1,0 +1,18 @@
+uuid: 7308fb3e-c969-4d84-81ce-11c74c60444a
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.lead_partner
+id: taxonomy_term.lead_partner.name
+field_name: name
+entity_type: taxonomy_term
+bundle: lead_partner
+label: Name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

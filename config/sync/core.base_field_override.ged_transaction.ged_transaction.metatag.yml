@@ -1,0 +1,18 @@
+uuid: bfedee1a-bb6e-490f-b739-81565694cd39
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_ged_transactions
+id: ged_transaction.ged_transaction.metatag
+field_name: metatag
+entity_type: ged_transaction
+bundle: ged_transaction
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

@@ -1,0 +1,14 @@
+uuid: e09aaf68-cf08-4db0-8e34-998bde6770ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.financial_manager
+  module:
+    - user
+id: user_remove_role_action.financial_manager
+label: 'Remove the Financial manager role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: financial_manager

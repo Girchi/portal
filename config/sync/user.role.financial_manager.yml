@@ -1,0 +1,18 @@
+uuid: 0184e163-4820-4bc5-9739-d4162aa74cef
+langcode: en
+status: true
+dependencies: {  }
+id: financial_manager
+label: 'Financial manager'
+weight: -3
+is_admin: null
+permissions:
+  - 'access toolbar'
+  - 'add ged transaction entities'
+  - 'administer ged transaction entities'
+  - 'administer ged_transaction display'
+  - 'administer ged_transaction fields'
+  - 'administer ged_transaction form display'
+  - 'view published ged transaction entities'
+  - 'view the administration theme'
+  - 'view unpublished ged transaction entities'
