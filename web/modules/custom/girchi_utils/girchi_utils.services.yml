@@ -2,3 +2,6 @@ services:
   girchi_utils.taxonomy_term_tree:
     class: Drupal\girchi_utils\TaxonomyTermTree
     arguments: ['@entity_type.manager']
+  girchi_utils.ged_raiting:
+    class: Drupal\girchi_utils\GedRaitingService
+    arguments: ['@entity_type.manager']

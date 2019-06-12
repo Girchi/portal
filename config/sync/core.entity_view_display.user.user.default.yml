@@ -12,6 +12,7 @@ dependencies:
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
     - field.field.user.user.field_politician
+    - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
@@ -104,6 +105,15 @@ content:
       format_custom_false: ''
     third_party_settings: {  }
     type: boolean
+    region: content
+  field_rank:
+    weight: 54
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
     region: content
   field_rating_in_party_list:
     weight: 53

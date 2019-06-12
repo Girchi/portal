@@ -12,6 +12,7 @@ dependencies:
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
     - field.field.user.user.field_politician
+    - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
@@ -37,7 +38,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_address:
-    weight: 15
+    weight: 12
     settings:
       size: 60
       placeholder: ''
@@ -45,7 +46,7 @@ content:
     type: string_textfield
     region: content
   field_date_of_birth:
-    weight: 14
+    weight: 11
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
@@ -59,7 +60,7 @@ content:
     type: string_textfield
     region: content
   field_ged:
-    weight: 13
+    weight: 10
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -74,7 +75,7 @@ content:
     type: string_textfield
     region: content
   field_my_party_list:
-    weight: 16
+    weight: 13
     settings:
       size_er: 60
       placeholder_er: ''
@@ -107,7 +108,7 @@ content:
     type: boolean_checkbox
     region: content
   field_rating_in_party_list:
-    weight: 17
+    weight: 14
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -123,7 +124,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_referral_url:
-    weight: 11
+    weight: 9
     settings:
       size: 60
       placeholder: ''
@@ -149,6 +150,7 @@ content:
     third_party_settings: {  }
 hidden:
   contact: true
+  field_rank: true
   google_analytics: true
   langcode: true
   language: true

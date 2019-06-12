@@ -51,6 +51,7 @@ class UserProfile extends BlockBase {
     $currentUserLastName = $currentUser->get('field_last_name')->value;
     $currentUserGed = $currentUser->get('field_ged')->value ?  $currentUser->get('field_ged')->value : 0 ;
     $avatarEntity = $currentUser->get('user_picture')->entity;
+    $currentRank = $currentUser->get('field_rank')->value;
     $numberOfUsers = \Drupal::entityQuery('user')
           ->sort('created', 'DESC')
           ->count()
@@ -77,7 +78,8 @@ class UserProfile extends BlockBase {
       '#user_last_name' => $currentUserLastName,
       '#user_ged' => $currentUserGed,
       '#user_profile_picture' => $currentUserAvatar,
-      '#user_count' => $numberOfUsers,
+      '#user_count' => $numberOfUsers-1,
+      '#user_rank' => $currentRank,
     );
   }
 
