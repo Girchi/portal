@@ -29,7 +29,9 @@ class  CategoryFilterBlock extends BlockBase
 
         $node = \Drupal::routeMatch()->getParameter('node');
           if ($node instanceof \Drupal\node\NodeInterface) {
-            $current_category = $node->get('field_category')[0]->entity->id();
+            if(!empty($node->get('field_category')[0])) {
+              $current_category = $node->get('field_category')[0]->entity->id();
+            }
           }
 
         return array(
