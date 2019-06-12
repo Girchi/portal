@@ -1,0 +1,53 @@
+uuid: ec43fa68-eccb-4a8a-8dfa-8eb84a16d665
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraphs
+    - paragraphs.paragraphs_type.school_process
+  module:
+    - entity_reference_revisions
+id: paragraph.school_process.field_paragraphs
+field_name: field_paragraphs
+entity_type: paragraph
+bundle: school_process
+label: Paragraphs
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles: null
+    target_bundles_drag_drop:
+      school_process:
+        weight: 10
+        enabled: false
+      basic_text:
+        weight: 11
+        enabled: false
+      board:
+        weight: 12
+        enabled: false
+      board_member_partner:
+        weight: 13
+        enabled: false
+      board_member_politician:
+        weight: 14
+        enabled: false
+      school_description:
+        weight: 15
+        enabled: false
+      school_goal:
+        weight: 16
+        enabled: false
+      team:
+        weight: 17
+        enabled: false
+      team_member:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

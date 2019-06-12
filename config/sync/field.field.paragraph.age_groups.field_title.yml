@@ -1,0 +1,19 @@
+uuid: bf5995b0-65b7-4b7b-9fd7-f912a898443b
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.age_groups
+id: paragraph.age_groups.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: age_groups
+label: Title
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

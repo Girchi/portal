@@ -1,0 +1,26 @@
+uuid: daeaf297-5a65-41c1-abbf-03ee28458b82
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.school_process.field_paragraphs
+    - paragraphs.paragraphs_type.school_process
+  module:
+    - entity_reference_revisions
+id: paragraph.school_process.default
+targetEntityType: paragraph
+bundle: school_process
+mode: default
+content:
+  field_paragraphs:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_autocomplete
+    region: content
+hidden:
+  created: true
+  status: true

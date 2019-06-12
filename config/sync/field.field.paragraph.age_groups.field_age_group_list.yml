@@ -1,0 +1,19 @@
+uuid: 138e3a46-fce4-4ecf-b4b9-e267271a996e
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_age_group_list
+    - paragraphs.paragraphs_type.age_groups
+id: paragraph.age_groups.field_age_group_list
+field_name: field_age_group_list
+entity_type: paragraph
+bundle: age_groups
+label: 'Age group list'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

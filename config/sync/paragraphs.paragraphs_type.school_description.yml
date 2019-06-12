@@ -1,0 +1,9 @@
+uuid: ec47b88e-55bb-4956-a646-af0cf0c8913e
+langcode: ka
+status: true
+dependencies: {  }
+id: school_description
+label: 'School description'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

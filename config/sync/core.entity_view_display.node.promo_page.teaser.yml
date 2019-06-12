@@ -1,0 +1,22 @@
+uuid: feeaef7b-a7ea-41bf-858b-d2c4a98427f9
+langcode: ka
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.promo_page
+  module:
+    - user
+id: node.promo_page.teaser
+targetEntityType: node
+bundle: promo_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_paragraphs: true
+  langcode: true

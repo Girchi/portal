@@ -1,0 +1,44 @@
+uuid: 8f5d8896-0eb7-47de-a9a9-a8ea04cf5d10
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_paragraphs
+    - node.type.promo_page
+  module:
+    - entity_reference_revisions
+id: node.promo_page.field_paragraphs
+field_name: field_paragraphs
+entity_type: node
+bundle: promo_page
+label: Paragraphs
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles: null
+    target_bundles_drag_drop:
+      basic_text:
+        weight: 7
+        enabled: false
+      board:
+        weight: 8
+        enabled: false
+      board_member_partner:
+        weight: 9
+        enabled: false
+      board_member_politician:
+        weight: 10
+        enabled: false
+      team:
+        weight: 11
+        enabled: false
+      team_member:
+        weight: 12
+        enabled: false
+field_type: entity_reference_revisions

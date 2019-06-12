@@ -1,0 +1,21 @@
+uuid: 52961ca4-2f09-443b-aa6d-379a206c432d
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - paragraphs.paragraphs_type.icon_item
+  module:
+    - text
+id: paragraph.icon_item.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: icon_item
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

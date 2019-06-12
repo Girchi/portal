@@ -1,0 +1,19 @@
+uuid: 7da743a5-99de-42ce-881f-98b5603d03a9
+langcode: ka
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_text_bullet_3
+field_name: field_text_bullet_3
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

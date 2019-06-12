@@ -1,0 +1,21 @@
+uuid: b261be0f-9bbc-4cf6-a510-8fbe05cfadce
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - paragraphs.paragraphs_type.school_goal
+  module:
+    - text
+id: paragraph.school_goal.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: school_goal
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

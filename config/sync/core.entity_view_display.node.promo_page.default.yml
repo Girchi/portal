@@ -1,0 +1,31 @@
+uuid: 78109ad9-b67f-4124-953c-c4d39af40945
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.node.promo_page.field_paragraphs
+    - node.type.promo_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.promo_page.default
+targetEntityType: node
+bundle: promo_page
+mode: default
+content:
+  field_paragraphs:
+    weight: 101
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true

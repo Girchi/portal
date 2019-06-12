@@ -1,0 +1,9 @@
+uuid: 7761e583-8cfc-454d-95d4-457d44b07554
+langcode: ka
+status: true
+dependencies: {  }
+id: school_goal
+label: 'School goal'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

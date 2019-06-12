@@ -1,0 +1,21 @@
+uuid: b9f31796-ecda-4437-86f8-52b03f69d088
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - paragraphs.paragraphs_type.school_description
+  module:
+    - text
+id: paragraph.school_description.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: school_description
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

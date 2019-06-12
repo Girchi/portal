@@ -1,0 +1,9 @@
+uuid: f2f88223-e366-49af-967e-95ca27a010cd
+langcode: ka
+status: true
+dependencies: {  }
+id: icon_item
+label: 'Icon item'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

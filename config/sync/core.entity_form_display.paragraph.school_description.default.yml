@@ -1,0 +1,52 @@
+uuid: 60b7d5a8-269c-4d45-9e04-46cef3ac434e
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.school_description.field_description
+    - field.field.paragraph.school_description.field_text_bullet_1
+    - field.field.paragraph.school_description.field_text_bullet_2
+    - field.field.paragraph.school_description.field_text_bullet_3
+    - paragraphs.paragraphs_type.school_description
+  module:
+    - text
+id: paragraph.school_description.default
+targetEntityType: paragraph
+bundle: school_description
+mode: default
+content:
+  field_description:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_text_bullet_1:
+    weight: 0
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_text_bullet_2:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_text_bullet_3:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+hidden:
+  created: true
+  status: true

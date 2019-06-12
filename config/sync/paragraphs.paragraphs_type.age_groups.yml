@@ -1,0 +1,9 @@
+uuid: 7b4a3925-ffe5-4b4c-a36b-e0cc2fb26a57
+langcode: ka
+status: true
+dependencies: {  }
+id: age_groups
+label: 'Age groups'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

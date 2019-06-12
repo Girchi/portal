@@ -1,0 +1,9 @@
+uuid: 2deffb70-9cee-431e-bd52-f71eee253757
+langcode: ka
+status: true
+dependencies: {  }
+id: school_process
+label: 'School process'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

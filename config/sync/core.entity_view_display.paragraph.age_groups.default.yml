@@ -1,0 +1,30 @@
+uuid: 0ceeec6f-7a76-4514-82ea-ad88e4bccecb
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.age_groups.field_age_group_list
+    - field.field.paragraph.age_groups.field_title
+    - paragraphs.paragraphs_type.age_groups
+id: paragraph.age_groups.default
+targetEntityType: paragraph
+bundle: age_groups
+mode: default
+content:
+  field_age_group_list:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }
