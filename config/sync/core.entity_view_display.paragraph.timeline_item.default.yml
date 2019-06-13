@@ -1,0 +1,31 @@
+uuid: 316cb223-4d94-46ec-949f-a4d3aca7c33d
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.timeline_item.field_description
+    - field.field.paragraph.timeline_item.field_title
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - text
+id: paragraph.timeline_item.default
+targetEntityType: paragraph
+bundle: timeline_item
+mode: default
+content:
+  field_description:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

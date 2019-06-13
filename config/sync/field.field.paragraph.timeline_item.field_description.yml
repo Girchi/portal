@@ -1,0 +1,21 @@
+uuid: f4a2f37d-726b-4799-851a-3ec1f7d36d6a
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - text
+id: paragraph.timeline_item.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: timeline_item
+label: Description
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

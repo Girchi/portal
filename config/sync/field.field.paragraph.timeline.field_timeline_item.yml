@@ -1,0 +1,67 @@
+uuid: a4c9964b-804a-42e3-a474-71a02a0d8608
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_timeline_item
+    - paragraphs.paragraphs_type.timeline
+    - paragraphs.paragraphs_type.timeline_item
+  module:
+    - entity_reference_revisions
+id: paragraph.timeline.field_timeline_item
+field_name: field_timeline_item
+entity_type: paragraph
+bundle: timeline
+label: 'Timeline Item'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      timeline_item: timeline_item
+    target_bundles_drag_drop:
+      timeline:
+        weight: 14
+        enabled: false
+      age_groups:
+        weight: 15
+        enabled: false
+      basic_text:
+        weight: 16
+        enabled: false
+      board:
+        weight: 17
+        enabled: false
+      board_member_partner:
+        weight: 18
+        enabled: false
+      board_member_politician:
+        weight: 19
+        enabled: false
+      icon_item:
+        weight: 20
+        enabled: false
+      school_description:
+        weight: 21
+        enabled: false
+      school_goal:
+        weight: 22
+        enabled: false
+      school_process:
+        weight: 23
+        enabled: false
+      team:
+        weight: 24
+        enabled: false
+      team_member:
+        weight: 25
+        enabled: false
+      timeline_item:
+        enabled: true
+        weight: 26
+field_type: entity_reference_revisions
