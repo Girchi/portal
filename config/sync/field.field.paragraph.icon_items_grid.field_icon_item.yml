@@ -61,4 +61,10 @@ settings:
       team_member:
         weight: 24
         enabled: false
+      timeline:
+        weight: 27
+        enabled: false
+      timeline_item:
+        weight: 28
+        enabled: false
 field_type: entity_reference_revisions

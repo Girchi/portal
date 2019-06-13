@@ -5,6 +5,12 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.promo_page
+    - paragraphs.paragraphs_type.age_groups
+    - paragraphs.paragraphs_type.icon_items_grid
+    - paragraphs.paragraphs_type.school_description
+    - paragraphs.paragraphs_type.school_goal
+    - paragraphs.paragraphs_type.school_process
+    - paragraphs.paragraphs_type.timeline
   module:
     - entity_reference_revisions
 id: node.promo_page.field_paragraphs
@@ -21,7 +27,13 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     negate: 0
-    target_bundles: null
+    target_bundles:
+      age_groups: age_groups
+      icon_items_grid: icon_items_grid
+      school_description: school_description
+      school_goal: school_goal
+      school_process: school_process
+      timeline: timeline
     target_bundles_drag_drop:
       basic_text:
         weight: 7
@@ -40,5 +52,29 @@ settings:
         enabled: false
       team_member:
         weight: 12
+        enabled: false
+      age_groups:
+        enabled: true
+        weight: 15
+      icon_item:
+        weight: 20
+        enabled: false
+      icon_items_grid:
+        enabled: true
+        weight: 21
+      school_description:
+        enabled: true
+        weight: 22
+      school_goal:
+        enabled: true
+        weight: 23
+      school_process:
+        enabled: true
+        weight: 24
+      timeline:
+        enabled: true
+        weight: 27
+      timeline_item:
+        weight: 28
         enabled: false
 field_type: entity_reference_revisions

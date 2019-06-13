@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_paragraphs
+    - paragraphs.paragraphs_type.age_groups
+    - paragraphs.paragraphs_type.icon_item
     - paragraphs.paragraphs_type.school_process
   module:
     - entity_reference_revisions
@@ -21,7 +23,9 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     negate: 0
-    target_bundles: null
+    target_bundles:
+      age_groups: age_groups
+      icon_item: icon_item
     target_bundles_drag_drop:
       school_process:
         weight: 10
@@ -38,6 +42,9 @@ settings:
       board_member_politician:
         weight: 14
         enabled: false
+      age_groups:
+        enabled: true
+        weight: 15
       school_description:
         weight: 15
         enabled: false
@@ -49,5 +56,17 @@ settings:
         enabled: false
       team_member:
         weight: 18
+        enabled: false
+      icon_item:
+        enabled: true
+        weight: 20
+      icon_items_grid:
+        weight: 21
+        enabled: false
+      timeline:
+        weight: 27
+        enabled: false
+      timeline_item:
+        weight: 28
         enabled: false
 field_type: entity_reference_revisions
