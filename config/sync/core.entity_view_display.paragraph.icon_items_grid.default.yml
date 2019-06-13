@@ -1,0 +1,33 @@
+uuid: ecb8b60a-0043-4413-a3fd-ba8d6a3c40ed
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.icon_items_grid.field_icon_item
+    - field.field.paragraph.icon_items_grid.field_style
+    - paragraphs.paragraphs_type.icon_items_grid
+  module:
+    - entity_reference_revisions
+    - options
+id: paragraph.icon_items_grid.default
+targetEntityType: paragraph
+bundle: icon_items_grid
+mode: default
+content:
+  field_icon_item:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_style:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden: {  }

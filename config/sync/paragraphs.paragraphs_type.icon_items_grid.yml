@@ -1,0 +1,9 @@
+uuid: 4f5b418f-1071-4a26-bf7f-d910489078a6
+langcode: ka
+status: true
+dependencies: {  }
+id: icon_items_grid
+label: 'Icon Items Grid'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

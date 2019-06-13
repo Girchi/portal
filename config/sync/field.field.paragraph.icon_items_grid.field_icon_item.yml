@@ -1,0 +1,64 @@
+uuid: 729abd9c-f2f8-474b-bef1-5d7d03d52a3f
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon_item
+    - paragraphs.paragraphs_type.icon_item
+    - paragraphs.paragraphs_type.icon_items_grid
+  module:
+    - entity_reference_revisions
+id: paragraph.icon_items_grid.field_icon_item
+field_name: field_icon_item
+entity_type: paragraph
+bundle: icon_items_grid
+label: 'Icon item'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      icon_item: icon_item
+    target_bundles_drag_drop:
+      icon_items_grid:
+        weight: 13
+        enabled: false
+      age_groups:
+        weight: 14
+        enabled: false
+      basic_text:
+        weight: 15
+        enabled: false
+      board:
+        weight: 16
+        enabled: false
+      board_member_partner:
+        weight: 17
+        enabled: false
+      board_member_politician:
+        weight: 18
+        enabled: false
+      icon_item:
+        enabled: true
+        weight: 19
+      school_description:
+        weight: 20
+        enabled: false
+      school_goal:
+        weight: 21
+        enabled: false
+      school_process:
+        weight: 22
+        enabled: false
+      team:
+        weight: 23
+        enabled: false
+      team_member:
+        weight: 24
+        enabled: false
+field_type: entity_reference_revisions

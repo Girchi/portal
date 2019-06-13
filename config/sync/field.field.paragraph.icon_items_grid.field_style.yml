@@ -1,0 +1,21 @@
+uuid: 053af888-163d-4a27-97c8-38b19dbf190e
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_style
+    - paragraphs.paragraphs_type.icon_items_grid
+  module:
+    - options
+id: paragraph.icon_items_grid.field_style
+field_name: field_style
+entity_type: paragraph
+bundle: icon_items_grid
+label: Style
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
