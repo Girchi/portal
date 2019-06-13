@@ -6,7 +6,7 @@ dependencies:
     - field.field.node.promo_page.field_paragraphs
     - node.type.promo_page
   module:
-    - entity_reference_revisions
+    - paragraphs
     - path
 id: node.promo_page.default
 targetEntityType: node
@@ -22,11 +22,14 @@ content:
   field_paragraphs:
     weight: 121
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_autocomplete
+    type: entity_reference_paragraphs
     region: content
   langcode:
     type: language_select
