@@ -1,0 +1,68 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          sort_desc_label: აღწერა
+      pager:
+        options:
+          expose:
+            items_per_page_options_all_label: '- ყველა -'
+      fields:
+        created:
+          label: შექმნილია
+        view_webform_submission:
+          label: ოპერაციები
+          text: ნახვა
+      arguments:
+        in_draft:
+          exception:
+            title: ყველა
+  embed_administer:
+    display_options:
+      fields:
+        webform_submission_bulk_form:
+          action_title: ოპერაცია
+        sticky:
+          label: მიმაგრებული
+        created:
+          label: შექმნილია
+        operations:
+          label: ოპერაციები
+      filters:
+        sticky:
+          expose:
+            label: მიმაგრებული
+  embed_manage:
+    display_options:
+      fields:
+        webform_submission_bulk_form:
+          action_title: ოპერაცია
+        sticky:
+          label: მიმაგრებული
+        created:
+          label: შექმნილია
+        view_webform_submission:
+          label: ოპერაციები
+          text: ნახვა
+        edit_webform_submission:
+          label: ოპერაციები
+          text: რედაქტირება
+      filters:
+        sticky:
+          expose:
+            label: მიმაგრებული
+  embed_review:
+    display_options:
+      fields:
+        sticky:
+          label: მიმაგრებული
+        created:
+          label: შექმნილია
+        view_webform_submission:
+          label: ოპერაციები
+          text: ნახვა
+      filters:
+        sticky:
+          expose:
+            label: მიმაგრებული
