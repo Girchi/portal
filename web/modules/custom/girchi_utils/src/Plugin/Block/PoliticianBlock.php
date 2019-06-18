@@ -33,7 +33,6 @@ class PoliticianBlock extends BlockBase
 
     public function getCacheMaxAge()
     {
-        // set block cache max age 3 hours and then invalidate.
-        return 10800;
+        return 0;
     }
 }
