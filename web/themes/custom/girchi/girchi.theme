@@ -133,6 +133,7 @@ function girchi_preprocess_page(array &$variables) {
            'user_picture' => $currentUserAvatar,
            'user_name' => $account->{'name'}->value
        ];
+       $variables['#cache']['contexts'][] = 'session';
    }
 }
 
