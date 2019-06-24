@@ -260,7 +260,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 
 
     if ($form_id == "user_form") {
-
         if (!Drupal::currentUser()->hasPermission('admin')) {
             $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
             /** Unset titles */

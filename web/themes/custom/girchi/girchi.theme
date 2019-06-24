@@ -215,6 +215,12 @@ function girchi_preprocess_form(array &$variables)
 {
     $config = \Drupal::config('om_site_settings.site_settings');
     $variables['enable_user_ui'] =  $config->get('enable_user_ui');
+
+    if($variables['attributes']['id'] == 'user-form'){
+      $social_auth = \Drupal::service('social_auth_facebook.persistent_data_handler');
+      $show_password_change = $social_auth->get('access_token') ? FALSE : TRUE;
+      $variables['show_password_change'] = $show_password_change;
+    }
 }
 
 /**

@@ -4,8 +4,6 @@ status: true
 dependencies:
   config:
     - field.storage.user.field_referral
-  content:
-    - 'user:user:def1d383-46e1-4595-8806-387ea975a625'
   module:
     - user
 id: user.user.field_referral
@@ -14,11 +12,9 @@ entity_type: user
 bundle: user
 label: Referral
 description: ''
-required: false
+required: true
 translatable: false
-default_value:
-  -
-    target_uuid: def1d383-46e1-4595-8806-387ea975a625
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: views

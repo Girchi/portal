@@ -93,27 +93,29 @@
                             >
                             {{ element.field_phone }}
                         </div>
-                        <hr class="border-secondary my-2 my-sm-3">
-                        <h5
-                                class="font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4"
-                        >
-                            {{ 'Change Password' | t }}
-                        </h5>
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="address"
-                            >{{ "Current password" | t }}</label>
-                            {{ element.account.current_pass }}
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="address"
-                            >{{ "New password" | t }}</label>
-                            {{ element.account.pass.pass1 }}
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="address"
-                            >{{ "Retype password" | t }}</label>
-                            {{ element.account.pass.pass2 }}
-                        </div>
+                         {% if show_password_change %}
+                            <hr class="border-secondary my-2 my-sm-3">
+                            <h5
+                                    class="font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4"
+                            >
+                                {{ 'Change Password' | t }}
+                            </h5>
+                            <div class="form-group mb-2">
+                                <label class="form-label" for="address"
+                                >{{ "Current password" | t }}</label>
+                                {{ element.account.current_pass }}
+                            </div>
+                            <div class="form-group mb-2">
+                                <label class="form-label" for="address"
+                                >{{ "New password" | t }}</label>
+                                {{ element.account.pass.pass1 }}
+                            </div>
+                            <div class="form-group mb-2">
+                                <label class="form-label" for="address"
+                                >{{ "Retype password" | t }}</label>
+                                {{ element.account.pass.pass2 }}
+                            </div>
+                        {% endif %}
                         {{ element.actions.submit }}
                     </div>
                 </div>
