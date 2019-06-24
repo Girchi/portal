@@ -54,3 +54,11 @@ html{
     height: 100%;
 }
 
+.article-body .my-3 img {
+    max-width: 100%;
+}
+
+.article-body .my-3 iframe {
+    width: 100%;
+}
+

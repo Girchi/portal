@@ -7,7 +7,7 @@
     <div class="col-md-12 col-lg-9">
         {{ print_block('categoryfilterblockmobile') }}
         <div class="card mt-3 mt-lg-0 mb-2 mb-lg-3 font-size-3">
-            <div class="card-body p-0">
+            <div class="card-body p-0 article-body">
                 {% if node.field_show_internal_image.value %}
                 <img
                         src="{{ image_style_url(image_uri , 'full_page_image') }}"
