@@ -194,6 +194,11 @@ function girchi_preprocess_node(array &$variables) {
     $variables['show_sidebar'] = $show_sidebar;
   }
 
+  if ($variables['node']->getType() == 'article' && $variables['view_mode'] == 'full') {
+    $views_count = \Drupal::service('statistics.storage.node')->fetchView($variables['node']->id());
+    $total_view_count = $views_count ? $views_count->getTotalCount() : 0;
+    $variables['total_view_count'] = $total_view_count;
+  }
 }
 
 /**

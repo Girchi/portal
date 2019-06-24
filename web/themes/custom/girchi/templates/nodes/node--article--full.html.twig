@@ -26,6 +26,11 @@
                       ></i>
                       {{ node.getCreatedTime| format_date('article_short') }}</span
                     >
+                    <div class="text-grey"
+                    >
+                      {{ total_view_count ~ ' Views'|t }}
+                    </div
+                    >
 
                         {% for categoryName,id in  terms %}
                                 <a

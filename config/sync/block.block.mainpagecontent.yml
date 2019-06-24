@@ -9,7 +9,7 @@ dependencies:
 id: mainpagecontent
 theme: girchi
 region: content
-weight: -5
+weight: -6
 provider: null
 plugin: system_main_block
 settings:

@@ -280,6 +280,7 @@
     "drush/drush": "~9.5",
     "enyo/dropzone": "4.2.0",
     "eyecon/colorpicker": "^1.0",
+    "google/apiclient": "^2.0",
     "harvesthq/chosen": "1.8.7",
     "nicolab/php-ftp-client": "^1.4",
     "webflo/drupal-finder": "1.1.0",

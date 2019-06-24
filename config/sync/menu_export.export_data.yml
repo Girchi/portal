@@ -2,26 +2,26 @@
   id:
     value: '1'
   uuid:
-    value: a2ed1ec9-f011-4732-aa69-6cdfbeb7fc5c
+    value: 5e0e9ae8-e00e-460c-8ecf-49bb78a3a2ac
   revision_id:
     value: '1'
   langcode:
-    value: en
+    value: ka
   bundle:
     value: menu_link_content
   revision_created:
-    value: '1560179640'
+    value: '1560945206'
   revision_user: false
   revision_log_message: false
   enabled:
     value: '1'
   title:
-    value: 'GeD transaction'
+    value: 'Update views count'
   description: false
   menu_name:
     value: admin
   link:
-    uri: 'internal:/admin/ged-transaction'
+    uri: 'internal:/admin/update_page_views'
     title: ''
     options: {  }
   external:
@@ -29,13 +29,13 @@
   rediscover:
     value: '1'
   weight:
-    value: '2'
+    value: '0'
   expanded:
     value: '0'
   parent:
-    value: system.admin
+    value: admin_toolbar_tools.help
   changed:
-    value: '1560179756'
+    value: '1560945229'
   default_langcode:
     value: '1'
   revision_default:
@@ -52,4 +52,4 @@
   content_translation_status:
     value: '1'
   content_translation_created:
-    value: '1560179640'
+    value: '1560945206'

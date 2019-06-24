@@ -9,7 +9,7 @@ dependencies:
 id: leadpartner
 theme: girchi
 region: content
-weight: 0
+weight: -2
 provider: null
 plugin: lead_partner
 settings:

@@ -170,6 +170,12 @@ class SiteSettingsForm extends ConfigFormBase
             '#title' => t('Want to be politician text'),
             '#default_value' => $config->get('politician_checkbox_text')['value']
         ];
+        $form['general_settings']['google_analytics_view_id']= [
+            '#description' => t('Enter google analytics view id'),
+            '#type' => 'textfield',
+            '#title' => t('Google analytics view id'),
+            '#default_value' => $config->get('google_analytics_view_id')
+        ];
 
         return parent::buildForm($form, $form_state);
     }
@@ -197,7 +203,8 @@ class SiteSettingsForm extends ConfigFormBase
             'social_media_youtube',
             'politician_checkbox_text',
             'enable_user_ui',
-            'copyright_text'
+            'copyright_text',
+            'google_analytics_view_id',
         ];
 
         foreach ($fields as $field_key) {

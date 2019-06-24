@@ -5,3 +5,12 @@ girchi_utils.supporters_registration_controller_registerPage:
     _title: 'supporters registration'
   requirements:
     _permission: 'access supporters registration'
+
+girchi_utils.batch_update_page_views:
+  path: '/admin/update_page_views'
+  defaults:
+    _form: '\Drupal\girchi_utils\Form\UpdatePageViewsForm'
+    _title: 'Update node views'
+  requirements:
+    _permission: 'access content'
+

@@ -9,7 +9,7 @@ dependencies:
 id: categoryfilterblockmobile
 theme: girchi
 region: content
-weight: 0
+weight: -3
 provider: null
 plugin: category_filter_block_mobile
 settings:
