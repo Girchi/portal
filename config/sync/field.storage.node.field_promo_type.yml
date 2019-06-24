@@ -1,0 +1,24 @@
+uuid: 9ac6e7c1-a3f8-4d58-ac4e-eb1532f8d1b9
+langcode: ka
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_promo_type
+field_name: field_promo_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: school
+      label: School
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

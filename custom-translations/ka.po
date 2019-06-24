@@ -3,13 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-11 13:32+0000\n"
-"PO-Revision-Date: 2019-06-11 13:32+0000\n"
-
-"Project-Id-Version: PROJECT VERSION\n"D
-"POT-Creation-Date: 2019-06-07 13:29+0000\n"
-"PO-Revision-Date: 2019-06-07 13:29+0000\n"
-
+"POT-Creation-Date: 2019-06-19 09:36+0000\n"
+"PO-Revision-Date: 2019-06-19 09:36+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3061,11 +3056,11 @@ msgstr "მონაცემთა ბაზის სისტემა"
 msgid "Database system version"
 msgstr "მონაცემთა ბაზის ვერსია"
 
-msgid "Ged amount"
-msgstr "Ged-ების რაოდენობა"
-
 msgid "Active"
 msgstr "აქტიური"
+
+msgid "Ged amount"
+msgstr "Ged-ების რაოდენობა"
 
 msgid "Enter your email address or username."
 msgstr ""
@@ -3521,7 +3516,27 @@ msgstr "რეფერალი"
 msgid "Party list"
 msgstr "პარტიული სია"
 
-msgid "Ged amount"
-msgstr "Ged-ების რაოდენობა"
+msgid "Register with easy steps and enroll in the development of free school"
+msgstr ""
+"გაიარე მარტივად "
+"რეგისტრაცია და ჩაერთე "
+"თავისუფალი განვითარების "
+"პროცესში"
 
+msgid "Student registration"
+msgstr ""
+"ბავშვის რეგისტრაცია\r\n"
+""
+
+msgid "Teacher registration"
+msgstr "მასწავლებლის რეგისტრაცია"
+
+msgid "Registration"
+msgstr "რეგისტრაცია"
+
+msgid "Student"
+msgstr "ბავშვის"
+
+msgid "Teacher"
+msgstr "მასწავლებლის"
 

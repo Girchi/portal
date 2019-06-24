@@ -10,7 +10,22 @@ field_name: field_icon
 entity_type: paragraph
 type: list_string
 settings:
-  allowed_values: {  }
+  allowed_values:
+    -
+      value: icon-clock
+      label: icon-clock
+    -
+      value: icon-calendar
+      label: icon-calendar
+    -
+      value: icon-student
+      label: icon-student
+    -
+      value: icon-pencil-case
+      label: icon-pencil-case
+    -
+      value: icon-teacher
+      label: icon-teacher
   allowed_values_function: ''
 module: options
 locked: false

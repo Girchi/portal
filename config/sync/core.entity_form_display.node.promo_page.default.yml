@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.promo_page.field_paragraphs
+    - field.field.node.promo_page.field_promo_type
     - node.type.promo_page
   module:
     - paragraphs
@@ -30,6 +31,12 @@ content:
       default_paragraph_type: ''
     third_party_settings: {  }
     type: entity_reference_paragraphs
+    region: content
+  field_promo_type:
+    weight: 122
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   langcode:
     type: language_select

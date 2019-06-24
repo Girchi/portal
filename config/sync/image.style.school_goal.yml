@@ -1,0 +1,15 @@
+uuid: c8038e37-eac0-465c-b8f3-bbe21a87402d
+langcode: en
+status: true
+dependencies: {  }
+name: school_goal
+label: 'School goal'
+effects:
+  c6aa47f1-e22d-4316-bf2e-4fd018e74cb9:
+    uuid: c6aa47f1-e22d-4316-bf2e-4fd018e74cb9
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 684
+      height: 484
+      anchor: center-center

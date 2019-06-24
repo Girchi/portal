@@ -1,18 +1,18 @@
-uuid: 729abd9c-f2f8-474b-bef1-5d7d03d52a3f
-langcode: ka
+uuid: 48e695b5-d12b-4b8c-8b06-a7c7f4412fc6
+langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_icon_item
-    - paragraphs.paragraphs_type.icon_items_grid
-    - paragraphs.paragraphs_type.image_icon_item
+    - field.storage.paragraph.field_age_groups
+    - paragraphs.paragraphs_type.age_groups
+    - paragraphs.paragraphs_type.school_process
   module:
     - entity_reference_revisions
-id: paragraph.icon_items_grid.field_icon_item
-field_name: field_icon_item
+id: paragraph.school_process.field_age_groups
+field_name: field_age_groups
 entity_type: paragraph
-bundle: icon_items_grid
-label: 'Icon item'
+bundle: school_process
+label: 'Age groups'
 description: ''
 required: false
 translatable: false
@@ -23,46 +23,43 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      image_icon_item: image_icon_item
+      age_groups: age_groups
     target_bundles_drag_drop:
-      icon_items_grid:
-        weight: 13
-        enabled: false
       age_groups:
-        weight: 14
-        enabled: false
-      basic_text:
-        weight: 15
-        enabled: false
-      image_icon_item:
         enabled: true
-        weight: 16
-      board:
+        weight: 15
+      basic_text:
         weight: 16
         enabled: false
-      board_member_partner:
+      board:
         weight: 17
         enabled: false
-      board_member_politician:
+      board_member_partner:
         weight: 18
         enabled: false
-      icon_item:
+      board_member_politician:
         weight: 19
         enabled: false
-      school_description:
+      icon_item:
         weight: 20
         enabled: false
-      school_goal:
+      icon_items_grid:
         weight: 21
         enabled: false
-      school_process:
+      school_description:
         weight: 22
         enabled: false
-      team:
+      school_goal:
         weight: 23
         enabled: false
-      team_member:
+      school_process:
         weight: 24
+        enabled: false
+      team:
+        weight: 25
+        enabled: false
+      team_member:
+        weight: 26
         enabled: false
       timeline:
         weight: 27

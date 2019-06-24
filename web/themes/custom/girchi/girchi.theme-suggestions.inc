@@ -124,3 +124,10 @@ function girchi_theme_suggestions_taxonomy_term_alter(array &$suggestions, array
     $suggestions[] = 'taxonomy_term__' . $term->bundle() . '__' . $sanitized_view_mode;
     $suggestions[] = 'taxonomy_term__' . $term->id() . '__' . $sanitized_view_mode;
 }
+
+function girchi_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  // Add content type suggestions.
+  if ($node = \Drupal::request()->attributes->get('node')) {
+    array_splice($suggestions, 1, 0, 'page__node__' . $node->getType());
+  }
+}

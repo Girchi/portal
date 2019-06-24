@@ -1,22 +1,21 @@
-uuid: ec43fa68-eccb-4a8a-8dfa-8eb84a16d665
-langcode: ka
+uuid: 57fdcb45-cfa4-43d9-aecb-6c33bb287e81
+langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_paragraphs
-    - paragraphs.paragraphs_type.age_groups
+    - field.storage.paragraph.field_icon_items
     - paragraphs.paragraphs_type.icon_item
     - paragraphs.paragraphs_type.school_process
   module:
     - entity_reference_revisions
-id: paragraph.school_process.field_paragraphs
-field_name: field_paragraphs
+id: paragraph.school_process.field_icon_items
+field_name: field_icon_items
 entity_type: paragraph
 bundle: school_process
-label: Paragraphs
+label: 'Icon Items'
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -24,44 +23,43 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      age_groups: age_groups
       icon_item: icon_item
     target_bundles_drag_drop:
-      school_process:
-        weight: 10
+      age_groups:
+        weight: 15
         enabled: false
       basic_text:
-        weight: 11
-        enabled: false
-      board:
-        weight: 12
-        enabled: false
-      board_member_partner:
-        weight: 13
-        enabled: false
-      board_member_politician:
-        weight: 14
-        enabled: false
-      age_groups:
-        enabled: true
-        weight: 15
-      school_description:
-        weight: 15
-        enabled: false
-      school_goal:
         weight: 16
         enabled: false
-      team:
+      board:
         weight: 17
         enabled: false
-      team_member:
+      board_member_partner:
         weight: 18
+        enabled: false
+      board_member_politician:
+        weight: 19
         enabled: false
       icon_item:
         enabled: true
         weight: 20
       icon_items_grid:
         weight: 21
+        enabled: false
+      school_description:
+        weight: 22
+        enabled: false
+      school_goal:
+        weight: 23
+        enabled: false
+      school_process:
+        weight: 24
+        enabled: false
+      team:
+        weight: 25
+        enabled: false
+      team_member:
+        weight: 26
         enabled: false
       timeline:
         weight: 27

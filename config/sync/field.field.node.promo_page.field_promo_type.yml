@@ -1,0 +1,21 @@
+uuid: 260f6422-0f01-4088-8fb0-6282c017fc2e
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_promo_type
+    - node.type.promo_page
+  module:
+    - options
+id: node.promo_page.field_promo_type
+field_name: field_promo_type
+entity_type: node
+bundle: promo_page
+label: 'Promo type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

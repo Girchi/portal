@@ -3,23 +3,39 @@ langcode: ka
 status: true
 dependencies:
   config:
-    - field.field.paragraph.school_process.field_paragraphs
+    - field.field.paragraph.school_process.field_age_groups
+    - field.field.paragraph.school_process.field_icon_items
     - paragraphs.paragraphs_type.school_process
   module:
-    - entity_reference_revisions
+    - paragraphs
 id: paragraph.school_process.default
 targetEntityType: paragraph
 bundle: school_process
 mode: default
 content:
-  field_paragraphs:
+  field_age_groups:
+    type: entity_reference_paragraphs
     weight: 0
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: entity_reference_revisions_autocomplete
+    region: content
+  field_icon_items:
+    type: entity_reference_paragraphs
+    weight: 1
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
     region: content
 hidden:
   created: true

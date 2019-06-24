@@ -3,7 +3,8 @@ langcode: ka
 status: true
 dependencies:
   config:
-    - field.field.paragraph.school_process.field_paragraphs
+    - field.field.paragraph.school_process.field_age_groups
+    - field.field.paragraph.school_process.field_icon_items
     - paragraphs.paragraphs_type.school_process
   module:
     - entity_reference_revisions
@@ -12,13 +13,22 @@ targetEntityType: paragraph
 bundle: school_process
 mode: default
 content:
-  field_paragraphs:
+  field_age_groups:
+    type: entity_reference_revisions_entity_view
     weight: 0
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_icon_items:
     type: entity_reference_revisions_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     region: content
 hidden: {  }

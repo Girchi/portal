@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.promo_page.field_paragraphs
+    - field.field.node.promo_page.field_promo_type
     - node.type.promo_page
   module:
     - entity_reference_revisions
@@ -14,8 +15,8 @@ bundle: promo_page
 mode: default
 content:
   field_paragraphs:
-    weight: 101
-    label: above
+    weight: 1
+    label: hidden
     settings:
       view_mode: default
       link: ''
@@ -23,9 +24,10 @@ content:
     type: entity_reference_revisions_entity_view
     region: content
   links:
-    weight: 100
+    weight: 0
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
+  field_promo_type: true
   langcode: true

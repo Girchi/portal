@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.icon_items_grid.field_icon_item
     - field.field.paragraph.icon_items_grid.field_style
+    - field.field.paragraph.icon_items_grid.field_title
     - paragraphs.paragraphs_type.icon_items_grid
   module:
     - paragraphs
@@ -30,6 +31,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
+  field_title:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
 hidden:
   created: true

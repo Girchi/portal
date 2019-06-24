@@ -1,0 +1,9 @@
+uuid: c9d63679-29cf-44d1-97fb-8402904654f1
+langcode: en
+status: true
+dependencies: {  }
+id: image_icon_item
+label: 'Image icon item'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

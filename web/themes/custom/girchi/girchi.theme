@@ -147,14 +147,6 @@ function girchi_preprocess_user(array &$variables) {
 
 
 /**
- * Implements hook_theme_suggestions_page_alter().
- */
-function girchi_theme_suggestions_page_alter(array &$suggestions, array $variables) {
-
-}
-
-
-/**
  * Implements hook_preprocess_HOOK() for Block document templates.
  */
 function girchi_preprocess_block(array &$variables) {
@@ -327,6 +319,26 @@ function girchi_preprocess_paragraph(&$variables)
         'last_name' => $last_name,
     ];
   }
+
+  if ($paragraph->getParagraphType()->id() == 'school_goal') {
+    $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
+    $variables['data'] = [
+      "img_uri" => $img_uri
+    ];
+  }
+
+  if($paragraph->getParagraphType()->id() == 'image_icon_item' && $paragraph->getParentEntity()->getType() == 'icon_items_grid') {
+    $icon_styles = ['grey' => 'bg-light-silver', 'orange' => 'bg-yellow' ];
+    $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
+    $icon_style = $paragraph->getParentEntity()->field_style->value;
+
+    $variables['data'] = [
+      "img_uri" => $img_uri,
+      "icon_class" => $icon_styles[$icon_style]
+    ];
+  }
+
+
 }
 
 
