@@ -1,0 +1,15 @@
+uuid: 6395376c-dda1-47ed-9669-72d44229cc42
+langcode: en
+status: true
+dependencies: {  }
+name: logged_in_user_picture
+label: 'Logged in user picture'
+effects:
+  98d5c643-fec3-4b46-a2de-ceb5bf4a5f7f:
+    uuid: 98d5c643-fec3-4b46-a2de-ceb5bf4a5f7f
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 50
+      height: 50
+      anchor: center-center

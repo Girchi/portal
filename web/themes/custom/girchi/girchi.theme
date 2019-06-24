@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Url;
+use Drupal\file\Entity\File;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
 
@@ -120,18 +121,22 @@ function girchi_preprocess_page(array &$variables) {
     // Logged in use header
    if($currentUserId = \Drupal::currentUser()->id()){
        $account = User::load($currentUserId);
+       /** @var File $avatarEntity */
        $avatarEntity = $account->{'user_picture'}->entity;
        if($avatarEntity) {
-           $currentUserAvatar = $avatarEntity->url();
+           $currentUserAvatar = $avatarEntity->getFileUri();
+           $isAvatar= true;
        }else{
-           $currentUserAvatar = file_create_url( drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+           $currentUserAvatar =  file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+           $isAvatar=false;
        }
        $variables['user_header'] = [
            'first_name' => $account->{'field_first_name'}->value,
            'last_name' => $account->{'field_last_name'}->value,
            'ged' => $account->{'field_ged'}->value ? $account->{'field_ged'}->value : 0,
            'user_picture' => $currentUserAvatar,
-           'user_name' => $account->{'name'}->value
+           'user_name' => $account->{'name'}->value,
+           'is_avatar'=>$isAvatar
        ];
        $variables['#cache']['contexts'][] = 'session';
    }

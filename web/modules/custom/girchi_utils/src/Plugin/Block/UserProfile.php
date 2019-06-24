@@ -5,6 +5,7 @@ namespace Drupal\girchi_utils\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\Entity\File;
 use Drupal\user\Entity\User;
 /**
  * Provides a 'UserProfile' block.
@@ -50,6 +51,7 @@ class UserProfile extends BlockBase {
     $currentUserFirstName = $currentUser->get('field_first_name')->value;
     $currentUserLastName = $currentUser->get('field_last_name')->value;
     $currentUserGed = $currentUser->get('field_ged')->value ?  $currentUser->get('field_ged')->value : 0 ;
+      /** @var File $avatarEntity */
     $avatarEntity = $currentUser->get('user_picture')->entity;
     $currentRank = $currentUser->get('field_rank')->value;
     $numberOfUsers = \Drupal::entityQuery('user')
@@ -58,10 +60,11 @@ class UserProfile extends BlockBase {
           ->execute();
 
     if($avatarEntity) {
-      $currentUserAvatar = $avatarEntity->url();
+      $currentUserAvatar = $avatarEntity->getFileUri();
+      $isAvatar = true;
     }else{
-      //for testing
       $currentUserAvatar = file_create_url( drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+      $isAvatar = false;
     }
 
     $build = [];
@@ -80,6 +83,7 @@ class UserProfile extends BlockBase {
       '#user_profile_picture' => $currentUserAvatar,
       '#user_count' => $numberOfUsers-1,
       '#user_rank' => $currentRank,
+      '#is_avatar'=> $isAvatar
     );
   }
 

@@ -73,9 +73,15 @@
             <div class="collapse navbar-collapse" id="navbarAuth">
                     {% if logged_in %}
                         <div class="d-flex align-items-center ml-auto py-3 py-lg-0 border-top-1 border-top-lg-0">
-                            <a href="#" class="rounded-circle overflow-hidden d-inline-block">
-                                <img src="{{ user_header.user_picture }}" class="rounded" alt="..." width="50"
-                                     height="50">
+                            <a href="{{ url("user.page") }}" class="rounded-circle overflow-hidden d-inline-block">
+                                <img
+                                        {% if user_header.is_avatar %}
+                                            src="{{ image_style_url(user_header.user_picture , 'logged_in_user_picture') }}"
+                                        {% else %}
+                                            src="{{ user_header.user_picture }}"
+                                        {% endif %}
+                                        class="rounded" alt="..." width="50"
+                                        height="50">
                             </a>
                             <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3">
                                 <a href="{{ url("user.page") }}"
@@ -141,9 +147,15 @@
 
                         {% if logged_in %}
                             <div class="user-panel d-none align-items-center ml-auto">
-                                <a href="#" class="rounded-circle overflow-hidden d-inline-block">
-                                    <img src="{{ user_header.user_picture }}" class="rounded" alt="..." width="50"
-                                         height="50">
+                                <a href="{{ url("user.page") }}" class="rounded-circle overflow-hidden d-inline-block">
+                                    <img
+                                            {% if user_header.is_avatar %}
+                                                src="{{ image_style_url(user_header.user_picture , 'logged_in_user_picture') }}"
+                                            {% else %}
+                                                src="{{ user_header.user_picture }}"
+                                            {% endif %}
+                                            class="rounded" alt="..." width="50"
+                                            height="50">
                                 </a>
                                 <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3">
                                     <a href="{{ url("user.page") }}"

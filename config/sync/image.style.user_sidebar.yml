@@ -1,0 +1,15 @@
+uuid: 2f3fe004-6436-4de4-8e92-0a93a1d3e77d
+langcode: en
+status: true
+dependencies: {  }
+name: user_sidebar
+label: 'User sidebar '
+effects:
+  8a8f36c5-a8d6-4833-a09c-a311396d05c8:
+    uuid: 8a8f36c5-a8d6-4833-a09c-a311396d05c8
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 70
+      height: 70
+      anchor: center-center

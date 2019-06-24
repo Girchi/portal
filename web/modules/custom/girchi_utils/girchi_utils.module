@@ -165,6 +165,7 @@ function girchi_utils_theme($existing, $type, $theme, $path)
             'member' => NULL,
             'user_count' => NULL,
             'user_rank' => NULL,
+            'is_avatar' =>NULL
           ],
         'template' => 'user_profile',
       ],

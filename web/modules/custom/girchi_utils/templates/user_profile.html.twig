@@ -4,7 +4,11 @@
             <img
                     width="70"
                     height="70"
-                    src="{{ user_profile_picture }}"
+                    {% if is_avatar %}
+                    src="{{ image_style_url(user_profile_picture , 'user_sidebar') }}"
+                    {% else %}
+                    src ="{{ user_profile_picture }}"
+                    {% endif %}
                     alt=""
             />
         </div>
