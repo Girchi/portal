@@ -1,0 +1,13 @@
+parameters:
+    tasks:
+        phpcs:
+            standard: 
+              - vendor/drupal/coder/coder_sniffer/Drupal
+              - vendor/drupal/coder/coder_sniffer/DrupalPractice
+            ignore_patterns:
+              - cfg/
+              - libraries/
+            triggered_by:
+              - php
+              - module
+              - inc

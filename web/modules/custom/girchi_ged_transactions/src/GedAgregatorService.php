@@ -2,10 +2,15 @@
 
 namespace Drupal\girchi_ged_transactions;
 
-class GedAgregatorService
-{
-  public function calculateAndUpdateTotalGeds($uid)
-  {
+/**
+ * GedAgregatorService.
+ */
+class GedAgregatorService {
+
+  /**
+   * CalculateAndUpdateTotalGeds.
+   */
+  public function calculateAndUpdateTotalGeds($uid) {
     $connection = \Drupal::database();
     $prefix = $connection->tablePrefix();
     $query = $connection->query(
@@ -17,7 +22,7 @@ class GedAgregatorService
 
     $result = $query->fetchAssoc();
 
-
     return $result['ged_amount'];
   }
+
 }

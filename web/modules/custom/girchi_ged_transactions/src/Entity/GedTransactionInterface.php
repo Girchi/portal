@@ -67,7 +67,8 @@ interface GedTransactionInterface extends ContentEntityInterface, EntityChangedI
    * Sets the published status of a GED transaction.
    *
    * @param bool $published
-   *   TRUE to set this GED transaction to published, FALSE to set it to unpublished.
+   *   TRUE to set this GED transaction to published,
+   *   FALSE to set it to unpublished.
    *
    * @return \Drupal\girchi_ged_transactions\Entity\GedTransactionInterface
    *   The called GED transaction entity.

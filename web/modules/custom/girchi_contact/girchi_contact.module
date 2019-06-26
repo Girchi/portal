@@ -33,7 +33,7 @@ function girchi_contact_theme() {
       'variables' =>
         [
           'cities' => NULL,
-          'offices' => Null,
+          'offices' => NULL,
         ],
     ],
   ];

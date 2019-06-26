@@ -6,7 +6,6 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\user\Entity\User;
 
 /**
  * Class GedRaitingService.
@@ -16,23 +15,26 @@ class GedRaitingService {
   /**
    * EntityTypeManagerInterface definition.
    *
-   * @var EntityTypeManagerInterface
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * Constructs a new PartyListCalculatorService object.
    *
-   * @param EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *
+   *   Entity type manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager)
-  {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
   }
 
-  public function calculateRankRating()
-  {
-    $users = null;
+  /**
+   * CalculateRankRating.
+   */
+  public function calculateRankRating() {
+    $users = NULL;
     try {
       $user_storage = $this->entityTypeManager->getStorage('user');
       $user_ids = $user_storage->getQuery()
@@ -40,19 +42,22 @@ class GedRaitingService {
         ->sort('field_ged', 'DESC')
         ->sort('field_last_name', 'ASC')
         ->execute();
-      /** @var User $users */
+      /** @var \Drupal\user\Entity\User $users */
       $users = $user_storage->loadMultiple($user_ids);
       $ged_rank = 1;
-      foreach ($users as $user){
-       $user->set('field_rank', $ged_rank);
+      foreach ($users as $user) {
+        $user->set('field_rank', $ged_rank);
         try {
           $user->save();
           $ged_rank++;
-        } catch (EntityStorageException $e) {
+        }
+        catch (EntityStorageException $e) {
         }
       }
-    } catch (InvalidPluginDefinitionException $e) {
-    } catch (PluginNotFoundException $e) {
+    }
+    catch (InvalidPluginDefinitionException $e) {
+    }
+    catch (PluginNotFoundException $e) {
     }
   }
 

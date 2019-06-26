@@ -2,7 +2,6 @@
 
 namespace Drupal\girchi_utils\Controller;
 
-use Drupal;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilder;
 use Drupal\user\Entity\User;
@@ -26,8 +25,13 @@ class SupportersRegistrationController extends ControllerBase {
   /**
    * Constructs a new SupportersRegistrationController object.
    *
-   * @param EntityFormBuilderInterface $entity_form_builder
-   * @param FormBuilder $formBuilder
+   * @param \Drupal\Core\Entity\EntityFormBuilderInterface $entity_form_builder
+   *
+   *   Entity Form builder.
+   *
+   * @param \Drupal\Core\Form\FormBuilder $formBuilder
+   *
+   *   Form builder.
    */
   public function __construct(EntityFormBuilderInterface $entity_form_builder,
                               FormBuilder $formBuilder) {
@@ -79,7 +83,7 @@ class SupportersRegistrationController extends ControllerBase {
 
     return [
       '#theme' => 'supporter_registration',
-      '#form' => $form
+      '#form' => $form,
     ];
   }
 

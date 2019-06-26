@@ -17,7 +17,6 @@ class GedTransactionViewsData extends EntityViewsData {
 
     // Additional information for Views integration, such as table joins, can be
     // put here.
-
     return $data;
   }
 

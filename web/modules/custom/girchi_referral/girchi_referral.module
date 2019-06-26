@@ -10,76 +10,60 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\user\Entity\User;
 
-
 /**
  * Implements hook_help().
  */
-function girchi_referral_help($route_name, RouteMatchInterface $route_match)
-{
-    switch ($route_name) {
-        // Main module help for the girchi_referral module.
-        case 'help.page.girchi_referral':
-            $output = '';
-            $output .= '<h3>' . t('About') . '</h3>';
-            $output .= '<p>' . t('Girchi referral module') . '</p>';
-            return $output;
+function girchi_referral_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_referral module.
+    case 'help.page.girchi_referral':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Girchi referral module') . '</p>';
+      return $output;
 
-        default:
-    }
+    default:
+  }
 }
 
-
 /**
- * Implements hook_form_alter()
+ * Implements hook_form_alter().
  *
  * Adding automatic filling of referral field from GET param;
- *
- * @param $form
- * @param FormStateInterface $form_state
- * @param $form_id
  */
-function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $form_id)
-{
+function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-    //get query param from url
-    $referral = Drupal::request()->query->get('referral');
-    //check registration form
-    if ($form_id == "user_register_form" && $referral) {
-        //load user by id that was passed from url
-        $user = User::load($referral);
-        if ($user) {
-            //adding default value to field_referral
-            $form['field_referral']['widget'][0]['target_id']['#default_value'] = $user;
-        }
+  // Get query param from url.
+  $referral = Drupal::request()->query->get('referral');
+  // Check registration form.
+  if ($form_id == "user_register_form" && $referral) {
+    // Load user by id that was passed from url.
+    $user = User::load($referral);
+    if ($user) {
+      // Adding default value to field_referral.
+      $form['field_referral']['widget'][0]['target_id']['#default_value'] = $user;
     }
-    if ($form_id == "user_form") {
-        $form['field_referral_url']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
-    }
+  }
+  if ($form_id == "user_form") {
+    $form['field_referral_url']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
+  }
 
 }
 
-
 /**
- * Implementing hook_user_login
- *
- * @param EntityInterface $entity
+ * Implements hook_user_login().
  *
  * @throws Drupal\Core\Entity\EntityStorageException
  */
-function girchi_referral_user_login(EntityInterface $entity)
-{
-    $uid = $entity->id();
-    $host = Drupal::request()->getSchemeAndHttpHost();
+function girchi_referral_user_login(EntityInterface $entity) {
+  $uid = $entity->id();
+  $host = Drupal::request()->getSchemeAndHttpHost();
 
-    //check if referral url exists
-    if (empty($entity->toArray()['field_referral_url'])) {
-        $url = $host . '/user/register?referral=' . $uid;
-        $entity->set('field_referral_url', $url);
-        $entity->save();
-    };
-
+  // Check if referral url exists.
+  if (empty($entity->toArray()['field_referral_url'])) {
+    $url = $host . '/user/register?referral=' . $uid;
+    $entity->set('field_referral_url', $url);
+    $entity->save();
+  };
 
 }
-
-
-

@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\file\Entity\File;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
 
@@ -17,36 +16,35 @@ include drupal_get_path('theme', 'girchi') . '/girchi.theme-suggestions.inc';
  */
 function girchi_preprocess_html(array &$variables) {
   /* Add class to html tag */
-  //$variables['html_attributes']->addClass('no-js');
-
+  // $variables['html_attributes']->addClass('no-js');
   // Don't display the site name twice on the front page (and potentially others)
   /*if (isset($variables['head_title_array']['title']) && isset($variables['head_title_array']['name']) && ($variables['head_title_array']['title'] == $variables['head_title_array']['name'])) {
-    $variables['head_title'] = $variables['head_title_array']['name'];
+  $variables['head_title'] = $variables['head_title_array']['name'];
   }*/
 
-    $route_name = \Drupal::routeMatch()->getRouteName();
-    $current_uri = \Drupal::request()->getRequestUri();
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $current_uri = \Drupal::request()->getRequestUri();
 
-    if ($route_name === 'view.news.page_1') {
+  if ($route_name === 'view.news.page_1') {
 
-        if (empty(\Drupal::request()->query->get('category') == false)) {
+    if (empty(\Drupal::request()->query->get('category') == FALSE)) {
 
-            $termID = \Drupal::request()->query->get('category');
-            $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termID);
-            $category = $term->name->value;
+      $termID = \Drupal::request()->query->get('category');
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termID);
+      $category = $term->name->value;
 
-            $title = $variables['head_title']['title'];
-            $words = explode('|',$title);
-            $variables['head_title']['title'] = "$category |$words[1]" ;
+      $title = $variables['head_title']['title'];
+      $words = explode('|', $title);
+      $variables['head_title']['title'] = "$category |$words[1]";
 
-        }
     }
-    if ($route_name = 'entity.node.canonical') {
-        if (preg_match("/\/office\/([0-9]+)$/", $current_uri)) {
-            $response = new RedirectResponse('/offices');
-            $response->send();
-        }
+  }
+  if ($route_name = 'entity.node.canonical') {
+    if (preg_match("/\/office\/([0-9]+)$/", $current_uri)) {
+      $response = new RedirectResponse('/offices');
+      $response->send();
     }
+  }
 }
 
 /**
@@ -55,12 +53,12 @@ function girchi_preprocess_html(array &$variables) {
 function girchi_page_attachments_alter(array &$page) {
   // Tell IE to use latest rendering engine (not to use compatibility mode).
   /*$ie_edge = [
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => [
-    'http-equiv' => 'X-UA-Compatible',
-    'content' => 'IE=edge',
-    ],
+  '#type' => 'html_tag',
+  '#tag' => 'meta',
+  '#attributes' => [
+  'http-equiv' => 'X-UA-Compatible',
+  'content' => 'IE=edge',
+  ],
   ];
   $page['#attached']['html_head'][] = [$ie_edge, 'ie_edge'];*/
 }
@@ -70,88 +68,88 @@ function girchi_page_attachments_alter(array &$page) {
  */
 function girchi_preprocess_page(array &$variables) {
 
-    //get config from site settings
-    $config = \Drupal::config('om_site_settings.site_settings');
+  // Get config from site settings.
+  $config = \Drupal::config('om_site_settings.site_settings');
 
-    $variables['footer_config'] = [
-        'phone' => $config->get('contact_info_phone'),
-        'email' => $config->get('contact_info_email'),
-        'facebook' => $config->get('social_media_facebook'),
-        'twitter' => $config->get('social_media_twitter'),
-        'instagram' => $config->get('social_media_instagram'),
-        'youtube' => $config->get('social_media_youtube'),
-        'copyright' => $config->get('copyright_text'),
-    ];
+  $variables['footer_config'] = [
+    'phone' => $config->get('contact_info_phone'),
+    'email' => $config->get('contact_info_email'),
+    'facebook' => $config->get('social_media_facebook'),
+    'twitter' => $config->get('social_media_twitter'),
+    'instagram' => $config->get('social_media_instagram'),
+    'youtube' => $config->get('social_media_youtube'),
+    'copyright' => $config->get('copyright_text'),
+  ];
 
-    $variables['header_config'] = [
-        'enable_user_ui' => $config->get('enable_user_ui'),
-    ];
-    // Redirect from user profile
+  $variables['header_config'] = [
+    'enable_user_ui' => $config->get('enable_user_ui'),
+  ];
+  // Redirect from user profile.
+  // Get current route name.
+  $route_name = \Drupal::routeMatch()->getRouteName();
 
-    // Get current route name
-    $route_name = \Drupal::routeMatch()->getRouteName();
-
-    // If current route is user page and user exists
-    if ($route_name === 'entity.user.canonical'
+  // If current route is user page and user exists.
+  if ($route_name === 'entity.user.canonical'
         && $user = \Drupal::routeMatch()->getParameter('user')
     ) {
-        // Get uid from route
-        $uid = (int)$user->id();
-        // Get current uid
-        $current_uid = (int)$user = \Drupal::currentUser()->id();
+    // Get uid from route.
+    $uid = (int) $user->id();
+    // Get current uid.
+    $current_uid = (int) $user = \Drupal::currentUser()->id();
 
-        // If the uid from the URL matches with the current uid,
-        // redirect to the user edit form, otherwise - to the main page
-        if ($uid === $current_uid) {
-            $redirect_path = \Drupal\Core\Url::fromRoute(
-                'entity.user.edit_form',
-                ['user' => $current_uid]
-            )->toString();
-        } else {
-            $redirect_path = '/';
-        }
-
-        // Redirect to given utl
-        $response = new RedirectResponse($redirect_path);
-        $response->send();
+    // If the uid from the URL matches with the current uid,
+    // redirect to the user edit form, otherwise - to the main page.
+    if ($uid === $current_uid) {
+      $redirect_path = Url::fromRoute(
+            'entity.user.edit_form',
+            ['user' => $current_uid]
+        )->toString();
+    }
+    else {
+      $redirect_path = '/';
     }
 
-    // End Redirect from user profile
+    // Redirect to given utl.
+    $response = new RedirectResponse($redirect_path);
+    $response->send();
+  }
 
-    // Logged in use header
-   if($currentUserId = \Drupal::currentUser()->id()){
-       $account = User::load($currentUserId);
-       /** @var File $avatarEntity */
-       $avatarEntity = $account->{'user_picture'}->entity;
-       if($avatarEntity) {
-           $currentUserAvatar = $avatarEntity->getFileUri();
-           $isAvatar= true;
-       }else{
-           $currentUserAvatar =  file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
-           $isAvatar=false;
-       }
-       $variables['user_header'] = [
-           'first_name' => $account->{'field_first_name'}->value,
-           'last_name' => $account->{'field_last_name'}->value,
-           'ged' => $account->{'field_ged'}->value ? $account->{'field_ged'}->value : 0,
-           'user_picture' => $currentUserAvatar,
-           'user_name' => $account->{'name'}->value,
-           'is_avatar'=>$isAvatar
-       ];
-       $variables['#cache']['contexts'][] = 'session';
-   }
+  // End Redirect from user profile.
+  // Logged in use header.
+  if ($currentUserId = \Drupal::currentUser()->id()) {
+    $account = User::load($currentUserId);
+    /** @var \Drupal\file\Entity\File $avatarEntity */
+    $avatarEntity = $account->{'user_picture'}->entity;
+    if ($avatarEntity) {
+      $currentUserAvatar = $avatarEntity->getFileUri();
+      $isAvatar = TRUE;
+    }
+    else {
+      $currentUserAvatar = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+      $isAvatar = FALSE;
+    }
+    $variables['user_header'] = [
+      'first_name' => $account->{'field_first_name'}->value,
+      'last_name' => $account->{'field_last_name'}->value,
+      'ged' => $account->{'field_ged'}->value ? $account->{'field_ged'}->value : 0,
+      'user_picture' => $currentUserAvatar,
+      'user_name' => $account->{'name'}->value,
+      'is_avatar' => $isAvatar,
+    ];
+    $variables['#cache']['contexts'][] = 'session';
+  }
 
-   $node = \Drupal::request()->attributes->get('node');
-   if(isset($node) && $node->getType() == 'promo_page') {
-     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
-     $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
-     $build        = $view_builder->view($webform);
-     $variables['student_registration'] = $build;
-     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
-     $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
-     $build        = $view_builder->view($webform);
-     $variables['teacher_registration'] = $build;
-   }
+  $node = \Drupal::request()->attributes->get('node');
+  if (isset($node) && $node->getType() == 'promo_page') {
+    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
+    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build                             = $view_builder->view($webform);
+    $variables['student_registration'] = $build;
+    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
+    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build                             = $view_builder->view($webform);
+    $variables['teacher_registration'] = $build;
+  }
 }
 
 /**
@@ -159,9 +157,7 @@ function girchi_preprocess_page(array &$variables) {
  */
 function girchi_preprocess_user(array &$variables) {
 
-
 }
-
 
 /**
  * Implements hook_preprocess_HOOK() for Block document templates.
@@ -170,14 +166,13 @@ function girchi_preprocess_block(array &$variables) {
 
 }
 
-
 /**
  * Implements hook_theme_suggestions_field_alter().
  */
 function girchi_theme_suggestions_fieldset_alter(array &$suggestions, array $variables) {
   /*$element = $variables['element'];
   if (isset($element['#attributes']['class']) && in_array('form-composite', $element['#attributes']['class'])) {
-    $suggestions[] = 'fieldset__form_composite';
+  $suggestions[] = 'fieldset__form_composite';
   }*/
 }
 
@@ -185,23 +180,23 @@ function girchi_theme_suggestions_fieldset_alter(array &$suggestions, array $var
  * Implements hook_preprocess_node().
  */
 function girchi_preprocess_node(array &$variables) {
-    // Default to turning off byline/submitted.
-    //$variables['display_submitted'] = FALSE;
-    if ($variables['node']->getType() == 'article') {
-        $terms = [];
-        $taxonomy_terms = $variables['node']->get('field_category')->referencedEntities();
-        foreach ($taxonomy_terms as $term) {
-            $terms[$term->getName()] = $term->id();
-        }
-        $variables['terms']  = $terms;
+  // Default to turning off byline/submitted.
+  // $variables['display_submitted'] = FALSE;.
+  if ($variables['node']->getType() == 'article') {
+    $terms = [];
+    $taxonomy_terms = $variables['node']->get('field_category')->referencedEntities();
+    foreach ($taxonomy_terms as $term) {
+      $terms[$term->getName()] = $term->id();
     }
+    $variables['terms'] = $terms;
+  }
   if ($variables['node']->getType() == 'page') {
     $current_url = Url::fromRoute('<current>');
     $path = $current_url->toString();
-    $show_sidebar = false;
+    $show_sidebar = FALSE;
     $splited_path = explode('/', $path);
-    if(in_array('about', $splited_path)) {
-      $show_sidebar = true;
+    if (in_array('about', $splited_path)) {
+      $show_sidebar = TRUE;
     }
     $variables['show_sidebar'] = $show_sidebar;
   }
@@ -216,40 +211,37 @@ function girchi_preprocess_node(array &$variables) {
 /**
  * Implements hook_preprocess_views_view().
  */
-function girchi_preprocess_views_view(&$variables)
-{
-    if ($variables['id'] == 'news') {
-        if (empty($variables['exposed']['category']['#value']) == false) {
+function girchi_preprocess_views_view(&$variables) {
+  if ($variables['id'] == 'news') {
+    if (empty($variables['exposed']['category']['#value']) == FALSE) {
 
-            $termID = $variables['exposed']['category']['#value'];
-            $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termID);
-            $variables['categoryName'] = $term->name->value;
+      $termID = $variables['exposed']['category']['#value'];
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termID);
+      $variables['categoryName'] = $term->name->value;
 
-        }
     }
+  }
 }
-
 
 /**
  * Implements hook_preprocess_form().
  */
-function girchi_preprocess_form(array &$variables)
-{
-    $config = \Drupal::config('om_site_settings.site_settings');
-    $variables['enable_user_ui'] =  $config->get('enable_user_ui');
+function girchi_preprocess_form(array &$variables) {
+  $config = \Drupal::config('om_site_settings.site_settings');
+  $variables['enable_user_ui'] = $config->get('enable_user_ui');
 
-    if($variables['attributes']['id'] == 'user-form'){
-      $social_auth = \Drupal::service('social_auth_facebook.persistent_data_handler');
-      $show_password_change = $social_auth->get('access_token') ? FALSE : TRUE;
-      $variables['show_password_change'] = $show_password_change;
-    }
+  if ($variables['attributes']['id'] == 'user-form') {
+    $social_auth = \Drupal::service('social_auth_facebook.persistent_data_handler');
+    $show_password_change = $social_auth->get('access_token') ? FALSE : TRUE;
+    $variables['show_password_change'] = $show_password_change;
+  }
 }
 
 /**
  * Implements hook_preprocess_select().
  */
 function girchi_preprocess_select(array &$variables) {
-  //$variables['attributes']['class'][] = 'select-chosen';
+  // $variables['attributes']['class'][] = 'select-chosen';
 }
 
 /**
@@ -272,16 +264,21 @@ function girchi_preprocess_details(array &$variables) {
  * Implements hook_preprocess_menu_local_task().
  */
 function girchi_preprocess_menu_local_task(array &$variables) {
-  //$variables['element']['#link']['url']->setOption('attributes', ['class'=>'rounded']);
+  // $variables['element']['#link']['url']->setOption('attributes', ['class'=>'rounded']);
 }
 
+/**
+ *
+ */
 function girchi_preprocess_taxonomy_term(&$variables) {
-    $term_id = $variables['elements']['#taxonomy_term']->id();
-    $variables['term_id'] = $term_id;
+  $term_id = $variables['elements']['#taxonomy_term']->id();
+  $variables['term_id'] = $term_id;
 }
 
-function girchi_preprocess_paragraph(&$variables)
-{
+/**
+ *
+ */
+function girchi_preprocess_paragraph(&$variables) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   if ($paragraph->getParagraphType()->id() == 'basic_text') {
@@ -290,9 +287,9 @@ function girchi_preprocess_paragraph(&$variables)
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
     $img_url = file_create_url($img_uri);
     $variables['data'] = [
-        'label' => $label,
-        'created_date' => $created_date,
-        'img_uri' => $img_uri
+      'label' => $label,
+      'created_date' => $created_date,
+      'img_uri' => $img_uri,
     ];
   }
 
@@ -310,12 +307,12 @@ function girchi_preprocess_paragraph(&$variables)
     $twitter_link = $paragraph->field_twitter_link->first()->value;
     $email = $paragraph->field_email->first()->value;
     $variables['data'] = [
-        'img_uri' => $img_uri,
-        'first_name' => $first_name,
-        'last_name' => $last_name,
-        'facebook_link' => $facebook_link,
-        'twitter' => $twitter_link,
-        'email' => $email
+      'img_uri' => $img_uri,
+      'first_name' => $first_name,
+      'last_name' => $last_name,
+      'facebook_link' => $facebook_link,
+      'twitter' => $twitter_link,
+      'email' => $email,
     ];
   }
 
@@ -342,36 +339,36 @@ function girchi_preprocess_paragraph(&$variables)
     $first_name = $full_name[0];
     $last_name = $full_name[1];
     $variables['data'] = [
-        'img_uri' => $img_uri,
-        'first_name' => $first_name,
-        'last_name' => $last_name,
+      'img_uri' => $img_uri,
+      'first_name' => $first_name,
+      'last_name' => $last_name,
     ];
   }
 
   if ($paragraph->getParagraphType()->id() == 'school_goal') {
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
     $variables['data'] = [
-      "img_uri" => $img_uri
+      "img_uri" => $img_uri,
     ];
   }
 
-  if($paragraph->getParagraphType()->id() == 'image_icon_item' && $paragraph->getParentEntity()->getType() == 'icon_items_grid') {
-    $icon_styles = ['grey' => 'bg-light-silver', 'orange' => 'bg-yellow' ];
+  if ($paragraph->getParagraphType()->id() == 'image_icon_item' && $paragraph->getParentEntity()->getType() == 'icon_items_grid') {
+    $icon_styles = ['grey' => 'bg-light-silver', 'orange' => 'bg-yellow'];
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
     $icon_style = $paragraph->getParentEntity()->field_style->value;
 
     $variables['data'] = [
       "img_uri" => $img_uri,
-      "icon_class" => $icon_styles[$icon_style]
+      "icon_class" => $icon_styles[$icon_style],
     ];
   }
 
-
 }
 
-
-function girchi_preprocess_menu(array &$variables)
-{
+/**
+ *
+ */
+function girchi_preprocess_menu(array &$variables) {
   if (isset($variables['menu_name']) && $variables['menu_name'] == 'about-us') {
     $current_url = Url::fromRoute('<current>');
     $path = $current_url->toString();

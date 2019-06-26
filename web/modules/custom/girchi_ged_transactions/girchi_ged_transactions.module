@@ -5,14 +5,16 @@
  * Contains girchi_ged_transactions.module.
  */
 
+use Drupal\user\Entity\User;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
  */
-function girchi_ged_transactions_help($route_name, RouteMatchInterface $route_match)
-{
+function girchi_ged_transactions_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the girchi_ged_transactions module.
     case 'help.page.girchi_ged_transactions':
@@ -28,8 +30,7 @@ function girchi_ged_transactions_help($route_name, RouteMatchInterface $route_ma
 /**
  * Implements hook_theme().
  */
-function girchi_ged_transactions_theme()
-{
+function girchi_ged_transactions_theme() {
   return [
     'girchi_ged_transactions' => [
       'render element' => 'children',
@@ -40,32 +41,35 @@ function girchi_ged_transactions_theme()
 /**
  * Implements hook_form_alter().
  */
-function girchi_ged_transactions_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
-{
+function girchi_ged_transactions_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'ged_transaction_add_form') {
     $form['#validate'][] = 'negative_balance_validation';
     $form['actions']['submit']['#submit'][] = 'girchi_ged_transactions_redirect';
   }
 }
 
-function girchi_ged_transactions_redirect($form, \Drupal\Core\Form\FormStateInterface $form_state){
+/**
+ * Implements hook_redirect().
+ */
+function girchi_ged_transactions_redirect($form, FormStateInterface $form_state) {
   $url = Url::fromUserInput('/admin/ged-transaction');
   $form_state->setRedirectUrl($url);
-  return;
 }
 
-function negative_balance_validation(&$form, \Drupal\Core\Form\FormStateInterface $form_state)
-{
+/**
+ * Negative balance validation.
+ */
+function negative_balance_validation(&$form, FormStateInterface $form_state) {
   $uGeDArray = $form_state->getValue('ged_amount');
-  $uGed = (int)$uGeDArray[0]['value'];
+  $uGed = (int) $uGeDArray[0]['value'];
 
   if ($uGed < 0) {
     $uidArray = $form_state->getValue('user');
-    $uID = (int)$uidArray[0]['target_id'];
+    $uID = (int) $uidArray[0]['target_id'];
 
-    //calculate GeD amount
+    // Calculate GeD amount.
     $service = \Drupal::service('girchi_ged_transactions.ged_agregator_service');
-    $userGeds = (int)$service->calculateAndUpdateTotalGeds($uID);
+    $userGeds = (int) $service->calculateAndUpdateTotalGeds($uID);
 
     if (($userGeds + $uGed) < 0) {
       $form_state->setErrorByName('ged_amount', t('User balance can not be negative!'));
@@ -73,21 +77,19 @@ function negative_balance_validation(&$form, \Drupal\Core\Form\FormStateInterfac
   }
 }
 
-
 /**
  * Implements hook_entity_presave().
  */
-function girchi_ged_transactions_entity_presave(Drupal\Core\Entity\EntityInterface $entity)
-{
-  if($entity->getEntityType()->id() == 'ged_transaction')  {
-    $uGed = (int)$entity->get('ged_amount')->value;
-    $uId = (int)$entity->get('user')->target_id;
+function girchi_ged_transactions_entity_presave(EntityInterface $entity) {
+  if ($entity->getEntityType()->id() == 'ged_transaction') {
+    $uGed = (int) $entity->get('ged_amount')->value;
+    $uId = (int) $entity->get('user')->target_id;
 
-    $account = \Drupal\user\Entity\User::load($uId);
+    $account = User::load($uId);
     $firsName = $account->get('field_first_name')->value;
     $lastName = $account->get('field_last_name')->value;
 
-    $newTitle = $firsName . ' ' . $lastName . ' '. $uGed.' GeD';
+    $newTitle = $firsName . ' ' . $lastName . ' ' . $uGed . ' GeD';
 
     $title = $entity->set('title', $newTitle)->value;
   }

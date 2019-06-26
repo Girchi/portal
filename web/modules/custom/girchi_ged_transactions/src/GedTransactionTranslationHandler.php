@@ -10,5 +10,4 @@ use Drupal\content_translation\ContentTranslationHandler;
 class GedTransactionTranslationHandler extends ContentTranslationHandler {
 
   // Override here the needed methods from ContentTranslationHandler.
-
 }
