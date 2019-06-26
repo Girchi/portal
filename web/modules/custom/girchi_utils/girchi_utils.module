@@ -176,31 +176,8 @@ function girchi_utils_theme($existing, $type, $theme, $path)
         [
           'articles' => NULL,
           'category' => NULL,
-      'user_profile' => [
-        'variables' =>
-          [
-            'user_id' =>NULL,
-            'user_first_name' =>NULL,
-            'user_last_name' =>NULL,
-            'user_ged' =>NULL,
-            'user_profile_picture' =>NULL,
-            'ged' => NULL,
-            'member' => NULL,
-            'user_count' => NULL,
-            'user_rank' => NULL,
-            'is_avatar' =>NULL
-          ],
-        'template' => 'user_profile',
-      ],
-        'front_page_articles' => [
-            'variables' =>
-                [
-                    'articles' => NULL,
-                    'category' => NULL,
-                ],
-            'template' => 'front-page-articles',
-        ],
-      'template' => 'front-page-articles',
+    ],
+        'template' => 'front-page-articles',
     ],
     'lead_partners' => [
       'variables' =>
@@ -209,7 +186,6 @@ function girchi_utils_theme($existing, $type, $theme, $path)
         ],
       'template' => 'lead-partners',
     ],
-  ]
   ];
 
   return $templates;
