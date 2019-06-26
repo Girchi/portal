@@ -81,6 +81,7 @@ module:
   search_api_db: 0
   serialization: 0
   shortcut: 0
+  simple_sitemap: 0
   social_api: 0
   social_auth: 0
   social_auth_facebook: 0

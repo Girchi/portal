@@ -10,6 +10,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Drupal\user\Entity\User;
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Implements hook_token_info().
@@ -405,4 +406,41 @@ function girchi_utils_cron()
    */
   $rankRaiting = Drupal::service('girchi_utils.ged_raiting');
   $rankRaiting->calculateRankRating();
+
+}
+
+/**
+ * Implements hook_simple_sitemap_links_alter().
+ */
+function girchi_utils_simple_sitemap_links_alter(array &$links, $sitemap_variant)
+{
+  $term_url_mapping = [
+    'news_categories' => 'news?category=',
+    'tags' => 'news?tag=',
+  ];
+
+  foreach ($links as $key => $link) {
+    if (
+      isset($link['meta']['entity_info']['entity_type'])
+      && $link['meta']['entity_info']['entity_type'] === 'taxonomy_term'
+    ) {
+      $tid = $link['meta']['entity_info']['id'];
+
+      // Get taxonomy term bundle.
+      $term = Term::load($tid);
+      $term_bundle = $term->bundle();
+
+      $old_path = $link['meta']['path'];
+      $new_path = $term_url_mapping[$term_bundle] . $tid;
+
+      $links[$key]['meta']['path'] = $new_path;
+      $links[$key]['url'] = str_replace($old_path, $new_path, $links[$key]['url']);
+
+      foreach ($link['alternate_urls'] as $k => $alt_url) {
+        $links[$key]['alternate_urls'][$k] = str_replace($old_path, $new_path, $alt_url);
+      }
+
+    }
+  }
+
 }
