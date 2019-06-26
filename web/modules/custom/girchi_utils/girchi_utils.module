@@ -218,193 +218,193 @@ function girchi_utils_theme($existing, $type, $theme, $path)
 
 function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_id)
 {
-  $currentUser = Drupal::currentUser()->getRoles();
-  /** Getting Politician text from omedia_settings */
-  $config = \Drupal::config('om_site_settings.site_settings');
-  if ($form_id == "user_register_form") {
+    $currentUser = Drupal::currentUser()->getRoles();
+    /** Getting Politician text from omedia_settings */
+    $config = \Drupal::config('om_site_settings.site_settings');
+    if ($form_id == "user_register_form") {
 
-    if (reset($currentUser) == "anonymous") {
+        if (reset($currentUser) == "anonymous") {
 
-      unset($form['account']['mail']['#title']);
-      unset($form['account']['mail']['#description']);
+            unset($form['account']['mail']['#title']);
+            unset($form['account']['mail']['#description']);
 
-      $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['account']['mail']['#attributes']['id'][] = 'email';
-      $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
+            $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['account']['mail']['#attributes']['id'][] = 'email';
+            $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
 
-      unset($form['field_referral']['widget'][0]['target_id']['#title']);
-      unset($form['field_referral']['widget'][0]['target_id']['#description']);
-      unset($form['field_referral']['widget']['#title']);
-      unset($form['field_referral']['widget']['#description']);
+            unset($form['field_referral']['widget'][0]['target_id']['#title']);
+            unset($form['field_referral']['widget'][0]['target_id']['#description']);
+            unset($form['field_referral']['widget']['#title']);
+            unset($form['field_referral']['widget']['#description']);
 
-      $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
-      $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
+            $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
+            $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
 
-      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-warning text-uppercase mt-4 fix';
-      $form['#after_build'][] = 'girchi_utils_after_build';
+            $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-warning text-uppercase mt-4 fix';
+            $form['#after_build'][] = 'girchi_utils_after_build';
 
-      //Add terms and conditions checkbox
-      $form['account']['terms_and_conditions'] = [
-        '#type' => 'checkbox',
-        '#required' => TRUE,
-        '#default_value' => FALSE,
-      ];
+            //Add terms and conditions checkbox
+            $form['account']['terms_and_conditions'] = [
+                '#type' => 'checkbox',
+                '#required' => TRUE,
+                '#default_value' => FALSE,
+            ];
 
-      $form['account']['terms_and_conditions']['#attributes']['class'][] = 'form-control';
+            $form['account']['terms_and_conditions']['#attributes']['class'][] = 'form-control';
 
-      //Add terms and conditions validation
-      $form['#validate'][] = 'terms_and_conditions_validate';
-    }
+            //Add terms and conditions validation
+            $form['#validate'][] = 'terms_and_conditions_validate';
+        }
 
-    if ($form_state->getFormObject()->getFormDisplay($form_state)->getMode()
-      === 'supporters_registration') {
-      $form['field_referral']['widget']['#access'] = false;
+        if ($form_state->getFormObject()->getFormDisplay($form_state)->getMode()
+            === 'supporters_registration') {
+            $form['field_referral']['widget']['#access'] = false;
 
-      $form['field_referral']['widget'][0]['target_id']['#default_value'] = User::load(Drupal::currentUser()->id());
-      $form['#after_build'][] = 'girchi_utils_after_build';
-
-    }
-  }
-
-
-  if ($form_id == "user_login_form") {
-    unset($form['name']['#title']);
-    unset($form['name']['#description']);
-    unset($form['pass']['#title']);
-    unset($form['pass']['#description']);
-
-    $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
-    $form['name']['#attributes']['id'][] = 'email';
-    $form['name']['#attributes']['placeholder'][] = t('Enter Email');
-
-    $form['pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
-    $form['pass']['#attributes']['id'][] = 'password';
-    $form['pass']['#attributes']['placeholder'][] = t('Enter password');
-
-    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
-  }
-
-
-  if ($form_id == "user_form") {
-
-    if (!Drupal::currentUser()->hasPermission('admin')) {
-      $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
-      /** Unset titles */
-      unset($form['account']['mail']['#title']);
-      unset($form['field_first_name']['widget']['0']['value']['#title']);
-      unset($form['field_last_name']['widget']['0']['value']['#title']);
-      unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
-      unset($form['field_phone']['widget']['0']['value']['#title']);
-      unset($form['field_personal_id']['widget']['0']['value']['#title']);
-      unset($form['field_address']['widget']['0']['value']['#title']);
-      unset($form['field_politician']['widget']['value']['#title']);
-      unset($form['account']['current_pass']['#title']);
-
-      /** Unset descriptions */
-      unset($form['account']['mail']['#description']);
-      unset($form['account']['current_pass']['#description']);
-
-      /** Set classes for inputs */
-      $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['account']['mail']['#attributes']['id'][] = 'email';
-      $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
-      $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_politician']['#attributes']['class'][] = 'form-control';
-      $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
-      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
-
-      $form['field_politician']['#theme_wrappers'] = array();
-
-      /** Get politician text from settings.*/
-      $form['politician_text'] = array(
-        '#type' => 'html',
-        '#markup' => $config->get('politician_checkbox_text')['value'],
-        '#theme' => ''
-      );
-
-      $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
-      $form['#after_build'][] = 'girchi_utils_after_build';
-
-      if ($form_id == "user_form") {
-        if (!Drupal::currentUser()->hasPermission('admin')) {
-          $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
-          /** Unset titles */
-          unset($form['account']['mail']['#title']);
-          unset($form['field_first_name']['widget']['0']['value']['#title']);
-          unset($form['field_last_name']['widget']['0']['value']['#title']);
-          unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
-          unset($form['field_phone']['widget']['0']['value']['#title']);
-          unset($form['field_personal_id']['widget']['0']['value']['#title']);
-          unset($form['field_address']['widget']['0']['value']['#title']);
-          unset($form['field_politician']['widget']['value']['#title']);
-          unset($form['account']['current_pass']['#title']);
-
-          /** Unset descriptions */
-          unset($form['account']['mail']['#description']);
-          unset($form['account']['current_pass']['#description']);
-
-          /** Set classes for inputs */
-          $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['account']['mail']['#attributes']['id'][] = 'email';
-          $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
-          $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_politician']['#attributes']['class'][] = 'form-control';
-          $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
-          $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
-
-          $form['field_politician']['#theme_wrappers'] = array();
-
-          /** Get politician text from settings.*/
-          $form['politician_text'] = array(
-            '#type' => 'html',
-            '#markup' => $config->get('politician_checkbox_text')['value'],
-            '#theme' => ''
-          );
-
-          $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
-          $form['#after_build'][] = 'girchi_utils_after_build';
-
+            $form['field_referral']['widget'][0]['target_id']['#default_value'] = User::load(Drupal::currentUser()->id());
+            $form['#after_build'][] = 'girchi_utils_after_build';
 
         }
-      }
-      // Password reset form
-      if ($form_id == "user_pass") {
-        // Unset email title
+    }
+
+
+    if ($form_id == "user_login_form") {
         unset($form['name']['#title']);
-        // Add classes to email input
+        unset($form['name']['#description']);
+        unset($form['pass']['#title']);
+        unset($form['pass']['#description']);
+
         $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
         $form['name']['#attributes']['id'][] = 'email';
         $form['name']['#attributes']['placeholder'][] = t('Enter Email');
 
-        // Add classes to submit button
+        $form['pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
+        $form['pass']['#attributes']['id'][] = 'password';
+        $form['pass']['#attributes']['placeholder'][] = t('Enter password');
+
         $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
-      }
     }
-    // Password reset form
-    if ($form_id == "user_pass") {
-      // Unset email title
-      unset($form['name']['#title']);
-      // Add classes to email input
-      $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['name']['#attributes']['id'][] = 'email';
-      $form['name']['#attributes']['placeholder'][] = t('Enter Email');
 
-      // Add classes to submit button
-      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
+
+    if ($form_id == "user_form") {
+
+        if (!Drupal::currentUser()->hasPermission('admin')) {
+            $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
+            /** Unset titles */
+            unset($form['account']['mail']['#title']);
+            unset($form['field_first_name']['widget']['0']['value']['#title']);
+            unset($form['field_last_name']['widget']['0']['value']['#title']);
+            unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
+            unset($form['field_phone']['widget']['0']['value']['#title']);
+            unset($form['field_personal_id']['widget']['0']['value']['#title']);
+            unset($form['field_address']['widget']['0']['value']['#title']);
+            unset($form['field_politician']['widget']['value']['#title']);
+            unset($form['account']['current_pass']['#title']);
+
+            /** Unset descriptions */
+            unset($form['account']['mail']['#description']);
+            unset($form['account']['current_pass']['#description']);
+
+            /** Set classes for inputs */
+            $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['account']['mail']['#attributes']['id'][] = 'email';
+            $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
+            $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['field_politician']['#attributes']['class'][] = 'form-control';
+            $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
+            $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
+
+            $form['field_politician']['#theme_wrappers'] = array();
+
+            /** Get politician text from settings.*/
+            $form['politician_text'] = array(
+                '#type' => 'html',
+                '#markup' => $config->get('politician_checkbox_text')['value'],
+                '#theme' => ''
+            );
+
+            $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
+            $form['#after_build'][] = 'girchi_utils_after_build';
+
+            if ($form_id == "user_form") {
+                if (!Drupal::currentUser()->hasPermission('admin')) {
+                    $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
+                    /** Unset titles */
+                    unset($form['account']['mail']['#title']);
+                    unset($form['field_first_name']['widget']['0']['value']['#title']);
+                    unset($form['field_last_name']['widget']['0']['value']['#title']);
+                    unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
+                    unset($form['field_phone']['widget']['0']['value']['#title']);
+                    unset($form['field_personal_id']['widget']['0']['value']['#title']);
+                    unset($form['field_address']['widget']['0']['value']['#title']);
+                    unset($form['field_politician']['widget']['value']['#title']);
+                    unset($form['account']['current_pass']['#title']);
+
+                    /** Unset descriptions */
+                    unset($form['account']['mail']['#description']);
+                    unset($form['account']['current_pass']['#description']);
+
+                    /** Set classes for inputs */
+                    $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['account']['mail']['#attributes']['id'][] = 'email';
+                    $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
+                    $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                    $form['field_politician']['#attributes']['class'][] = 'form-control';
+                    $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
+                    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
+
+                    $form['field_politician']['#theme_wrappers'] = array();
+
+                    /** Get politician text from settings.*/
+                    $form['politician_text'] = array(
+                        '#type' => 'html',
+                        '#markup' => $config->get('politician_checkbox_text')['value'],
+                        '#theme' => ''
+                    );
+
+                    $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
+                    $form['#after_build'][] = 'girchi_utils_after_build';
+
+
+                }
+            }
+            // Password reset form
+            if ($form_id == "user_pass") {
+                // Unset email title
+                unset($form['name']['#title']);
+                // Add classes to email input
+                $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
+                $form['name']['#attributes']['id'][] = 'email';
+                $form['name']['#attributes']['placeholder'][] = t('Enter Email');
+
+                // Add classes to submit button
+                $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
+            }
+        }
+        // Password reset form
+        if ($form_id == "user_pass") {
+            // Unset email title
+            unset($form['name']['#title']);
+            // Add classes to email input
+            $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
+            $form['name']['#attributes']['id'][] = 'email';
+            $form['name']['#attributes']['placeholder'][] = t('Enter Email');
+
+            // Add classes to submit button
+            $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
+        }
     }
-  }
-
+}
   function girchi_utils_after_build($form, &$form_state)
   {
     if ($form_state->getFormObject()->getFormDisplay($form_state)->getMode()
@@ -430,7 +430,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 
     return $form;
   }
-}
+
 
 /**
  * Validate terms and conditions checkbox
