@@ -140,6 +140,18 @@ function girchi_preprocess_page(array &$variables) {
        ];
        $variables['#cache']['contexts'][] = 'session';
    }
+
+   $node = \Drupal::request()->attributes->get('node');
+   if(isset($node) && $node->getType() == 'promo_page') {
+     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
+     $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+     $build        = $view_builder->view($webform);
+     $variables['student_registration'] = $build;
+     $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
+     $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+     $build        = $view_builder->view($webform);
+     $variables['teacher_registration'] = $build;
+   }
 }
 
 /**

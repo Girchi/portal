@@ -1,1 +1,3 @@
-elements: "first_name:\n  '#title': 'First name'\nlast_name:\n  '#title': 'Last name'\nemail:\n  '#title': Email\nphone:\n  '#title': Phone\naddress:\n  '#title': Address\nproficiency:\n  '#title': Proficiency\ntopics_to_teach:\n  '#title': 'Topics to teach'\n"
+elements: "first_name:\n  '#title': 'First name'\n  '#placeholder': 'Enter first name'\nlast_name:\n  '#title': 'Last name'\n  '#placeholder': 'Enter last name'\nemail:\n  '#title': Email\n  '#placeholder': 'Enter Email'\nphone:\n  '#title': Phone\n  '#placeholder': 'Enter phone number'\naddress:\n  '#title': Address\n  '#placeholder': 'Enter address'\nproficiency:\n  '#title': Proficiency\n  '#placeholder': 'Enter proficieny'\ntopics_to_teach:\n  '#title': 'Topics to teach'\n  '#placeholder': 'Enter what topics you want to teach'\nactions:\n  '#submit__label': Register\n"
+title: 'Teacher registration'
+

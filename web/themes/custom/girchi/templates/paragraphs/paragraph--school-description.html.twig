@@ -41,16 +41,17 @@
 <section>
     <div class="container">
         <h1
-            class="d-flex flex-column align-items-center text-uppercase text-white my-5 font-weight-bold"
+            class="font-size-6 d-flex flex-column align-items-center text-uppercase text-white my-4 my-md-5 font-weight-bold"
         >
             <img src="{{ theme_path('/images/education.png', 1) }}" width="100" alt="Education" />
             <span class="mt-1">თავისუფალი სკოლა</span>
         </h1>
-
-        <ul class="list-group list-group-horizontal flex-fill px-5">
+        <ul
+            class="list-group list-group-vertical list-group-horizontal-xl flex-fill px-xl-5"
+        >
             {% if content.field_text_bullet_1 %}
             <li
-                class="list-group-item w-100 bg-transparent border-0 text-white d-flex align-items-center"
+                class="list-group-item w-100 bg-transparent border-0 text-white d-flex align-items-center px-0 px-md-3"
             >
               <span
                   class="rounded-circle border w-40-px h-40-px d-flex align-items-center justify-content-center"
@@ -62,38 +63,39 @@
             </li>
             {% endif %}
             {% if content.field_text_bullet_2 %}
-                <li
-                    class="list-group-item w-100 bg-transparent border-0 text-white d-flex align-items-center"
-                >
+            <li
+                class="list-group-item w-100 bg-transparent border-0 text-white d-flex align-items-center px-0 px-md-3"
+            >
               <span
                   class="rounded-circle border w-40-px h-40-px d-flex align-items-center justify-content-center"
               >02</span
               >
-                    <span class="d-block w-75 font-size-2 mx-3 line-height-1-4">
+                <span class="d-block w-75 font-size-2 mx-3 line-height-1-4">
                 {{ content.field_text_bullet_2 }}
               </span>
-                </li>
+            </li>
             {% endif %}
+
             {% if content.field_text_bullet_3 %}
-                <li
-                    class="list-group-item w-100 bg-transparent border-0 text-white d-flex align-items-center"
-                >
+            <li
+                class="list-group-item w-100 bg-transparent border-0 text-white d-flex align-items-center px-0 px-md-3"
+            >
               <span
                   class="rounded-circle border w-40-px h-40-px d-flex align-items-center justify-content-center"
               >03</span
               >
-                    <span class="d-block w-75 font-size-2 mx-3 line-height-1-4">
+                <span class="d-block w-75 font-size-2 mx-3 line-height-1-4">
                 {{ content.field_text_bullet_3 }}
               </span>
-                </li>
+            </li>
             {% endif %}
         </ul>
-        <hr class="my-5" />
+        <hr class="my-3 my-md-5" />
     </div>
-</section>
 </section>
 <section>
     <div class="container">
         {{ content.field_description }}
+        </div>
     </div>
 </section>

@@ -54,6 +54,14 @@ html{
     height: 100%;
 }
 
+.webform-submission-student-registration-form input{
+    margin: 0!important;
+}
+
+.webform-submission-teacher-registration-form input{
+    margin: 0!important;
+}
+
 .article-body .my-3 img {
     max-width: 100%;
 }

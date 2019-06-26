@@ -12,7 +12,7 @@ id: teacher_registration
 title: 'მასწავლებლის რეგისტრაცია'
 description: ''
 category: ''
-elements: "first_name:\n  '#type': textfield\n  '#title': სახელი\nlast_name:\n  '#type': textfield\n  '#title': გვარი\nemail:\n  '#type': email\n  '#title': ელ.ფოსტა\nphone:\n  '#type': tel\n  '#title': ტელეფონი\naddress:\n  '#type': textfield\n  '#title': მისამართი\nproficiency:\n  '#type': textfield\n  '#title': სპეციალობა/პროფესია\ntopics_to_teach:\n  '#type': textfield\n  '#title': 'რა გინდა ასწავლო '"
+elements: "first_name:\n  '#type': textfield\n  '#title': სახელი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ სახელი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nlast_name:\n  '#type': textfield\n  '#title': გვარი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ გვარი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nemail:\n  '#type': email\n  '#title': ელ.ფოსტა\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ ელ.ფოსტა'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nphone:\n  '#type': tel\n  '#title': ტელეფონი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ ტელეფონი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\naddress:\n  '#type': textfield\n  '#title': მისამართი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მისამართი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nproficiency:\n  '#type': textfield\n  '#title': სპეციალობა/პროფესია\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ სპეციალობა/პროფესია'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\ntopics_to_teach:\n  '#type': textfield\n  '#title': 'რა გინდა ასწავლო '\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ რისი სწავლება გსურთ'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': რეგისტრაცია\n  '#submit__attributes':\n    class:\n      - 'btn btn-lg w-100 w-md-50 w-xl-250-px btn-warning text-uppercase my-3'"
 css: ''
 javascript: ''
 settings:
@@ -92,9 +92,9 @@ settings:
   draft_auto_save: false
   draft_saved_message: ''
   draft_loaded_message: ''
-  confirmation_type: page
+  confirmation_type: message
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: 'რეგისტრაცაი წარმატებით დასრულდა&nbsp;'
   confirmation_url: ''
   confirmation_attributes: {  }
   confirmation_back: true

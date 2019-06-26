@@ -1,0 +1,130 @@
+{#
+/**
+ * @file
+ * Theme implementation for a 'webform' element.
+ *
+ * This is an copy of the webform.html.twig theme_wrapper which includes the
+ * 'title_prefix' and 'title_suffix' variables needed for
+ * contextual links to appear.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the webform.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_webform()
+ * @see _webform_form_after_build()
+ *
+ * @ingroup themeable
+ */
+#}
+<form {{ attributes }}>
+    {{ element.form_build_id }}
+    {{ element.form_token }}
+    {{ element.form_id }}
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                {{ element.elements.parent_first_name }}
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                {{ element.elements.parent_last_name }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                {{ element.elements.email }}
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                {{ element.elements.phone }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                {{ element.elements.address }}
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                {{ element.elements.pupil_count }}
+            </div>
+        </div>
+    </div>
+
+    <hr class="border-dashed border-secondary"/>
+    <h6
+        class="font-size-3 text-success text-uppercase font-weight-bold text-center py-2"
+    >
+        {{ 'How much time will your kid spend in our school' |t }}
+    </h6>
+    <div class="row d-lg-none">
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="start-time"
+                >{{ 'Start time' |t }}</label
+                >
+                <select
+                    class="form-control form-control-lg"
+                    id="start-time"
+                    name="start-time"
+                >
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="form-group">
+                <label class="form-label" for="end-time"
+                >{{ 'End time' |t }}</label
+                >
+                <select
+                    class="form-control form-control-lg"
+                    id="end-time"
+                    name="end-time"
+                >
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="px-3 d-none d-lg-block">
+        <input
+            class="time-range-picker w-100"
+            name = "time-range1"
+            type="text"
+            data-slider-ticks="[9,10,11,12,13,14,15,16,17,18,19,20,21]"
+            data-slider-ticks-labels='["9 {{ "hrs" |t}}","10 {{ "hrs" |t}}","11 {{ "hrs" |t}}","12 {{ "hrs" |t}}","13 {{ "hrs" |t}}","14 {{ "hrs" |t}}","15 {{ "hrs" |t}}","16 {{ "hrs" |t}}","17 {{ "hrs" |t}}","18 {{ "hrs" |t}}","19 {{ "hrs" |t}}","20 {{ "hrs" |t}}","21 {{ "hrs" |t}}"]'
+            data-slider-min="9"
+            data-slider-max="21"
+            data-slider-step="1"
+            data-slider-price="50"
+            data-slider-unit="{{ "hrs" |t}}"
+            data-slider-value="[9,13]"
+        />
+    </div>
+    <div class="text-center">
+        <div class="d-inline-flex flex-column py-3">
+            <label class="text-uppercase text-grey m-0"
+            >{{ 'Estimated price in month:' |t }}</label
+            >
+            <span class="font-size-5 text-success font-weight-bold">
+                    <span class="monthly-price">0</span> ₾
+                  </span>
+        </div>
+    </div>
+    <div class="text-center">
+        {{ element.elements.actions}}
+    </div>
+</form>
+

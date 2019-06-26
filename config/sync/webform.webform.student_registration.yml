@@ -12,7 +12,7 @@ id: student_registration
 title: 'მოსწავლის რეგისტრაცია'
 description: ''
 category: ''
-elements: "parent_first_name:\n  '#type': textfield\n  '#title': 'მშობლის სახელი'\nparent_last_name:\n  '#type': textfield\n  '#title': 'მშობლის გვარი'\nemail:\n  '#type': email\n  '#title': ელ.ფოსტა\nphone:\n  '#type': tel\n  '#title': ტელეფონი\naddress:\n  '#type': textfield\n  '#title': მისამართი\npupil_count:\n  '#type': textfield\n  '#title': 'მოსწავლეების რაოდენობა'\ntime_range:\n  '#type': range\n  '#title': 'დროის მონაკვეთი'\n  '#min': '9'\n  '#max': '21'"
+elements: "parent_first_name:\n  '#type': textfield\n  '#title': 'მშობლის სახელი'\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მშობლის სახელი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: parent-fname\n  '#label_attributes':\n    class:\n      - form-label\nparent_last_name:\n  '#type': textfield\n  '#title': 'მშობლის გვარი'\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მშობლის გვარი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: parent-lname\n  '#label_attributes':\n    class:\n      - form-label\n    for: parent-lname\nemail:\n  '#type': email\n  '#title': ელ.ფოსტა\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ ელ.ფოსტა'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: email\n  '#label_attributes':\n    class:\n      - form-label\n    for: email\nphone:\n  '#type': tel\n  '#title': ტელეფონი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ ტელეფონი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: phone\n  '#label_attributes':\n    class:\n      - form-label\n    for: phone\naddress:\n  '#type': textfield\n  '#title': მისამართი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მისამართი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: district\n  '#label_attributes':\n    class:\n      - form-label\n    for: district\npupil_count:\n  '#type': textfield\n  '#title': 'მოსწავლეების რაოდენობა'\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მოსწავლეების რაოდენობა'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: number-of-pupils\n  '#label_attributes':\n    class:\n      - form-label\n    for: number-of-pupils\ntime_range:\n  '#type': textfield\n  '#title': 'სასურველი დრო'\n  '#title_display': invisible\n  '#placeholder': Ragac\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: time-range\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': რეგისტრაცია\n  '#submit__attributes':\n    class:\n      - 'btn btn-lg w-100 w-md-50 w-xl-250-px btn-warning text-uppercase my-3'"
 css: ''
 javascript: ''
 settings:
@@ -92,9 +92,9 @@ settings:
   draft_auto_save: false
   draft_saved_message: ''
   draft_loaded_message: ''
-  confirmation_type: page
+  confirmation_type: message
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: 'რეგისტრაცაი წარმატებით დასრულდა&nbsp;'
   confirmation_url: ''
   confirmation_attributes: {  }
   confirmation_back: true
