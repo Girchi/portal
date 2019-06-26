@@ -122,11 +122,13 @@ class UpdatePageViews
 
       $viewsCount = self::_apiCall('/ge' . $url);
 
+      $connection = \Drupal::database();
+      $prefix = $connection->tablePrefix();
+
       if ($viewsCount !== null) {
         $results[$url] = $viewsCount;
-
         $currentState = $database->query(
-          "SELECT * FROM `girchidrpl_node_counter` WHERE `nid` = :nid;",
+          "SELECT * FROM `{$prefix}node_counter` WHERE `nid` = :nid;",
           [
             ':nid' => $nid,
           ]
@@ -136,7 +138,7 @@ class UpdatePageViews
 
         if (empty($currentViews)) {
           $database->query(
-            "INSERT INTO `girchidrpl_node_counter` (`nid`, `totalcount`, `daycount`, `timestamp`) VALUES (:nid, :views_count, :views_count, :curent_time);",
+            "INSERT INTO `{$prefix}node_counter` (`nid`, `totalcount`, `daycount`, `timestamp`) VALUES (:nid, :views_count, :views_count, :curent_time);",
             [
               ':views_count' => $viewsCount,
               ':nid' => $nid,
@@ -145,7 +147,7 @@ class UpdatePageViews
           );
         } else {
           $database->query(
-            "UPDATE `girchidrpl_node_counter` SET `totalcount` = :views_count WHERE `nid` = :nid;",
+            "UPDATE `{$prefix}node_counter` SET `totalcount` = :views_count WHERE `nid` = :nid;",
             [
               ':views_count' => $viewsCount,
               ':nid' => $nid,
