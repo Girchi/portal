@@ -13,6 +13,7 @@ third_party_settings:
     scheme: public
     directory: inline-files
     extensions: txt
+    max_size: ''
 _core:
   default_config_hash: 967ijj7p6i7rwrYl7r08WQFeCY_c23YAh0h8u-w_CXM
 format: full_html
@@ -52,19 +53,17 @@ settings:
           name: 'Block Formatting'
           items:
             - Format
+            - Styles
         -
           name: Tools
           items:
             - ShowBlocks
             - Source
-            - Boxout
   plugins:
     language:
       language_list: un
     stylescombo:
-      styles: ''
-    linkit:
-      linkit_profile: ''
+      styles: "h6.text-uppercase.font-weight-bold.my-4|Become politician title\r\ndiv.font-size-3.text-grey|Become politician description"
     video_embed:
       defaults:
         children:

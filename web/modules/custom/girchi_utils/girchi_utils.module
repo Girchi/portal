@@ -199,6 +199,19 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   $currentUser = Drupal::currentUser()->getRoles();
   /** Getting Politician text from omedia_settings */
   $config = \Drupal::config('om_site_settings.site_settings');
+
+  if ($form_id == "user_form") {
+
+    unset($form['field_referral']['widget'][0]['target_id']['#title']);
+    unset($form['field_referral']['widget'][0]['target_id']['#description']);
+    unset($form['field_referral']['widget']['#title']);
+    unset($form['field_referral']['widget']['#description']);
+
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
+  }
+
   if ($form_id == "user_register_form") {
 
     if (reset($currentUser) == "anonymous") {

@@ -14,9 +14,9 @@ social_media_twitter: ''
 social_media_instagram: 'https://www.instagram.com/girchiparty/'
 social_media_youtube: 'https://www.youtube.com/channel/UC6o6176a756vk1nZuzAXy5g'
 politician_checkbox_text:
-  value: ''
-  format: basic_html
+  value: "<h6 class=\"text-uppercase font-weight-bold my-4\">რას ნიშნავს “მინდა პოლიტიკოსობა”?</h6>\r\n\r\n<div class=\"font-size-3 text-grey\">ლორემ იპსუმ პირასაა მოითხოვსო დასრულება ჩეხოსლოვაკიაზე ურეკავდა თავიდანვე იტყუა, განიცხადა მედდა გასართველი შეგიყავი. გახსენებაც დაკვრით მონაწილეობდნენ დამახსოვდა იენელმა ახლობლის კესოსთან ქათამივით მარტონი დაჰხარა მიცემულს ყურდაცქვეტილი.</div>\r\n\r\n<div class=\"font-size-3 text-grey\">&nbsp;</div>\r\n\r\n<div class=\"font-size-3 text-grey\">ავადმყოფური დაშავებოდა ქათამივით დამახსოვდა მარინას ფათერაკიანი. მიცემულს გეკითხები მარტონი, დამახსოვდა გასართველი ემოცია აპოლინაროვიჩ, სურს სიურრეალისტებთან გოგოც გიმკითხავებო ცემაზედ გამოსაცემად.&nbsp;</div>\r\n"
+  format: full_html
 ui_config: 0
-enable_user_ui: 0
+enable_user_ui: 1
 copyright_text: ''
 google_analytics_view_id: '194654886'
