@@ -1,5 +1,5 @@
-uuid: 2e49415f-3265-4ed0-bc00-85a17f28a495
-langcode: en
+uuid: 11220a13-aae9-4a77-8a5a-9ed2ae52f9bb
+langcode: ka
 status: true
 dependencies:
   module:
@@ -7,10 +7,8 @@ dependencies:
 id: user.field_referral_url
 field_name: field_referral_url
 entity_type: user
-type: string
+type: string_long
 settings:
-  max_length: 255
-  is_ascii: false
   case_sensitive: false
 module: core
 locked: false

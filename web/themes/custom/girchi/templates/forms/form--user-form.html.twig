@@ -90,20 +90,30 @@
 
         </div>
         <div class="col-lg-6">
-          <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4">
-            <div class="form-group mb-0">
-              <span class="form-checkbox">
-                <span class="form-checkbox-input {% if politican_checked %} checked {% endif %}">
-                  {{ element.field_politician }}
-                </span>
-                <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto" for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
-              </span>
-            </div>
-            <hr class="border-secondary my-2 my-sm-3"/>
-            {{ element.politician_text }}
+          <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+
+            <div class="form-group mb-0"></span>
+            <span class="text-success text-success font-size-3 text-uppercase w-auto">
+              {{ element.field_referral_url }}
+            </span>
+            {{'დააკოპირე შენი refferal ბმული და მოიწვიე ახალი წევრები.'}}
+
           </div>
         </div>
+        <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+
+          <div class="form-group mb-0">
+            <span class="form-checkbox">
+              <span class="form-checkbox-input {% if politican_checked %} checked {% endif %}">
+                {{ element.field_politician }}
+              </span>
+              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto" for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
+            </span>
+          </div>
+          <hr class="border-secondary my-2 my-sm-3"/>
+          {{ element.politician_text }}
+        </div>
       </div>
-    </form>
-  </div>
-</div>
+    </div>
+  </form>
+</div></div>

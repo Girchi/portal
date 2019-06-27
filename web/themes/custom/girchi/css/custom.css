@@ -9,7 +9,6 @@
   border-radius: 25px;
 }
 
-
 .ui-autocomplete:not(:focus) a {
   color: black;
   background: none;
@@ -24,7 +23,6 @@
 .js input.form-autocomplete {
   background-image: none;
 }
-
 
 .js input.form-autocomplete.ui-autocomplete-loading {
   background-image: none;
@@ -53,12 +51,12 @@ html {
   height: 100%;
 }
 
-.webform-submission-student-registration-form input{
-    margin: 0!important;
+.webform-submission-student-registration-form input {
+  margin: 0 !important;
 }
 
-.webform-submission-teacher-registration-form input{
-    margin: 0!important;
+.webform-submission-teacher-registration-form input {
+  margin: 0 !important;
 }
 
 .article-body .my-3 img {
@@ -67,4 +65,13 @@ html {
 
 .article-body .my-3 iframe {
   width: 100%;
+}
+
+#edit-field-referral-url-0-value {
+  max-width: 100%;
+  height: 70px;
+  border-radius: 6px;
+  background: white;
+  padding: 10px;
+  cursor: text;
 }

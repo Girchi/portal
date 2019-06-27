@@ -124,12 +124,12 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_referral_url:
-    weight: 9
+    weight: 15
     settings:
-      size: 60
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
+    type: string_textarea
     region: content
   path:
     type: path

@@ -1,5 +1,5 @@
-uuid: 703335f7-6730-469f-9e89-da6845a91110
-langcode: en
+uuid: 4896aa5e-8f43-4ce6-ac8b-4e1d147a85b2
+langcode: ka
 status: true
 dependencies:
   config:
@@ -10,11 +10,11 @@ id: user.user.field_referral_url
 field_name: field_referral_url
 entity_type: user
 bundle: user
-label: 'Referral URL'
+label: 'შენი Referral ბმული'
 description: ''
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: string_long

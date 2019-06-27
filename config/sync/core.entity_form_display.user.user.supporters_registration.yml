@@ -4,15 +4,18 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.user.supporters_registration
+    - field.field.user.user.field_address
     - field.field.user.user.field_date_of_birth
     - field.field.user.user.field_first_name
     - field.field.user.user.field_ged
     - field.field.user.user.field_last_name
+    - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
     - field.field.user.user.field_politician
+    - field.field.user.user.field_rank
+    - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
-    - field.field.user.user.field_referral_url
     - field.field.user.user.user_picture
   module:
     - datetime
@@ -93,7 +96,6 @@ hidden:
   field_politician: true
   field_rank: true
   field_rating_in_party_list: true
-  field_referral_url: true
   google_analytics: true
   langcode: true
   language: true

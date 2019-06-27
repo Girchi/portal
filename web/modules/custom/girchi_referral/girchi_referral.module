@@ -13,9 +13,10 @@ use Drupal\user\Entity\User;
 /**
  * Implements hook_help().
  */
-function girchi_referral_help($route_name, RouteMatchInterface $route_match) {
+function girchi_referral_help($route_name, RouteMatchInterface $route_match)
+{
   switch ($route_name) {
-    // Main module help for the girchi_referral module.
+      // Main module help for the girchi_referral module.
     case 'help.page.girchi_referral':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
@@ -31,7 +32,8 @@ function girchi_referral_help($route_name, RouteMatchInterface $route_match) {
  *
  * Adding automatic filling of referral field from GET param;
  */
-function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
 
   // Get query param from url.
   $referral = Drupal::request()->query->get('referral');
@@ -47,7 +49,6 @@ function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $for
   if ($form_id == "user_form") {
     $form['field_referral_url']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
   }
-
 }
 
 /**
@@ -55,7 +56,8 @@ function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $for
  *
  * @throws Drupal\Core\Entity\EntityStorageException
  */
-function girchi_referral_user_login(EntityInterface $entity) {
+function girchi_referral_user_login(EntityInterface $entity)
+{
   $uid = $entity->id();
   $host = Drupal::request()->getSchemeAndHttpHost();
 
@@ -65,5 +67,4 @@ function girchi_referral_user_login(EntityInterface $entity) {
     $entity->set('field_referral_url', $url);
     $entity->save();
   };
-
 }
