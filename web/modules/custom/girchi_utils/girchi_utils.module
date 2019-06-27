@@ -214,9 +214,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
     $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
     $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
     $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
-    dump( $form['field_phone']);
-
-      // ['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
   }
 
   if ($form_id == "user_register_form") {
