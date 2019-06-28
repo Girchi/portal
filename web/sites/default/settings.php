@@ -712,6 +712,7 @@ $settings['file_scan_ignore_directories'] = [
  * Misc
  */
 $settings['install_profile'] = 'minimal';
+$settings['file_private_path'] = 'sites/default/files/private';
 $config_directories['sync'] = '../config/sync';
 /**
  * Load local development override configuration, if available.
