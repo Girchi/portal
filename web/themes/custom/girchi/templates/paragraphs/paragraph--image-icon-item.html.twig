@@ -1,12 +1,18 @@
-<li class="w-100 w-sm-50 w-xl-25">
-              <span
-                  class="{{ data.icon_class }} rounded position-relative h-100 align-items-center mx-1 mx-sm-3 pt-4 px-3 d-flex flex-column"
-              >
-                <img
-                    src="{{ file_url(data.img_uri) }}"
-                    width="77"
-                    class="mb-2"
-                />
-                <span class="mt-auto mb-3">{{ content.field_title }}</span>
-              </span>
-</li>
+{% if data.icon_class == "bg-light-silver" %}
+    <li class="w-100 w-sm-50 w-xl-25 mt-2 mt-sm-4 mt-md-0">
+
+        <span class="{{ data.icon_class }} rounded position-relative h-100 align-items-center mx-1 mx-sm-3 pt-4 px-3 d-flex flex-column">
+            <img src="{{ file_url(data.img_uri) }}" width="77" class="mb-2"/>
+            <span class="mt-auto mb-3">{{ content.field_title }}</span>
+        </span>
+    </li>
+{% else  %}
+    <li class="w-50 w-xl-20 mt-2 mt-sm-4 mt-xl-0 paragraph-yellow">
+
+
+        <span class="{{ data.icon_class }} rounded position-relative h-100 align-items-center mx-1 mx-sm-3 pt-4 px-3 d-flex flex-column">
+            <img src="{{ file_url(data.img_uri) }}" width="77" class="mb-2"/>
+            <span class="mt-auto mb-3">{{ content.field_title }}</span>
+        </span>
+    </li>
+{% endif %}

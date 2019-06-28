@@ -40,13 +40,10 @@
 #}
 <section class="mt-5 mt-md-8 mb-3 mb-md-5 my-xl-8 position-relative">
     <div class="container">
-        <img
-            src="{{ image_style_url(data.img_uri, "school_goal") }}"
-            alt="Kids"
-            class="rounded ml-auto d-block w-60"
-        />
-        <div class="w-50 text-white position-absolute position-bottom-3">
-            <h3 class="text-uppercase my-3 ml-4">{{ content.field_title }}</h3>
+        <img src="{{ image_style_url(data.img_uri, "school_goal") }}" alt="Kids" class="rounded ml-auto d-block w-100 w-xl-60"/>
+        <div class="w-auto w-xl-50 text-white position-xl-absolute position-bottom-3 mt-4 mt-md-5 mt-xl-0">
+
+            <h3 class="text-uppercase my-3 ml-xl-4 font-size-5 font-size-md-8">{{ content.field_title }}</h3>
             <div class="bg-dark-green rounded font-size-3 p-4">
                 {{ content.field_description }}
             </div>

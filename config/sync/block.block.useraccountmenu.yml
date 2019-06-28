@@ -1,6 +1,6 @@
 uuid: dd3b6280-15eb-4317-974c-eb84846768dc
 langcode: ka
-status: false
+status: true
 dependencies:
   config:
     - system.menu.account

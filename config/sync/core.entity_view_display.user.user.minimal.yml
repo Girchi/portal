@@ -72,6 +72,7 @@ hidden:
   field_rank: true
   field_rating_in_party_list: true
   field_referral: true
+  field_referral_url: true
   langcode: true
   masquerade: true
   member_for: true

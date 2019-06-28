@@ -19,4 +19,9 @@ $(document).ready(function () {
             $('.navbar-search').submit();
         }
     });
+
+    if ($('.paragraph-yellow').length%2 === 1 ){
+        $('.paragraph-yellow').last().addClass('w-100');
+    }
+  
 });

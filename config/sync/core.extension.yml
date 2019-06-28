@@ -85,6 +85,7 @@ module:
   social_api: 0
   social_auth: 0
   social_auth_facebook: 0
+  static_server: 0
   statistics: 0
   straw: 0
   swiftmailer: 0

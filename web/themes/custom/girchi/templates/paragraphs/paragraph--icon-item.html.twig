@@ -39,33 +39,23 @@
  */
 #}
 {% if content.field_icon == 'icon-teacher' %}
-    <li class="d-inline-flex my-4">
-        <i
-            class="{{ content.field_icon }} font-size-8 line-height-1-0 text-white"
-        ></i>
+    <li class="d-inline-flex my-3 my-md-4">
+        <i class="{{ content.field_icon }} font-size-8 line-height-1-0 text-white"></i>
         <span class="d-flex flex-column ml-3">
-                    <label
-                        class="font-size-3 line-height-1-2 text-uppercase m-0 text-hospital-green"
-                    >{{ content.field_title }}</label
-                    >
-                    <span class="line-height-1-2 text-white">
-                      {{ content.field_description }}
-                    </span>
-                  </span>
+            <label class="font-size-3 line-height-1-2 text-uppercase m-0 text-hospital-green">{{ content.field_title }}</label>
+            <span class="line-height-1-2 text-white">
+                {{ content.field_description }}
+            </span>
+        </span>
     </li>
 {% else %}
-    <li class="d-inline-flex pr-8 my-4">
-        <i
-            class="{{ content.field_icon }} font-size-8 line-height-1-0 text-white"
-        ></i>
+    <li class="d-inline-flex pr-8 my-3 my-md-4">
+        <i class="{{ content.field_icon }} font-size-8 line-height-1-0 text-white"></i>
         <span class="d-flex flex-column ml-3">
-                    <label
-                        class="font-size-3 line-height-1-2 text-uppercase m-0 text-hospital-green"
-                    >{{ content.field_title }}</label
-                    >
-                    <span class="line-height-1-2 text-white">
-                      {{ content.field_description }}
-                    </span>
-                  </span>
+            <label class="font-size-3 line-height-1-2 text-uppercase m-0 text-hospital-green">{{ content.field_title }}</label>
+            <span class="line-height-1-2 text-white">
+                {{ content.field_description }}
+            </span>
+        </span>
     </li>
 {% endif %}
