@@ -25,6 +25,8 @@ echo -e "\n${BLUE}[4/8] Running pre-install script...\n\v${NONE}"
 
 echo -e "\n${BLUE}[5/8] Running composer install...\n\v${NONE}"
 docker-compose exec php composer install
+docker-compose exec php ln -sf ../../githooks/pre-commit .git/hooks/pre-commit
+docker-compose exec php ln -sf ../../githooks/commit-msg .git/hooks/pre-commit-msg
 
 echo -e "\n${BLUE}[6/8] Installing drupal...\n\v${NONE}"
 docker-compose exec php drush si --existing-config --account-pass=1234  -y -vvv 
