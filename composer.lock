@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a35b3266d2228cb3a2655c2f7fc80183",
+    "content-hash": "ff16d0d19d9cd0492ece5e0b3fd7c6b7",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2329,7 +2329,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.27",
-                    "datestamp": "1558553350",
+                    "datestamp": "1558552081",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7933,6 +7933,70 @@
             }
         },
         {
+            "name": "drupal/sendgrid_integration",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/sendgrid_integration.git",
+                "reference": "8.x-1.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/sendgrid_integration-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "a3d9baea4389a6f8804adc5f736c9920ae200131"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/mailsystem": "^4",
+                "fastglass/sendgrid": ">=1.0.6",
+                "html2text/html2text": "~4.0.1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.2",
+                    "datestamp": "1528941232",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL v2"
+            ],
+            "authors": [
+                {
+                    "name": "Brady Owens (perignon)",
+                    "homepage": "https://www.drupal.org/u/perignon",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "exlin",
+                    "homepage": "https://www.drupal.org/user/695136"
+                }
+            ],
+            "description": "Drupal module for integrating with the SendGrid API.",
+            "homepage": "https://www.drupal.org/project/sendgrid_integration",
+            "keywords": [
+                "SendGrid",
+                "email",
+                "grid",
+                "php",
+                "send",
+                "sendgrid"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/sendgrid_integration",
+                "issues": "https://drupal.org/project/issues/sendgrid_integration"
+            }
+        },
+        {
             "name": "drupal/simple_sitemap",
             "version": "3.2.0",
             "source": {
@@ -10054,6 +10118,60 @@
             "time": "2018-12-11T22:56:31+00:00"
         },
         {
+            "name": "fastglass/sendgrid",
+            "version": "1.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/taz77/sendgrid-php-ng.git",
+                "reference": "95f16f748d609f8455b7c4be74fdd1a8febacaea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/taz77/sendgrid-php-ng/zipball/95f16f748d609f8455b7c4be74fdd1a8febacaea",
+                "reference": "95f16f748d609f8455b7c4be74fdd1a8febacaea",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": ">=6.2.1",
+                "php": ">=5.5.0",
+                "sendgrid/smtpapi": "~0.5"
+            },
+            "replace": {
+                "sendgrid/sendgrid-php": "*"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~7.3",
+                "vlucas/phpdotenv": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SendGrid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brady Owens",
+                    "email": "brady@fastglass.net",
+                    "homepage": "https://github.com/taz77"
+                }
+            ],
+            "description": "This library allows you to send emails through SendGrid using PHP and Guzzle 6.x.",
+            "homepage": "https://github.com/taz77/sendgrid-php-ng",
+            "keywords": [
+                "email",
+                "grid",
+                "send",
+                "sendgrid"
+            ],
+            "time": "2019-01-16T00:58:24+00:00"
+        },
+        {
             "name": "firebase/php-jwt",
             "version": "v5.0.0",
             "source": {
@@ -11882,6 +12000,57 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2016-02-11T07:05:27+00:00"
+        },
+        {
+            "name": "sendgrid/smtpapi",
+            "version": "0.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sendgrid/smtpapi-php.git",
+                "reference": "1c835388c11dc5e792260ae3e9662d6a661ace30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sendgrid/smtpapi-php/zipball/1c835388c11dc5e792260ae3e9662d6a661ace30",
+                "reference": "1c835388c11dc5e792260ae3e9662d6a661ace30",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "replace": {
+                "sendgrid/smtpapi-php": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "suggest": {
+                "swiftmailer/swiftmailer": "^5.4 - Needed to run the example scripts"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Smtpapi": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Build SendGrid X-SMTPAPI headers in PHP.",
+            "homepage": "http://github.com/sendgrid/smtpapi-php",
+            "keywords": [
+                "X-SMTP",
+                "api",
+                "email",
+                "grid",
+                "send",
+                "sendgrid",
+                "smtp",
+                "smtpapi",
+                "xsmtp"
+            ],
+            "time": "2017-07-06T22:11:41+00:00"
         },
         {
             "name": "stack/builder",

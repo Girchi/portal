@@ -254,6 +254,7 @@
     "drupal/role_delegation": "^1.0@alpha",
     "drupal/search_api": "^1.0",
     "drupal/select_or_other": "^1.0@alpha",
+    "drupal/sendgrid_integration": "^1.2",
     "drupal/simple_sitemap": "^3.2",
     "drupal/smart_trim": "^1.0",
     "drupal/social_auth_facebook": "^1.0",
