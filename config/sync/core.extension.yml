@@ -28,6 +28,8 @@ module:
   editor: 0
   editor_advanced_link: 0
   editor_file: 0
+  email_confirmer: 0
+  email_confirmer_user: 0
   email_registration: 0
   embed: 0
   entity: 0
@@ -42,6 +44,7 @@ module:
   girchi_ged_transactions: 0
   girchi_my_party_list: 0
   girchi_referral: 0
+  girchi_users: 0
   girchi_utils: 0
   google_analytics: 0
   google_map_field: 0
