@@ -10,19 +10,19 @@ dependencies:
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
-    - field.field.user.user.field_phone
     - field.field.user.user.field_politician
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
+    - field.field.user.user.field_tel
     - field.field.user.user.user_picture
     - image.style.avatar_image
   module:
     - datetime
     - image
+    - international_phone
     - reference_value_pair
-    - telephone
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -32,7 +32,7 @@ bundle: user
 mode: default
 content:
   field_address:
-    weight: 51
+    weight: 12
     label: hidden
     settings:
       link_to_entity: false
@@ -40,7 +40,7 @@ content:
     type: string
     region: content
   field_date_of_birth:
-    weight: 16
+    weight: 10
     label: above
     settings:
       format_type: medium
@@ -49,7 +49,7 @@ content:
     type: datetime_default
     region: content
   field_first_name:
-    weight: 1
+    weight: 2
     label: above
     settings:
       link_to_entity: false
@@ -57,7 +57,7 @@ content:
     type: string
     region: content
   field_ged:
-    weight: 15
+    weight: 9
     label: above
     settings:
       thousand_separator: ''
@@ -66,21 +66,6 @@ content:
     type: number_integer
     region: content
   field_last_name:
-    weight: 2
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
-  field_my_party_list:
-    weight: 52
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: reference_value_formatter
-    region: content
-  field_personal_id:
     weight: 3
     label: above
     settings:
@@ -88,16 +73,23 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_phone:
+  field_my_party_list:
+    weight: 13
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: reference_value_formatter
+    region: content
+  field_personal_id:
     weight: 4
     label: above
     settings:
-      title: ''
+      link_to_entity: false
     third_party_settings: {  }
-    type: telephone_link
+    type: string
     region: content
   field_politician:
-    weight: 5
+    weight: 7
     label: above
     settings:
       format: yes-no
@@ -107,7 +99,7 @@ content:
     type: boolean
     region: content
   field_rank:
-    weight: 54
+    weight: 15
     label: hidden
     settings:
       thousand_separator: ''
@@ -116,7 +108,7 @@ content:
     type: number_integer
     region: content
   field_rating_in_party_list:
-    weight: 53
+    weight: 14
     label: above
     settings:
       thousand_separator: ''
@@ -125,7 +117,7 @@ content:
     type: number_integer
     region: content
   field_referral:
-    weight: 6
+    weight: 8
     label: above
     settings:
       link: true
@@ -133,19 +125,26 @@ content:
     type: entity_reference_label
     region: content
   field_referral_url:
-    weight: 55
+    weight: 16
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
+  field_tel:
+    weight: 18
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: InternationalPhoneDefaultFormatter
+    region: content
   masquerade:
-    weight: 50
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
   member_for:
-    weight: 5
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }

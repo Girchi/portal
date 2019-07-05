@@ -1,16 +1,16 @@
-uuid: 4220185f-112a-4415-9a9d-306b0fed598c
+uuid: 1333020e-c990-4568-8a57-6e7f450a2859
 langcode: ka
 status: true
 dependencies:
   module:
-    - telephone
+    - international_phone
     - user
-id: user.field_phone
-field_name: field_phone
+id: user.field_tel
+field_name: field_tel
 entity_type: user
-type: telephone
+type: international_phone
 settings: {  }
-module: telephone
+module: international_phone
 locked: false
 cardinality: 1
 translatable: true

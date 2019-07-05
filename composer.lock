@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff16d0d19d9cd0492ece5e0b3fd7c6b7",
+    "content-hash": "c9a9e8e1131d6eb0c384b60f04d892a7",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -6309,6 +6309,61 @@
             "homepage": "https://www.drupal.org/project/inline_entity_form",
             "support": {
                 "source": "http://cgit.drupalcode.org/inline_entity_form"
+            }
+        },
+        {
+            "name": "drupal/international_phone",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/international_phone.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/international_phone-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "6bd0cc87dd1a4c58728ad5dea2f37f4a114d19cb"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1500739142",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "ajayNimbolkar",
+                    "homepage": "https://www.drupal.org/user/2876727"
+                },
+                {
+                    "name": "heathdutton",
+                    "homepage": "https://www.drupal.org/user/2403690"
+                },
+                {
+                    "name": "mayurjadhav",
+                    "homepage": "https://www.drupal.org/user/2266604"
+                }
+            ],
+            "description": "The international_phone module allows administrators to define a field type for international phone numbers.",
+            "homepage": "https://www.drupal.org/project/international_phone",
+            "support": {
+                "source": "https://git.drupalcode.org/project/international_phone"
             }
         },
         {

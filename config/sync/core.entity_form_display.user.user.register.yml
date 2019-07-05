@@ -4,12 +4,19 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.user.register
+    - field.field.user.user.field_address
+    - field.field.user.user.field_date_of_birth
     - field.field.user.user.field_first_name
+    - field.field.user.user.field_ged
     - field.field.user.user.field_last_name
+    - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
-    - field.field.user.user.field_phone
     - field.field.user.user.field_politician
+    - field.field.user.user.field_rank
+    - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
+    - field.field.user.user.field_referral_url
+    - field.field.user.user.field_tel
     - field.field.user.user.user_picture
   module:
     - user
@@ -46,11 +53,11 @@ hidden:
   field_last_name: true
   field_my_party_list: true
   field_personal_id: true
-  field_phone: true
   field_politician: true
   field_rank: true
   field_rating_in_party_list: true
   field_referral_url: true
+  field_tel: true
   google_analytics: true
   langcode: true
   language: true
