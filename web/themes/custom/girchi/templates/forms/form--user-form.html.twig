@@ -67,7 +67,6 @@
               </div>
             </div>
 
-            {% if show_password_change %}
               <hr class="border-secondary my-2 my-sm-3">
               <h5 class="font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4">
                 {{ 'Change Password' | t }}
@@ -84,7 +83,6 @@
                 <label class="form-label" for="address">{{ "Retype password" | t }}</label>
                 {{ element.account.pass.pass2 }}
               </div>
-            {% endif %}
             {{ element.actions.submit }}
           </div>
 
