@@ -216,6 +216,7 @@
     "drupal/drush_language": "^1.0@RC",
     "drupal/editor_advanced_link": "^1.4",
     "drupal/editor_file": "^1.2",
+    "drupal/email_confirmer": "^1.0@beta",
     "drupal/email_registration": "^1.0@RC",
     "drupal/environment_indicator": "3.x-dev",
     "drupal/facebook_comments": "^1.0",
