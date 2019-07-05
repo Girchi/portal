@@ -1,0 +1,5 @@
+services:
+  girchi_users.event_subscriber:
+    class: Drupal\girchi_users\EventSubscriber\SocialAuthSubscriber
+    tags:
+      - { name: 'event_subscriber' }

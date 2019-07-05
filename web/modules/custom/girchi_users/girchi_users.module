@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_users.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_users_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_users module.
+    case 'help.page.girchi_users':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for users') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_users_theme() {
+  return [
+    'girchi_users' => [
+      'render element' => 'children',
+    ],
+  ];
+}

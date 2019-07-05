@@ -1,0 +1,16 @@
+
+girchi_users.user_controller_socialAuthPassword:
+  path: '/createpassword'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::socialAuthPassword'
+    _title: 'Social Auth Password'
+  requirements:
+    _permission: 'access content'
+
+girchi_users.user_controller_passwordConfirm:
+  path: '/api/confirm/password'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::passwordConfirm'
+    _title: 'Social Auth Password Confirm'
+  requirements:
+    _permission: 'access content'
