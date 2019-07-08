@@ -2,6 +2,7 @@ $(document).ready(function() {
     const pass = $('#password');
     const passConfirm = $('#password-confirmation');
     const message =  $('#status-messages');
+    const uid = $("#userid");
     // const pattern = /^(?=.*[A-Za-z])[A-Za-z\d]$/;
 
     $("#create-pass").on("click", e => {
@@ -22,15 +23,21 @@ $(document).ready(function() {
                type: "POST",
                url: "/api/confirm/password",
                data: {
-                   'pass':pass.val()
+                   pass: pass.val(),
+                   uid: uid.val()
                }
-           })
-           .done(data => {
-               if(data === 'success'){
+           }).done(data => {
+               if (data === "success") {
                    window.location.href = "/user";
-               }else {
-                   message.append('<div class="alert alert-danger"> Error </div>');
+               } else {
+                   message.append(
+                       '<div class="alert alert-danger"> Error </div>'
+                   );
                }
+           }).catch(error=>{
+                 message.append(
+                     '<div class="alert alert-danger"> Error </div>'
+                 );
            });
        }
     });
