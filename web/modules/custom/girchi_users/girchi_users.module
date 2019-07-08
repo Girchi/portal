@@ -30,6 +30,10 @@ function girchi_users_theme() {
   return [
     'girchi_users' => [
       'render element' => 'children',
+      'variables' => [
+        'uid' => NULL,
+        'subtitle' => NULL,
+      ],
     ],
   ];
 }

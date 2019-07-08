@@ -4,6 +4,7 @@ namespace Drupal\girchi_users\Controller;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
@@ -43,6 +44,13 @@ class UserController extends ControllerBase {
   protected $loggerFactory;
 
   /**
+   * ConfigFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * User.
    *
    * @var \Drupal\user\Entity\User
@@ -58,12 +66,19 @@ class UserController extends ControllerBase {
    *   Social Auth Data Handler.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
    *   LoggerFactory.
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   ConfigFactory.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, SocialAuthDataHandler $socialAuthDataHandler, LoggerChannelFactoryInterface $loggerFactory) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager,
+  SocialAuthDataHandler $socialAuthDataHandler,
+                                LoggerChannelFactoryInterface $loggerFactory,
+  ConfigFactory $configFactory) {
 
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;
     $this->loggerFactory = $loggerFactory;
+    $this->configFactory = $configFactory;
+
     try {
       $userStorage = $this->entityTypeManager->getStorage('user');
       $current_user_id = $this->currentUser()->id();
@@ -86,8 +101,8 @@ class UserController extends ControllerBase {
     return new static(
       $container->get('entity_type.manager'),
       $container->get('social_auth.data_handler'),
-      $container->get('logger.factory')
-
+      $container->get('logger.factory'),
+      $container->get('config.factory')
     );
   }
 
@@ -106,11 +121,15 @@ class UserController extends ControllerBase {
 
     $token = $this->SocialAuthDataHandler->get('social_auth_facebook_access_token');
     $password_check = $this->user->get('field_social_auth_password')->getValue()[0]['value'];
+    $config = $this->configFactory->get('om_site_settings.site_settings');
+    $subtitle = $config->get('createpass');
+
     if ($token && !$password_check) {
       return [
         '#type' => 'markup',
         '#theme' => 'girchi_users',
         '#uid' => $this->user->id(),
+        '#subtitle' => $subtitle,
       ];
     }
     else {

@@ -8,10 +8,10 @@
                 <h5
                         class="card-title text-center text-success font-weight-bold text-uppercase"
                 >
-                    შეიყვანეთ პაროლი
+                    {{ 'Set Password'|t }}
                 </h5>
                 <h6 class="card-subtitle text-center">
-                    ტექსტი
+                    {{ subtitle|t }}
                 </h6>
             </div>
         </div>
@@ -20,23 +20,22 @@
                 <form class="my-4">
                     <input type="hidden" value="{{ uid }}" name="uid" id="userid">
                     <div class="form-group">
-                        <label class="form-label" for="password">პაროლი</label>
+                        <label class="form-label" for="password">{{ 'Password'|t }}</label>
                         <input
                                 type="password"
                                 class="form-control form-control-lg"
                                 id="password"
-                                placeholder="მიუთითეთ პაროლი"
+                                placeholder="{{ 'Enter password'|t }}"
                         />
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="password-confirmation"
-                        >გაიმეორეთ პაროლი</label
-                        >
+                        >{{ 'Confirm password'|t }}</label >
                         <input
                                 type="password"
                                 class="form-control form-control-lg"
                                 id="password-confirmation"
-                                placeholder="მიუთითეთ პაროლი ხელმეორედ"
+                                placeholder="{{ 'Enter password'|t }}"
                         />
                     </div>
                     <button
@@ -44,7 +43,7 @@
                             type="submit"
                             class="btn btn-lg btn-block btn-success text-uppercase"
                     >
-                        გაგრძელება
+                    {{ 'Continue'|t }}
                     </button>
                 </form>
             </div>
