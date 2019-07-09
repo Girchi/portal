@@ -1,0 +1,12 @@
+apikey: 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
+test_defaults:
+  to: admin@example.com
+  subject: 'Test Email from SendGrid Module'
+  body:
+    value: 'Test Message for SendGrid.'
+    format: plain_text
+  from_name: ''
+  to_name: ''
+  reply_to: ''
+_core:
+  default_config_hash: g4qz7cPnloXFwtnLYfIKI2VS0gf_UFOz_I2uQiiulC8
