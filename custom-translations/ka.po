@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-26 09:14+0000\n"
-"PO-Revision-Date: 2019-06-26 09:14+0000\n"
+"POT-Creation-Date: 2019-07-10 12:23+0000\n"
+"PO-Revision-Date: 2019-07-10 12:23+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -334,20 +334,11 @@ msgstr "სურათი"
 msgid "Types"
 msgstr "ტიპები"
 
-msgid "Hierarchy"
-msgstr "იერარქია"
-
 msgid "Required"
 msgstr "სავალდებულო"
 
-msgid "There is no content"
-msgstr "კონტენტი არ არსებობს "
-
 msgid "Parent"
 msgstr "მშობელი"
-
-msgid "Become a partner"
-msgstr "გახდი პარტნიორი"
 
 msgid "none"
 msgstr "არცერთი"
@@ -355,18 +346,8 @@ msgstr "არცერთი"
 msgid "Category"
 msgstr "კატეგორია"
 
-msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
-msgstr ""
-"დააფინანსე გირჩი, მიიღე "
-"შესაბამისი რაოდენობის "
-"GeD-ები და მოხვდი "
-"ლიდერბორდში"
-
 msgid "Add container"
 msgstr "კონტეინერის დამატება"
-
-msgid "Donate"
-msgstr "დააფინანსე"
 
 msgid "Settings"
 msgstr "პარამეტრები"
@@ -418,9 +399,6 @@ msgstr "სურათის პარამეტრები"
 
 msgid "Update"
 msgstr "განახლება"
-
-msgid "Last month Top partners"
-msgstr "წინა თვის ტოპ პარტნიორები"
 
 msgid "Open"
 msgstr "ღია"
@@ -1191,9 +1169,6 @@ msgstr "მთავარი გვერდი"
 msgid "Button"
 msgstr "ღილაკი"
 
-msgid "Girchi"
-msgstr "გირჩი"
-
 msgid "Both"
 msgstr "ორივე"
 
@@ -1239,9 +1214,6 @@ msgstr "პოციზია"
 msgid "Integer"
 msgstr "მთელი რიცხვი"
 
-msgid "Search..."
-msgstr "ძებნა..."
-
 msgid "Anonymous users"
 msgstr "ანონიმური მომხმარებლები"
 
@@ -1253,9 +1225,6 @@ msgstr "ველები"
 
 msgid "Save settings"
 msgstr "პარამეტრების შენახვა"
-
-msgid "More Freedom"
-msgstr "მეტი თავისუფლება"
 
 msgid "Duration"
 msgstr "ხანგრძლივობა"
@@ -2566,9 +2535,6 @@ msgstr "მეტი დახმარება"
 msgid "Sizes"
 msgstr "ზომები"
 
-msgid "Add terms"
-msgstr "ტერმინების დამატება"
-
 msgid "« first"
 msgstr "« პირველი"
 
@@ -2842,15 +2808,6 @@ msgstr "საიტის ინსტალაცია"
 msgid "Finish translations"
 msgstr "თარგმანის დასრულება"
 
-msgid ""
-"By default, dates in this site will be displayed in the chosen time "
-"zone."
-msgstr ""
-"ნაგულისხმევად, ამ საიტზე "
-"თარიღები გამოჩნდება "
-"არჩეული დროის სარტყლის "
-"შესაბამისად."
-
 msgid "Update notifications"
 msgstr "განახლების შეტყობინებები"
 
@@ -3086,6 +3043,49 @@ msgstr "მონაცემთა ბაზის ვერსია"
 
 msgid "Active"
 msgstr "აქტიური"
+
+msgid "Hierarchy"
+msgstr "იერარქია"
+
+msgid "There is no content"
+msgstr "კონტენტი არ არსებობს "
+
+msgid "Become a partner"
+msgstr "გახდი პარტნიორი"
+
+msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
+msgstr ""
+"დააფინანსე გირჩი, მიიღე "
+"შესაბამისი რაოდენობის "
+"GeD-ები და მოხვდი "
+"ლიდერბორდში"
+
+msgid "Donate"
+msgstr "დააფინანსე"
+
+msgid "Last month Top partners"
+msgstr "წინა თვის ტოპ პარტნიორები"
+
+msgid "Girchi"
+msgstr "გირჩი"
+
+msgid "Search..."
+msgstr "ძებნა..."
+
+msgid "More Freedom"
+msgstr "მეტი თავისუფლება"
+
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
+
+msgid ""
+"By default, dates in this site will be displayed in the chosen time "
+"zone."
+msgstr ""
+"ნაგულისხმევად, ამ საიტზე "
+"თარიღები გამოჩნდება "
+"არჩეული დროის სარტყლის "
+"შესაბამისად."
 
 msgid "Enter Email"
 msgstr "მიუთითეთ ელ.ფოსტა"
@@ -3554,14 +3554,10 @@ msgstr "სთ"
 
 msgid "Estimated price in month:"
 msgstr "სავარაუდო ფასი თვეში:"
-=======
-msgid "Registration"
-msgstr "რეგისტრაცია"
 
-msgid "Student"
-msgstr "ბავშვის"
+msgid "New Email"
+msgstr "ახალი ელ.ფოსტა"
 
-msgid "Teacher"
-msgstr "მასწავლებლის"
-
+msgid "Enter new email"
+msgstr "შეიყვანეთ ახალი ელ.ფოსტა"
 
