@@ -157,6 +157,11 @@ class UserController extends ControllerBase {
 
       $pass = $request->request->get('pass');
       $uid = $request->request->get('uid');
+
+      if (empty($pass)) {
+        return new JsonResponse('Password is empty');
+      }
+
       /** @var \Drupal\user\Entity\User $user */
       if ($this->user) {
         if ($this->user->id() === $uid) {

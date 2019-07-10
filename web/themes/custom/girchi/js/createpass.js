@@ -3,7 +3,7 @@ $(document).ready(function() {
     const passConfirm = $('#password-confirmation');
     const message =  $('#status-messages');
     const uid = $("#userid");
-    // const pattern = /^(?=.*[A-Za-z])[A-Za-z\d]$/;
+
 
     $("#create-pass").on("click", e => {
         e.preventDefault();
@@ -15,9 +15,6 @@ $(document).ready(function() {
        }else if (pass.val() !== passConfirm.val()){
            message.append('<div class="alert alert-danger"> Passwords dont match</div>');
        }
-       // else if (!pattern.test(pass)){
-       //     message.append('<div class="alert alert-danger"> Invalid haracters </div>');
-       // }
        else{
            $.ajax({
                type: "POST",
@@ -34,7 +31,7 @@ $(document).ready(function() {
                        '<div class="alert alert-danger"> Error </div>'
                    );
                }
-           }).catch(error=>{
+           }).catch(error =>{
                  message.append(
                      '<div class="alert alert-danger"> Error </div>'
                  );
