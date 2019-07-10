@@ -43,9 +43,13 @@
                             {{ element.field_personal_id }}
                         </div>
                         <div class="form-group mb-2">
-                            <label class="form-label" for="email">{{ "Email" | t }}</label>
+                            <label class="form-label" for="disabled-email">{{ "Email" | t }}</label>
                             <div class="input-with-addon">
-                                {{ element.account.mail }}
+                                <input type="email"
+                                       class="form-control form-control-lg"
+                                       id="disabled-email"
+                                       disabled="disabled"
+                                       value="{{element.account.mail['#default_value']}}">
                                 <div class="input-addon">
                                     <button type="button" class="btn btn-sm btn-light text-grey" data-toggle="modal"
                                             data-target="#changeUserEmail">
@@ -140,7 +144,7 @@
                             <h6
                                     class="modal-title font-size-base text-success text-uppercase font-weight-bold"
                             >
-                                {{ 'Change Email' |t }}
+                                    {{ 'New Email' |t }}
                             </h6>
                             <button
                                     type="button"
@@ -158,7 +162,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-7 col-lg-6 m-auto">
                                     <div class="form-group mb-2">
-                                        <label class="form-label" for="email">{{ "Email" | t }}</label>
+                                        <label class="form-label" for="email">{{ "Enter new email" | t }}</label>
                                         {{ element.account.mail }}
                                     </div>
                                     <div class="form-group mb-2">
