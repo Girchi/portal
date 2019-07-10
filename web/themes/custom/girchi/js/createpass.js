@@ -9,11 +9,11 @@ $(document).ready(function() {
         e.preventDefault();
         message.html('');
        if(!pass.val()){
-           message.append('<div class="alert alert-danger"> Password is empty </div>');
+           message.append(`<div class="alert alert-danger"> ${Drupal.t('Password is empty ')}</div>`);
        }else if(!passConfirm.val()){
-           message.append('<div class="alert alert-danger"> Confirm password is empty </div>');
+           message.append(`<div class="alert alert-danger"> ${Drupal.t('Confirm password is empty')} </div>`);
        }else if (pass.val() !== passConfirm.val()){
-           message.append('<div class="alert alert-danger"> Passwords dont match</div>');
+           message.append(`<div class="alert alert-danger"> ${Drupal.t('The specified passwords do not match')}</div>`);
        }
        else{
            $.ajax({
