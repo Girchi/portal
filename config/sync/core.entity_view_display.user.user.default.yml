@@ -159,4 +159,5 @@ content:
     third_party_settings: {  }
     label: above
 hidden:
+  field_social_auth_password: true
   langcode: true
