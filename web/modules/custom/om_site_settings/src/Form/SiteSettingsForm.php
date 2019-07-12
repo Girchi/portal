@@ -190,7 +190,7 @@ class SiteSettingsForm extends ConfigFormBase {
       '#description' => t('Enter text for password set page'),
       '#type' => 'textarea',
       '#title' => t('Password set form'),
-      '#default_value' => $config->get('createpass')['value'],
+      '#default_value' => $config->get('createpass')
     ];
 
     return parent::buildForm($form, $form_state);
