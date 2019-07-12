@@ -120,7 +120,14 @@ class UserController extends ControllerBase {
   public function socialAuthPassword(Request $request) {
 
     $token = $this->SocialAuthDataHandler->get('social_auth_facebook_access_token');
-    $password_check = $this->user->get('field_social_auth_password')->getValue()[0]['value'];
+
+    if ($this->user->get('field_social_auth_password')->getValue()) {
+      $password_check = $this->user->get('field_social_auth_password')->getValue()[0]['value'];
+    }
+    else {
+      $password_check = FALSE;
+    }
+
     $config = $this->configFactory->get('om_site_settings.site_settings');
     $subtitle = $config->get('createpass');
 
