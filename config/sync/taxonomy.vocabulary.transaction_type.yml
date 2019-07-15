@@ -1,0 +1,8 @@
+uuid: a6129e31-a151-4fbd-bcee-7077d1df83d0
+langcode: ka
+status: true
+dependencies: {  }
+name: 'Transaction Type'
+vid: transaction_type
+description: ''
+weight: 0

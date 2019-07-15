@@ -31,6 +31,15 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
+  transaction_type:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
   user:
     type: entity_reference_autocomplete
     weight: 1

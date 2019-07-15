@@ -11,13 +11,16 @@
     value: menu_link_content
   revision_created:
     value: '1560945206'
-  revision_user: false
-  revision_log_message: false
+  revision_user:
+    target_id: '0'
+  revision_log_message:
+    value: ''
   enabled:
     value: '1'
   title:
     value: 'Update views count'
-  description: false
+  description:
+    value: ''
   menu_name:
     value: admin
   link:
@@ -53,3 +56,58 @@
     value: '1'
   content_translation_created:
     value: '1560945206'
+2:
+  id:
+    value: '2'
+  uuid:
+    value: d376d850-74ad-45ff-bc45-60898a4b44c4
+  revision_id:
+    value: '2'
+  langcode:
+    value: ka
+  bundle:
+    value: menu_link_content
+  revision_created:
+    value: '1563206260'
+  revision_user: false
+  revision_log_message: false
+  enabled:
+    value: '1'
+  title:
+    value: 'GED Transactions'
+  description: false
+  menu_name:
+    value: admin
+  link:
+    uri: 'internal:/admin/ged-transaction'
+    title: ''
+    options: {  }
+  external:
+    value: '0'
+  rediscover:
+    value: '1'
+  weight:
+    value: '2'
+  expanded:
+    value: '0'
+  parent:
+    value: system.admin
+  changed:
+    value: '1563206338'
+  default_langcode:
+    value: '1'
+  revision_default:
+    value: '1'
+  revision_translation_affected:
+    value: '1'
+  metatag: false
+  content_translation_source:
+    value: und
+  content_translation_outdated:
+    value: '0'
+  content_translation_uid:
+    target_id: '1'
+  content_translation_status:
+    value: '1'
+  content_translation_created:
+    value: '1563206260'

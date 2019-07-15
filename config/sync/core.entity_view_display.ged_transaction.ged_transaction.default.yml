@@ -40,6 +40,13 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
+  transaction_type:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   user:
     label: hidden
     type: author

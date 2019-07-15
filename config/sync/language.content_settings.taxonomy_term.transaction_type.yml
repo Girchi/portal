@@ -1,0 +1,11 @@
+uuid: 8ba2cc1e-8885-4995-8c48-93a918866ee3
+langcode: ka
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.transaction_type
+id: taxonomy_term.transaction_type
+target_entity_type_id: taxonomy_term
+target_bundle: transaction_type
+default_langcode: site_default
+language_alterable: false
