@@ -2,26 +2,26 @@
   id:
     value: '1'
   uuid:
-    value: 5e0e9ae8-e00e-460c-8ecf-49bb78a3a2ac
+    value: b65a25b4-8c9c-449f-a27d-f41f81e997a0
   revision_id:
     value: '1'
   langcode:
-    value: ka
+    value: en
   bundle:
     value: menu_link_content
   revision_created:
-    value: '1560945206'
+    value: '1563267901'
   revision_user: false
   revision_log_message: false
   enabled:
     value: '1'
   title:
-    value: 'Update views count'
+    value: 'Change password'
   description: false
   menu_name:
-    value: admin
+    value: account
   link:
-    uri: 'internal:/admin/update_page_views'
+    uri: 'internal:/change-password'
     title: ''
     options: {  }
   external:
@@ -32,10 +32,9 @@
     value: '0'
   expanded:
     value: '0'
-  parent:
-    value: admin_toolbar_tools.help
+  parent: false
   changed:
-    value: '1560945229'
+    value: '1563280406'
   default_langcode:
     value: '1'
   revision_default:
@@ -52,4 +51,4 @@
   content_translation_status:
     value: '1'
   content_translation_created:
-    value: '1560945206'
+    value: '1563267901'

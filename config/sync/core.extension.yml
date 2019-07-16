@@ -6,6 +6,7 @@ module:
   block_content: 0
   block_user_info: 0
   breakpoint: 0
+  change_pwd_page: 0
   chosen: 0
   chosen_field: 0
   chosen_lib: 0
