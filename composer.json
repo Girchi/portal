@@ -194,6 +194,7 @@
     "drupal/block_node": "^1.0@alpha",
     "drupal/block_user_info": "^2.0",
     "drupal/bootstrap": "3.17",
+    "drupal/change_pwd_page": "^1.0@beta",
     "drupal/chosen": "2.6",
     "drupal/ckeditor_liststyle": "^1.1",
     "drupal/ckeditor_uploadimage": "^1.4",
