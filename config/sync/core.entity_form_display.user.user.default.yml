@@ -11,6 +11,7 @@ dependencies:
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
+    - field.field.user.user.field_political_ged
     - field.field.user.user.field_politician
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
@@ -99,6 +100,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: telephone_default
+    region: content
+  field_political_ged:
+    weight: 16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_politician:
     weight: 5

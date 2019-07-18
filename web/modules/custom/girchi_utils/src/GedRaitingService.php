@@ -38,7 +38,7 @@ class GedRaitingService {
     try {
       $user_storage = $this->entityTypeManager->getStorage('user');
       $user_ids = $user_storage->getQuery()
-        ->condition('field_ged', '0', '>=')
+        ->condition('mail', NULL, 'IS NOT NULL')
         ->sort('field_ged', 'DESC')
         ->sort('field_last_name', 'ASC')
         ->execute();

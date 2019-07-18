@@ -1,20 +1,16 @@
-uuid: 91e8427a-9d64-45ff-9065-4ad780ab21a4
+uuid: 617e27ca-cb91-4c38-8eb3-0796d6f3d738
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.user.field_first_name
-    - field.storage.user.field_last_name
-    - field.storage.user.field_political_ged
-    - field.storage.user.field_rating_in_party_list
+    - field.storage.user.field_my_party_list
     - field.storage.user.user_picture
-    - image.style.party_member
   module:
     - image
+    - reference_value_pair
     - user
-    - views_infinite_scroll
-id: party_list
-label: 'Party list'
+id: politician_support
+label: 'Politician support'
 module: views
 description: ''
 tag: ''
@@ -52,37 +48,34 @@ display:
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
-          sort_desc_label: აღწერა
+          sort_desc_label: Desc
       pager:
-        type: infinite_scroll
+        type: mini
         options:
           items_per_page: 10
           offset: 0
           id: 0
-          total_pages: 15
-          tags:
-            previous: ‹‹
-            next: ››
+          total_pages: null
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
             items_per_page_options: '5, 10, 25, 50'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- ყველა -'
+            items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          views_infinite_scroll:
-            button_text: 'Load More'
-            automatically_load_content: true
+          tags:
+            previous: ‹‹
+            next: ››
       style:
         type: default
       row:
         type: fields
       fields:
-        field_first_name:
-          id: field_first_name
-          table: user__field_first_name
-          field: field_first_name
+        name:
+          id: name
+          table: users_field_data
+          field: name
           relationship: none
           group_type: group
           admin_label: ''
@@ -106,8 +99,8 @@ display:
             target: ''
             nl2br: false
             max_length: 0
-            word_boundary: true
-            ellipsis: true
+            word_boundary: false
+            ellipsis: false
             more_link: false
             more_link_text: ''
             more_link_path: ''
@@ -128,7 +121,7 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
+          type: user_name
           settings:
             link_to_entity: false
           group_column: value
@@ -141,11 +134,13 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+          entity_type: user
+          entity_field: name
           plugin_id: field
-        field_last_name:
-          id: field_last_name
-          table: user__field_last_name
-          field: field_last_name
+        field_my_party_list:
+          id: field_my_party_list
+          table: user__field_my_party_list
+          field: field_my_party_list
           relationship: none
           group_type: group
           admin_label: ''
@@ -190,10 +185,9 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
+          click_sort_column: target_id
+          type: reference_value_formatter
+          settings: {  }
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -254,137 +248,11 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: image_url
+          type: image
           settings:
-            image_style: party_member
+            image_style: ''
+            image_link: ''
           group_column: ''
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_rating_in_party_list:
-          id: field_rating_in_party_list
-          table: user__field_rating_in_party_list
-          field: field_rating_in_party_list
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        field_political_ged:
-          id: field_political_ged
-          table: user__field_political_ged
-          field: field_political_ged
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: false
-          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -407,54 +275,15 @@ display:
           expose:
             operator: ''
           group: 1
-        field_politician_value:
-          id: field_politician_value
-          table: user__field_politician
-          field: field_politician_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: boolean
-        field_rating_in_party_list_value:
-          id: field_rating_in_party_list_value
-          table: user__field_rating_in_party_list
-          field: field_rating_in_party_list_value
+        field_my_party_list_value:
+          id: field_my_party_list_value
+          table: user__field_my_party_list
+          field: field_my_party_list_value
           relationship: none
           group_type: group
           admin_label: ''
           operator: 'not empty'
-          value:
-            min: ''
-            max: ''
-            value: ''
+          value: ''
           group: 1
           exposed: false
           expose:
@@ -470,6 +299,53 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: string
+        uid_raw:
+          id: uid_raw
+          table: users_field_data
+          field: uid_raw
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: uid_raw_op
+            label: 'The user ID'
+            description: ''
+            use_operator: false
+            operator: uid_raw_op
+            identifier: uid_raw
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
           is_grouped: false
@@ -484,40 +360,26 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          entity_type: user
           plugin_id: numeric
-      sorts:
-        field_rating_in_party_list_value:
-          id: field_rating_in_party_list_value
-          table: user__field_rating_in_party_list
-          field: field_rating_in_party_list_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          order: ASC
-          exposed: false
-          expose:
-            label: ''
-          plugin_id: standard
-      title: 'Party list'
+      sorts: {  }
+      title: 'Politician support'
       header: {  }
       footer: {  }
       empty: {  }
       relationships: {  }
       arguments: {  }
       display_extenders: {  }
-      use_ajax: true
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - user.permissions
       tags:
-        - 'config:field.storage.user.field_first_name'
-        - 'config:field.storage.user.field_last_name'
-        - 'config:field.storage.user.field_political_ged'
-        - 'config:field.storage.user.field_rating_in_party_list'
+        - 'config:field.storage.user.field_my_party_list'
         - 'config:field.storage.user.user_picture'
   page_1:
     display_plugin: page
@@ -526,17 +388,15 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: 2020-parliamentary-list
+      path: politician-support
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - user.permissions
       tags:
-        - 'config:field.storage.user.field_first_name'
-        - 'config:field.storage.user.field_last_name'
-        - 'config:field.storage.user.field_political_ged'
-        - 'config:field.storage.user.field_rating_in_party_list'
+        - 'config:field.storage.user.field_my_party_list'
         - 'config:field.storage.user.user_picture'

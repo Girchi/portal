@@ -44,8 +44,14 @@
                             <span>{{ fields.field_first_name.content }}</span>
                             <span class="font-weight-bold">{{ fields.field_last_name.content }}</span>
                           </span>
-            <span class="d-flex  font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center justify-content-sm-start">
+            <span
+                class="d-flex  font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center justify-content-sm-start">
                                                       {{ 'Politician' | t }}
+                                                    </span>
+            <span
+                class="d-flex  font-size-1 font-size-lg-3 text-success mt-1 justify-content-center justify-content-sm-start">
+                                                 <i class="icon-ged line-height-1-1"></i>
+                                                      {{ fields.field_political_ged .content }}
                                                     </span>
         </h6>
     </div>
