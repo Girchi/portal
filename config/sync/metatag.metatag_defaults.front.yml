@@ -7,5 +7,8 @@ _core:
 id: front
 label: 'Front page'
 tags:
-  canonical_url: '[site:url]'
+  description: 'გირჩი - ახალი ამბები. დააგროვე GeD-ები და მიიღე მონაწილეობა პარტიის მართვაში. girchi tv'
+  keywords: 'გირჩი, ახალი ამბები, პოლიტიკა, არჩევნები, ტელევიზია, სკოლა, girchi, საქართველოს ისტორია, აზრით, გირჩის, პროცესი'
+  title: 'გირჩი | Girchi - ახალი ამბები და პარტიის მართვა'
   shortlink: '[site:url]'
+  canonical_url: '[site:url]'

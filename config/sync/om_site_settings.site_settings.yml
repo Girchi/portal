@@ -7,17 +7,16 @@ footer_text: ''
 langcode: en
 _core:
   default_config_hash: NkdNpcz0u9s1KM7wnP-gPGF_HA8Yz_hZhCXkWOeroNQ
-contact_info_phone: '+995 551 677 772'
+contact_info_phone: ''
 contact_info_email: INFO@GIRCHI.COM
 social_media_facebook: 'https://www.facebook.com/GirchiParty/'
-social_media_twitter: ''
-social_media_instagram: 'https://www.instagram.com/girchiparty/'
+social_media_twitter: 'https://twitter.com/GirchiParty'
+social_media_instagram: ''
 social_media_youtube: 'https://www.youtube.com/channel/UC6o6176a756vk1nZuzAXy5g'
 politician_checkbox_text:
   value: "<h6>რას ნიშნავს “მინდა პოლიტიკოსობა”?</h6>\r\n\r\n<div>\r\n<div>ამ ღილაკზე თითის დაჭერით, თქვენ რეგისტრირდებით როგორც პოლიტიკოსი, რომელიც საუბრობს გირჩის სახელით.</div>\r\n\r\n<div>\r\n<p>რეგისტრაციის შემდგომ, თქვენ შეგიძლიათ დაგეგმოთ თქვენი პროფესიული პოლიტიკური კარიერა.</p>\r\n\r\n<p>იმისთვის, რომ თქვენ გახდეთ პოლიტიკოსი, აუცილებელია ამ ღილაკზე დაწკაპუნებით დაეთანხმოთ პლატფორმის ორ მთავარ პოსტულატს:<br />\r\n1.&nbsp;&nbsp; &nbsp;ადამიანს ეკუთვნის საკუთარი სხეული.<br />\r\n2.&nbsp;&nbsp; &nbsp;ძალადობა და მისი მხარდაჭერა დაუშვებელია.</p>\r\n\r\n<p>თუ ამის გულწრფელად გჯერათ, კეთილი იყოს თქვენი მობრძანება, გირჩის თავისუფალ საზოგადოებაში.</p>\r\n</div>\r\n</div>\r\n"
   format: basic_html
 ui_config: 0
 enable_user_ui: 1
-copyright_text: ''
+copyright_text: 'ყველა საავტორო უფლების თავზეც გავიარეთ. გირჩი'
 google_analytics_view_id: '194654886'
-createpass: 'Create password'
