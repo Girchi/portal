@@ -194,6 +194,7 @@
     "drupal/block_node": "^1.0@alpha",
     "drupal/block_user_info": "^2.0",
     "drupal/bootstrap": "3.17",
+    "drupal/change_pwd_page": "^1.0@beta",
     "drupal/chosen": "2.6",
     "drupal/ckeditor_liststyle": "^1.1",
     "drupal/ckeditor_uploadimage": "^1.4",
@@ -216,6 +217,7 @@
     "drupal/drush_language": "^1.0@RC",
     "drupal/editor_advanced_link": "^1.4",
     "drupal/editor_file": "^1.2",
+    "drupal/email_confirmer": "^1.0@beta",
     "drupal/email_registration": "^1.0@RC",
     "drupal/environment_indicator": "3.x-dev",
     "drupal/facebook_comments": "^1.0",
@@ -257,7 +259,9 @@
     "drupal/sendgrid_integration": "^1.2",
     "drupal/simple_sitemap": "^3.2",
     "drupal/smart_trim": "^1.0",
-    "drupal/social_auth_facebook": "^1.0",
+    "drupal/social_api": "^2.0",
+    "drupal/social_auth": "2.0.0-beta6",
+    "drupal/social_auth_facebook": "2.0.0-beta4",
     "drupal/static_server": "^1.2",
     "drupal/statistics_counter": "1.x-dev",
     "drupal/straw": "^1.2",
@@ -351,15 +355,18 @@
         "Add route context to block": "patches/block_node_cache_contexts.patch"
       },
       "drupal/core": {
-	    "Access user emails " : "https://www.drupal.org/files/issues/2019-04-26/drupal-2799049-30-new-permission-view-user-mail.patch",
+        "Access user emails ": "https://www.drupal.org/files/issues/2019-04-26/drupal-2799049-30-new-permission-view-user-mail.patch",
         "Fix Entity reference autocomplete with fields": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch",
-        "Fix ajax error in views relationships" : "https://www.drupal.org/files/issues/2019-05-04/2457999-194.patch"
+        "Fix ajax error in views relationships": "https://www.drupal.org/files/issues/2019-05-04/2457999-194.patch"
       },
       "drupal/video_embed_facebook": {
         "iframe fix": "https://www.drupal.org/files/issues/2019-05-13/facebook_embed_field.patch"
       },
       "drupal/page_manager": {
         "Fix title change bug": "https://www.drupal.org/files/issues/2018-04-17/page_manager-page-label-not-editable-2830464-10.patch"
+      },
+      "drupal/email_confirmer": {
+        "form skip": "https://www.drupal.org/files/issues/2019-04-16/email_confirmer-optionally_skip_confirmation_form-2971857-10.patch"
       }
     },
     "installer-paths": {

@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_users.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_users_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_users module.
+    case 'help.page.girchi_users':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for users') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_users_theme() {
+  return [
+    'girchi_users' => [
+      'render element' => 'children',
+      'variables' => [
+        'uid' => NULL,
+        'subtitle' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function girchi_users_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'change_pwd_form') {
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
+
+    $form['#after_build'][] = 'girchi_users_after_build';
+  }
+}
+
+/**
+ * Custom submit handler .
+ */
+function girchi_users_after_build($form, &$form_state) {
+  unset($form['account']['current_pass']['#title']);
+  unset($form['account']['pass']['pass1']['#title']);
+  unset($form['account']['pass']['pass2']['#title']);
+  unset($form['account']['pass']['#attached']['drupalSettings']['password']['showStrengthIndicator']);
+  unset($form['account']['current_pass']['#description']);
+
+  $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
+  $form['account']['current_pass']['#attributes']['id'][] = 'password';
+  $form['account']['current_pass']['#attributes']['placeholder'][] = t('Enter password');
+
+  $form['account']['pass']['pass1']['#attributes']['class'][] = 'form-control form-control-lg fix';
+  $form['account']['pass']['pass1']['#attributes']['id'][] = 'password';
+  $form['account']['pass']['pass1']['#attributes']['placeholder'][] = t('Enter password');
+
+  $form['account']['pass']['pass2']['#attributes']['class'][] = 'form-control form-control-lg fix';
+  $form['account']['pass']['pass2']['#attributes']['id'][] = 'password';
+  $form['account']['pass']['pass2']['#attributes']['placeholder'][] = t('Enter password');
+
+  return $form;
+
+}

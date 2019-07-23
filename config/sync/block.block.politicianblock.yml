@@ -21,6 +21,6 @@ settings:
 visibility:
   request_path:
     id: request_path
-    pages: "/en/user/*/edit*\r\n/user/*/edit*"
+    pages: "/en/user/*/edit*\r\n/user/*/edit*\r\n/user/*/change-password"
     negate: false
     context_mapping: {  }

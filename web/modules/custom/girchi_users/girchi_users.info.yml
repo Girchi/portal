@@ -1,0 +1,7 @@
+name: 'Girchi Users'
+type: module
+description: 'Module for users'
+core: 8.x
+package: 'girchi'
+dependencies:
+  - social_auth

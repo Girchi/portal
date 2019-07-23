@@ -1,0 +1,53 @@
+<div id="status-messages">
+
+</div>
+<div class="card">
+    <div class="card-body overflow-hidden p-3 py-md-4 px-md-4">
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-lg-6 m-auto">
+                <h5
+                        class="card-title text-center text-success font-weight-bold text-uppercase"
+                >
+                    {{ 'Set Password'|t }}
+                </h5>
+                <h6 class="card-subtitle text-center">
+                    {{ subtitle|t }}
+                </h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-7 col-lg-4 m-auto">
+                <form class="my-4">
+                    <input type="hidden" value="{{ uid }}" name="uid" id="userid">
+                    <div class="form-group">
+                        <label class="form-label" for="password">{{ 'Password'|t }}</label>
+                        <input
+                                type="password"
+                                class="form-control form-control-lg"
+                                id="password"
+                                placeholder="{{ 'Enter password'|t }}"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password-confirmation"
+                        >{{ 'Confirm password'|t }}</label >
+                        <input
+                                type="password"
+                                class="form-control form-control-lg"
+                                id="password-confirmation"
+                                placeholder="{{ 'Enter password'|t }}"
+                        />
+                    </div>
+                    <button
+                            id="create-pass"
+                            type="submit"
+                            class="btn btn-lg btn-block btn-success text-uppercase"
+                    >
+                    {{ 'Continue'|t }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{ attach_library('girchi/createpass') }}

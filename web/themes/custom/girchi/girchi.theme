@@ -25,6 +25,12 @@ function girchi_preprocess_html(array &$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
   $current_uri = \Drupal::request()->getRequestUri();
 
+  if($current_uri == '/change-password'){
+    $uid = \Drupal::currentUser()->id();
+    $response = new RedirectResponse('/user/' . $uid . '/change-password');
+    $response->send();
+  }
+
   if ($route_name === 'view.news.page_1') {
 
     if (empty(\Drupal::request()->query->get('category') == FALSE)) {
@@ -230,10 +236,22 @@ function girchi_preprocess_form(array &$variables) {
   $config = \Drupal::config('om_site_settings.site_settings');
   $variables['enable_user_ui'] = $config->get('enable_user_ui');
 
+  $current_user_id = \Drupal::currentUser()->id();
+  /** @var User $user */
+  $user = User::load($current_user_id);
+
   if ($variables['attributes']['id'] == 'user-form') {
-    $social_auth = \Drupal::service('social_auth_facebook.persistent_data_handler');
-    $show_password_change = $social_auth->get('access_token') ? FALSE : TRUE;
-    $variables['show_password_change'] = $show_password_change;
+    if($user->get('field_social_auth_password')->getValue()){
+      $social_auth_check = $user->get('field_social_auth_password')->getValue()[0]['value'];
+    }else {
+      $social_auth_check = FALSE;
+    }
+    $social_auth = \Drupal::service('social_auth.data_handler');
+    $social_auth_token_check = $social_auth->get('social_auth_facebook_access_token') ;
+    if(!$social_auth_check && $social_auth_token_check){
+      $response = new RedirectResponse("/createpassword");
+      $response->send();
+    }
   }
 }
 

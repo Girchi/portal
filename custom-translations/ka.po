@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-26 09:14+0000\n"
-"PO-Revision-Date: 2019-06-26 09:14+0000\n"
+"POT-Creation-Date: 2019-07-17 08:47+0000\n"
+"PO-Revision-Date: 2019-07-17 08:47+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -340,14 +340,8 @@ msgstr "იერარქია"
 msgid "Required"
 msgstr "სავალდებულო"
 
-msgid "There is no content"
-msgstr "კონტენტი არ არსებობს "
-
 msgid "Parent"
 msgstr "მშობელი"
-
-msgid "Become a partner"
-msgstr "გახდი პარტნიორი"
 
 msgid "none"
 msgstr "არცერთი"
@@ -355,18 +349,8 @@ msgstr "არცერთი"
 msgid "Category"
 msgstr "კატეგორია"
 
-msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
-msgstr ""
-"დააფინანსე გირჩი, მიიღე "
-"შესაბამისი რაოდენობის "
-"GeD-ები და მოხვდი "
-"ლიდერბორდში"
-
 msgid "Add container"
 msgstr "კონტეინერის დამატება"
-
-msgid "Donate"
-msgstr "დააფინანსე"
 
 msgid "Settings"
 msgstr "პარამეტრები"
@@ -418,9 +402,6 @@ msgstr "სურათის პარამეტრები"
 
 msgid "Update"
 msgstr "განახლება"
-
-msgid "Last month Top partners"
-msgstr "წინა თვის ტოპ პარტნიორები"
 
 msgid "Open"
 msgstr "ღია"
@@ -1191,9 +1172,6 @@ msgstr "მთავარი გვერდი"
 msgid "Button"
 msgstr "ღილაკი"
 
-msgid "Girchi"
-msgstr "გირჩი"
-
 msgid "Both"
 msgstr "ორივე"
 
@@ -1239,9 +1217,6 @@ msgstr "პოციზია"
 msgid "Integer"
 msgstr "მთელი რიცხვი"
 
-msgid "Search..."
-msgstr "ძებნა..."
-
 msgid "Anonymous users"
 msgstr "ანონიმური მომხმარებლები"
 
@@ -1253,9 +1228,6 @@ msgstr "ველები"
 
 msgid "Save settings"
 msgstr "პარამეტრების შენახვა"
-
-msgid "More Freedom"
-msgstr "მეტი თავისუფლება"
 
 msgid "Duration"
 msgstr "ხანგრძლივობა"
@@ -3084,8 +3056,42 @@ msgstr "მონაცემთა ბაზის სისტემა"
 msgid "Database system version"
 msgstr "მონაცემთა ბაზის ვერსია"
 
+msgid "Main navigation"
+msgstr "Main navigation"
+
+msgid "Site section links"
+msgstr "Site section links"
+
 msgid "Active"
 msgstr "აქტიური"
+
+msgid "There is no content"
+msgstr "კონტენტი არ არსებობს "
+
+msgid "Become a partner"
+msgstr "გახდი პარტნიორი"
+
+msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
+msgstr ""
+"დააფინანსე გირჩი, მიიღე "
+"შესაბამისი რაოდენობის "
+"GeD-ები და მოხვდი "
+"ლიდერბორდში"
+
+msgid "Donate"
+msgstr "დააფინანსე"
+
+msgid "Last month Top partners"
+msgstr "წინა თვის ტოპ პარტნიორები"
+
+msgid "Girchi"
+msgstr "გირჩი"
+
+msgid "Search..."
+msgstr "ძებნა..."
+
+msgid "More Freedom"
+msgstr "მეტი თავისუფლება"
 
 msgid "Enter Email"
 msgstr "მიუთითეთ ელ.ფოსტა"
@@ -3554,14 +3560,53 @@ msgstr "სთ"
 
 msgid "Estimated price in month:"
 msgstr "სავარაუდო ფასი თვეში:"
-=======
-msgid "Registration"
-msgstr "რეგისტრაცია"
 
-msgid "Student"
-msgstr "ბავშვის"
+msgid ""
+"A message has been sent to the new email address %email to confirm the "
+"change. Until confirmed, your current address will be used."
+msgstr ""
+"ელ-ფოსტის ცვლილების "
+"დამადასტურებელი "
+"შეტყობინება "
+"გამოგზავნილია "
+"მისამართზე: %email. "
+"შეტყობინების "
+"დადასტურებამდე თქვენი "
+"ელ-ფოსტა რჩება უცვლელი."
 
-msgid "Teacher"
-msgstr "მასწავლებლის"
+msgid ""
+"Your current password is missing or incorrect; it's required to change "
+"the %name."
+msgstr ""
+"პაროლის ველი ცარიელია ან "
+"არასწორად არის შეყვანილი. "
+"პაროლი სავალდებულოა "
+"%ელ-ფოსტის შესაცვლელად."
 
+msgid "New Email"
+msgstr "ახალი ელ.ფოსტა"
+
+msgid "Enter new email"
+msgstr "შეიყვანეთ ახალი ელ.ფოსტა"
+
+msgid "Your email address has been updated to %mail"
+msgstr ""
+"თქვენი განახლებული "
+"ელ-ფოსტაა: %mail"
+
+msgid "Email confirmation confirmed."
+msgstr "ელ-ფოსტა დადასტურებულია"
+
+msgid "The current password you provided is incorrect."
+msgstr ""
+"მიმდინარე პაროლი "
+"არასწორია."
+
+msgid "Your password has been changed."
+msgstr ""
+"თქვენი პაროლი წარმატებით "
+"შეიცვალა."
+
+msgid "Change password"
+msgstr "პაროლის შეცვლა"
 

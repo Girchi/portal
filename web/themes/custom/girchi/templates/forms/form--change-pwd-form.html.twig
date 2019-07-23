@@ -1,0 +1,60 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a 'form' element.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ *
+ * @ingroup themeable
+ */
+#}
+{#{{ drupal_dump(element.form_id ) }}#}
+<div id="status-messages">
+
+</div>
+<div class="card">
+    <div class="card-body overflow-hidden p-3 py-md-4 px-md-4">
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-lg-6 m-auto">
+                <h5
+                        class="card-title text-center text-success font-weight-bold text-uppercase"
+                >
+                    {{ 'Change password'|t}}
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-7 col-lg-4 m-auto">
+                <form {{ attributes }} class="my-4">
+                    {{ element.form_build_id }}
+                    {{ element.form_token }}
+                    {{ element.form_id }}
+
+                    <input type="hidden" value="{{ uid }}" name="uid" id="userid">
+                    <div class="form-group">
+                        <label class="form-label" for="password">{{ 'Current password'|t }}</label>
+                        {{ element.account.current_pass }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="pass1">{{ 'Password'|t }}</label>
+                        {{ element.account.pass.pass1 }}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="pass2"
+                        >{{ 'Confirm password'|t }}</label >
+                        {{ element.account.pass.pass2 }}
+
+
+                    </div>
+                        {{ element.actions.submit }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

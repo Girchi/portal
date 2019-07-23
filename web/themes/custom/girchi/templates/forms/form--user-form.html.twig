@@ -1,119 +1,167 @@
 {% set politican_checked = element.field_politician.widget.value['#checked'] %}
 {% set avatar = element.user_picture.widget.0.preview['#uri'] %}
+{#Modal#}
+
+{#End Of Modal#}
 <div class="card mb-2 mb-lg-3">
-  <h5 class="card-header font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4">
-    {{ 'Edit user' | t }}
-  </h5>
-  <div class="card-body pb-5 px-3 px-md-4">
-    <form {{ attributes }}>
-      {{ element.form_build_id }}
-      {{ element.form_token }}
-      {{ element.form_id }}
-      {#        {{ drupal_dump(element) }}#}
-      <div class="hidden">
-        {{ element.user_picture }}
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="mx-auto mb-4 mt-1 overflow-hidden rounded-circle max-w-210 max-w-xl-240 w-100 position-relative">
-            <img width="100%" src="{{ avatar ? image_style_url(avatar, 'avatar_image') : theme_path('/images/avatar.png', 1) }}" alt="Avatar" id="avatar-image"/>
-            <button class="position-absolute position-bottom-0 w-100 bg-transparent border-0 overlay-240 font-size-3 py-3 text-uppercase text-white" id="avatar-trigger" type="button">
-              {{ "Change" | t }}
-            </button>
-            <input class="d-none" id="avatar-input" name="avatar" type="file"/>
-          </div>
-          <div class="px-0 px-sm-8 pl-xl-0 pr-xl-4 mt-4 my-lg-0">
-            <div class="form-group mb-2">
-              <label class="form-label" for="first-name">{{ "Name" | t }}</label>
-              {{ element.field_first_name }}
-            </div>
-            <div class="form-group mb-2">
-              <label class="form-label" for="last-name">{{ "Last Name" | t }}</label>
-              {{ element.field_last_name }}
-            </div>
-            <div class="form-group mb-2">
-              <label class="form-label" for="id-number">{{ "Personal number" | t }}</label>
-              {{ element.field_personal_id }}
-            </div>
-            <div class="form-group mb-2">
-              <label class="form-label" for="email">{{ "Email" | t }}</label>
-              {{ element.account.mail }}
-            </div>
-            <div class="form-group mb-2">
-              <label class="form-label" for="address">{{ "Address" | t }}</label>
-              {{ element.field_address }}
-            </div>
-            <div class="form-group mb-2">
-              <label class="form-label" for="phone">{{ "Phone number" | t }}</label>
-              {{ element.field_phone }}
-            </div>
-            <div class="border bg-dark-white border-dashed rounded px-4 pt-4  mb-4 mt-4">
-              <h6 class="text-uppercase text-success font-weight-bold">
-                {{ 'Enter your referral'|t }}
-              </h6>
-              <p class="font-size-1 text-grey my-3">
-                {{ 'You can also use Referral to refer to the person who informed you about us and you decided to register.'|t }}
-              </p>
-              <div class="form-group mb-2">
+    <h5 class="card-header font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4">
+        {{ 'Edit user' | t }}
+    </h5>
+    <div class="card-body pb-5 px-3 px-md-4">
+        <form {{ attributes }}>
 
 
-                {{ element.field_referral }}
-              {#                                        <small#}
-                {#                                                id="referralHelp"#}
-                {#                                                class="form-text text-muted mx-0 my-3"#}
-                {#                                        >{{ '* Referral is not required'|t }}#}
-                {#                                        </small#}
-                {#                                        >#}
-              </div>
+            {{ element.form_build_id }}
+            {{ element.form_token }}
+            {{ element.form_id }}
+            <div class="hidden">
+                {{ element.user_picture }}
             </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mx-auto mb-4 mt-1 overflow-hidden rounded-circle max-w-210 max-w-xl-240 w-100 position-relative">
+                        <img width="100%"
+                             src="{{ avatar ? image_style_url(avatar, 'avatar_image') : theme_path('/images/avatar.png', 1) }}"
+                             alt="Avatar" id="avatar-image"/>
+                        <button class="position-absolute position-bottom-0 w-100 bg-transparent border-0 overlay-240 font-size-3 py-3 text-uppercase text-white"
+                                id="avatar-trigger" type="button">
+                            {{ "Change" | t }}
+                        </button>
+                        <input class="d-none" id="avatar-input" name="avatar" type="file"/>
+                    </div>
+                    <div class="px-0 px-sm-8 pl-xl-0 pr-xl-4 mt-4 my-lg-0">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="first-name">{{ "Name" | t }}</label>
+                            {{ element.field_first_name }}
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="last-name">{{ "Last Name" | t }}</label>
+                            {{ element.field_last_name }}
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="id-number">{{ "Personal number" | t }}</label>
+                            {{ element.field_personal_id }}
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="disabled-email">{{ "Email" | t }}</label>
+                            <div class="input-with-addon">
+                                <input type="email"
+                                       class="form-control form-control-lg"
+                                       id="disabled-email"
+                                       disabled="disabled"
+                                       value="{{element.account.mail['#default_value']}}">
+                                <div class="input-addon">
+                                    <button type="button" class="btn btn-sm btn-light text-grey" data-toggle="modal"
+                                            data-target="#changeUserEmail">
+                                        {{ 'Change'|t }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="address">{{ "Address" | t }}</label>
+                            {{ element.field_address }}
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="phone">{{ "Phone number" | t }}</label>
+                            {{ element.field_phone }}
+                        </div>
+                        <div class="border bg-dark-white border-dashed rounded px-4 pt-4  mb-4 mt-4">
+                            <h6 class="text-uppercase text-success font-weight-bold">
+                                {{ 'Enter your referral'|t }}
+                            </h6>
+                            <p class="font-size-1 text-grey my-3">
+                                {{ 'You can also use Referral to refer to the person who informed you about us and you decided to register.'|t }}
+                            </p>
+                            <div class="form-group mb-2">
 
-            {% if show_password_change %}
-              <hr class="border-secondary my-2 my-sm-3">
-              <h5 class="font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4">
-                {{ 'Change Password' | t }}
-              </h5>
-              <div class="form-group mb-2">
-                <label class="form-label" for="address">{{ "Current password" | t }}</label>
-                {{ element.account.current_pass }}
-              </div>
-              <div class="form-group mb-2">
-                <label class="form-label" for="address">{{ "New password" | t }}</label>
-                {{ element.account.pass.pass1 }}
-              </div>
-              <div class="form-group mb-2">
-                <label class="form-label" for="address">{{ "Retype password" | t }}</label>
-                {{ element.account.pass.pass2 }}
-              </div>
-            {% endif %}
-            {{ element.actions.submit }}
-          </div>
 
-        </div>
-        <div class="col-lg-6">
-          <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+                                {{ element.field_referral }}
+                                {#                                        <small#}
+                                {#                                                id="referralHelp"#}
+                                {#                                                class="form-text text-muted mx-0 my-3"#}
+                                {#                                        >{{ '* Referral is not required'|t }}#}
+                                {#                                        </small#}
+                                {#                                        >#}
+                            </div>
+                        </div>
+                        {{ element.actions.submit }}
+                    </div>
 
-            <div class="form-group mb-0"></span>
-            <span class="text-success text-success font-size-3 text-uppercase w-auto">
+                </div>
+                <div class="col-lg-6">
+                    <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+
+                        <div class="form-group mb-0"></span>
+                            <span class="text-success text-success font-size-3 text-uppercase w-auto">
               {{ element.field_referral_url }}
             </span>
-            {{'დააკოპირე შენი refferal ბმული და მოიწვიე ახალი წევრები.'}}
+                            {{ 'დააკოპირე შენი refferal ბმული და მოიწვიე ახალი წევრები.' }}
 
-          </div>
-        </div>
-        <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+                        </div>
+                    </div>
+                    <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
 
-          <div class="form-group mb-0">
+                        <div class="form-group mb-0">
             <span class="form-checkbox">
               <span class="form-checkbox-input {% if politican_checked %} checked {% endif %}">
                 {{ element.field_politician }}
               </span>
-              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto" for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
+              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto"
+                     for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
             </span>
-          </div>
-          <hr class="border-secondary my-2 my-sm-3"/>
-          {{ element.politician_text }}
-        </div>
-      </div>
+                        </div>
+                        <hr class="border-secondary my-2 my-sm-3"/>
+                        {{ element.politician_text }}
+                    </div>
+                </div>
+            </div>
+
+            {#Modal#}
+            {#Modal is sitting inside of form because of user form custom image set in form alter#}
+            <div class="modal fade" id="changeUserEmail" tabindex="-1" role="dialog" aria-labelledby="changeUserEmailTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6
+                                    class="modal-title font-size-base text-success text-uppercase font-weight-bold"
+                            >
+                                    {{ 'New Email' |t }}
+                            </h6>
+                            <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                            >
+                                <i
+                                        aria-hidden="true"
+                                        class="icon-close font-size-3 text-dark-silver"
+                                ></i>
+                            </button>
+                        </div>
+                        <div class="modal-body px-3 px-md-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-7 col-lg-6 m-auto">
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="email">{{ "Enter new email" | t }}</label>
+                                        {{ element.account.mail }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="address">{{ "Password" | t }}</label>
+                                        {{ element.account.current_pass }}
+                                    </div>
+                                    {{ element.actions.submit }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{#            End Of Modal#}
+        </form>
     </div>
-  </form>
-</div></div>
+</div>
+
+

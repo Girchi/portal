@@ -51,6 +51,7 @@ hidden:
   field_rank: true
   field_rating_in_party_list: true
   field_referral_url: true
+  field_social_auth_password: true
   google_analytics: true
   langcode: true
   language: true

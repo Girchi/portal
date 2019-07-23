@@ -1,0 +1,10 @@
+user_email_change:
+  enabled: true
+  notify_current: true
+  consider_existent: true
+  limit_user_realm: false
+user_login:
+  sync_core_confirmation: true
+  sync_core_onetimeloginlinks: true
+_core:
+  default_config_hash: oKqOXWntfAFRhT7yY7euZ41aUGnGJl8Jo5r_FsQa3FY
