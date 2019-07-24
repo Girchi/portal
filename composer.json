@@ -207,7 +207,7 @@
     "drupal/contact_storage": "^1.0@beta",
     "drupal/context": "^4.0@beta",
     "drupal/context_groups": "^1.0",
-    "drupal/core": "^8.7",
+    "drupal/core": "^8.7.5",
     "drupal/csv_serialization": "^1.0",
     "drupal/default_content": "^1.0@alpha",
     "drupal/devel": "^1.0@RC",
@@ -354,7 +354,7 @@
       "drupal/block_node": {
         "Add route context to block": "patches/block_node_cache_contexts.patch"
       },
-      "drupal/core": {
+      "drupal/corne": {
         "Access user emails ": "https://www.drupal.org/files/issues/2019-04-26/drupal-2799049-30-new-permission-view-user-mail.patch",
         "Fix Entity reference autocomplete with fields": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch",
         "Fix ajax error in views relationships": "https://www.drupal.org/files/issues/2019-05-04/2457999-194.patch"
