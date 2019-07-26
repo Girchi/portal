@@ -1,0 +1,36 @@
+default:
+  autoload:
+   - %paths.base%/tests/Behat
+  suites:
+    default:
+      paths:
+       - %paths.base%/tests/features
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      base_url: http://girchi_nginx
+    Drupal\DrupalExtension:
+      drupal:
+        drupal_root: 'web'
+      blackbox: ~
+      api_driver: 'drupal'
+      region_map:
+        header: 'header'
+        footer: 'footer'
+        breadcrumb: '#breadcrumbs'
+        tabs: '#tabs'
+      text:
+        username_field: 'Username'
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.messages--error'
+        success_message_selector: '.messages.messages--status'
+  formatters:
+    progress: ~
