@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: wodby/php
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            composer install
+      - run:
+          name: install drupal coder
+          command: | 
+            composer global require drupal/coder
+      - run:
+          name: run PHPCS tests
+          command: |
+            bash ./.circleci/phpcs.sh
