@@ -94,7 +94,7 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
     try {
       $members = [];
       $uid = $this->accountProxy->id();
-      /** @var \Drupal\user\Entity\UserStorage $user_storage */
+      /** @var \Drupal\user\UserStorage $user_storage */
       $user_storage = $this->entityTypeManager->getStorage('user');
       /** @var \Drupal\user\Entity\User $currentUser */
       $currentUser = $user_storage->load($uid);
@@ -108,6 +108,7 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
         if ($memberId !== NULL) {
 
           $gedPercentage = $member->get('value')->getValue();
+          /** @var \Drupal\user\Entity\User $memberEntity */
           $memberEntity = $user_storage->load($memberId);
           $firstName = $memberEntity->get('field_first_name')->value;
           $lastName = $memberEntity->get('field_last_name')->value;
