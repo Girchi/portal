@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-07-17 08:47+0000\n"
-"PO-Revision-Date: 2019-07-17 08:47+0000\n"
+"POT-Creation-Date: 2019-07-29 12:58+0000\n"
+"PO-Revision-Date: 2019-07-29 12:58+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -333,9 +333,6 @@ msgstr "სურათი"
 
 msgid "Types"
 msgstr "ტიპები"
-
-msgid "Hierarchy"
-msgstr "იერარქია"
 
 msgid "Required"
 msgstr "სავალდებულო"
@@ -2538,9 +2535,6 @@ msgstr "მეტი დახმარება"
 msgid "Sizes"
 msgstr "ზომები"
 
-msgid "Add terms"
-msgstr "ტერმინების დამატება"
-
 msgid "« first"
 msgstr "« პირველი"
 
@@ -2814,15 +2808,6 @@ msgstr "საიტის ინსტალაცია"
 msgid "Finish translations"
 msgstr "თარგმანის დასრულება"
 
-msgid ""
-"By default, dates in this site will be displayed in the chosen time "
-"zone."
-msgstr ""
-"ნაგულისხმევად, ამ საიტზე "
-"თარიღები გამოჩნდება "
-"არჩეული დროის სარტყლის "
-"შესაბამისად."
-
 msgid "Update notifications"
 msgstr "განახლების შეტყობინებები"
 
@@ -3056,6 +3041,19 @@ msgstr "მონაცემთა ბაზის სისტემა"
 msgid "Database system version"
 msgstr "მონაცემთა ბაზის ვერსია"
 
+msgid ""
+"A message has been sent to the new email address %email to confirm the "
+"change. Until confirmed, your current address will be used."
+msgstr ""
+"ელ-ფოსტის ცვლილების "
+"დამადასტურებელი "
+"შეტყობინება "
+"გამოგზავნილია "
+"მისამართზე: %email. "
+"შეტყობინების "
+"დადასტურებამდე თქვენი "
+"ელ-ფოსტა რჩება უცვლელი."
+
 msgid "Main navigation"
 msgstr "Main navigation"
 
@@ -3064,6 +3062,21 @@ msgstr "Site section links"
 
 msgid "Active"
 msgstr "აქტიური"
+
+msgid "Hierarchy"
+msgstr "იერარქია"
+
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
+
+msgid ""
+"By default, dates in this site will be displayed in the chosen time "
+"zone."
+msgstr ""
+"ნაგულისხმევად, ამ საიტზე "
+"თარიღები გამოჩნდება "
+"არჩეული დროის სარტყლის "
+"შესაბამისად."
 
 msgid "There is no content"
 msgstr "კონტენტი არ არსებობს "
@@ -3562,19 +3575,6 @@ msgid "Estimated price in month:"
 msgstr "სავარაუდო ფასი თვეში:"
 
 msgid ""
-"A message has been sent to the new email address %email to confirm the "
-"change. Until confirmed, your current address will be used."
-msgstr ""
-"ელ-ფოსტის ცვლილების "
-"დამადასტურებელი "
-"შეტყობინება "
-"გამოგზავნილია "
-"მისამართზე: %email. "
-"შეტყობინების "
-"დადასტურებამდე თქვენი "
-"ელ-ფოსტა რჩება უცვლელი."
-
-msgid ""
 "Your current password is missing or incorrect; it's required to change "
 "the %name."
 msgstr ""
@@ -3609,4 +3609,10 @@ msgstr ""
 
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
+
+msgid "personal party list"
+msgstr "პირადი პარტიული სია"
+
+msgid "GeD and"
+msgstr "GeD და"
 
