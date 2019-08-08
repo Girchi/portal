@@ -51,8 +51,8 @@ class PartyListCalculatorService {
       $user_rating = [];
 
       /**
-      * @var \Drupal\user\Entity\UserStorage $users
-      */
+       * @var \Drupal\user\Entity\UserStorage $users
+       */
       $user_storage = $this->entityTypeManager->getStorage('user');
       $user_ids = $user_storage->getQuery()
         ->condition('field_ged', '0', '>')
@@ -60,35 +60,41 @@ class PartyListCalculatorService {
         ->execute();
       $users = $user_storage->loadMultiple($user_ids);
       /**
-      * @var \Drupal\user\Entity\User $user
-      */
+       * @var \Drupal\user\Entity\User $user
+       */
       if (!empty($users)) {
         foreach ($users as $user) {
 
           $user_party_list = $user->get('field_my_party_list')->getValue();
           $user_ged = (int) $user->get('field_ged')->getValue()[0]['value'];
-
           foreach ($user_party_list as $party_list_item) {
             $percentage = (int) $party_list_item['value'];
             $uid = $party_list_item['target_id'];
-            $user_rating[$uid] = $user_ged * ($percentage / 100);
+            if (isset($user_rating[$uid])) {
+              $user_rating[$uid] += $user_ged * ($percentage / 100);
+            }
+            else {
+              $user_rating[$uid] = $user_ged * ($percentage / 100);
+            }
           };
         }
         arsort($user_rating);
         $rating_number = 1;
         foreach ($user_rating as $uid => $ged_amount) {
           /**
-          * @var \Drupal\user\Entity\User $politician
-          */
+           * @var \Drupal\user\Entity\User $politician
+           */
           $politician = $user_storage->load($uid);
-          $politician->set('field_rating_in_party_list', $rating_number);
-          $politician->set('field_political_ged', $ged_amount);
-          try {
-            $politician->save();
-            $rating_number++;
-          }
-          catch (EntityStorageException $e) {
-            $this->loggerFactory->error($e->getMessage());
+          if ($politician != NULL) {
+            $politician->set('field_rating_in_party_list', $rating_number);
+            $politician->set('field_political_ged', $ged_amount);
+            try {
+              $politician->save();
+              $rating_number++;
+            }
+            catch (EntityStorageException $e) {
+              $this->loggerFactory->error($e->getMessage());
+            }
           }
         }
       }

@@ -2,11 +2,9 @@
 
 namespace Drupal\girchi_my_party_list\Controller;
 
-use Drupal;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\file\Entity\File;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -42,7 +40,7 @@ class PartyListController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-        $container->get('entity_type.manager')
+      $container->get('entity_type.manager')
     );
   }
 
@@ -129,8 +127,7 @@ class PartyListController extends ControllerBase {
     }
 
     if (!empty($user)) {
-      $query = Drupal::entityQuery('user');
-
+      $query = $this->entityTypeManager->getStorage('user');
       $nameConditions = $query->orConditionGroup()
         ->condition('field_first_name', $firstName, $queryOperator)
         ->condition('field_last_name', $lastName, 'CONTAINS');
@@ -195,7 +192,7 @@ class PartyListController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getUsersInfo($users) {
+  public function getUsersInfo(array $users) {
     $userArray = [];
     if (!empty($users)) {
       foreach ($users as $user) {
@@ -206,8 +203,7 @@ class PartyListController extends ControllerBase {
           $imgUrl = '';
           if (!empty($user->get('user_picture')[0])) {
             $imgId = $user->get('user_picture')[0]->getValue()['target_id'];
-            $imgFile = File::load($imgId);
-
+            $imgFile = $this->entityTypeManager->getStorage('file')->load($imgId);
             $style = $this->entityTypeManager()->getStorage('image_style')->load('party_member');
             $imgUrl = $style->buildUrl($imgFile->getFileUri());
           }
@@ -267,6 +263,27 @@ class PartyListController extends ControllerBase {
       $politicianUids[] = $politician->id();
     }
     return $politicianUids;
+  }
+
+  /**
+   * Get Users.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *
+   *   Request.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *
+   *   Json Response
+   */
+  public function getPoliticianSupporters(Request $request) {
+    $userId = $request->request->get('userId');
+    $supporters = get_politician_supporters($userId);
+    $supporters = $supporters[$userId]['users_info'];
+    usort($supporters, function ($a, $b) {
+      return $a['ged_amount'] > $b['ged_amount'] ? -1 : 1;
+    });
+    return new JsonResponse($supporters);
   }
 
 }

@@ -369,6 +369,9 @@
       },
       "drupal/email_confirmer": {
         "form skip": "https://www.drupal.org/files/issues/2019-04-16/email_confirmer-optionally_skip_confirmation_form-2971857-10.patch"
+      },
+      "drupal/better_exposed_filter": {
+        "auto submit": "patches/auto_submit_time.patch"
       }
     },
     "installer-paths": {

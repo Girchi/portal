@@ -41,5 +41,6 @@ $(document).ready(function () {
                 });
                 $("#politician").selectpicker("refresh");
             });
-    })
+    });
+
 });

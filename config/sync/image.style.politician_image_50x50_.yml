@@ -1,0 +1,15 @@
+uuid: d74fa78c-8170-4dac-8cd2-7d51810feaad
+langcode: ka
+status: true
+dependencies: {  }
+name: politician_image_50x50_
+label: 'Politician image (50x50)'
+effects:
+  6f14a502-360d-4cb3-8d95-6c16c425875f:
+    uuid: 6f14a502-360d-4cb3-8d95-6c16c425875f
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 50
+      height: 50
+      anchor: center-center

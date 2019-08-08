@@ -1,0 +1,29 @@
+{#
+
+/**
+ * @file
+ * Default theme implementation for a 'form' element.
+ *
+ * Available variables
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The child elements of the form.
+ *
+ * @see template_preprocess_form()
+ *
+ * @ingroup themeable
+ */
+#}
+<form{{ attributes }} class = "w-100 max-w-md-200 pt-3  mt-2 mt-md-0 pt-md-0 navbar-search ml-auto text-right">
+    {{ element.form_build_id }}
+    {{ element.form_token }}
+    {{ element.form_id }}
+
+    <div class="navbar-search-input bg-white rounded-oval pr-4 border-secondary border overflow-hidden w-100 w-md-200-px d-block">
+    {{ element.combine }}
+    </div>
+    <button class="navbar-search-btn border-0 p-0 outline-none bg-transparent line-height-0-9 m-2 p-1 text-dark-silver">
+        <i class="icon-search"></i>
+        {{ element.actions.submit }}
+    </button>
+
+</form>

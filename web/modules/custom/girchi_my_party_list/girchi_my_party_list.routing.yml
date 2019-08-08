@@ -24,3 +24,10 @@ girchi_my_party_list.party_list_controller_updateUser:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+girchi_my_party_list.party_list_controller_getPoliticianSupporters:
+  path: '/api/party-list/getPoliticianSupporters'
+  defaults:
+    _controller: '\Drupal\girchi_my_party_list\Controller\PartyListController::getPoliticianSupporters'
+    _title: 'Update user'
+  requirements:
+    _permission: 'access content'

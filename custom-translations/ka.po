@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-07-17 08:47+0000\n"
-"PO-Revision-Date: 2019-07-17 08:47+0000\n"
+"POT-Creation-Date: 2019-08-06 07:44+0000\n"
+"PO-Revision-Date: 2019-08-06 07:44+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3056,6 +3056,19 @@ msgstr "მონაცემთა ბაზის სისტემა"
 msgid "Database system version"
 msgstr "მონაცემთა ბაზის ვერსია"
 
+msgid ""
+"A message has been sent to the new email address %email to confirm the "
+"change. Until confirmed, your current address will be used."
+msgstr ""
+"ელ-ფოსტის ცვლილების "
+"დამადასტურებელი "
+"შეტყობინება "
+"გამოგზავნილია "
+"მისამართზე: %email. "
+"შეტყობინების "
+"დადასტურებამდე თქვენი "
+"ელ-ფოსტა რჩება უცვლელი."
+
 msgid "Main navigation"
 msgstr "Main navigation"
 
@@ -3562,19 +3575,6 @@ msgid "Estimated price in month:"
 msgstr "სავარაუდო ფასი თვეში:"
 
 msgid ""
-"A message has been sent to the new email address %email to confirm the "
-"change. Until confirmed, your current address will be used."
-msgstr ""
-"ელ-ფოსტის ცვლილების "
-"დამადასტურებელი "
-"შეტყობინება "
-"გამოგზავნილია "
-"მისამართზე: %email. "
-"შეტყობინების "
-"დადასტურებამდე თქვენი "
-"ელ-ფოსტა რჩება უცვლელი."
-
-msgid ""
 "Your current password is missing or incorrect; it's required to change "
 "the %name."
 msgstr ""
@@ -3609,4 +3609,43 @@ msgstr ""
 
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
+
+msgid "Girchi party list"
+msgstr "გირჩის პარტიული სია"
+
+msgid "Supporters"
+msgstr "მხარდამჭერები"
+
+msgid "Intro"
+msgstr "ინტრო"
+
+msgid "Full biography"
+msgstr "სრული ბიოგრაფია"
+
+msgid "Learn about politician"
+msgstr "გაიცანი პოლიტიკოსი"
+
+msgid "Favorite news"
+msgstr "რჩეული სიახლეები"
+
+msgid "personal party list"
+msgstr "პირადი პარტიული სია"
+
+msgid "GeD and"
+msgstr "GeD და "
+
+msgid "Politician rating"
+msgstr "პოლიტიკური წონა"
+
+msgid "Politician Ged"
+msgstr "გამომუშავებული GED-ები"
+
+msgid "Referrals"
+msgstr "რეფერალები"
+
+msgid "Donate to politician"
+msgstr "დააფინანსე პოლიტიკოსი"
+
+msgid "Ged &#37;"
+msgstr "Ged-ების &#37;"
 

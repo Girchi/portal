@@ -14,7 +14,8 @@ include drupal_get_path('theme', 'girchi') . '/girchi.theme-suggestions.inc';
 /**
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
-function girchi_preprocess_html(array &$variables) {
+function girchi_preprocess_html(array &$variables)
+{
   /* Add class to html tag */
   // $variables['html_attributes']->addClass('no-js');
   // Don't display the site name twice on the front page (and potentially others)
@@ -25,7 +26,7 @@ function girchi_preprocess_html(array &$variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
   $current_uri = \Drupal::request()->getRequestUri();
 
-  if($current_uri == '/change-password'){
+  if ($current_uri == '/change-password') {
     $uid = \Drupal::currentUser()->id();
     $response = new RedirectResponse('/user/' . $uid . '/change-password');
     $response->send();
@@ -56,7 +57,8 @@ function girchi_preprocess_html(array &$variables) {
 /**
  * Implements hook_page_attachments_alter().
  */
-function girchi_page_attachments_alter(array &$page) {
+function girchi_page_attachments_alter(array &$page)
+{
   // Tell IE to use latest rendering engine (not to use compatibility mode).
   /*$ie_edge = [
   '#type' => 'html_tag',
@@ -72,7 +74,8 @@ function girchi_page_attachments_alter(array &$page) {
 /**
  * Implements hook_preprocess_page() for page.html.twig.
  */
-function girchi_preprocess_page(array &$variables) {
+function girchi_preprocess_page(array &$variables)
+{
 
   // Get config from site settings.
   $config = \Drupal::config('om_site_settings.site_settings');
@@ -96,22 +99,21 @@ function girchi_preprocess_page(array &$variables) {
 
   // If current route is user page and user exists.
   if ($route_name === 'entity.user.canonical'
-        && $user = \Drupal::routeMatch()->getParameter('user')
-    ) {
+    && $user = \Drupal::routeMatch()->getParameter('user')
+  ) {
     // Get uid from route.
-    $uid = (int) $user->id();
+    $uid = (int)$user->id();
     // Get current uid.
-    $current_uid = (int) $user = \Drupal::currentUser()->id();
+    $current_uid = (int)$user = \Drupal::currentUser()->id();
 
     // If the uid from the URL matches with the current uid,
     // redirect to the user edit form, otherwise - to the main page.
     if ($uid === $current_uid) {
       $redirect_path = Url::fromRoute(
-            'entity.user.edit_form',
-            ['user' => $current_uid]
-        )->toString();
-    }
-    else {
+        'entity.user.edit_form',
+        ['user' => $current_uid]
+      )->toString();
+    } else {
       $redirect_path = '/';
     }
 
@@ -129,8 +131,7 @@ function girchi_preprocess_page(array &$variables) {
     if ($avatarEntity) {
       $currentUserAvatar = $avatarEntity->getFileUri();
       $isAvatar = TRUE;
-    }
-    else {
+    } else {
       $currentUserAvatar = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
       $isAvatar = FALSE;
     }
@@ -147,13 +148,13 @@ function girchi_preprocess_page(array &$variables) {
 
   $node = \Drupal::request()->attributes->get('node');
   if (isset($node) && $node->getType() == 'promo_page') {
-    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
-    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
-    $build                             = $view_builder->view($webform);
+    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
+    $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build = $view_builder->view($webform);
     $variables['student_registration'] = $build;
-    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
-    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
-    $build                             = $view_builder->view($webform);
+    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
+    $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build = $view_builder->view($webform);
     $variables['teacher_registration'] = $build;
   }
 }
@@ -161,21 +162,24 @@ function girchi_preprocess_page(array &$variables) {
 /**
  * Implements hook_preprocess_user() for page.html.twig.
  */
-function girchi_preprocess_user(array &$variables) {
+function girchi_preprocess_user(array &$variables)
+{
 
 }
 
 /**
  * Implements hook_preprocess_HOOK() for Block document templates.
  */
-function girchi_preprocess_block(array &$variables) {
+function girchi_preprocess_block(array &$variables)
+{
 
 }
 
 /**
  * Implements hook_theme_suggestions_field_alter().
  */
-function girchi_theme_suggestions_fieldset_alter(array &$suggestions, array $variables) {
+function girchi_theme_suggestions_fieldset_alter(array &$suggestions, array $variables)
+{
   /*$element = $variables['element'];
   if (isset($element['#attributes']['class']) && in_array('form-composite', $element['#attributes']['class'])) {
   $suggestions[] = 'fieldset__form_composite';
@@ -185,7 +189,8 @@ function girchi_theme_suggestions_fieldset_alter(array &$suggestions, array $var
 /**
  * Implements hook_preprocess_node().
  */
-function girchi_preprocess_node(array &$variables) {
+function girchi_preprocess_node(array &$variables)
+{
   // Default to turning off byline/submitted.
   // $variables['display_submitted'] = FALSE;.
   if ($variables['node']->getType() == 'article') {
@@ -217,7 +222,10 @@ function girchi_preprocess_node(array &$variables) {
 /**
  * Implements hook_preprocess_views_view().
  */
-function girchi_preprocess_views_view(&$variables) {
+function girchi_preprocess_views_view(&$variables)
+{
+
+
   if ($variables['id'] == 'news') {
     if (empty($variables['exposed']['category']['#value']) == FALSE) {
 
@@ -227,12 +235,15 @@ function girchi_preprocess_views_view(&$variables) {
 
     }
   }
+
+
 }
 
 /**
  * Implements hook_preprocess_form().
  */
-function girchi_preprocess_form(array &$variables) {
+function girchi_preprocess_form(array &$variables)
+{
   $config = \Drupal::config('om_site_settings.site_settings');
   $variables['enable_user_ui'] = $config->get('enable_user_ui');
 
@@ -241,14 +252,14 @@ function girchi_preprocess_form(array &$variables) {
   $user = User::load($current_user_id);
 
   if ($variables['attributes']['id'] == 'user-form') {
-    if($user->get('field_social_auth_password')->getValue()){
+    if ($user->get('field_social_auth_password')->getValue()) {
       $social_auth_check = $user->get('field_social_auth_password')->getValue()[0]['value'];
-    }else {
+    } else {
       $social_auth_check = FALSE;
     }
     $social_auth = \Drupal::service('social_auth.data_handler');
-    $social_auth_token_check = $social_auth->get('social_auth_facebook_access_token') ;
-    if(!$social_auth_check && $social_auth_token_check){
+    $social_auth_token_check = $social_auth->get('social_auth_facebook_access_token');
+    if (!$social_auth_check && $social_auth_token_check) {
       $response = new RedirectResponse("/createpassword");
       $response->send();
     }
@@ -258,14 +269,16 @@ function girchi_preprocess_form(array &$variables) {
 /**
  * Implements hook_preprocess_select().
  */
-function girchi_preprocess_select(array &$variables) {
+function girchi_preprocess_select(array &$variables)
+{
   // $variables['attributes']['class'][] = 'select-chosen';
 }
 
 /**
  * Implements hook_preprocess_field().
  */
-function girchi_preprocess_field(array &$variables, $hook) {
+function girchi_preprocess_field(array &$variables, $hook)
+{
   /*switch ($variables['element']['#field_name']) {
   }*/
 }
@@ -273,7 +286,8 @@ function girchi_preprocess_field(array &$variables, $hook) {
 /**
  * Implements hook_preprocess_details().
  */
-function girchi_preprocess_details(array &$variables) {
+function girchi_preprocess_details(array &$variables)
+{
   /*$variables['attributes']['class'][] = 'details';
   $variables['summary_attributes']['class'] = 'summary';*/
 }
@@ -281,14 +295,16 @@ function girchi_preprocess_details(array &$variables) {
 /**
  * Implements hook_preprocess_menu_local_task().
  */
-function girchi_preprocess_menu_local_task(array &$variables) {
+function girchi_preprocess_menu_local_task(array &$variables)
+{
   // $variables['element']['#link']['url']->setOption('attributes', ['class'=>'rounded']);
 }
 
 /**
  *
  */
-function girchi_preprocess_taxonomy_term(&$variables) {
+function girchi_preprocess_taxonomy_term(&$variables)
+{
   $term_id = $variables['elements']['#taxonomy_term']->id();
   $variables['term_id'] = $term_id;
 }
@@ -296,7 +312,8 @@ function girchi_preprocess_taxonomy_term(&$variables) {
 /**
  *
  */
-function girchi_preprocess_paragraph(&$variables) {
+function girchi_preprocess_paragraph(&$variables)
+{
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   if ($paragraph->getParagraphType()->id() == 'basic_text') {
@@ -386,10 +403,27 @@ function girchi_preprocess_paragraph(&$variables) {
 /**
  *
  */
-function girchi_preprocess_menu(array &$variables) {
+function girchi_preprocess_menu(array &$variables)
+{
   if (isset($variables['menu_name']) && $variables['menu_name'] == 'about-us') {
     $current_url = Url::fromRoute('<current>');
     $path = $current_url->toString();
     $variables['current_path'] = $path;
+  }
+}
+
+
+function girchi_preprocess_views_view_fields(&$variables) {
+  $view = $variables['view'];
+
+  if ($view->id() == 'party_list') {
+    $politician_ids = [];
+    foreach ($view->result as $user) {
+      $politician_ids [] = $user->_entity->id();
+    }
+    if (!empty($politician_ids)) {
+      $supporters = get_politicians_supporters($politician_ids);
+      $variables['supporters'] = $supporters;
+    }
   }
 }

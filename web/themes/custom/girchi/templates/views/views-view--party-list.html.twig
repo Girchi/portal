@@ -32,56 +32,162 @@
  * @ingroup themeable
  */
 #}
-{%
-    set classes = [
+{% set classes = [
     dom_id ? 'js-view-dom-id-' ~ dom_id,
-]
-%}
+] %}
 <div{{ attributes.addClass(classes) }}>
-    {{ title_prefix }}
-    {{ title }}
-    {{ title_suffix }}
+    <div class="row flex-column-reverse flex-lg-row">
+        <div class="col-md-12 col-lg-3 order-1 order-lg-0">
+            {{ print_block('userprofile') }}
+            {{ print_block('useraccountmenu') }}
+        </div>
+        <div class="col-md-12 col-lg-9">
+            {{ print_block('politicianblock') }}
+            <!-- Start of card -->
+            <div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3 overflow-hidden">
+                <div class="card-body p-0">
+                    <div
+                        class="d-flex flex-column flex-md-row px-3 px-md-4 py-3 align-items-md-center"
+                    >
+                        <h6 class="text-uppercase font-weight-bold m-0">
+                            {{ 'Girchi party list' | t }}
+                        </h6>
+                        {{ exposed }}
+                    </div>
+                    {{ attachment_before }}
+                    <table class="table m-0 table-hover">
+                        <thead>
+                        <tr class="bg-dark-white">
+                            <th
+                                scope="col"
+                                class="align-middle w-auto w-md-80-px text-center text-dark-silver font-size-2 border-0"
+                            >
+                                #
+                            </th>
+                            <th
+                                scope="col"
+                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0"
+                            >
+                                {{ 'Politician' |t }}
+                            </th>
+                            <th
+                                scope="col"
+                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0 text-center line-height-1-2"
+                            >
+                                {{ 'Supporters' |t }}
+                            </th>
+                            <th
+                                scope="col"
+                                class="font-size-1 font-size-md-2 text-dark-silver align-middle text-center d-none d-md-table-cell border-0"
+                            >
+                                GeD
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if rows -%}
+                            {{ rows }}
+                        {% elseif empty -%}
+                            {{ empty }}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    {{ pager }}
 
-    {% if header %}
-        <header>
-            {{ header }}
-        </header>
-    {% endif %}
-
-    {{ exposed }}
-    {{ attachment_before }}
-    <div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3">
-        <div class="card-body p-3 p-md-4">
-            <div class="d-flex flex-column flex-md-row">
-                <div>
-                    <h5 class="text-uppercase text-success font-weight-bold">
-                        {{ 'Party list' | t }}
-                    </h5>
                 </div>
             </div>
-            <hr class="mx-md-n4  mt-3 mt-md-4"/>
-            <ul class="list-group my-3 my-md-4 pl-group">
-    {% if rows -%}
-        {{ rows }}
-    {% elseif empty -%}
-        {{ empty }}
-    {% endif %}
-                {{ pager }}
-            </ul>
+            <!-- End of card -->
         </div>
     </div>
-</div>
-
-
+    <!-- Modal -->
+    <div
+        class="modal fade"
+        id="supporters"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="supportersTitle"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content overflow-hidden">
+                <div class="modal-header align-items-center px-3 px-md-4">
+                    <h5
+                        class="modal-title font-size-3 text-uppercase font-weight-bold"
+                        id="supportersTitle"
+                    >
+                        {{ 'Supporters' |t }}
+                    </h5>
+                    <form
+                        class="w-100 max-w-md-200 pt-3  mt-2 mt-md-0 pt-md-0 navbar-search ml-auto text-right mr-1 d-none d-md-block"
+                        action=""
+                    >
+                        <div
+                            class="navbar-search-input bg-white rounded-oval pr-4 border-secondary border overflow-hidden w-100 w-md-200-px d-block"
+                        >
+                            <input
+                                type="text"
+                                name="q"
+                                id="supporter-search"
+                                placeholder="{{ 'Search...' |t }}"
+                                class="border-0 py-1 m-1 px-3 outline-none font-size-3 text-success w-100"
+                            />
+                        </div>
+                        <button
+                            class="navbar-search-btn border-0 p-0 outline-none bg-transparent line-height-0-9 m-2 p-1 text-dark-silver"
+                        >
+                            <i class="icon-search"></i>
+                        </button>
+                    </form>
+                    <button
+                        type="button"
+                        class="close ml-2"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                    >
+                        <i
+                            aria-hidden="true"
+                            class="icon-close font-size-3 text-dark-silver"
+                        ></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <table class="table m-0 table-hover">
+                        <thead>
+                        <tr class="bg-dark-white">
+                            <th
+                                scope="col"
+                                class="align-middle w-auto w-md-80-px text-center text-dark-silver font-size-2 border-0"
+                            >
+                                #
+                            </th>
+                            <th
+                                scope="col"
+                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0"
+                            >
+                                {{ "Name" |t }}
+                            </th>
+                            <th
+                                scope="col"
+                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0 text-center line-height-1-2"
+                            >
+                                {{ "Ged &#37;" |t  }}
+                                <span class="d-inline-block d-md-none">GeD</span>
+                            </th>
+                            <th
+                                scope="col"
+                                class="font-size-1 font-size-md-2 text-dark-silver align-middle text-center d-none d-md-table-cell border-0"
+                            >
+                                GeD
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     {{ attachment_after }}
     {{ more }}
-
-    {% if footer %}
-        <footer>
-            {{ footer }}
-        </footer>
-    {% endif %}
-
-    {{ feed_icons }}
 </div>
-

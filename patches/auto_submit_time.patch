@@ -1,0 +1,16 @@
+Index: web/modules/contrib/better_exposed_filters/js/auto_submit.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/modules/contrib/better_exposed_filters/js/auto_submit.js	(date 1564157088000)
++++ web/modules/contrib/better_exposed_filters/js/auto_submit.js	(date 1564157088000)
+@@ -81,7 +81,7 @@
+                 // Use debounce to prevent excessive submits on text field changes.
+                 // Navigation key presses are ignored.
+                 else if ($target.is(':text:not(.hasDatepicker), textarea') && $.inArray(e.keyCode, ignoredKeyCodes) === -1) {
+-                    Drupal.debounce(triggerSubmit, 1500)($target);
++                    Drupal.debounce(triggerSubmit, 1500 )($target);
+                 }
+                 // Only trigger submit if a change was the trigger (no keyup).
+                 else if (e.type === 'change') {
