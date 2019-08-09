@@ -36,7 +36,7 @@
 {% set img_url = fields.user_picture.content | striptags  | replace({"\n":'', "\r":''}) %}
 {% set default_img_url = theme_path('images/avatar50x50.png', 1) %}
 <tr>
-<th
+    <th
         scope="row"
         class="pl-3 w-auto w-md-80-px text-center align-middle"
     >
@@ -84,10 +84,10 @@
         </div>
     </td>
     <td class="text-right text-md-center align-middle">
-        <ul
-            class="list-unstyled m-0 align-items-center d-none d-md-flex"
-        >
-            {% if supporter_count > 4 %}
+        {% if supporter_count > 4 %}
+            <ul
+                class="list-unstyled m-0 align-items-center d-none d-md-flex"
+            >
                 {% for i in 0..3 %}
                     <li class="d-inline-flex align-items-center">
                         <a
@@ -107,7 +107,7 @@
                         </a>
                     </li>
                 {% endfor %}
-                <li class="d-inline-flex align-items-center">
+                <li>
                     <a
                         href="#"
                         data-toggle="modal"
@@ -118,7 +118,30 @@
                         {{ supporter_count - 4 }} +
                     </a>
                 </li>
-            {% else %}
+            </ul>
+            <a
+                data-toggle="modal"
+                data-target="#supporters"
+                data-uid="{{ uid }}"
+                class="btn btn-light btn-sm m-1 p-1 bg-hover-success text-hover-white d-inline-flex d-md-none flex-column rounded-sm politician-modal"
+            >
+                          <span
+                              class="rounded-circle overflow-hidden d-inline-block m-1"
+                          >
+                            <img
+                                src="{{ supporters[uid]['users_info'][0]['img_url'] }}"
+                                class="rounded"
+                                width="28"
+                                alt="..."
+                            />
+                          </span>
+
+                {{ supporter_count - 4 }} +
+            </a>
+        {% else %}
+            <ul
+                class="list-unstyled m-0 align-items-center d-none d-md-flex"
+            >
                 {% for supporter in supporters[uid]['users_info'] %}
                     <li class="d-inline-flex align-items-center">
                         <a
@@ -138,8 +161,8 @@
                         </a>
                     </li>
                 {% endfor %}
-            {% endif %}
-        </ul>
+            </ul>
+        {% endif %}
     </td>
     <td
         class="align-middle text-center d-none d-md-table-cell"
