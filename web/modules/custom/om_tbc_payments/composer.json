@@ -1,0 +1,14 @@
+{
+  "name": "drupal/om_tbc_payments",
+  "type": "drupal-module",
+  "description": "TBC Payments module by Omedia",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/om_tbc_payments",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/om_tbc_payments",
+    "source": "http://cgit.drupalcode.org/om_tbc_payments"
+  },
+  "require": { }
+}

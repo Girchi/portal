@@ -1,0 +1,248 @@
+<div class="bg-gradient-green overflow-hidden">
+    <div class="container">
+        <!-- Start of head -->
+        <div class="text-center py-4 py-sm-6">
+            <h5 class="text-white text-uppercase font-weight-bold font-size-5">
+                {{ 'Become a partner'|t }}
+            </h5>
+            <p class="text-white font-size-3 mb-0">
+                {{ 'Fund the GIRCHI, get the relevant GeDs and hit the leaderboard'|t }}
+            </p>
+        </div>
+        <div class="card mb-4 mb-sm-8">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div
+                                class="px-md-8  px-lg-4 px-xl-8 py-3  py-2 py-md-3  py-xl-4"
+                        >
+                            <ul
+                                    class="nav nav-tabs nav-justified"
+                                    id="myTab"
+                                    role="tablist"
+                            >
+                                <li class="nav-item">
+                                    <a
+                                            class="nav-link active text-uppercase py-3"
+                                            id="single-donation-tab"
+                                            data-toggle="tab"
+                                            href="#single-donation"
+                                            role="tab"
+                                            aria-controls="single-donation"
+                                            aria-selected="true"
+                                    >
+                                        {{ 'Disposable'|t }}
+                                    </a
+                                    >
+                                </li>
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a#}
+                                {#                                            class="nav-link text-uppercase py-3"#}
+                                {#                                            id="multiple-donation-tab"#}
+                                {#                                            data-toggle="tab"#}
+                                {#                                            href="#multiple-donation"#}
+                                {#                                            role="tab"#}
+                                {#                                            aria-controls="multiple-donation"#}
+                                {#                                            aria-selected="false"#}
+                                {#                                    >#}
+                                {#                                        {{ 'Multiple'|t }}#}
+                                {#                                    </a#}
+                                {#                                    >#}
+                                {#                                </li>#}
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div
+                                        class="tab-pane fade show active"
+                                        id="single-donation"
+                                        role="tabpanel"
+                                        aria-labelledby="single-donation-tab"
+                                >
+                                    <form method="POST" >
+                                        {{ form_single.form_build_id }}
+                                        {{ form_single.form_token}}
+                                        {{ form_single.form_id }}
+                                        <p
+                                                class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
+                                        >
+                                            <img
+                                                    src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
+                                                    alt=""
+                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                    height="17"
+                                            />
+                                            <img
+                                                    src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
+                                                    alt=""
+                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                    height="17"
+                                            />
+                                            <img
+                                                    src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
+                                                    alt=""
+                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                    height="12"
+                                            />
+                                            <img
+                                                    src="/themes/custom/girchi/dist/css/images/visa.png"
+                                                    alt=""
+                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                    height="12"
+                                            />
+                                            <img
+                                                    src="/themes/custom/girchi/dist/css/images/mc.svg"
+                                                    alt=""
+                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                    height="17"
+                                            />
+                                        </p>
+                                        <hr class="border-dashed border-secondary"/>
+                                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                                            <div class="form-group w-100 w-md-50 pr-sm-2">
+                                                <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
+                                                {{ form_single.amount }}
+                                            </div>
+                                            <div class="form-group w-100 w-md-50">
+                                                <label class="form-label">
+                                                    {{ 'You will get'|t }}
+                                                </label>
+                                                <div
+                                                        class="text-success font-size-5 d-flex pl-3 pt-2"
+                                                >
+                                                    <i class="icon-ged"></i>
+                                                    <span class="ml-1" id="ged-place1">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="description"
+                                            >{{ 'Donation aim'|t }}</label
+                                            >
+                                            <div class="form-control form-control-lg">
+                                                {{ form_single.donation_aim }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="politicians"
+                                            >{{ 'Donation to politician'|t }}</label
+                                            >
+                                            <div class="form-control form-control-lg">
+                                                {{ form_single.politicians}}
+                                            </div>
+                                        </div>
+                                        {{ form_single.currency }}
+                                        {{ form_single.submit }}
+                                    </form>
+                                </div>
+                                {#                                <div#}
+                                {#                                        class="tab-pane fade"#}
+                                {#                                        id="multiple-donation"#}
+                                {#                                        role="tabpanel"#}
+                                {#                                        aria-labelledby="multiple-donation-tab"#}
+                                {#                                >#}
+                                {#                                    <form method="POST">#}
+                                {#                                        {{ form_multiple.form_build_id }}#}
+                                {#                                        {{ form_multiple.form_token}}#}
+                                {#                                        {{ form_multiple.form_id }}#}
+                                {#                                        <p#}
+                                {#                                                class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"#}
+                                {#                                        >#}
+                                {#                                            <img#}
+                                {#                                                    src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"#}
+                                {#                                                    alt=""#}
+                                {#                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"#}
+                                {#                                                    height="17"#}
+                                {#                                            />#}
+                                {#                                            <img#}
+                                {#                                                    src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"#}
+                                {#                                                    alt=""#}
+                                {#                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"#}
+                                {#                                                    height="17"#}
+                                {#                                            />#}
+                                {#                                            <img#}
+                                {#                                                    src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"#}
+                                {#                                                    alt=""#}
+                                {#                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"#}
+                                {#                                                    height="12"#}
+                                {#                                            />#}
+                                {#                                            <img#}
+                                {#                                                    src="/themes/custom/girchi/dist/css/images/visa.png"#}
+                                {#                                                    alt=""#}
+                                {#                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"#}
+                                {#                                                    height="12"#}
+                                {#                                            />#}
+                                {#                                            <img#}
+                                {#                                                    src="/themes/custom/girchi/dist/css/images/mc.svg"#}
+                                {#                                                    alt=""#}
+                                {#                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"#}
+                                {#                                                    height="17"#}
+                                {#                                            />#}
+                                {#                                        </p>#}
+                                {#                                        <hr class="border-dashed border-secondary"/>#}
+                                {#                                        <div class="d-flex flex-wrap flex-sm-nowrap">#}
+                                {#                                            <div#}
+                                {#                                                    class="form-group form-group w-100 w-md-50 pr-sm-2"#}
+                                {#                                            >#}
+                                {#                                                <label class="form-label" for="amount">{{ 'Amount'|t }}</label>#}
+                                {#                                                {{ form_multiple.amount }}#}
+                                {#                                            </div>#}
+                                {#                                            <div class="form-group w-100 w-md-50">#}
+                                {#                                                <label class="form-label">{{ 'You will get'|t }}</label>#}
+                                {#                                                <div#}
+                                {#                                                        class="text-success font-size-5 d-flex pl-3 pt-2"#}
+                                {#                                                >#}
+                                {#                                                    <i class="icon-ged"></i>#}
+                                {#                                                    <span class="ml-1" id="ged-place-2">0</span>#}
+                                {#                                                </div>#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="d-flex flex-wrap flex-sm-nowrap">#}
+                                {#                                            <div class="form-group w-100 w-md-50 pr-sm-2">#}
+                                {#                                                <label class="form-label" for="period"#}
+                                {#                                                >{{ 'Periodicity'|t }}</label#}
+                                {#                                                >#}
+                                {#                                                <div class="form-control form-control-lg">#}
+                                {#                                                    {{ form_multiple.periodicity }}#}
+                                {#                                                </div>#}
+                                {#                                            </div>#}
+                                {#                                            <div class="form-group w-100 w-md-50  pl-sm-2">#}
+                                {#                                                <label class="form-label" id="date"#}
+                                {#                                                >{{ 'Donation date'|t }}</label#}
+                                {#                                                >#}
+                                {#                                                <div class="form-control form-control-lg">#}
+                                {#                                                    {{ form_multiple.date }}#}
+                                {#                                                </div>#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="form-group">#}
+                                {#                                            <label class="form-label" for="description"#}
+                                {#                                            >{{ 'Donation aim'|t }}</label#}
+                                {#                                            >#}
+                                {#                                            <div class="form-control form-control-lg">#}
+                                {#                                                {{ form_multiple.donation_aim }}#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                        <div class="form-group">#}
+                                {#                                            <label class="form-label" for="politicians"#}
+                                {#                                            >{{ 'Donation to politician'|t }}</label#}
+                                {#                                            >#}
+                                {#                                            <div class="form-control form-control-lg">#}
+                                {#                                                {{ form_multiple.politicians}}#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {#                                        {{ form_multiple.submit }}#}
+                                {#                                    </form>#}
+                                {#                                </div>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                        <div class="px-md-8 px-lg-3 px-xl-5 py-2 py-md-3  py-xl-4">
+                            {{ right_block | raw | t  }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ attach_library('girchi/donation') }}

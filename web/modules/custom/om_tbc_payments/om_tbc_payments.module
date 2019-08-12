@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Contains om_tbc_payments.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function om_tbc_payments_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the om_tbc_payments module.
+    case 'help.page.om_tbc_payments':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('TBC Payments module by Omedia') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function om_tbc_payments_theme() {
+  return [
+    'prepare' => [
+      'render element' => 'children',
+      'variables' => [
+        'id' => NULL,
+      ],
+    ],
+  ];
+}

@@ -1,0 +1,8 @@
+om_tbc_payments.payment_controller_prepare:
+  path: '/donate/prepare'
+  defaults:
+    _controller: '\Drupal\om_tbc_payments\Controller\PaymentController::prepare'
+    _title: 'Prepare'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

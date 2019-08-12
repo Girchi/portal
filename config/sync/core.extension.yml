@@ -42,6 +42,7 @@ module:
   file: 0
   filter: 0
   girchi_contact: 0
+  girchi_donations: 0
   girchi_ged_transactions: 0
   girchi_my_party_list: 0
   girchi_referral: 0
@@ -71,6 +72,7 @@ module:
   om_code_embed: 0
   om_content_authoring: 0
   om_site_settings: 0
+  om_tbc_payments: 0
   om_twig_helpers: 0
   options: 0
   page_cache: 0

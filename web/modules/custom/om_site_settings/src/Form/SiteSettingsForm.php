@@ -89,18 +89,18 @@ class SiteSettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('om_site_settings.site_settings');
 
-//    $cache_life_options = [
-//      60 => '1 Minute',
-//      60 * 3 => '3 Minutes',
-//      60 * 5 => '5 Minutes',
-//      60 * 15 => '15 Minutes',
-//      60 * 30 => '30 Minutes',
-//      60 * 60 => '1 Hour',
-//      60 * 60 * 3 => '3 Hours',
-//      60 * 60 * 6 => '6 Hours',
-//      60 * 60 * 12 => '12 Hours',
-//      60 * 60 * 24 => '24 Hours',
-//    ];
+    $cache_life_options = [
+      60 => '1 Minute',
+      60 * 3 => '3 Minutes',
+      60 * 5 => '5 Minutes',
+      60 * 15 => '15 Minutes',
+      60 * 30 => '30 Minutes',
+      60 * 60 => '1 Hour',
+      60 * 60 * 3 => '3 Hours',
+      60 * 60 * 6 => '6 Hours',
+      60 * 60 * 12 => '12 Hours',
+      60 * 60 * 24 => '24 Hours',
+    ];
 
     $form['contact_info'] = [
       '#type' => 'details',
@@ -180,7 +180,18 @@ class SiteSettingsForm extends ConfigFormBase {
       '#title' => t('Google analytics view id'),
       '#default_value' => $config->get('google_analytics_view_id'),
     ];
-
+    $form['donation'] = [
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => t('Donation settings'),
+    ];
+    $form['donation']['donation_right_block'] = [
+      '#description' => t('Right block text'),
+      '#type' => 'text_format',
+      '#title' => t('Page text'),
+      '#format' => 'full_html',
+      '#default_value' => $config->get('donation_right_block')['value'],
+      ];
     $form['extra_settings'] = [
       '#type' => 'details',
       '#open' => TRUE,
@@ -221,6 +232,7 @@ class SiteSettingsForm extends ConfigFormBase {
       'enable_user_ui',
       'copyright_text',
       'google_analytics_view_id',
+      'donation_right_block',
       'createpass',
     ];
 
@@ -231,5 +243,4 @@ class SiteSettingsForm extends ConfigFormBase {
     }
     drupal_flush_all_caches();
   }
-
 }

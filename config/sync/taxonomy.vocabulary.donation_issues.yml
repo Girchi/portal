@@ -1,0 +1,8 @@
+uuid: dfd768ee-16d5-488f-a179-a25f413f85f4
+langcode: en
+status: true
+dependencies: {  }
+name: 'Donation issues'
+vid: donation_issues
+description: 'Issues for donation page '
+weight: 0

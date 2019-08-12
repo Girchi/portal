@@ -1,0 +1,5 @@
+entity.donation.add_form:
+  route_name: girchi_donations.donations_controller_index
+  title: 'Add Donation'
+  appears_on:
+    - entity.donation.collection

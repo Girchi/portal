@@ -1,0 +1,22 @@
+# Donation routing definition
+donation.settings_tab:
+  route_name: donation.settings
+  title: 'Settings'
+  base_route: donation.settings
+
+#entity.donation.canonical:
+#  route_name: entity.donation.canonical
+#  base_route: entity.donation.canonical
+#  title: 'View'
+#
+#entity.donation.edit_form:
+#  route_name: entity.donation.edit_form
+#  base_route: entity.donation.canonical
+#  title: 'Edit'
+
+entity.donation.delete_form:
+  route_name:  entity.donation.delete_form
+  base_route:  entity.donation.canonical
+  title: Delete
+  weight: 10
+

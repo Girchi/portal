@@ -14,6 +14,13 @@ myparty-list:
   js:
     js/mypartylist.js: {}
 
+donation:
+  version: 1.x
+  js:
+    js/donation.js: {}
+  dependencies:
+    - core/jquery
+
 createpass:
   version: 1.x
   js:
@@ -21,3 +28,4 @@ createpass:
   dependencies:
     - core/jquery
     - core/drupal
+

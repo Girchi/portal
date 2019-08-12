@@ -1,0 +1,11 @@
+services:
+  om_tbc_payments.payment_service:
+    class: Drupal\om_tbc_payments\Services\PaymentService
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
+      - '@language_manager'
+      - '@request_stack'
+      - '@file_system'
+      - '@keyvalue'
+      - '@current_user'

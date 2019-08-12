@@ -1,0 +1,5 @@
+name: 'Omedia TBC Payments'
+type: module
+description: 'TBC Payments module by Omedia'
+core: 8.x
+package: 'Custom'

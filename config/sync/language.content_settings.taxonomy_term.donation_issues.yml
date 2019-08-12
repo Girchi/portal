@@ -1,0 +1,16 @@
+uuid: 87d09a5a-8d6c-49e2-a6ab-58ed489e18e0
+langcode: ka
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.donation_issues
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.donation_issues
+target_entity_type_id: taxonomy_term
+target_bundle: donation_issues
+default_langcode: site_default
+language_alterable: false

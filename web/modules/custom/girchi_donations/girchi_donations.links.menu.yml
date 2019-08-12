@@ -1,0 +1,14 @@
+
+## Donation menu items definition
+#entity.donation.collection:
+#  title: 'Donation list'
+#  route_name: entity.donation.collection
+#  description: 'List Donation entities'
+#  parent: system.admin_structure
+#  weight: 100
+
+donation.admin.structure.settings:
+  title: 'Donation settings'
+  description: 'Configure Donation entities'
+  route_name: donation.settings
+  parent: system.admin_structure

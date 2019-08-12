@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_donations.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_donations_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_donations module.
+    case 'help.page.girchi_donations':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Donations module for girchi.com') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_donations_theme() {
+  return [
+    'girchi_donations' => [
+      'render element' => 'children',
+      'variables' => [
+        'right_block' => NULL,
+        'form_single' => NULL,
+        'form_multiple' => NULL,
+      ],
+    ],
+    'girchi_donations_success' => [
+      'render element' => 'children',
+      'variables' => [
+        'amount' => NULL,
+      ],
+    ],
+    'girchi_donations_fail' => [
+      'render element' => 'children',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+}
