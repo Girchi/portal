@@ -12,19 +12,20 @@
  * @ingroup themeable
  */
 #}
-<div{{attributes}}>
-  <div class="form-group mb-2">
-  <div class="mb-3 card card-body bg-light">
-      <div class="row no-gutters">
-        <div class="col-md-12">
-            {{ data.preview }}
-        </div>
-        <div class="col-md-12">
-          <div class="card-body">
+<div{{ attributes }}>
+  {% if  data.preview %}
+    <h5 class="form-label">Cover Photo</h5>
+  {% endif %}
+  <div class="mb-2 ml-4">
+    <div class="row no-gutters">
+      <div class="media">
+        {{ data.preview }}
+        <div class="media-body ml-3">
+          {{ data|without('preview', 'remove_button', 'filename') }}
+          <div class="row">
             <button class="btn">
               {{ data.remove_button }}
             </button>
-            {{ data|without('preview', 'remove_button', 'filename') }}
           </div>
         </div>
       </div>

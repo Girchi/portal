@@ -14,7 +14,10 @@
 #}
 
 
-<label for="{{ attributes.id }}" class="btn btn-md btn-warning">
-  {{ 'Choose file' | t }}
+<label for="{{ attributes.id }}" class="btn btn-lg btn-warning">
+  {{ 'Choose cover photo' | t }}
 </label>
-<input {{ attributes.addClass('d-none')}} />{{ children }}
+<div class="d-inline">
+  <input {{ attributes.addClass('d-none')}} id="{{ attributes.id }}" />{{ children }}
+</div>
+

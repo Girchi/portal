@@ -7,7 +7,6 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\user\Entity\User;
 
 /**
  * Implements hook_help().
@@ -82,12 +81,18 @@ function girchi_users_after_build($form, &$form_state) {
 
 }
 
+/**
+ * Implements hook_theme_suggestions_image_widget_alter().
+ */
 function girchi_users_theme_suggestions_image_widget_alter(array &$suggestions, array $variables) {
-  if (!empty($variables['element']['#field_name']) && $variables['element']['#field_name'] == 'user_picture') {
+  if (!empty($variables['element']['#field_name']) && $variables['element']['#field_name'] == 'field_cover_photo') {
     $suggestions[] = 'image_widget__user__picture';
   }
 }
 
+/**
+ * Implements hook_theme_suggestions_input_alter().
+ */
 function girchi_users_theme_suggestions_input_alter(array &$suggestions, array $variables) {
   if (!empty($variables['element']['#is_button'])) {
     if (in_array('remove_button', $variables['element']['#parents'])) {
@@ -95,7 +100,7 @@ function girchi_users_theme_suggestions_input_alter(array &$suggestions, array $
     }
   }
 
-  if ($variables['element']['#name'] == 'files[field_cover_photo_0]') {
+  if (!empty($variables['element']['#name']) && $variables['element']['#name'] == 'files[field_cover_photo_0]') {
     $suggestions[] = 'input__button__cover__photo';
   }
 
