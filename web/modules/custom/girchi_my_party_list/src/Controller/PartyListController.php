@@ -2,6 +2,7 @@
 
 namespace Drupal\girchi_my_party_list\Controller;
 
+use Drupal;
 use Drupal\Core\Render\Renderer;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
@@ -156,7 +157,7 @@ class PartyListController extends ControllerBase {
     }
 
     if (!empty($user)) {
-      $query = $this->entityTypeManager->getStorage('user');
+      $query = Drupal::entityQuery('user');
       $nameConditions = $query->orConditionGroup()
         ->condition('field_first_name', $firstName, $queryOperator)
         ->condition('field_last_name', $lastName, 'CONTAINS');
