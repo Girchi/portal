@@ -6,7 +6,9 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class PartyListCalculatorService.
@@ -21,25 +23,25 @@ class PartyListCalculatorService {
   protected $entityTypeManager;
 
   /**
-   * Logger Factory.
+   * Request Stack.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Symfony\Component\HttpFoundation\RequestStack
    */
-  protected $loggerFactory;
+  protected $requestStack;
 
   /**
    * Constructs a new PartyListCalculatorService object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *
-   *   Entity Type Manager.
-   * @param \Drupal\Core\Logger\LoggerChannelFactory $loggerFactory
-   *
    *   Logger factory.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *
+   *   Request stack;.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactory $loggerFactory) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $requestStack) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->loggerFactory = $loggerFactory->get('girchi_my_party_list');
+    $this->requestStack = $requestStack->getCurrentRequest();
   }
 
   /**
@@ -106,6 +108,70 @@ class PartyListCalculatorService {
       $this->loggerFactory->error($e->getMessage());
     }
 
+  }
+
+  /**
+   * Get users who support politicians.
+   *
+   * @param array $politician_ids
+   *   Politicians Ids.
+   *
+   * @return array
+   *   Returns all politicians supporters.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getPoliticiansSupporters(array $politician_ids) {
+    $base_url = $this->requestStack->getSchemeAndHttpHost();
+    $returnArray = [];
+    $storage = $this->entityTypeManager->getStorage('user');
+
+    $users = $storage
+      ->getQuery()
+      ->condition('field_ged', '0', '>')
+      ->condition('field_my_party_list', $politician_ids, 'IN')
+      ->execute();
+
+    /** @var User $users */
+    $users = $storage->loadMultiple($users);
+
+    /** @var EntityReferenceFieldItemListAlias $field */
+    foreach ($users as $user) {
+      if (!empty($user->get('user_picture')[0])) {
+        $img_id = $user->get('user_picture')[0]->getValue()['target_id'];
+        $img_file = File::load($img_id);
+        $style = ImageStyle::load('party_member');
+        $img_url = $style->buildUrl($img_file->getFileUri());
+      }
+      else {
+        $img_url = $base_url . '/themes/custom/girchi/images/avatar34x34.png';
+      }
+      $first_name = $user->get('field_first_name')->value;
+      $last_name = $user->get('field_last_name')->value;
+      $user_info = [
+        'img_url' => $img_url,
+        'name' => implode(" ", [$first_name, $last_name]),
+        'id' => $user->id(),
+      ];
+      // Calculate final ged amount.
+      $ged_amount = $user->get('field_ged')->value;
+      $party_list = $user->get('field_my_party_list');
+      foreach ($party_list as $supporter) {
+        if (in_array($supporter->target_id, $politician_ids)) {
+          $supported_ged = ["ged_amount" => $ged_amount * ($supporter->value / 100)];
+          $percentage = ["percentage" => $supporter->value];
+          $returnArray[$supporter->target_id][] = array_merge($user_info, $supported_ged, $percentage);
+        }
+      }
+    }
+
+    foreach ($returnArray as $key => $politician) {
+      usort($returnArray[$key], function ($a, $b) {
+        return $a['ged_amount'] > $b['ged_amount'] ? -1 : 1;
+      });
+    }
+    return $returnArray;
   }
 
 }

@@ -2,16 +2,18 @@
 
 namespace Drupal\girchi_my_party_list\Controller;
 
-use Drupal;
+use Drupal\Core\Render\Renderer;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\girchi_my_party_list\PartyListCalculatorService;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PartyListController.
@@ -26,14 +28,38 @@ class PartyListController extends ControllerBase {
   protected $entityTypeManager;
 
   /**
+   * Drupal\Core\Render\Renderer definition.
+   *
+   * @var \Drupal\Core\Render\Renderer
+   */
+  protected $renderer;
+
+  /**
+   * Drupal\girchi_my_party_list\PartyListCalculatorService.
+   *
+   * @var \Drupal\girchi_my_party_list\PartyListCalculatorService
+   *
+   *   Party list calculator.
+   */
+  protected $partyListCalculator;
+
+  /**
    * Constructs a new PartyListController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *
    *   Entity type manager.
+   * @param \Drupal\Core\Render\Renderer $renderer
+   *
+   *   Renderer.
+   * @param \Drupal\girchi_my_party_list\PartyListCalculatorService $partyListCalculator
+   *
+   *   Party list calculator.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Renderer $renderer, PartyListCalculatorService $partyListCalculator) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->renderer = $renderer;
+    $this->partyListCalculator = $partyListCalculator;
   }
 
   /**
@@ -41,7 +67,9 @@ class PartyListController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('renderer'),
+      $container->get('girchi_my_party_list.party_list_calculator')
     );
   }
 
@@ -128,7 +156,7 @@ class PartyListController extends ControllerBase {
     }
 
     if (!empty($user)) {
-      $query = Drupal::entityQuery('user');
+      $query = $this->entityTypeManager->getStorage('user');
       $nameConditions = $query->orConditionGroup()
         ->condition('field_first_name', $firstName, $queryOperator)
         ->condition('field_last_name', $lastName, 'CONTAINS');
@@ -273,18 +301,24 @@ class PartyListController extends ControllerBase {
    *
    *   Request.
    *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   * @return \Symfony\Component\HttpFoundation\Response
    *
-   *   Json Response
+   *   Response
    */
   public function getPoliticianSupporters(Request $request) {
     $userId = $request->request->get('userId');
-    $supporters = get_politician_supporters($userId);
-    $supporters = $supporters[$userId]['users_info'];
-    usort($supporters, function ($a, $b) {
-      return $a['ged_amount'] > $b['ged_amount'] ? -1 : 1;
-    });
-    return new JsonResponse($supporters);
+
+    $supporters = $this->partyListCalculator->getPoliticiansSupporters([$userId]);
+    $build = [
+      '#type' => 'markup',
+      '#theme' => 'girchi_party_list',
+      '#supporters' => $supporters,
+    ];
+    $html = $this->renderer->renderRoot($build);
+    $response = new Response();
+    $response->setContent($html);
+
+    return $response;
   }
 
 }

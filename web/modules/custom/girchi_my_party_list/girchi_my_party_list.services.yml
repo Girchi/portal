@@ -1,4 +1,4 @@
 services:
   girchi_my_party_list.party_list_calculator:
     class: Drupal\girchi_my_party_list\PartyListCalculatorService
-    arguments: ['@entity_type.manager', '@logger.factory']
+    arguments: ['@entity_type.manager',  '@request_stack']

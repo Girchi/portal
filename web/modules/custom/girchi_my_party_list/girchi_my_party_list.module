@@ -7,9 +7,6 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\file\Entity\File;
-use Drupal\image\Entity\ImageStyle;
-use Drupal\user\Entity\User;
 
 /**
  * Implements hook_help().
@@ -40,6 +37,11 @@ function girchi_my_party_list_theme() {
         'top_politicians' => NULL,
       ],
     ],
+    'girchi_party_list' => [
+      'variables' => [
+        'supporters' => NULL,
+      ],
+    ],
   ];
 }
 
@@ -64,96 +66,4 @@ function girchi_my_party_list_cron() {
    */
   $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
   $party_list_calculator->calculate();
-}
-
-/**
- * Get users who support politicians.
- *
- * @param array $politician_ids
- *   Politicians Ids.
- *
- * @return array
- *   Returns all politicians supporters.
- */
-function get_politicians_supporters(array $politician_ids) {
-  $connection = \Drupal::database();
-  $returnArray = [];
-
-  if (!empty($politician_ids)) {
-    foreach ($politician_ids as $id) {
-      $users_data = [];
-      $query = $connection->select('user__field_my_party_list', 'user_party_list');
-      $query->condition('user_party_list.field_my_party_list_target_id', $id, '=')
-        ->fields('user_party_list', ['entity_id', 'field_my_party_list_value']);
-
-      $result = $query->execute()
-        ->fetchAll();
-      foreach ($result as $item) {
-        $users_data[$item->entity_id] = $item->field_my_party_list_value;
-      }
-      $users_info = get_supporters_info($users_data);
-      $returnArray[$id] = $users_info;
-    }
-  }
-  return $returnArray;
-}
-
-/**
- * Get users who support politician.
- *
- * @param string $politician_id
- *   Politician id.
- *
- * @return array
- *   Returns single politician supporters.
- */
-function get_politician_supporters($politician_id) {
-  return get_politicians_supporters([$politician_id]);
-}
-
-/**
- * Gets supporters info.
- *
- * @param array $users_data
- *   User data.
- *
- * @return array
- *   Returns supporters info.
- */
-function get_supporters_info(array $users_data) {
-  $result = [];
-  $users = User::loadMultiple(array_keys($users_data));
-  $base_url = \Drupal::request()->getSchemeAndHttpHost();
-  $theme = \Drupal::theme()->getActiveTheme();
-  $supporter_count = 0;
-
-  foreach ($users as $user) {
-    if ($user->get('field_ged')->value > 0) {
-      $supporter_count++;
-      if (!empty($user->get('user_picture')[0])) {
-        $img_id = $user->get('user_picture')[0]->getValue()['target_id'];
-        $img_file = File::load($img_id);
-        $style = ImageStyle::load('party_member');
-        $img_url = $style->buildUrl($img_file->getFileUri());
-      }
-      else {
-        $img_url = $base_url . '/' . $theme->getPath() . '/images/avatar34x34.png';
-      }
-      $first_name = $user->get('field_first_name')->value;
-      $last_name = $user->get('field_last_name')->value;
-      $percentage = $users_data[$user->id()];
-      // Calculate final ged amount.
-      $ged_amount = ($user->get('field_ged')->value * $percentage) / 100;
-      $result['users_info'][] = [
-        'img_url' => $img_url,
-        'name' => implode(" ", [$first_name, $last_name]),
-        'percentage' => $percentage,
-        'ged_amount' => $ged_amount,
-        'id' => $user->id(),
-      ];
-    }
-  }
-
-  $result['supporter_count'] = $supporter_count;
-  return $result;
 }
