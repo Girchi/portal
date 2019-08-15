@@ -36,140 +36,71 @@
 {% set img_url = fields.user_picture.content | striptags  | replace({"\n":'', "\r":''}) %}
 {% set default_img_url = theme_path('images/avatar50x50.png', 1) %}
 <tr>
-    <th
-        scope="row"
-        class="pl-3 w-auto w-md-80-px text-center align-middle"
-    >
-                        <span
-                            class="font-size-4 font-size-xl-7 text-dark-silver font-weight-normal"
-                        >{{ fields.field_rating_in_party_list.content | striptags }}</span
-                        >
+    <th class="pl-3 w-auto w-md-80-px text-center align-middle" scope="row">
+        <span class="font-size-4 font-size-xl-7 text-dark-silver font-weight-normal">{{ fields.field_rating_in_party_list.content | striptags }}</span>
     </th>
     <td class="align-middle">
         <div class="d-flex w-100 align-items-center my-2">
-            <a
-                href="{{ path('entity.user.canonical', {'user' : uid}) }}"
-                class="rounded-circle overflow-hidden d-none d-md-block"
-            >
-                <img
-                    src="{{ img_url ? img_url : default_img_url }}"
-                    class="rounded w-100"
-                    alt="..."
-                />
+            <a href="{{ path('entity.user.canonical', {'user' : uid}) }}" class="rounded-circle overflow-hidden d-none d-md-block">
+                <img src="{{ img_url ? img_url : default_img_url }}" class="rounded w-100" alt="..."/>
             </a>
-            <h6
-                class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3"
-            >
-                <a
-                    href="{{ path('entity.user.canonical', {'user' : uid}) }}"
-                    class="d-inline-block text-hover-success"
-                >
-                              <span class="text-decoration-none d-inline-block">
-                                <span>{{ fields.field_first_name.content }}</span>
-                                <span class="font-weight-bold"
-                                >{{ fields.field_last_name.content }}</span
-                                >
-                              </span>
+            <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
+                <a href="{{ path('entity.user.canonical', {'user' : uid}) }}" class="d-inline-block text-hover-success">
+                    <span class="text-decoration-none d-inline-block">
+                        <span>{{ fields.field_first_name.content }}</span>
+                        <span class="font-weight-bold">{{ fields.field_last_name.content }}</span>
+                    </span>
                 </a>
-                <span
-                    class="d-none d-md-flex font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center justify-content-sm-start"
-                >
-                              {{ 'Politician' | t }}
-                            </span>
-                <span
-                    class="text-warning font-size-4 font-weight-bold d-block d-md-none"
-                >{{ fields.field_political_ged .content }} <i class="icon-ged font-size-3"></i
-                    ></span>
+                <span class="d-none d-md-flex font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center justify-content-sm-start">
+                    {{ 'Politician' | t }}
+                </span>
+                <span class="text-warning font-size-4 font-weight-bold d-block d-md-none">
+                    <i class="icon-ged font-size-3"></i>
+                    {{ fields.field_political_ged .content }}
+                </span>
             </h6>
         </div>
     </td>
     <td class="text-right text-md-center align-middle">
         {% if supporter_count > 4 %}
-            <ul
-                class="list-unstyled m-0 align-items-center d-none d-md-flex"
-            >
+            <ul class="list-unstyled m-0 align-items-center d-none d-md-flex">
                 {% for i in 0..3 %}
                     <li class="d-inline-flex align-items-center">
-                        <a
-                            title="{{ supporters[uid]['users_info'][i]['name'] }}"
-                            href="#"
-                            class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal"
-                            data-toggle="modal"
-                            data-target="#supporters"
-                            data-uid="{{ uid }}"
-                        >
-                            <img
-                                src="{{ supporters[uid]['users_info'][i]['img_url'] }}"
-                                class="rounded"
-                                width="34"
-                                alt="..."
-                            />
+                        <a title="{{ supporters[uid]['users_info'][i]['name'] }}" href="#" class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal" data-toggle="modal" data-target="#supporters" data-uid="{{ uid }}">
+                            <img src="{{ supporters[uid]['users_info'][i]['img_url'] }}" class="rounded" width="34" alt="..."/>
                         </a>
                     </li>
                 {% endfor %}
                 <li>
-                    <a
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#supporters"
-                        class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white politician-modal"
-                        data-uid="{{ uid }}"
-                    >
-                        {{ supporter_count - 4 }} +
+                    <a href="#" data-toggle="modal" data-target="#supporters" class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white politician-modal" data-uid="{{ uid }}">
+                        {{ supporter_count - 4 }}
+                        +
                     </a>
                 </li>
             </ul>
-            <a
-                data-toggle="modal"
-                data-target="#supporters"
-                data-uid="{{ uid }}"
-                class="btn btn-light btn-sm m-1 p-1 bg-hover-success text-hover-white d-inline-flex d-md-none flex-column rounded-sm politician-modal"
-            >
-                          <span
-                              class="rounded-circle overflow-hidden d-inline-block m-1"
-                          >
-                            <img
-                                src="{{ supporters[uid]['users_info'][0]['img_url'] }}"
-                                class="rounded"
-                                width="28"
-                                alt="..."
-                            />
-                          </span>
+            <a data-toggle="modal" data-target="#supporters" data-uid="{{ uid }}" class="btn btn-light btn-sm m-1 p-1 bg-hover-success text-hover-white d-inline-flex d-md-none flex-column rounded-sm politician-modal">
+                <span class="rounded-circle overflow-hidden d-inline-block m-1">
+                    <img src="{{ supporters[uid]['users_info'][0]['img_url'] }}" class="rounded" width="28" alt="..."/>
+                </span>
 
-                {{ supporter_count - 4 }} +
+                {{ supporter_count - 4 }}
+                +
             </a>
         {% else %}
-            <ul
-                class="list-unstyled m-0 align-items-center d-none d-md-flex"
-            >
+            <ul class="list-unstyled m-0 align-items-center d-none d-md-flex">
                 {% for supporter in supporters[uid]['users_info'] %}
                     <li class="d-inline-flex align-items-center">
-                        <a
-                            title="{{ supporter.name }}"
-                            href="#"
-                            class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal"
-                            data-toggle="modal"
-                            data-target="#supporters"
-                            data-uid="{{ uid }}"
-                        >
-                            <img
-                                src="{{ supporter.img_url }}"
-                                class="rounded"
-                                width="34"
-                                alt="..."
-                            />
+                        <a title="{{ supporter.name }}" href="#" class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal" data-toggle="modal" data-target="#supporters" data-uid="{{ uid }}">
+                            <img src="{{ supporter.img_url }}" class="rounded" width="34" alt="..."/>
                         </a>
                     </li>
                 {% endfor %}
             </ul>
         {% endif %}
     </td>
-    <td
-        class="align-middle text-center d-none d-md-table-cell"
-    >
-                        <span
-                            class="text-warning font-size-4 font-size-xl-5 font-weight-bold text-nowrap"
-                        >{{ fields.field_political_ged.content }} <i class="icon-ged font-size-4"></i
-                            ></span>
+    <td class="align-middle text-center d-none d-md-table-cell">
+        <span class="text-warning font-size-4 font-size-xl-5 font-weight-bold text-nowrap">
+            <i class="icon-ged font-size-4"></i>{{ fields.field_political_ged.content }}
+        </span>
     </td>
 </tr>

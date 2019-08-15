@@ -80,6 +80,9 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_author: true
   field_comments: true
+  field_favorite_news: true
   field_show_internal_image: true
   langcode: true
+  search_api_excerpt: true

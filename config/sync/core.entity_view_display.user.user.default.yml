@@ -4,19 +4,28 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_address
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_cover_photo
     - field.field.user.user.field_date_of_birth
+    - field.field.user.user.field_facebook_url
+    - field.field.user.user.field_favorite_news
     - field.field.user.user.field_first_name
     - field.field.user.user.field_ged
+    - field.field.user.user.field_intro
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
     - field.field.user.user.field_political_ged
     - field.field.user.user.field_politician
+    - field.field.user.user.field_profile_video
+    - field.field.user.user.field_public_email
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
+    - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_twitter_url
     - field.field.user.user.user_picture
     - image.style.avatar_image
   module:
@@ -24,6 +33,7 @@ dependencies:
     - image
     - reference_value_pair
     - telephone
+    - text
     - user
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
@@ -39,6 +49,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_bio:
+    weight: 57
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
     region: content
   field_date_of_birth:
     weight: 16
@@ -168,5 +185,13 @@ content:
     third_party_settings: {  }
     label: above
 hidden:
+  field_cover_photo: true
+  field_facebook_url: true
+  field_favorite_news: true
+  field_intro: true
+  field_profile_video: true
+  field_public_email: true
   field_social_auth_password: true
+  field_twitter_url: true
   langcode: true
+  search_api_excerpt: true

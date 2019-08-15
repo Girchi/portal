@@ -1,0 +1,20 @@
+uuid: bf0e384c-7297-45d4-9ada-0871907c9322
+langcode: en
+status: false
+dependencies:
+  module:
+    - girchi_utils
+  theme:
+    - girchi
+id: mypartylistblock
+theme: girchi
+region: content
+weight: -8
+provider: null
+plugin: my_party_list_block
+settings:
+  id: my_party_list_block
+  label: 'My party list block'
+  provider: girchi_utils
+  label_display: visible
+visibility: {  }

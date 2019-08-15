@@ -1,0 +1,242 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a block.
+ *
+ * Available variables:
+ * - plugin_id: The ID of the block implementation.
+ * - label: The configured label of the block if visible.
+ * - configuration: A list of the block's configuration values.
+ *   - label: The configured label for the block.
+ *   - label_display: The display settings for the label.
+ *   - provider: The module or other provider that provided this block plugin.
+ *   - Block plugin specific settings will also be stored here.
+ * - content: The content of this block.
+ * - attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
+ *   - id: A valid HTML ID and guaranteed unique.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_block()
+ *
+ * @ingroup themeable
+ */
+#}
+<div
+  class="card overflow-hidden my-3 my-md-0 my-xl-4 w-auto w-md-50 w-lg-auto ml-md-2 m-lg-0"
+>
+  <div
+    class="card-header font-size-2 text-uppercase d-flex px-3 px-xl-3 font-weight-bold text-grey"
+  >
+                <span
+                  class="d-none d-md-block font-size-2 text-uppercase font-weight-bold text-grey"
+                >{{ 'personal party list' | t }}</span
+                >
+    <button
+      class="d-flex justify-content-between w-100 d-md-none bg-transparent border-0"
+      type="button"
+      data-toggle="collapse"
+      data-target="#private-party-list"
+      aria-controls="private-party-list"
+      aria-expanded="false"
+      aria-label="Toggle private party list"
+    >
+      <span class="font-size-2 text-uppercase text-grey font-weight-bold">{{ 'personal party list' | t }}</span>
+      <i class="icon-arrow-down-sign-to-navigate font-size-3 text-grey collapse-icon"></i>
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="collapse d-md-block" id="private-party-list">
+      <table class="table m-0 table-hover border-0">
+        <thead>
+        <tr class="bg-dark-white">
+          <th
+            scope="col"
+            class="border-0 font-size-1 font-size-md-2 text-dark-silver pr-0"
+          >
+            {{ 'Name' |t }}
+          </th>
+          <th
+            scope="col"
+            class="border-0 font-size-1 font-size-md-2 text-dark-silver text-nowrap"
+          >
+            {{ 'GeD and'|t }} %
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for member in members_short %}
+          <tr>
+            <td class="align-middle pr-0">
+              <div class="d-flex w-82 align-items-center my-2">
+                <span
+                  class="mr-3 mr-md-2 font-size-4 font-size-xl-4 text-dark-silver font-weight-normal"
+                  >{{ loop.index }}
+                </span>
+                <a
+                  href="{{ member.link_to_member }}"
+                  class="w-35-px rounded-circle overflow-hidden d-none d-md-block"
+                >
+                  <img
+                    {% if member.is_avatar %}
+                      src="{{ image_style_url(member.member_profile_picture , 'user_sidebar') }}"
+                    {% else %}
+                      src="{{ member.member_profile_picture }}"
+                    {% endif %}
+                    class="rounded w-100"
+                    alt=""
+                  />
+                </a>
+                <h6
+                  class="w-auto w-md-100-px text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-3 mb-0 mx-0 ml-md-2"
+                >
+                  <a
+                    href="{{ member.link_to_member }}"
+                    class="text-decoration-none d-inline-block text-hover-success"
+                  >
+                    <span
+                      class="d-inline-flex flex-column justify-content-center"
+                    >
+                      <span>{{ member.member_first_name }}</span>
+                      <span
+                        class="font-weight-bold text-ellipsis max-w-md-100 max-w-auto d-inline-block">{{ member.member_last_name }}</span>
+                    </span>
+                  </a>
+                </h6>
+              </div>
+            </td>
+            <td
+              class="text-right align-middle font-weight-bold line-height-1-2"
+            >
+              <span
+                class="text-success font-size-4 font-weight-bold text-nowrap line-height-1-2 line-height-md-0-9 d-block"
+              > <i class="icon-ged font-size-3"></i
+                >{{ member.member_ged_amount }}</span>
+              {{ member.member_ged_percentage }}%
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <div class="text-center py-3 border-top">
+        <a
+          class="btn mt-2 border-secondary btn-outline-grey bg-transparent d-inline-block mr-1 btn-sm mb-2 text-hover-light-green border-hover-light-green"
+          href = "#"
+          data-toggle="modal"
+          data-target="#fullList"
+        >
+          {{ 'Full list' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+    class="modal fade"
+    id="fullList"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="fullListTitle"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5
+                    class="modal-title font-size-3 text-uppercase font-weight-bold"
+                    id="supportersTitle"
+                >
+                    {{ 'personal party list' | t }}
+                </h5>
+                <button
+                    type="button"
+                    class="close ml-2"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <i
+                        aria-hidden="true"
+                        class="icon-close font-size-3 text-dark-silver"
+                    ></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <table class="table m-0 table-hover">
+                    <thead>
+                    <tr class="bg-dark-white">
+                        <th
+                            scope="col"
+                            class="align-middle w-auto w-md-80-px text-center text-dark-silver font-size-2 border-0"
+                        >
+                            #
+                        </th>
+                        <th
+                            scope="col"
+                            class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0"
+                        >
+                            {{ "Name" |t }}
+                        </th>
+                        <th
+                            scope="col"
+                            class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0 text-center line-height-1-2"
+                        >
+                            {{ "Ged &#37;" |t  }}
+                            <span class="d-inline-block d-md-none">GeD</span>
+                        </th>
+                        <th
+                            scope="col"
+                            class="font-size-1 font-size-md-2 text-dark-silver align-middle text-center d-none d-md-table-cell border-0"
+                        >
+                            GeD
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for member in members %}
+                        <tr>
+                            <th scope="row" class="pl-3 w-auto w-md-80-px text-center align-middle">
+                                <span class="font-size-4 font-size-xl-5 text-dark-silver font-weight-normal">{{ loop.index }}</span>
+                            </th>
+                            <td class="align-middle">
+                                <div class="d-flex w-100 align-items-center">
+                                    <a href="#" class="rounded-circle overflow-hidden d-none d-md-block">
+                                        <img
+                                            {% if member.is_avatar %}
+                                                src="{{ image_style_url(member.member_profile_picture , 'user_sidebar') }}"
+                                            {% else %}
+                                                src="{{ member.member_profile_picture }}"
+                                            {% endif %}
+                                            class="rounded w-40-px" alt="...">
+                                    </a>
+                                    <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
+                                        <a href="#" class="d-inline-block text-hover-success">
+                              <span class="text-decoration-none d-inline-block">
+                                <span>{{member.member_first_name}}</span>
+                                <span class="font-weight-bold">{{ member.member_last_name }}</span>
+                              </span>
+                                        </a>
+                                    </h6>
+                                </div>
+                            </td>
+                            <td class="text-right text-md-center align-middle font-weight-bold">
+                                <span class="text-success font-size-4 font-weight-bold d-block d-md-none text-nowrap line-height-0-8">{{ member.member_ged_amount }} <i class="icon-ged font-size-3"></i></span>
+                                {{member.member_ged_percentage}}%
+                            </td>
+                            <td class="align-middle text-center d-none d-md-table-cell">
+                                <span class="text-success font-size-4 font-size-xl-4 font-weight-bold text-nowrap"> <i class="icon-ged font-size-3"></i>{{ member.member_ged_amount }}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

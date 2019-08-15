@@ -73,7 +73,7 @@
             <div class="collapse navbar-collapse" id="navbarAuth">
                     {% if logged_in %}
                         <div class="d-flex align-items-center ml-auto py-3 py-lg-0 border-top-1 border-top-lg-0">
-                            <a href="{{ url("user.page") }}" class="rounded-circle overflow-hidden d-inline-block">
+                            <a href="/user/{{ user_header.uid }}/edit" class="rounded-circle overflow-hidden d-inline-block">
                                 <img
                                         {% if user_header.is_avatar %}
                                             src="{{ image_style_url(user_header.user_picture , 'logged_in_user_picture') }}"
@@ -84,7 +84,7 @@
                                         height="50">
                             </a>
                             <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3">
-                                <a href="{{ url("user.page") }}"
+                                <a href="/user/{{ user_header.uid }}/edit"
                                    class="text-decoration-none d-inline-block text-hover-success">
                                     {% if user_header.first_name %}
                                         {{ user_header.first_name }}
@@ -147,7 +147,7 @@
 
                         {% if logged_in %}
                             <div class="user-panel d-none align-items-center ml-auto">
-                                <a href="{{ url("user.page") }}" class="rounded-circle overflow-hidden d-inline-block">
+                                <a href="/user/{{ user_header.uid }}/edit" class="rounded-circle overflow-hidden d-inline-block">
                                     <img
                                             {% if user_header.is_avatar %}
                                                 src="{{ image_style_url(user_header.user_picture , 'logged_in_user_picture') }}"
@@ -158,7 +158,7 @@
                                             height="50">
                                 </a>
                                 <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3">
-                                    <a href="{{ url("user.page") }}"
+                                    <a href="/user/{{ user_header.uid }}/edit"
                                        class="text-decoration-none d-inline-block text-hover-success">
                                         {% if user_header.first_name %}
                                             {{ user_header.first_name }}

@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Url;
+use Drupal\views\Views;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
 
@@ -43,7 +44,6 @@ function girchi_preprocess_html(array &$variables)
       $title = $variables['head_title']['title'];
       $words = explode('|', $title);
       $variables['head_title']['title'] = "$category |$words[1]";
-
     }
   }
   if ($route_name = 'entity.node.canonical') {
@@ -68,14 +68,16 @@ function girchi_page_attachments_alter(array &$page)
   'content' => 'IE=edge',
   ],
   ];
-  $page['#attached']['html_head'][] = [$ie_edge, 'ie_edge'];*/
-}
+  $page['#attached']['html_head'][] = [$ie_edge, 'ie_edge'];*/ }
 
 /**
  * Implements hook_preprocess_page() for page.html.twig.
+ * @throws \Drupal\Core\TypedData\Exception\MissingDataException
  */
 function girchi_preprocess_page(array &$variables)
 {
+
+  $GEDHelper = \Drupal::service('girchi_users.ged_helper');
 
   // Get config from site settings.
   $config = \Drupal::config('om_site_settings.site_settings');
@@ -98,28 +100,29 @@ function girchi_preprocess_page(array &$variables)
   $route_name = \Drupal::routeMatch()->getRouteName();
 
   // If current route is user page and user exists.
-  if ($route_name === 'entity.user.canonical'
+  if (
+    $route_name === 'entity.user.canonical'
     && $user = \Drupal::routeMatch()->getParameter('user')
   ) {
     // Get uid from route.
-    $uid = (int)$user->id();
+    $uid = (int) $user->id();
     // Get current uid.
-    $current_uid = (int)$user = \Drupal::currentUser()->id();
+    $current_uid = (int) $user = \Drupal::currentUser()->id();
 
     // If the uid from the URL matches with the current uid,
     // redirect to the user edit form, otherwise - to the main page.
-    if ($uid === $current_uid) {
-      $redirect_path = Url::fromRoute(
-        'entity.user.edit_form',
-        ['user' => $current_uid]
-      )->toString();
-    } else {
-      $redirect_path = '/';
-    }
-
-    // Redirect to given utl.
-    $response = new RedirectResponse($redirect_path);
-    $response->send();
+    //    if ($uid === $current_uid) {
+    //      $redirect_path = Url::fromRoute(
+    //        'entity.user.edit_form',
+    //        ['user' => $current_uid]
+    //      )->toString();
+    //    } else {
+    //      $redirect_path = '/';
+    //    }
+    //
+    //    // Redirect to given utl.
+    //    $response = new RedirectResponse($redirect_path);
+    //    $response->send();
   }
 
   // End Redirect from user profile.
@@ -135,6 +138,7 @@ function girchi_preprocess_page(array &$variables)
       $currentUserAvatar = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
       $isAvatar = FALSE;
     }
+
     $variables['user_header'] = [
       'first_name' => $account->{'field_first_name'}->value,
       'last_name' => $account->{'field_last_name'}->value,
@@ -142,19 +146,108 @@ function girchi_preprocess_page(array &$variables)
       'user_picture' => $currentUserAvatar,
       'user_name' => $account->{'name'}->value,
       'is_avatar' => $isAvatar,
+      'uid' => $account->id()
     ];
     $variables['#cache']['contexts'][] = 'session';
   }
 
+  $user = \Drupal::routeMatch()->getParameter('user');
+  if ($user instanceof \Drupal\user\Entity\User) {
+    $uid = $user->id();
+    //check if profile picture exists. if not, get default avatar
+    $profilePicture = get_user_avatar($user);
+    //check if cover photo exists. if not, get default image
+    $coverPhotoAvatar = get_default_cover_photo($user);
+
+    $referralsImage = [];
+    $service = \Drupal::service('girchi_referral.get_user_referrals');
+    $referralsArray = $service->getUserReferrals($uid);
+    $referralCount = (int) $referralsArray['referralCount'];
+    $userRefferals = $referralsArray['referralUsers'];
+    //For modal usage , TODO create one array with all user info.
+    $userInfo = [];
+    foreach ($userRefferals as $userRefferal) {
+      $referralId = $userRefferal->id();
+      $referralUser = User::load($referralId);
+      //check if referral user has profile picture
+      if ($referralUser->get('user_picture')->entity) {
+        $profilePictureEntity = $referralUser->get('user_picture')->entity;
+        $referralProfilePicture = $profilePictureEntity->getFileUri();
+        $referralsImage[] = $referralProfilePicture;
+      } else {
+        $referralProfilePicture = null;
+        $referralsImage[] = $referralProfilePicture;
+      }
+
+      $userInfo[] = [
+        'first_name' => $referralUser->get('field_first_name')->value,
+        'last_name' => $referralUser->get('field_last_name')->value,
+        'image' => $referralProfilePicture
+      ];
+    }
+
+    $thumbnail_url = "";
+    if (!empty($user->get('field_profile_video')->get(0)->value)) {
+      $youtube_video_url = $user->get('field_profile_video')->get(0)->value;
+      parse_str(parse_url($youtube_video_url, PHP_URL_QUERY), $url_parsed_array);
+
+      if (!empty($url_parsed_array['v'])) {
+        $video_id_array = explode("?v=", $user->get('field_profile_video')->get(0)->value);
+        $video_id = $video_id_array[1];
+        $thumbnail_url = sprintf("https://img.youtube.com/vi/%s/maxresdefault.jpg", $video_id);
+      }
+    }
+
+
+    // Pass user's favorite news IDs as contextual parameter to Favorite News views block.
+    $favoriteNews = $user->get('field_favorite_news')->getValue();
+    $favoriteNewsIds = [];
+    foreach ($favoriteNews as $news) {
+      if (isset($news['target_id'])) {
+        $favoriteNewsIds[] = $news['target_id'];
+      }
+    }
+    $favoriteNewsIds = implode('+', $favoriteNewsIds);
+
+
+
+
+    $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
+
+    $variables['user'] = [
+      'id' => $user->id(),
+      'field_cover_photo' => $coverPhotoAvatar,
+      'user_picture' => $profilePicture,
+      'first_name' => $user->get('field_first_name')->value,
+      'last_name' => $user->get('field_last_name')->value,
+      'ged' =>  $GEDHelper::getFormattedGED($user->get('field_ged')->value),
+      'referrals_profile_picture' => array_slice($referralsImage,0,5),
+      'referralCount' => $referralCount,
+      'rating_in_party_list' => $user->get('field_rating_in_party_list')->value,
+      'political_ged' => $ged_formatted,
+      'user_rank' => $user->get('field_rank')->value,
+      'field_intro' => $user->get('field_intro')->value,
+      'field_bio' => $user->get('field_bio')->value,
+      'field_profile_video' => $user->get('field_profile_video')->get(0) ? ($user->get('field_profile_video')->get(0)->view()) : null,
+      'field_facebook_url' => $user->get('field_facebook_url')->value,
+      'field_twitter_url' => $user->get('field_twitter_url')->value,
+      'field_public_email' => $user->get('field_public_email')->value ?: '',
+      'favoriteNewsIds' => $favoriteNewsIds,
+      'field_author' => $user->id(),
+      'user_info' => $userInfo,
+      'thumbnail_url' => $thumbnail_url
+    ];
+  }
+
   $node = \Drupal::request()->attributes->get('node');
   if (isset($node) && $node->getType() == 'promo_page') {
-    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
-    $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
-    $build = $view_builder->view($webform);
+    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('student_registration');
+    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build                             = $view_builder->view($webform);
     $variables['student_registration'] = $build;
-    $webform = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
-    $view_builder = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
-    $build = $view_builder->view($webform);
+    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('teacher_registration');
+    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build                             = $view_builder->view($webform);
     $variables['teacher_registration'] = $build;
   }
 }
@@ -163,17 +256,13 @@ function girchi_preprocess_page(array &$variables)
  * Implements hook_preprocess_user() for page.html.twig.
  */
 function girchi_preprocess_user(array &$variables)
-{
-
-}
+{ }
 
 /**
  * Implements hook_preprocess_HOOK() for Block document templates.
  */
 function girchi_preprocess_block(array &$variables)
-{
-
-}
+{ }
 
 /**
  * Implements hook_theme_suggestions_field_alter().
@@ -183,8 +272,7 @@ function girchi_theme_suggestions_fieldset_alter(array &$suggestions, array $var
   /*$element = $variables['element'];
   if (isset($element['#attributes']['class']) && in_array('form-composite', $element['#attributes']['class'])) {
   $suggestions[] = 'fieldset__form_composite';
-  }*/
-}
+  }*/ }
 
 /**
  * Implements hook_preprocess_node().
@@ -200,6 +288,23 @@ function girchi_preprocess_node(array &$variables)
       $terms[$term->getName()] = $term->id();
     }
     $variables['terms'] = $terms;
+
+    $nid = $variables['node']->id();
+    $user = User::load(\Drupal::currentUser()->id());
+    $authenticatedUser = $variables['logged_in'] = $user->isAuthenticated();
+    $favNewsEx = $user->get('field_favorite_news')->getValue();
+    $checkboxValue = false;
+    if ($authenticatedUser && $favNewsEx) {
+      $arr = array_filter($favNewsEx, function ($var) use ($nid) {
+        return $var['target_id'] == $nid;
+      });
+
+      if (!empty($arr)) {
+        $checkboxValue = true;
+      }
+    }
+
+    $variables['checkboxValue'] = $checkboxValue;
   }
   if ($variables['node']->getType() == 'page') {
     $current_url = Url::fromRoute('<current>');
@@ -224,19 +329,30 @@ function girchi_preprocess_node(array &$variables)
  */
 function girchi_preprocess_views_view(&$variables)
 {
-
-
   if ($variables['id'] == 'news') {
     if (empty($variables['exposed']['category']['#value']) == FALSE) {
 
       $termID = $variables['exposed']['category']['#value'];
       $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($termID);
       $variables['categoryName'] = $term->name->value;
+    }
 
+    $user = \Drupal::routeMatch()->getParameter('user');
+    if ($user instanceof User) {
+      $uid = $user->id();
+      $variables['newsAuthor'] = $uid;
     }
   }
 
-
+  if ($variables['id'] == 'favorite_news') {
+    $user = \Drupal::routeMatch()->getParameter('user');
+    if ($user instanceof User) {
+      $variables['favorite_news'] = [
+          'first_name' => $user->get('field_first_name')->value,
+          'last_name' => $user->get('field_last_name')->value,
+      ];
+    }
+  }
 }
 
 /**
@@ -263,6 +379,11 @@ function girchi_preprocess_form(array &$variables)
       $response = new RedirectResponse("/createpassword");
       $response->send();
     }
+
+    if($user->get('field_cover_photo')->entity){
+      $coverName = $user->get('field_cover_photo')->entity->getFileName();
+      $variables['cover_name'] = $coverName;
+    }
   }
 }
 
@@ -280,8 +401,7 @@ function girchi_preprocess_select(array &$variables)
 function girchi_preprocess_field(array &$variables, $hook)
 {
   /*switch ($variables['element']['#field_name']) {
-  }*/
-}
+  }*/ }
 
 /**
  * Implements hook_preprocess_details().
@@ -289,8 +409,7 @@ function girchi_preprocess_field(array &$variables, $hook)
 function girchi_preprocess_details(array &$variables)
 {
   /*$variables['attributes']['class'][] = 'details';
-  $variables['summary_attributes']['class'] = 'summary';*/
-}
+  $variables['summary_attributes']['class'] = 'summary';*/ }
 
 /**
  * Implements hook_preprocess_menu_local_task().
@@ -397,7 +516,6 @@ function girchi_preprocess_paragraph(&$variables)
       "icon_class" => $icon_styles[$icon_style],
     ];
   }
-
 }
 
 /**
@@ -413,17 +531,43 @@ function girchi_preprocess_menu(array &$variables)
 }
 
 
-function girchi_preprocess_views_view_fields(&$variables) {
+function girchi_preprocess_views_view_fields(&$variables)
+{
   $view = $variables['view'];
 
   if ($view->id() == 'party_list') {
     $politician_ids = [];
     foreach ($view->result as $user) {
-      $politician_ids [] = $user->_entity->id();
+      $politician_ids[] = $user->_entity->id();
     }
     if (!empty($politician_ids)) {
       $supporters = get_politicians_supporters($politician_ids);
       $variables['supporters'] = $supporters;
     }
   }
+}
+
+
+function get_user_avatar($user)
+{
+  if ($user->get('user_picture')->entity) {
+    $profilePictureEntity = $user->get('user_picture')->entity;
+    $profilePicture = $profilePictureEntity->getFileUri();
+  } else {
+    $profilePicture = null;
+  }
+
+  return $profilePicture;
+}
+
+function get_default_cover_photo($user)
+{
+  if ($user->get('field_cover_photo')->entity) {
+    $coverPhotoEntity = $user->get('field_cover_photo')->entity;
+    $coverPhotoAvatar = $coverPhotoEntity->getFileUri();
+  } else {
+    $coverPhotoAvatar = null;
+  }
+
+  return $coverPhotoAvatar;
 }

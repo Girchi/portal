@@ -19,3 +19,4 @@ hidden:
   field_paragraphs: true
   langcode: true
   links: true
+  search_api_excerpt: true

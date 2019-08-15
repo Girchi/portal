@@ -1,0 +1,30 @@
+uuid: 46624f7a-691b-4816-bad8-2c326c035049
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_favorite_news
+    - node.type.article
+  module:
+    - entity_reference_revisions
+    - user
+id: user.user.field_favorite_news
+field_name: field_favorite_news
+entity_type: user
+bundle: user
+label: 'Favorite news'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article: article
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference_revisions

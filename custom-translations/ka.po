@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-08-12 13:16+0000\n"
-"PO-Revision-Date: 2019-08-12 13:16+0000\n"
+"POT-Creation-Date: 2019-08-14 15:55+0000\n"
+"PO-Revision-Date: 2019-08-14 15:55+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,8 @@ msgstr "აღწერა"
 msgid "User"
 msgstr "მომხმარებელი"
 
+msgid "Content"
+msgstr "კონტენტი"
 msgid "Donation"
 msgstr "შემოწირულობა"
 
@@ -109,9 +111,6 @@ msgstr "დადასტურება"
 
 msgid "Operations"
 msgstr "ოპერაციები"
-
-msgid "Content"
-msgstr "კონტენტი"
 
 msgid "Attribute"
 msgstr "ატრიბუტი"
@@ -3069,6 +3068,7 @@ msgstr "Site section links"
 msgid "Active"
 msgstr "აქტიური"
 
+msgid "Enter your email address or username."
 msgid "There is no content"
 msgstr "კონტენტი არ არსებობს "
 
@@ -3114,6 +3114,11 @@ msgstr ""
 "არ გაქვთ ანგარიში? გაიარეთ "
 "რეგისტრაცია მარტივად"
 
+msgid "Save"
+msgstr "შენახვა"
+
+msgid "Create new account"
+msgstr "რეგისტრაცია"
 msgid "General settings for this site."
 msgstr ""
 "საიტის ზოგადი "
@@ -3121,6 +3126,21 @@ msgstr ""
 
 msgid "Current password"
 msgstr "მიმდინარე პაროლი"
+
+msgid "Hierarchy"
+msgstr "იერარქია"
+
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
+
+msgid ""
+"By default, dates in this site will be displayed in the chosen time "
+"zone."
+msgstr ""
+"ნაგულისხმევად, ამ საიტზე "
+"თარიღები გამოჩნდება "
+"არჩეული დროის სარტყლის "
+"შესაბამისად."
 
 msgid ""
 "A valid email address. All emails from the system will be sent to this "
@@ -3139,6 +3159,9 @@ msgstr ""
 "პაროლის და "
 "შეტყობინებების "
 "მისაღებად."
+
+msgid "Provide a password for the new account in both fields."
+msgstr "შეიყვანეთ პაროლი"
 
 msgid "Save"
 msgstr "შენახვა"
@@ -3178,8 +3201,8 @@ msgstr "სუსტი"
 msgid "Strong"
 msgstr "ძლიერი"
 
-msgid "Provide a password for the new account in both fields."
-msgstr "შეიყვანეთ პაროლი"
+msgid "News"
+msgstr "სიახლეები"
 
 msgid "Create new account"
 msgstr "რეგისტრაცია"
@@ -3286,67 +3309,13 @@ msgstr ""
 "ინსტრუქციის სანახავად "
 "შეამოწმეთ თქვენი ელ.ფოსტა"
 
-msgid "Personal ID"
-msgstr "მიუთითეთ პირადი ნომერი"
+msgid "Current password"
+msgstr "მიმდინარე პაროლი"
 
-msgid "First name"
-msgstr "მიუთითეთ სახელი"
-
-msgid "Last name"
-msgstr "მიუთითეთ გვარი"
-
-msgid "Date of birth"
+msgid "The changes have been saved."
 msgstr ""
-"მიუთითეთ დაბადების "
-"თარიღი"
-
-msgid "Phone number"
-msgstr "ტელეფონის ნომერი"
-
-msgid "Amount of GeD"
-msgstr "მიუთითეთ GeD-ების რაოდენობა"
-
-msgid "First Name"
-msgstr "სახელი"
-
-msgid "Last Name"
-msgstr "გვარი"
-
-msgid "* Referral is not required"
-msgstr ""
-"* Referral-ის მითითება "
-"სავალდებულო არაა"
-
-msgid "You must agree to the terms and conditions before register"
-msgstr ""
-"რეგისტრაციის "
-"გასაგრძელებლად საჭიროა "
-"დაეთანხმოთ საიტის წესებს!"
-
-msgid "Share"
-msgstr "გაზიარება"
-
-msgid "Print"
-msgstr "ამობეჭვდა"
-
-msgid "Video blog"
-msgstr "ვიდეო ბლოგი"
-
-msgid "All videos"
-msgstr "ყველა ვიდეო"
-
-msgid "News"
-msgstr "სიახლეები"
-
-msgid "Reset password"
-msgstr "პაროლის აღდგენა"
-
-msgid "Further instructions have been sent to your email address."
-msgstr ""
-"შემდგომი ინსტრუქციები "
-"გაიგზავნა თქვენი "
-"ელექტრონული ფოსტის "
-"მისამართით."
+"ცვლილებები წარმატებით "
+"შეინახა"
 
 msgid ""
 "A welcome message with further instructions has been sent to your "
@@ -3364,6 +3333,165 @@ msgstr ""
 "არასწორი სახელი ან პაროლი. "
 "<a href=\":password\">დაგავიწყდა "
 "პაროლი?</a>"
+
+msgid ""
+"Your current password is missing or incorrect; it's required to change "
+"the %name."
+msgstr ""
+"პაროლის ველი ცარიელია ან "
+"არასწორად არის შეყვანილი. "
+"პაროლი სავალდებულოა "
+"%ელ-ფოსტის შესაცვლელად."
+
+msgid "Further instructions have been sent to your email address."
+msgstr ""
+"შემდგომი ინსტრუქციები "
+"გაიგზავნა თქვენი "
+"ელექტრონული ფოსტის "
+"მისამართით."
+
+msgid "Reset password"
+msgstr "პაროლის აღდგენა"
+
+msgid "Enter Email"
+msgstr "მიუთითეთ ელ.ფოსტა"
+
+msgid "Enter password"
+msgstr "მიუთითეთ პაროლი "
+
+msgid "Authorisation"
+msgstr "ავტორიზაცია"
+
+msgid "Password recovery"
+msgstr "აღდგენა"
+
+msgid "Don't have an Girchi account? Register now"
+msgstr ""
+"არ გაქვთ ანგარიში? გაიარეთ "
+"რეგისტრაცია მარტივად"
+
+msgid "Girchi"
+msgstr "გირჩი"
+
+msgid ""
+"Select a politician, specify the percentage with which you support "
+"him/her and take part in establishing the party listing."
+msgstr ""
+"აირჩიეთ პოლიტიკოსი, "
+"მიუთითეთ თქვენი წონის "
+"რამდენი %-ით უჭერთ მას "
+"მხარს და მიიღე "
+"მონაწილეობა პარტიული "
+"სიის ჩამოყალიბებაში."
+
+msgid "Enter your referral"
+msgstr "მიუთითეთ REFERRAL-ი"
+
+msgid ""
+"You can also use Referral to refer to the person who informed you "
+"about us and you decided to register."
+msgstr ""
+"თქვენ შეგიძლიათ მიუთითოთ "
+"Referral-ი - ანუ ვისი "
+"მეშვეობითაც გაიგეთ ჩვენს "
+"შესახებ და გადაწყვიტეთ "
+"დარეგისტრირება"
+
+msgid "* Referral is not required"
+msgstr ""
+"* Referral-ის მითითება "
+"სავალდებულო არაა"
+
+msgid "I read and agree to the terms and conditions"
+msgstr ""
+"წავიკითხე და ვეთანხმები "
+"რეგისტრაციის წესებს და "
+"პირობებს"
+
+msgid "Personal ID"
+msgstr "მიუთითეთ პირადი ნომერი"
+
+msgid "First name"
+msgstr "მიუთითეთ სახელი"
+
+msgid "Last name"
+msgstr "მიუთითეთ გვარი"
+
+msgid "Date of birth"
+msgid "You must agree to the terms and conditions before register"
+msgstr ""
+"მიუთითეთ დაბადების "
+"თარიღი"
+
+msgid "Phone number"
+msgstr "ტელეფონის ნომერი"
+
+msgid "Amount of GeD"
+msgstr "მიუთითეთ GeD-ების რაოდენობა"
+
+msgid "First Name"
+msgstr "სახელი"
+
+msgid "Last Name"
+msgstr "გვარი"
+
+msgid "Video blog"
+msgstr "ვიდეო ბლოგი"
+
+msgid "All videos"
+msgstr "ყველა ვიდეო"
+
+msgid "There is no content"
+msgstr "კონტენტი არ არსებობს "
+msgid "News"
+msgstr "სიახლეები"
+
+msgid "Reset password"
+msgstr "პაროლის აღდგენა"
+
+msgid "You must agree to the terms and conditions before register"
+msgstr ""
+"რეგისტრაციის "
+"გასაგრძელებლად საჭიროა "
+"დაეთანხმოთ საიტის წესებს!"
+
+msgid "Share"
+msgstr "გაზიარება"
+
+msgid "Print"
+msgstr "ამობეჭვდა"
+
+msgid "Become a politician"
+msgstr "გახდი პოლიტიკოსი"
+msgid ""
+"A welcome message with further instructions has been sent to your "
+"email address."
+msgstr ""
+"მისასალმებელი წერილი "
+"შემდგომი ინსტრუქციებით "
+"გაიგზავნა ელ.ფოსტის "
+"მისამართზე."
+
+msgid "Become a politician, get enough votes and get into the party list"
+msgstr ""
+"გახდი პოლიტიკოსი, "
+"დააგროვე ხმების "
+"საკმარისი რაოდენობა და "
+"მოხვდი პარტიულ სიაში"
+
+msgid "Want to be politician"
+msgstr "მინდა პოლიტიკოსობა"
+
+msgid "General settings for this site."
+msgstr ""
+"საიტის ზოგადი "
+"პარამეტრები."
+
+msgid "Edit user"
+msgstr "პარამეტრების შეცვლა"
+
+msgid "Change Password"
+msgstr "პაროლის შეცვლა"
 
 msgid "Contact phone"
 msgstr "საკონტაქტო ნომერი"
@@ -3421,27 +3549,11 @@ msgstr ""
 msgid "Social Media"
 msgstr "სოციალური მედია"
 
+msgid "Categories"
+msgstr "კატეგორიები"
+
 msgid "General settings"
 msgstr "ძირითადი პარამეტრები."
-
-msgid "Become a politician"
-msgstr "გახდი პოლიტიკოსი"
-
-msgid "Become a politician, get enough votes and get into the party list"
-msgstr ""
-"გახდი პოლიტიკოსი, "
-"დააგროვე ხმების "
-"საკმარისი რაოდენობა და "
-"მოხვდი პარტიულ სიაში"
-
-msgid "Want to be politician"
-msgstr "მინდა პოლიტიკოსობა"
-
-msgid "Edit user"
-msgstr "პარამეტრების შეცვლა"
-
-msgid "Change Password"
-msgstr "პაროლის შეცვლა"
 
 msgid "Login"
 msgstr "შესვლა"
@@ -3464,13 +3576,26 @@ msgstr "გაიმეორეთ პაროლი"
 msgid "members in total"
 msgstr "წევრს შორის"
 
+msgid "More Freedom"
+msgstr "მეტი თავისუფლება"
+
 msgid "all rights reserved. Girchi"
 msgstr ""
 "ყველა უფლება დაცულია. "
 "გირჩი"
 
-msgid "Categories"
-msgstr "კატეგორიები"
+msgid "Become a partner"
+msgstr "გახდი პარტნიორი"
+
+msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
+msgstr ""
+"დააფინანსე გირჩი, მიიღე "
+"შესაბამისი რაოდენობის "
+"GeD-ები და მოხვდი "
+"ლიდერბორდში"
+
+msgid "Donate"
+msgstr "დააფინანსე"
 
 msgid "Top partners"
 msgstr "ტოპ პარტნიორები"
@@ -3508,14 +3633,23 @@ msgstr ""
 msgid "ძებნა..."
 msgstr "Search..."
 
+msgid "Search..."
+msgstr "ძებნა..."
+
+msgid "All news"
+msgstr "ყველა სიახლე"
+
+msgid "Last month Top partners"
+msgstr "წინა თვის ტოპ პარტნიორები"
+
 msgid "Politicians"
 msgstr "პოლიტიკოსები"
 
 msgid "Partners"
 msgstr "პარტნიორები"
 
-msgid "All news"
-msgstr "ყველა სიახლე"
+msgid "Ged amount"
+msgstr "Ged-ების რაოდენობა"
 
 msgid ""
 "Select a politician, Specify the percentage of your weight\n"
@@ -3660,29 +3794,8 @@ msgstr ""
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
-msgid "Girchi party list"
-msgstr "გირჩის პარტიული სია"
-
-msgid "Supporters"
-msgstr "მხარდამჭერები"
-
-msgid "Intro"
-msgstr "ინტრო"
-
-msgid "Full biography"
-msgstr "სრული ბიოგრაფია"
-
-msgid "Learn about politician"
-msgstr "გაიცანი პოლიტიკოსი"
-
-msgid "Favorite news"
-msgstr "რჩეული სიახლეები"
-
-msgid "personal party list"
-msgstr "პირადი პარტიული სია"
-
-msgid "GeD and"
-msgstr "GeD და "
+msgid "Donate to politician"
+msgstr "დააფინანსე პოლიტიკოსი"
 
 msgid "Politician rating"
 msgstr "პოლიტიკური წონა"
@@ -3693,11 +3806,47 @@ msgstr "გამომუშავებული GED-ები"
 msgid "Referrals"
 msgstr "რეფერალები"
 
-msgid "Donate to politician"
-msgstr "დააფინანსე პოლიტიკოსი"
+msgid "Learn about politician"
+msgstr "გაიცანი პოლიტიკოსი"
+
+msgid "Intro"
+msgstr "ინტრო"
+
+msgid "Full biography"
+msgstr "სრული ბიოგრაფია"
+
+msgid "All articles"
+msgstr "ყველა სტატია"
+
+msgid "personal party list"
+msgstr "პირადი პარტიული სია"
+
+msgid "GeD and"
+msgstr "GeD და "
 
 msgid "Ged &#37;"
 msgstr "Ged-ების &#37;"
+
+msgid "Girchi party list"
+msgstr "გირჩის პარტიული სია"
+
+msgid "Supporters"
+msgstr "მხარდამჭერები"
+
+msgid "Favorite news"
+msgstr "რჩეული სიახლეები"
+
+msgid "Add to favorite"
+msgstr "ფავორიტებში დამატება"
+
+msgid "Biography"
+msgstr "ბიოგრაფია"
+
+msgid "Edit public profile"
+msgstr "საჯარო პროფილის შეცვლა"
+
+msgid "Choose file"
+msgstr "აირჩიეთ სურათი"
 
 msgid "Donation to politician"
 msgstr "პოლიტიკოსის შემოწირულობა"

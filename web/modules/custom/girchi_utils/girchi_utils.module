@@ -7,16 +7,17 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\user\Entity\User;
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\user\UserInterface;
 use Drupal\webform\WebformSubmissionInterface;
 use Drupal\taxonomy\Entity\Term;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\user\Entity\User;
 
 /**
  * Implements hook_token_info().
  */
-function girchi_utils_token_info()
-{
+function girchi_utils_token_info() {
   $type = [
     'name' => t('Girchi Token'),
     'description' => t('Tokens for Girchi.'),
@@ -36,8 +37,7 @@ function girchi_utils_token_info()
 /**
  * Implements hook_tokens().
  */
-function girchi_utils_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata)
-{
+function girchi_utils_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
   $replacements = [];
 
   if ($type == 'customtoken' && !empty($data['node'])) {
@@ -46,7 +46,8 @@ function girchi_utils_tokens($type, $tokens, array $data, array $options, Bubble
         case 'page-type':
           if ($data['node']->getType() == 'page' && $data['node']->field_is_about->value == 1) {
             $replacements[$original] = '/about';
-          } else {
+          }
+          else {
             $replacements[$original] = '/page';
           }
           break;
@@ -59,10 +60,9 @@ function girchi_utils_tokens($type, $tokens, array $data, array $options, Bubble
 /**
  * Implements hook_help().
  */
-function girchi_utils_help($route_name, RouteMatchInterface $route_match)
-{
+function girchi_utils_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
-      // Main module help for the girchi_utils module.
+    // Main module help for the girchi_utils module.
     case 'help.page.girchi_utils':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
@@ -76,8 +76,7 @@ function girchi_utils_help($route_name, RouteMatchInterface $route_match)
 /**
  * Implements hook_entity_form_display_alter().
  */
-function girchi_utils_entity_form_display_alter(&$form_display, $context)
-{
+function girchi_utils_entity_form_display_alter(&$form_display, $context) {
 
   if ($context['entity_type'] == 'user' && $context['form_mode'] == 'register') {
 
@@ -96,93 +95,101 @@ function girchi_utils_entity_form_display_alter(&$form_display, $context)
 /**
  * Implements hook_theme().
  */
-function girchi_utils_theme($existing, $type, $theme, $path)
-{
+function girchi_utils_theme($existing, $type, $theme, $path) {
   $templates = [
     'supporter_registration' => [
       'variables' =>
-      [
-        'form' => NULL,
-      ],
+        [
+          'form' => NULL,
+        ],
       'template' => 'supporter-registration',
       'render element' => 'form',
     ],
     'top_topics' => [
       'variables' =>
-      [
-        'slider_topics' => NULL,
-        'bottom_topics' => NULL,
-      ],
+        [
+          'slider_topics' => NULL,
+          'bottom_topics' => NULL,
+        ],
       'template' => 'top-topics',
     ],
     'categories_block' => [
       'variables' =>
-      [
-        'categories' => NULL,
-        'current_category' => NULL,
-      ],
+        [
+          'categories' => NULL,
+          'current_category' => NULL,
+        ],
       'template' => 'categories-block',
     ],
     'categories_block_mobile' => [
       'variables' =>
-      [
-        'categories' => NULL,
-        'current_category' => NULL,
-      ],
+        [
+          'categories' => NULL,
+          'current_category' => NULL,
+        ],
       'template' => 'categories-block-mobile',
     ],
     'top_videos' => [
       'variables' =>
-      [
-        'top_videos' => NULL,
-      ],
+        [
+          'top_videos' => NULL,
+        ],
       'template' => 'top-videos',
     ],
     'tags_block' => [
       'variables' =>
-      [
-        'tags' => NULL,
-      ],
+        [
+          'tags' => NULL,
+        ],
       'template' => 'tags-block',
     ],
     'politician_block' => [
       'variables' =>
-      [
-        'language' => NULL,
-      ],
+        [
+          'language' => NULL,
+        ],
       'template' => 'politician-block',
     ],
     'user_profile' => [
       'variables' =>
-      [
-        'user_id' => NULL,
-        'user_first_name' => NULL,
-        'user_last_name' => NULL,
-        'user_ged' => NULL,
-        'user_profile_picture' => NULL,
-        'ged' => NULL,
-        'member' => NULL,
-        'user_count' => NULL,
-        'user_rank' => NULL,
-        'is_avatar' => NULL,
-      ],
+        [
+          'user_id' => NULL,
+          'user_first_name' => NULL,
+          'user_last_name' => NULL,
+          'user_ged' => NULL,
+          'user_profile_picture' => NULL,
+          'ged' => NULL,
+          'member' => NULL,
+          'user_count' => NULL,
+          'user_rank' => NULL,
+          'is_avatar' => NULL,
+        ],
       'template' => 'user_profile',
     ],
     'front_page_articles' => [
       'variables' =>
-      [
-        'articles' => NULL,
-        'category' => NULL,
-      ],
+        [
+          'articles' => NULL,
+          'category' => NULL,
+        ],
       'template' => 'front-page-articles',
     ],
     'lead_partners' => [
       'variables' =>
-      [
-        'leadPartner' => NULL,
-      ],
+        [
+          'leadPartner' => NULL,
+        ],
       'template' => 'lead-partners',
     ],
+    'my_party_list_block' => [
+      'variables' =>
+        [
+          'members' => NULL,
+          'members_short' => NULL,
+        ],
+      'template' => 'my-party-list-block',
+    ],
+
   ];
 
   return $templates;
@@ -191,8 +198,7 @@ function girchi_utils_theme($existing, $type, $theme, $path)
 /**
  * Implements hook_form_alter().
  */
-function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_id)
-{
+function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $currentUser = Drupal::currentUser()->getRoles();
   // Getting Politician text from omedia_settings.
   $config = \Drupal::config('om_site_settings.site_settings');
@@ -361,6 +367,20 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
             '#theme' => '',
           ];
 
+          // Public profile.
+          unset($form['field_intro']['widget'][0]['#title']);
+          unset($form['field_bio']['widget'][0]['#title']);
+          unset($form['field_profile_video']['widget']['#title']);
+          unset($form['field_profile_video']['widget'][0]['value']['#title']);
+          unset($form['field_twitter_url']['widget']['0']['value']['#title']);
+          unset($form['field_facebook_url']['widget']['0']['value']['#title']);
+          unset($form['field_public_email']['widget']['0']['value']['#title']);
+
+          $form['field_profile_video']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+          $form['field_twitter_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+          $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+          $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+
           $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
           $form['#after_build'][] = 'girchi_utils_after_build';
         }
@@ -396,8 +416,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 /**
  * Custom submit handler .
  */
-function girchi_utils_after_build($form, &$form_state)
-{
+function girchi_utils_after_build($form, &$form_state) {
   if (
     $form_state->getFormObject()->getFormDisplay($form_state)->getMode()
     === 'supporters_registration'
@@ -426,8 +445,7 @@ function girchi_utils_after_build($form, &$form_state)
 /**
  * Validate terms and conditions checkbox.
  */
-function terms_and_conditions_validate($form, &$form_state)
-{
+function terms_and_conditions_validate($form, &$form_state) {
   if ($form['account']['terms_and_conditions']['#value'] !== 1) {
     \Drupal::messenger()->addWarning(t('You must agree to the terms and conditions before register'));
   }
@@ -436,16 +454,14 @@ function terms_and_conditions_validate($form, &$form_state)
 /**
  * Implements hook_preprocess_block().
  */
-function girchi_utils_preprocess_block(&$variables)
-{
+function girchi_utils_preprocess_block(&$variables) {
   $variables['base_path'] = base_path();
 }
 
 /**
  * Impelements hook_user_form_submit().
  */
-function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
-{
+function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state) {
   if ($_FILES['avatar']['size'] != 0) {
     $image_original_path = $_FILES['avatar']['tmp_name'];
     $mime_type = explode('/', mime_content_type($image_original_path));
@@ -462,7 +478,8 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
       $user = User::load($uid);
       $user->set('user_picture', $file->id());
       $user->save();
-    } else {
+    }
+    else {
       \Drupal::messenger()->addMessage(t('Please upload image file.'));
     }
   }
@@ -471,8 +488,7 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
 /**
  * Implements hook_cron().
  */
-function girchi_utils_cron()
-{
+function girchi_utils_cron() {
   /**
    * @var \Drupal\girchi_utils\GedRaitingService $rankRaiting
    */
@@ -483,8 +499,7 @@ function girchi_utils_cron()
 /**
  * Implements hook_simple_sitemap_links_alter().
  */
-function girchi_utils_simple_sitemap_links_alter(array &$links, $sitemap_variant)
-{
+function girchi_utils_simple_sitemap_links_alter(array &$links, $sitemap_variant) {
   $term_url_mapping = [
     'news_categories' => 'news?category=',
     'tags' => 'news?tag=',
@@ -517,8 +532,7 @@ function girchi_utils_simple_sitemap_links_alter(array &$links, $sitemap_variant
 /**
  * Implements hook_Webform_submission_presave().
  */
-function girchi_utils_webform_submission_presave(WebformSubmissionInterface $webform_submission)
-{
+function girchi_utils_webform_submission_presave(WebformSubmissionInterface $webform_submission) {
   if ($webform_submission->getWebform()->id() == 'student_registration') {
     $start_time = $_POST['start-time'];
     $end_time = $_POST['end-time'];
@@ -526,4 +540,13 @@ function girchi_utils_webform_submission_presave(WebformSubmissionInterface $web
     $webform_data['time_range'] = $start_time . '-' . $end_time;
     $webform_submission->setData($webform_data);
   }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function girchi_utils_user_login(UserInterface $account) {
+  $uid = $account->id();
+  $response = new RedirectResponse("/user/$uid/edit");
+  $response->send();
 }

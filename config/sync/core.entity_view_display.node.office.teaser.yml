@@ -28,3 +28,4 @@ hidden:
   field_working_days: true
   field_working_hours: true
   langcode: true
+  search_api_excerpt: true

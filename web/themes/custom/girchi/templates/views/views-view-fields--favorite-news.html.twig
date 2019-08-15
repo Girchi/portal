@@ -1,0 +1,37 @@
+{% set is_video = fields.field_is_video.content |striptags | replace({"\n":'', "\r":''}) %}
+
+<div class="col-sm-6 col-md-4">
+    <!-- Start of media -->
+    <div class="media media-column mb-4">
+        <div class="media-thumb w-100 rounded overflow-hidden">
+            <a href="{{ fields.view_node.content | striptags }}" class="media-thumb-l1ink">
+                <i class="{{  is_video  == "True"  ?  'icon-play-button media-play' : ' '  }}" ></i>
+                <img src="{{ fields.field_image.content | striptags}}" class="w-100" alt="...">
+            </a>
+{#            <span class="media-date font-size-1">2:41</span>#}
+        </div>
+        <div class="media-body">
+            <h6
+                    class="text-white mt-2 font-size-base line-height-1-3"
+            >
+                <a
+                        href="{{ fields.view_node.content | striptags }}"
+                        class="text-white mt-2 font-size-base line-height-1-3"
+                >
+                    {{ fields.title.content }}
+                </a>
+            </h6>
+            <span
+                    class="text-lighter-green font-size-1 d-inline-flex align-items-center"
+            >
+                            <i
+                                    class="icon-clock-circular-outline mr-1
+                                  "
+                            ></i>
+                            {{ fields.created.content }}</span
+            >
+            <a href="/news?tag={{ fields.field_tags_1.content|striptags }}" class="font-size-1 text-lighter-green font-weight-bold border-lighter-green pl-2 ml-1 border-left">{{ fields.field_tags.content }}</a>
+        </div>
+    </div>
+    <!-- End of media -->
+</div>

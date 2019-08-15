@@ -1,0 +1,15 @@
+uuid: 35de2a68-0ccb-4f59-878c-c803f4350f17
+langcode: en
+status: true
+dependencies: {  }
+name: politicians_profile_picture
+label: 'Politicians profile picture'
+effects:
+  69b8a68a-044a-49e2-836c-d8bba50b1544:
+    uuid: 69b8a68a-044a-49e2-836c-d8bba50b1544
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 212
+      height: 289
+      anchor: center-center

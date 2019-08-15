@@ -98,6 +98,7 @@ function girchi_theme_suggestions_field_alter(array &$suggestions, array $variab
  * Implements hook_theme_suggestions_views_view_alter().
  */
 function girchi_theme_suggestions_views_view_alter(array &$suggestions, array $variables) {
+  $suggestions[] = sprintf('views_view__%s_%s', $variables['view']->id(), $variables['view']->current_display);
 
 }
 

@@ -1,0 +1,15 @@
+uuid: a3cf9e34-3e9a-4095-9b90-aaff021b9536
+langcode: en
+status: true
+dependencies: {  }
+name: politicians_cover
+label: 'Politicians cover'
+effects:
+  675300a6-6214-43cc-bbd1-fc71964ca029:
+    uuid: 675300a6-6214-43cc-bbd1-fc71964ca029
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 930
+      height: 294
+      anchor: center-center

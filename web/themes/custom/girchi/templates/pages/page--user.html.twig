@@ -1,0 +1,245 @@
+{% block page_head %}
+    {% include '@girchi/header.htlm.twig' %}
+{% endblock %}
+<div
+    class="container">
+    <!-- Start of card -->
+    <div class="card my-3 my-lg-4 overflow-hidden">
+        <div class="card-body p-0">
+            <img src="{{ user.field_cover_photo ? image_style_url(user.field_cover_photo, 'politicians_cover') : theme_path() ~ "/images/cover.jpg" }}" class="d-none d-md-block" width="100%" alt="ზურაბ ჯაფარიძე"/>
+            <img src="{{ user.field_cover_photo ? image_style_url(user.field_cover_photo, 'politicians_cover_sm') : theme_path() ~ "/images/cover-sm.png" }}" class="d-block d-md-none" width="100%" alt="ზურაბ ჯაფარიძე"/>
+            <div class="bg-gradient-green p-3 d-flex justify-content-center justify-content-lg-between align-items-center flex-column flex-lg-row">
+                <div class="position-relative position-lg-absolute w-150-px h-150-px w-md-220-px h-md-220-px mt-n10 mt-md-n14 mt-lg-0">
+                    <div class="w-150-px h-150-px w-md-220-px h-md-220-px overflow-hidden rounded-circle bg-white border-4 border-solid border-white">
+                        <img src="{{ user.user_picture ? image_style_url(user.user_picture, 'politicians_profile_picture') : theme_path() ~ "/images/avatar.png" }}" width="100%" alt="ზურაბ ჯაფარიძე"/>
+                    </div>
+                    <span class="w-50-px h-50-px bg-warning rounded-circle position-absolute position-right-n1 position-center-y text-white font-size-6 font-weight-bold d-flex justify-content-center align-items-center">{{ user.rating_in_party_list < 10 ? '0' ~ user.rating_in_party_list : user.rating_in_party_list  }}</span>
+                </div>
+                <div class="w-220-px d-none d-lg-block"></div>
+                <h4 class="font-size-4 font-size-md-6 text-white text-uppercase my-3 my-lg-0 m-0 mr-lg-auto ml-lg-5">
+                    {{ user.first_name ~ " " ~ user.last_name }}
+                </h4>
+                <div class="mb-n5 pb-2 p-lg-0 m-lg-0 d-inline-block">
+                    <a class="btn btn-warning text-uppercase btn-lg ml-lg-auto text-nowrap" href="#">
+                        {{ 'Donate to politician' | t }}
+                    </a>
+                </div>
+            </div>
+            <div class="p-3 d-flex mt-4 mt-lg-0 flex-wrap flex-lg-nowrap justify-content-between align-items-center">
+                <div class="w-220-px mr-4 d-none d-lg-block"></div>
+                <div class="text-center text-lg-left d-flex flex-column mx-lg-3 w-50 w-lg-auto border-right border-right-lg-0 px-3 px-md-4 py-1 p-lg-0">
+                    <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Politician rating' | t }}</label>
+                    <span class="text-warning font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
+                        <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>
+                        {{ user.political_ged }}
+                    </span>
+                </div>
+                <div class="text-center text-lg-left d-flex flex-column mx-lg-3 w-50 w-lg-auto px-3 px-md-4 px-lg-0">
+                    <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Politician Ged' | t }}</label>
+                    <span class="text-success font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
+                        <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>{{ user.ged }}
+                    </span>
+                </div>
+                <div class="pt-3 pt-lg-0 mt-3 mt-lg-0 border-top border-top-lg-0 ml-lg-auto d-flex align-items-center justify-content-center justify-content-lg-start w-100 w-lg-auto">
+                    <label class="m-0 mr-2 font-size-2 text-uppercase text-grey line-height-1-8">{{ 'Referrals' | t }}</label>
+
+                    <ul class="list-unstyled m-0 align-items-center d-flex">
+
+                        {%
+                            for image in user.referrals_profile_picture
+                        %}
+                            <li class="d-none d-md-inline-flex align-items-center mr-n2">
+                                <a href="{{ path('user.page') }}" class="rounded-circle overflow-hidden d-inline-block border-solid border-2 border-white"  data-target="#referralModal" data-toggle="modal" >
+                                    <img src="{{ image ? image_style_url(image, 'avatar_xs') : theme_path() ~ '/images/avatar.png' }}" class="rounded" width="34" alt="..."/>
+                                </a>
+                            </li>
+                        {% endfor %}
+                        {% if (user.referralCount - 5)> 0 %}
+                            <li class="d-inline-flex align-items-center">
+                                <a class="btn btn-light btn-sm m-1 px-2 ml-2 bg-hover-success text-hover-white" data-target="#referralModal" data-toggle="modal" href="#">
+                                    {{ '+' ~ (user.referralCount - 5) }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of card -->
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div
+                class="d-block d-md-flex d-lg-block mb-3">
+                <!-- Start of card -->
+                <div class="card overflow-hidden w-auto w-md-50 w-lg-auto mr-md-2 m-lg-0">
+                    <div class="card-body p-0">
+                        <div class="media">
+                            <div class="media-thumb w-100 rounded rounded-bottom-0 overflow-hidden ">
+                                <a data-target="#profileVideo" data-toggle="modal" href="#">
+                                    {% if user.field_profile_video %}
+                                        <img src="{{ user.thumbnail_url }}" class="w-100" alt="..." height="147" width="263"/>
+                                        <i class="icon-play-button media-play"></i>
+                                    {% else %}
+                                        <img src="{{theme_path() ~ "/images/cover-sm.png" }}" class="w-100" alt="..."/>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="text-center mt-n4 position-relative">
+                            <a class="btn btn-warning text-uppercase ml-md-auto text-nowrap mt-2 position-relative pl-4" data-target="#profileVideo" data-toggle="modal" href="#">
+                                <i class="icon-play-button font-size-5 position-absolute position-left-8-px position-top-3-px"></i>
+                                <span class="ml-2">{{ "Learn about politician"|t }}</span>
+                            </a>
+                        </div>
+                        <h6 class="text-uppercase font-weight-bold text-center py-3 mt-1 border-bottom">
+                            {{ 'Intro'|t }}
+                        </h6>
+                        <div
+                            class="p-3">
+                            {#                            <p class="text-center font-size-3 m-0">#}
+                            {{ user.field_intro|raw }}
+                            {#                            </p>#}
+                            <div class="text-center pb-3 mt-2 border-bottom">
+                                <a class="btn mt-2 border-secondary btn-outline-grey bg-transparent d-inline-block mr-1 btn-sm mb-2 text-hover-light-green border-hover-light-green" data-target="#fullBio" data-toggle="modal" href="#">
+                                    {{ 'Full biography'| t }}
+                                </a>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled d-flex justify-content-center">
+                            <li class="font-size-8 px-1">
+                                <a href="{{ user.field_facebook_url }}" target="_blank" class="text-decoration-none">
+                                    <i class="icon-social-facebook-circular-button text-purple"></i>
+                                </a>
+                            </li>
+                            <li class="font-size-8 px-1">
+                                <a href="{{ user.field_twitter_url }}" target="_blank" class="text-decoration-none">
+                                    <i class="icon-social-twitter-circular-button text-light-blue"></i>
+                                </a>
+                            </li>
+                            <li class="font-size-8 px-1">
+                                <a class="text-decoration-none" href="mailto:{{ user.field_public_email }}">
+                                    <i class="icon-email text-success"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End of card -->
+                <!-- Start of card -->
+                {{ print_block('mypartylistblock') }}
+                <!-- End of card -->
+            </div>
+        </div>
+        <div
+            class="col-lg-9">
+            <!-- Start of card -->
+            {{ drupal_view('favorite_news', 'block_1',  user.favoriteNewsIds) }}
+            <!-- End of card -->
+            <!-- Start of card -->
+        {{ drupal_view('news', 'block_1', user.field_author) }}
+    </div>
+</div>
+</div>
+
+{#Bio MODAL#}
+    <div aria-hidden="true" aria-labelledby="fullBioTitle" class="modal fade" id="fullBio" role="dialog" tabindex="-1"> <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5 class="modal-title font-size-3 text-uppercase font-weight-bold" id="supportersTitle">
+                    {{ 'Full biography'| t }}
+                </h5>
+                <button aria-label="Close" class="close ml-2" data-dismiss="modal" type="button">
+                    <i aria-hidden="true" class="icon-close font-size-3 text-dark-silver"></i>
+                </button>
+            </div>
+            <div class="modal-body mt-3 mx-2 px-2 my-2 mx-2">
+                <div class="container">
+                    {{ user.field_bio|raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{#ENDMODAL#}
+
+{#Referral MODAL#}
+<div aria-hidden="true" aria-labelledby="referralModalTitle" class="modal fade" id="referralModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5 class="modal-title font-size-3 text-uppercase font-weight-bold" id="supportersTitle">
+                    {{ 'Referrals' |t }}
+                </h5>
+                <button aria-label="Close" class="close ml-2" data-dismiss="modal" type="button">
+                    <i aria-hidden="true" class="icon-close font-size-3 text-dark-silver"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <table class="table m-0 table-hover">
+                    <thead>
+                        <tr class="bg-dark-white">
+                            <th class="align-middle w-auto w-md-80-px text-center text-dark-silver font-size-2 border-0" scope="col">
+                                #
+                            </th>
+                            <th class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0" scope="col">
+                                {{ "Name" |t }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in user.user_info %}
+                            <tr>
+                                <th class="pl-3 w-auto w-md-80-px text-center align-middle" scope="row">
+                                    <span class="font-size-4 font-size-xl-5 text-dark-silver font-weight-normal">{{ loop.index }}</span>
+                                </th>
+                                <td class="align-middle">
+                                    <div class="d-flex w-100 align-items-center">
+                                        <a class="rounded-circle overflow-hidden d-none d-md-block" href="#">
+                                            <img {% if user.image %} src="{{ image_style_url(user.image , 'user_sidebar') }}" {% else %} src="{{ theme_path() ~ '/images/avatar.png' }}" {% endif %} class="rounded w-40-px" alt="...">
+                                        </a>
+                                        <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
+                                            <a class="d-inline-block text-hover-success" href="#">
+                                                <span class="text-decoration-none d-inline-block">
+                                                    <span>{{user.first_name}}</span>
+                                                    <span class="font-weight-bold">{{ user.last_name }}</span>
+                                                </span>
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{#ENDMODAL#}
+
+{#Video MODAL#}
+<div aria-hidden="true" aria-labelledby="profielVIdeoTitle" class="modal fade" id="profileVideo" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5 class="modal-title font-size-3 text-uppercase font-weight-bold" id="supportersTitle">
+                    {{ "Learn about politician"|t }}
+                </h5>
+                <button aria-label="Close" class="close ml-2" data-dismiss="modal" type="button">
+                    <i aria-hidden="true" class="icon-close font-size-3 text-dark-silver"></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                {{ user.field_profile_video }}
+            </div>
+        </div>
+    </div>
+</div>
+{#ENDMODAL#}
+
+
+{% block page_foot %}
+    {% include '@girchi/footer.html.twig' %}
+{% endblock %}

@@ -4,29 +4,40 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_address
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_cover_photo
     - field.field.user.user.field_date_of_birth
+    - field.field.user.user.field_facebook_url
+    - field.field.user.user.field_favorite_news
     - field.field.user.user.field_first_name
     - field.field.user.user.field_ged
+    - field.field.user.user.field_intro
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
     - field.field.user.user.field_political_ged
     - field.field.user.user.field_politician
+    - field.field.user.user.field_profile_video
+    - field.field.user.user.field_public_email
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_twitter_url
     - field.field.user.user.user_picture
     - image.style.avatar_image
   module:
     - datetime
+    - entity_reference_revisions
     - image
     - path
     - reference_value_pair
     - telephone
+    - text
     - user
+    - video_embed_field
 _core:
   default_config_hash: K-1rBM8mTIkFp9RqOC2tMRUukOQ1xbRCfSKK8dEddnA
 id: user.user.default
@@ -47,11 +58,44 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_bio:
+    weight: 30
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_cover_photo:
+    weight: 17
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
   field_date_of_birth:
     weight: 10
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
+    region: content
+  field_facebook_url:
+    weight: 25
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_favorite_news:
+    weight: 18
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_autocomplete
     region: content
   field_first_name:
     weight: 1
@@ -67,6 +111,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_intro:
+    weight: 29
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
     region: content
   field_last_name:
     weight: 2
@@ -117,6 +169,20 @@ content:
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
+  field_profile_video:
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
+    type: video_embed_field_textfield
+    region: content
+  field_public_email:
+    weight: 23
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_rating_in_party_list:
     weight: 13
     settings:
@@ -140,6 +206,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_twitter_url:
+    weight: 24
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   path:
     type: path

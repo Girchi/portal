@@ -92,12 +92,20 @@ content:
 hidden:
   contact: true
   field_address: true
+  field_cover_photo: true
+  field_facebook_url: true
+  field_favorite_news: true
+  field_intro: true
   field_my_party_list: true
+  field_political_ged: true
   field_politician: true
+  field_profile_video: true
+  field_public_email: true
   field_rank: true
   field_rating_in_party_list: true
   field_referral_url: true
   field_social_auth_password: true
+  field_twitter_url: true
   google_analytics: true
   langcode: true
   language: true

@@ -1,0 +1,26 @@
+uuid: f414da48-3011-4486-bdeb-d90049a30945
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_profile_video
+  module:
+    - user
+    - video_embed_field
+id: user.user.field_profile_video
+field_name: field_profile_video
+entity_type: user
+bundle: user
+label: 'Profile video'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_providers:
+    facebook: facebook
+    youtube: youtube
+    youtube_playlist: youtube_playlist
+    vimeo: vimeo
+field_type: video_embed_field

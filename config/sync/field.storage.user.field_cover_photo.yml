@@ -1,0 +1,30 @@
+uuid: 5026b89e-7778-48a2-adc4-0031f9be83f8
+langcode: ka
+status: true
+dependencies:
+  module:
+    - file
+    - image
+    - user
+id: user.field_cover_photo
+field_name: field_cover_photo
+entity_type: user
+type: image
+settings:
+  uri_scheme: public
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  target_type: file
+  display_field: false
+  display_default: false
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

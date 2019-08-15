@@ -1,7 +1,6 @@
 {% set politican_checked = element.field_politician.widget.value['#checked'] %}
 {% set avatar = element.user_picture.widget.0.preview['#uri'] %}
 {#Modal#}
-
 {#End Of Modal#}
 <div class="card mb-2 mb-lg-3">
     <h5 class="card-header font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4">
@@ -66,6 +65,12 @@
                             <label class="form-label" for="phone">{{ "Phone number" | t }}</label>
                             {{ element.field_phone }}
                         </div>
+                        {% if politican_checked %}
+                            <button type="button" class="btn btn-lg btn-block  btn-warning text-uppercase mt-4" data-toggle="modal"
+                                    data-target="#drupalUserPublicProfile">
+                                {{ 'Edit public profile'|t }}
+                            </button>
+                        {% endif %}
                         <div class="border bg-dark-white border-dashed rounded px-4 pt-4  mb-4 mt-4">
                             <h6 class="text-uppercase text-success font-weight-bold">
                                 {{ 'Enter your referral'|t }}
@@ -116,7 +121,6 @@
                     </div>
                 </div>
             </div>
-
             {#Modal#}
             {#Modal is sitting inside of form because of user form custom image set in form alter#}
             <div class="modal fade" id="changeUserEmail" tabindex="-1" role="dialog" aria-labelledby="changeUserEmailTitle"
@@ -160,6 +164,71 @@
                 </div>
             </div>
 {#            End Of Modal#}
+
+            {#Modal#}
+            {#Modal for public profile#}
+            <div class="modal fade" id="drupalUserPublicProfile" tabindex="-1" role="dialog" aria-labelledby="drupalUserPublicProfileTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6
+                                class="modal-title font-size-base text-success text-uppercase font-weight-bold"
+                            >
+                                {{ 'Public Profile' |t }}
+                            </h6>
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <i
+                                    aria-hidden="true"
+                                    class="icon-close font-size-3 text-dark-silver"
+                                ></i>
+                            </button>
+                        </div>
+                        <div class="modal-body px-3 px-md-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-10 col-lg-10 m-auto">
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="email">{{ "Intro" | t }}</label>
+                                        {{ element.field_intro }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="email">{{ "Biography" | t }}</label>
+                                        {{ element.field_bio }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="address">{{ "Profie Video" | t }}</label>
+                                        {{ element.field_profile_video }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="email">{{ "Facebook" | t }}</label>
+                                        {{ element.field_facebook_url }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="address">{{ "Twitter" | t }}</label>
+                                        {{ element.field_twitter_url }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label class="form-label" for="address">{{ "Email" | t }}</label>
+                                        {{ element.field_public_email }}
+                                    </div>
+
+                                    <h5 class="card-title">Cover Photo</h5>
+                                    {{ element.field_cover_photo }}
+
+                                    {{ element.actions.submit }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#            End Of Modal#}
         </form>
     </div>
 </div>

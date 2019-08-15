@@ -1,0 +1,4 @@
+services:
+  girchi_referral.get_user_referrals:
+    class: Drupal\girchi_referral\GetUserReferralsService
+    arguments: ['@entity_type.manager']

@@ -1,0 +1,11 @@
+{% block page_head %}
+    {% include '@girchi/header.htlm.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="my-3 my-sm-4">
+        {{ page.content }}
+    </div>
+</div>
+{% block page_foot %}
+    {% include '@girchi/footer.html.twig' %}
+{% endblock %}

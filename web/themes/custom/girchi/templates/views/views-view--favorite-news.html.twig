@@ -1,0 +1,79 @@
+{#
+/**
+ * @file
+ * Default theme implementation for main view template.
+ *
+ * Available variables:
+ * - attributes: Remaining HTML attributes for the element.
+ * - css_name: A css-safe version of the view name.
+ * - css_class: The user-specified classes names, if any.
+ * - header: The optional header.
+ * - footer: The optional footer.
+ * - rows: The results of the view query, if any.
+ * - empty: The content to display if there are no rows.
+ * - pager: The optional pager next/prev links to display.
+ * - exposed: Exposed widget form/info to display.
+ * - feed_icons: Optional feed icons to display.
+ * - more: An optional link to the next page of results.
+ * - title: Title of the view, only used when displaying in the admin preview.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the view title.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the view title.
+ * - attachment_before: An optional attachment view to be displayed before the
+ *   view content.
+ * - attachment_after: An optional attachment view to be displayed after the
+ *   view content.
+ * - dom_id: Unique id for every view being printed to give unique class for
+ *   Javascript.
+ *
+ * @see template_preprocess_views_view()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set classes = [
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+] %}
+<div class="card bg-success bg-green-newsfeed mb-3 mb-xl-4">
+    <div
+            class="card-header bg-transparent border-0 text-white font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4"
+    >
+        {{ favorite_news.first_name ~ ' ' ~ favorite_news.last_name }} - {{ 'Favorite news'|t }}
+    </div>
+    <div{{ attributes.addClass(classes) }}>
+        {{ title_prefix }}
+        {{ title }}
+        {{ title_suffix }}
+
+        {% if header %}
+            <header>
+                {{ header }}
+            </header>
+        {% endif %}
+
+        {{ exposed }}
+        {{ attachment_before }}
+
+        <div class="card-body p-0 pt-3 px-3 px-lg-4">
+            <div class="row">
+                {% if rows -%}
+                    {{ rows }}
+                {% elseif empty -%}
+                    {{ empty }}
+                {% endif %}
+            </div>
+        </div>
+        {{ pager }}
+        {{ attachment_after }}
+        {{ more }}
+
+        {% if footer %}
+            <footer>
+                {{ footer }}
+            </footer>
+        {% endif %}
+
+        {{ feed_icons }}
+    </div>
+</div>

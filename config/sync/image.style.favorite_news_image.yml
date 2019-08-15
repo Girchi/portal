@@ -1,0 +1,15 @@
+uuid: 7eb6d869-96f1-48e3-a7d6-b4d015c70f9e
+langcode: en
+status: true
+dependencies: {  }
+name: favorite_news_image
+label: 'Favorite news image'
+effects:
+  a7d40150-056f-40d9-85a0-0ae816d3ab39:
+    uuid: a7d40150-056f-40d9-85a0-0ae816d3ab39
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 242
+      height: 136
+      anchor: center-center

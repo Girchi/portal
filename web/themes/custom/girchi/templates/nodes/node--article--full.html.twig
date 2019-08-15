@@ -40,6 +40,9 @@
                         {% endfor %}
 
                     </div>
+                    <label class = "font-size-1 text-grey font-weight-bold border-dark-silver "for="favorite_news">{{ 'Add to favorite' | t }}</label>
+                    <input type="checkbox" id="favorite_news" data-node-id="{{ node.id }}" {{ checkboxValue ? 'checked' : '' }}>
+
                     <h4
                             class="font-size-5 font-size-lg-7 font-weight-bold line-height-1-2"
                     >

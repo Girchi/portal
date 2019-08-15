@@ -193,4 +193,52 @@ class UserController extends ControllerBase {
 
   }
 
+  /**
+   * Add Favorite News.
+   *
+   * @param int $nid
+   *   Node id.
+   *
+   * @return \Zend\Diactoros\Response\JsonResponse
+   *   Json.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function addFavoriteNews($nid) {
+    /** @var \Drupal\node\Entity\NodeStorage $node_storage */
+    $node_storage = $this->entityTypeManager->getStorage('node');
+    $node = $node_storage->load($nid);
+    $this->user->{'field_favorite_news'}[] = $node;
+    $this->user->save();
+
+    return new JsonResponse($node);
+  }
+
+  /**
+   * Remove Favorite News.
+   *
+   * @param int $nid
+   *   Node id.
+   *
+   * @return \Zend\Diactoros\Response\JsonResponse
+   *   Json.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public function removeFavoriteNews($nid) {
+    $news = $this->user->get('field_favorite_news')->getValue();
+    $array_column = array_column($news, 'target_id');
+    if ($array_column) {
+      $key = array_search($nid, $array_column);
+      if ($key !== NULL) {
+        $this->user->get('field_favorite_news')->removeItem($key);
+        $this->user->save();
+      }
+    }
+
+    return new JsonResponse("success");
+  }
+
 }

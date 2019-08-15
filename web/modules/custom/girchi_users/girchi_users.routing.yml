@@ -14,3 +14,20 @@ girchi_users.user_controller_passwordConfirm:
     _title: 'Social Auth Password Confirm'
   requirements:
     _permission: 'access content'
+
+girchi_users.user_controller_addFavoriteNews:
+  path: '/api/add/favorite/news/{nid}'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::addFavoriteNews'
+    _title: 'Add favorite news'
+  requirements:
+    _permission: 'access content'
+
+girchi_users.user_controller_removeFavoriteNews:
+  path: '/api/remove/favorite/news/{nid}'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::removeFavoriteNews'
+    _title: 'Remove favorite news'
+  requirements:
+    _permission: 'access content'
+

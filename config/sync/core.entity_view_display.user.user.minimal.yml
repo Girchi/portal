@@ -64,16 +64,25 @@ content:
     label: above
 hidden:
   field_address: true
+  field_cover_photo: true
   field_date_of_birth: true
+  field_facebook_url: true
+  field_favorite_news: true
+  field_intro: true
   field_my_party_list: true
   field_personal_id: true
   field_phone: true
+  field_political_ged: true
   field_politician: true
+  field_profile_video: true
+  field_public_email: true
   field_rank: true
   field_rating_in_party_list: true
   field_referral: true
   field_referral_url: true
   field_social_auth_password: true
+  field_twitter_url: true
   langcode: true
   masquerade: true
   member_for: true
+  search_api_excerpt: true
