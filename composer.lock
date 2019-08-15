@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab23a53b21d63d2c33a75ef82f002ffa",
+    "content-hash": "be04ba541d8278df645a17895eb0bcdb",
     "packages": [
         {
             "name": "abgeo/nbg-currency",
@@ -312,9 +312,7 @@
             "version": "4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "http://download.ckeditor.com/filetools/releases/filetools_4.7.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://download.ckeditor.com/filetools/releases/filetools_4.7.1.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -326,9 +324,7 @@
             "version": "4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "http://download.ckeditor.com/liststyle/releases/liststyle_4.7.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://download.ckeditor.com/liststyle/releases/liststyle_4.7.1.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -340,9 +336,7 @@
             "version": "4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "http://download.ckeditor.com/notification/releases/notification_4.7.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://download.ckeditor.com/notification/releases/notification_4.7.1.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -354,9 +348,7 @@
             "version": "4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "http://download.ckeditor.com/notificationaggregator/releases/notificationaggregator_4.7.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://download.ckeditor.com/notificationaggregator/releases/notificationaggregator_4.7.1.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -368,9 +360,7 @@
             "version": "4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "http://download.ckeditor.com/uploadimage/releases/uploadimage_4.7.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://download.ckeditor.com/uploadimage/releases/uploadimage_4.7.1.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -382,9 +372,7 @@
             "version": "4.7.1",
             "dist": {
                 "type": "zip",
-                "url": "http://download.ckeditor.com/uploadwidget/releases/uploadwidget_4.7.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://download.ckeditor.com/uploadwidget/releases/uploadwidget_4.7.1.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -393,16 +381,16 @@
         },
         {
             "name": "composer/installers",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b"
+                "reference": "141b272484481432cda342727a427dc1e206bfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/cfcca6b1b60bc4974324efb5783c13dca6932b5b",
-                "reference": "cfcca6b1b60bc4974324efb5783c13dca6932b5b",
+                "url": "https://api.github.com/repos/composer/installers/zipball/141b272484481432cda342727a427dc1e206bfa0",
+                "reference": "141b272484481432cda342727a427dc1e206bfa0",
                 "shasum": ""
             },
             "require": {
@@ -458,6 +446,7 @@
                 "RadPHP",
                 "SMF",
                 "Thelia",
+                "Whmcs",
                 "WolfCMS",
                 "agl",
                 "aimeos",
@@ -480,6 +469,7 @@
                 "installer",
                 "itop",
                 "joomla",
+                "known",
                 "kohana",
                 "laravel",
                 "lavalite",
@@ -509,7 +499,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2018-08-27T06:10:37+00:00"
+            "time": "2019-08-12T15:00:31+00:00"
         },
         {
             "name": "composer/semver",
@@ -1240,16 +1230,16 @@
         },
         {
             "name": "consolidation/site-process",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/site-process.git",
-                "reference": "e25265f4a48c13284ebb6f9e0906ecd415d451df"
+                "reference": "e159f849abce696c2f5081c149a1f8ec8717dd97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/site-process/zipball/e25265f4a48c13284ebb6f9e0906ecd415d451df",
-                "reference": "e25265f4a48c13284ebb6f9e0906ecd415d451df",
+                "url": "https://api.github.com/repos/consolidation/site-process/zipball/e159f849abce696c2f5081c149a1f8ec8717dd97",
+                "reference": "e159f849abce696c2f5081c149a1f8ec8717dd97",
                 "shasum": ""
             },
             "require": {
@@ -1299,16 +1289,16 @@
             ],
             "authors": [
                 {
-                    "name": "Moshe Weitzman",
-                    "email": "weitzman@tejasa.com"
-                },
-                {
                     "name": "Greg Anderson",
                     "email": "greg.1.anderson@greenknowe.org"
+                },
+                {
+                    "name": "Moshe Weitzman",
+                    "email": "weitzman@tejasa.com"
                 }
             ],
             "description": "A thin wrapper around the Symfony Process Component that allows applications to use the Site Alias library to specify the target for a remote call.",
-            "time": "2019-06-04T22:23:52+00:00"
+            "time": "2019-08-12T23:10:26+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -1390,9 +1380,7 @@
             "version": "3.1.8",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/desandro/imagesloaded/archive/v3.1.8.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://github.com/desandro/imagesloaded/archive/v3.1.8.zip"
             },
             "type": "drupal-library"
         },
@@ -1401,9 +1389,7 @@
             "version": "3.3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/desandro/masonry/archive/v3.3.1.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://github.com/desandro/masonry/archive/v3.3.1.zip"
             },
             "type": "drupal-library"
         },
@@ -2048,28 +2034,30 @@
         },
         {
             "name": "doctrine/lexer",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/lexer.git",
-                "reference": "1febd6c3ef84253d7c815bed85fc622ad207a9f8"
+                "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/1febd6c3ef84253d7c815bed85fc622ad207a9f8",
-                "reference": "1febd6c3ef84253d7c815bed85fc622ad207a9f8",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/e17f069ede36f7534b95adec71910ed1b49c74ea",
+                "reference": "e17f069ede36f7534b95adec71910ed1b49c74ea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": "^7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.5"
+                "doctrine/coding-standard": "^6.0",
+                "phpstan/phpstan": "^0.11.8",
+                "phpunit/phpunit": "^8.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -2083,12 +2071,12 @@
             ],
             "authors": [
                 {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
                     "name": "Guilherme Blanco",
                     "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
                 },
                 {
                     "name": "Johannes Schmitt",
@@ -2104,7 +2092,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-06-08T11:03:04+00:00"
+            "time": "2019-07-30T19:33:28+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -2393,7 +2381,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.27",
-                    "datestamp": "1558552081",
+                    "datestamp": "1558553350",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4428,7 +4416,8 @@
                 "patches_applied": {
                     "Access user emails ": "https://www.drupal.org/files/issues/2019-04-26/drupal-2799049-30-new-permission-view-user-mail.patch",
                     "Fix Entity reference autocomplete with fields": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch",
-                    "Fix ajax error in views relationships": "https://www.drupal.org/files/issues/2019-05-04/2457999-194.patch"
+                    "Fix ajax error in views relationships": "https://www.drupal.org/files/issues/2019-05-04/2457999-194.patch",
+                    "Fix autocomplete suggestions issue": "https://www.drupal.org/files/issues/2019-07-30/2909128-6.patch"
                 }
             },
             "autoload": {
@@ -6313,17 +6302,17 @@
         },
         {
             "name": "drupal/hierarchical_term_formatter",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/hierarchical_term_formatter.git",
-                "reference": "8.x-1.0"
+                "reference": "8.x-1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/hierarchical_term_formatter-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "cbf96afa56934f8a7179b7c654760e6e54ecbf5e"
+                "url": "https://ftp.drupal.org/files/projects/hierarchical_term_formatter-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "ec0a0f4a2729eda8d69b3e06dacf2d06ae1ec7be"
             },
             "require": {
                 "drupal/core": "~8.0"
@@ -6334,8 +6323,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1554169085",
+                    "version": "8.x-1.1",
+                    "datestamp": "1565360584",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8049,17 +8038,17 @@
         },
         {
             "name": "drupal/select_or_other",
-            "version": "1.0.0-alpha3",
+            "version": "1.0.0-alpha4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/select_or_other.git",
-                "reference": "8.x-1.0-alpha3"
+                "reference": "8.x-1.0-alpha4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/select_or_other-8.x-1.0-alpha3.zip",
-                "reference": "8.x-1.0-alpha3",
-                "shasum": "7835dbc65aa3f3f20f89f42fabc251210f3a804a"
+                "url": "https://ftp.drupal.org/files/projects/select_or_other-8.x-1.0-alpha4.zip",
+                "reference": "8.x-1.0-alpha4",
+                "shasum": "4a36adb77209e379f4629109f3863eda8c1b8e75"
             },
             "require": {
                 "drupal/core": "~8.0"
@@ -8070,8 +8059,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0-alpha3",
-                    "datestamp": "1512469086",
+                    "version": "8.x-1.0-alpha4",
+                    "datestamp": "1565698688",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Alpha releases are not covered by Drupal security advisories."
@@ -8084,6 +8073,10 @@
             ],
             "authors": [
                 {
+                    "name": "Vlad Bo",
+                    "homepage": "https://www.drupal.org/user/2696261"
+                },
+                {
                     "name": "danielb",
                     "homepage": "https://www.drupal.org/user/134005"
                 },
@@ -8094,16 +8087,12 @@
                 {
                     "name": "legolasbo",
                     "homepage": "https://www.drupal.org/user/2480548"
-                },
-                {
-                    "name": "vlaad.bo",
-                    "homepage": "https://www.drupal.org/user/2696261"
                 }
             ],
             "description": "Provides a select box form element with additional option 'Other' to give a textfield.",
             "homepage": "https://www.drupal.org/project/select_or_other",
             "support": {
-                "source": "http://cgit.drupalcode.org/select_or_other"
+                "source": "https://git.drupalcode.org/project/select_or_other"
             }
         },
         {
@@ -10071,16 +10060,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.10",
+            "version": "2.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec"
+                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
-                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/92dd169c32f6f55ba570c309d83f5209cefb5e23",
+                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23",
                 "shasum": ""
             },
             "require": {
@@ -10099,7 +10088,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -10125,7 +10114,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2019-07-19T20:52:08+00:00"
+            "time": "2019-08-13T17:33:27+00:00"
         },
         {
             "name": "embed/embed",
@@ -10198,9 +10187,7 @@
             "version": "1.0.0",
             "dist": {
                 "type": "zip",
-                "url": "http://omedia.ge/temp/colorpicker.zip",
-                "reference": null,
-                "shasum": null
+                "url": "http://omedia.ge/temp/colorpicker.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -10356,16 +10343,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.16",
+            "version": "8.10.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "c62db205bb94fef8bd377c12d3a14e5677895db2"
+                "reference": "528e45db57b3dfa3d89965e52b635c50b285d584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/c62db205bb94fef8bd377c12d3a14e5677895db2",
-                "reference": "c62db205bb94fef8bd377c12d3a14e5677895db2",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/528e45db57b3dfa3d89965e52b635c50b285d584",
+                "reference": "528e45db57b3dfa3d89965e52b635c50b285d584",
                 "shasum": ""
             },
             "require": {
@@ -10420,7 +10407,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-08-01T13:17:58+00:00"
+            "time": "2019-08-15T09:22:06+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -10532,16 +10519,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.108",
+            "version": "v0.109",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "a10ef10fae0a51e49ad6a9a9fe61421ef7f20d8e"
+                "reference": "1e1e05ed1320573f9c3c364ea87302abba748874"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/a10ef10fae0a51e49ad6a9a9fe61421ef7f20d8e",
-                "reference": "a10ef10fae0a51e49ad6a9a9fe61421ef7f20d8e",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/1e1e05ed1320573f9c3c364ea87302abba748874",
+                "reference": "1e1e05ed1320573f9c3c364ea87302abba748874",
                 "shasum": ""
             },
             "require": {
@@ -10565,7 +10552,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2019-08-07T21:23:23+00:00"
+            "time": "2019-08-10T00:23:38+00:00"
         },
         {
             "name": "google/auth",
@@ -10905,9 +10892,7 @@
             "version": "1.8.7",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/harvesthq/chosen/releases/download/v1.7.0/chosen_v1.7.0.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://github.com/harvesthq/chosen/releases/download/v1.7.0/chosen_v1.7.0.zip"
             },
             "type": "drupal-library",
             "extra": {
@@ -11251,14 +11236,14 @@
             "authors": [
                 {
                     "name": "Alex Bilbie",
-                    "role": "Developer",
                     "email": "hello@alexbilbie.com",
-                    "homepage": "http://www.alexbilbie.com"
+                    "homepage": "http://www.alexbilbie.com",
+                    "role": "Developer"
                 },
                 {
                     "name": "Woody Gilk",
-                    "role": "Contributor",
-                    "homepage": "https://github.com/shadowhand"
+                    "homepage": "https://github.com/shadowhand",
+                    "role": "Contributor"
                 }
             ],
             "description": "OAuth 2.0 Client Library",
@@ -11558,16 +11543,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.2.2",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "1bd73cc04c3843ad8d6b0bfc0956026a151fc420"
+                "reference": "e612609022e935f3d0337c1295176505b41188c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/1bd73cc04c3843ad8d6b0bfc0956026a151fc420",
-                "reference": "1bd73cc04c3843ad8d6b0bfc0956026a151fc420",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/e612609022e935f3d0337c1295176505b41188c8",
+                "reference": "e612609022e935f3d0337c1295176505b41188c8",
                 "shasum": ""
             },
             "require": {
@@ -11575,7 +11560,7 @@
                 "php": ">=7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.5 || ^7.0"
+                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
             },
             "bin": [
                 "bin/php-parse"
@@ -11605,7 +11590,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-05-25T20:07:01+00:00"
+            "time": "2019-08-12T20:17:41+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -11909,28 +11894,28 @@
             "authors": [
                 {
                     "name": "Jim Wigginton",
-                    "role": "Lead Developer",
-                    "email": "terrafrost@php.net"
+                    "email": "terrafrost@php.net",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Patrick Monnerat",
-                    "role": "Developer",
-                    "email": "pm@datasphere.ch"
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
                 },
                 {
                     "name": "Andreas Fischer",
-                    "role": "Developer",
-                    "email": "bantu@phpbb.com"
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
                 },
                 {
                     "name": "Hans-Jürgen Petrich",
-                    "role": "Developer",
-                    "email": "petrich@tronic-media.com"
+                    "email": "petrich@tronic-media.com",
+                    "role": "Developer"
                 },
                 {
                     "name": "Graham Campbell",
-                    "role": "Developer",
-                    "email": "graham@alt-three.com"
+                    "email": "graham@alt-three.com",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
@@ -15411,11 +15396,11 @@
         },
         {
             "name": "drupal/coder",
-            "version": "8.3.5",
+            "version": "8.3.6",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/coder.git",
-                "reference": "35277fc8675b6a2cbb194f8880145a9c85c845c4"
+                "reference": "4337ddf58d28dbdee4e1367bf71ee13393ab9820"
             },
             "require": {
                 "ext-mbstring": "*",
@@ -15444,7 +15429,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-06-14T15:06:06+00:00"
+            "time": "2019-08-09T09:27:26+00:00"
         },
         {
             "name": "drupal/drupal-driver",
@@ -16342,8 +16327,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sb@sebastian-bergmann.de"
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -16390,8 +16375,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sb@sebastian-bergmann.de"
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
@@ -16432,8 +16417,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Simple template engine.",
@@ -16481,8 +16466,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sb@sebastian-bergmann.de"
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
                 }
             ],
             "description": "Utility class for timing",
@@ -16600,8 +16585,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -17034,8 +17019,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
