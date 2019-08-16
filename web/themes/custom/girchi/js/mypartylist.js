@@ -6,7 +6,6 @@ $(document).ready(function () {
             url: "/api/party-list/my-supported-members?user=" + keyword,
         })
             .done((data) => {
-                console.log(data);
                 $('#politician').html('');
                 $.each( data, function( i, user ) {
                     $(`<option
