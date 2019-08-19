@@ -378,6 +378,9 @@
       "drupal/page_manager": {
         "Fix title change bug": "https://www.drupal.org/files/issues/2018-04-17/page_manager-page-label-not-editable-2830464-10.patch"
       },
+      "drupal/international_phone": {
+        "change field lable": "https://www.drupal.org/files/issues/international_phone-fix_field_label-2915431-2.patch"
+      },
       "drupal/email_confirmer": {
         "form skip": "https://www.drupal.org/files/issues/2019-04-16/email_confirmer-optionally_skip_confirmation_form-2971857-10.patch"
       },

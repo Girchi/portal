@@ -15,7 +15,6 @@ dependencies:
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
-    - field.field.user.user.field_phone
     - field.field.user.user.field_political_ged
     - field.field.user.user.field_politician
     - field.field.user.user.field_profile_video

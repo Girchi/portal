@@ -15,7 +15,6 @@ dependencies:
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
-    - field.field.user.user.field_phone
     - field.field.user.user.field_political_ged
     - field.field.user.user.field_politician
     - field.field.user.user.field_profile_video
@@ -27,6 +26,7 @@ dependencies:
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
+    - field.field.user.user.field_tel
     - field.field.user.user.user_picture
     - image.style.avatar_image
   module:
@@ -149,13 +149,6 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_phone:
-    weight: 4
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-    type: telephone_default
-    region: content
   field_political_ged:
     weight: 16
     settings:
@@ -222,6 +215,11 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+  field_tel:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: InternationalPhoneDefaultWidget
     region: content
   path:
     type: path
