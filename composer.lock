@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be04ba541d8278df645a17895eb0bcdb",
+    "content-hash": "23aec68f70540d30db667319e98d9373",
     "packages": [
         {
             "name": "abgeo/nbg-currency",
@@ -6472,6 +6472,64 @@
             }
         },
         {
+            "name": "drupal/international_phone",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/international_phone.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/international_phone-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "6bd0cc87dd1a4c58728ad5dea2f37f4a114d19cb"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1500739142",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "patches_applied": {
+                    "change field lable": "https://www.drupal.org/files/issues/international_phone-fix_field_label-2915431-2.patch"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "ajayNimbolkar",
+                    "homepage": "https://www.drupal.org/user/2876727"
+                },
+                {
+                    "name": "heathdutton",
+                    "homepage": "https://www.drupal.org/user/2403690"
+                },
+                {
+                    "name": "mayurjadhav",
+                    "homepage": "https://www.drupal.org/user/2266604"
+                }
+            ],
+            "description": "The international_phone module allows administrators to define a field type for international phone numbers.",
+            "homepage": "https://www.drupal.org/project/international_phone",
+            "support": {
+                "source": "https://git.drupalcode.org/project/international_phone"
+            }
+        },
+        {
             "name": "drupal/jquery_colorpicker",
             "version": "1.4.0",
             "source": {
@@ -7595,17 +7653,17 @@
         },
         {
             "name": "drupal/paragraphs",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/paragraphs.git",
-                "reference": "8.x-1.8"
+                "reference": "8.x-1.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/paragraphs-8.x-1.8.zip",
-                "reference": "8.x-1.8",
-                "shasum": "a40849233de8403f5488c20c5b81ab4877373f65"
+                "url": "https://ftp.drupal.org/files/projects/paragraphs-8.x-1.9.zip",
+                "reference": "8.x-1.9",
+                "shasum": "c04753047fc995bfa2236c272d0b8344d77ee25d"
             },
             "require": {
                 "drupal/core": "~8",
@@ -7633,8 +7691,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.8",
-                    "datestamp": "1553618281",
+                    "version": "8.x-1.9",
+                    "datestamp": "1565881389",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -9472,17 +9530,17 @@
         },
         {
             "name": "drupal/webform",
-            "version": "5.3.0",
+            "version": "5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/webform.git",
-                "reference": "8.x-5.3"
+                "reference": "8.x-5.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webform-8.x-5.3.zip",
-                "reference": "8.x-5.3",
-                "shasum": "0ac8066ed09c688d7900f35d961ea521c6da6e3a"
+                "url": "https://ftp.drupal.org/files/projects/webform-8.x-5.4.zip",
+                "reference": "8.x-5.4",
+                "shasum": "367de6af2485d3838ec80f41c536f6ecc52a405f"
             },
             "require": {
                 "drupal/core": "*"
@@ -9513,8 +9571,8 @@
                     "dev-5.x": "5.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-5.3",
-                    "datestamp": "1563460085",
+                    "version": "8.x-5.4",
+                    "datestamp": "1566209286",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -10519,16 +10577,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.109",
+            "version": "v0.110",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "1e1e05ed1320573f9c3c364ea87302abba748874"
+                "reference": "9d9e0a4e180cf09a52ab04535ca4f669031f8c54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/1e1e05ed1320573f9c3c364ea87302abba748874",
-                "reference": "1e1e05ed1320573f9c3c364ea87302abba748874",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/9d9e0a4e180cf09a52ab04535ca4f669031f8c54",
+                "reference": "9d9e0a4e180cf09a52ab04535ca4f669031f8c54",
                 "shasum": ""
             },
             "require": {
@@ -10552,20 +10610,20 @@
             "keywords": [
                 "google"
             ],
-            "time": "2019-08-10T00:23:38+00:00"
+            "time": "2019-08-17T00:23:23+00:00"
         },
         {
             "name": "google/auth",
-            "version": "v1.5.1",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "0f75e20e7392e863f5550ed2c2d3d50af21710fb"
+                "reference": "2ee962e5df3e9427fda859f1b0515d6d62c4afa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/0f75e20e7392e863f5550ed2c2d3d50af21710fb",
-                "reference": "0f75e20e7392e863f5550ed2c2d3d50af21710fb",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/2ee962e5df3e9427fda859f1b0515d6d62c4afa5",
+                "reference": "2ee962e5df3e9427fda859f1b0515d6d62c4afa5",
                 "shasum": ""
             },
             "require": {
@@ -10603,7 +10661,7 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2019-04-16T18:48:28+00:00"
+            "time": "2019-07-22T21:01:31+00:00"
         },
         {
             "name": "grasmash/expander",
