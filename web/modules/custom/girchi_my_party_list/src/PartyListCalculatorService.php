@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Class PartyListCalculatorService.
  */
-class PartyListCalculatorService {
+class PartyListCalculatorService
+{
 
   /**
    * EntityTypeManagerInterface definition.
@@ -39,7 +40,8 @@ class PartyListCalculatorService {
    *
    *   Request stack;.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $requestStack) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, RequestStack $requestStack)
+  {
     $this->entityTypeManager = $entity_type_manager;
     $this->requestStack = $requestStack->getCurrentRequest();
   }
@@ -47,7 +49,8 @@ class PartyListCalculatorService {
   /**
    * Calculate.
    */
-  public function calculate() {
+  public function calculate()
+  {
     try {
       // Array for full party list.
       $user_rating = [];
@@ -60,6 +63,10 @@ class PartyListCalculatorService {
         ->condition('field_ged', '0', '>')
         ->condition('field_my_party_list', '0', '>')
         ->execute();
+      $politicians = $user_storage
+        ->getQuery()
+        ->condition('field_politician', true, '=')
+        ->execute();
       $users = $user_storage->loadMultiple($user_ids);
       /**
        * @var \Drupal\user\Entity\User $user
@@ -68,18 +75,19 @@ class PartyListCalculatorService {
         foreach ($users as $user) {
 
           $user_party_list = $user->get('field_my_party_list')->getValue();
-          $user_ged = (int) $user->get('field_ged')->getValue()[0]['value'];
+          $user_ged = (int)$user->get('field_ged')->getValue()[0]['value'];
           foreach ($user_party_list as $party_list_item) {
-            $percentage = (int) $party_list_item['value'];
+            $percentage = (int)$party_list_item['value'];
             $uid = $party_list_item['target_id'];
+            unset($politicians[$uid]);
             if (isset($user_rating[$uid])) {
               $user_rating[$uid] += $user_ged * ($percentage / 100);
-            }
-            else {
+            } else {
               $user_rating[$uid] = $user_ged * ($percentage / 100);
             }
           };
         }
+        $this->cleanUpPartyList($politicians);
         arsort($user_rating);
         $rating_number = 1;
         foreach ($user_rating as $uid => $ged_amount) {
@@ -93,18 +101,15 @@ class PartyListCalculatorService {
             try {
               $politician->save();
               $rating_number++;
-            }
-            catch (EntityStorageException $e) {
+            } catch (EntityStorageException $e) {
               $this->loggerFactory->error($e->getMessage());
             }
           }
         }
       }
-    }
-    catch (InvalidPluginDefinitionException $e) {
+    } catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->error($e->getMessage());
-    }
-    catch (PluginNotFoundException $e) {
+    } catch (PluginNotFoundException $e) {
       $this->loggerFactory->error($e->getMessage());
     }
 
@@ -122,7 +127,8 @@ class PartyListCalculatorService {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getPoliticiansSupporters(array $politician_ids) {
+  public function getPoliticiansSupporters(array $politician_ids)
+  {
     $base_url = $this->requestStack->getSchemeAndHttpHost();
     $returnArray = [];
     $storage = $this->entityTypeManager->getStorage('user');
@@ -143,8 +149,7 @@ class PartyListCalculatorService {
         $img_file = File::load($img_id);
         $style = ImageStyle::load('party_member');
         $img_url = $style->buildUrl($img_file->getFileUri());
-      }
-      else {
+      } else {
         $img_url = $base_url . '/themes/custom/girchi/images/avatar34x34.png';
       }
       $first_name = $user->get('field_first_name')->value;
@@ -158,7 +163,7 @@ class PartyListCalculatorService {
       $ged_amount = $user->get('field_ged')->value;
       $party_list = $user->get('field_my_party_list');
       foreach ($party_list as $supporter) {
-        if (in_array($supporter->target_id, $politician_ids)) {
+        if (in_array( $supporter->target_id, $politician_ids)) {
           $supported_ged = ["ged_amount" => $ged_amount * ($supporter->value / 100)];
           $percentage = ["percentage" => $supporter->value];
           $returnArray[$supporter->target_id][] = array_merge($user_info, $supported_ged, $percentage);
@@ -174,4 +179,16 @@ class PartyListCalculatorService {
     return $returnArray;
   }
 
+  private function cleanUpPartyList($politicians)
+  {
+    $user_storage = $this->entityTypeManager->getStorage('user');
+    $users = $user_storage->loadMultiple($politicians);
+    if (!empty($users)) {
+      foreach ($users as $user) {
+        $user->set('field_political_ged', 0);
+        $user->set('field_rating_in_party_list', null);
+        $user->save();
+      }
+    }
+  }
 }
