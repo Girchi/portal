@@ -4,11 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.lead_partner.field_donated_amount
-    - field.field.taxonomy_term.lead_partner.field_image
+    - field.field.taxonomy_term.lead_partner.field_partner
     - field.field.taxonomy_term.lead_partner.field_weight
     - taxonomy.vocabulary.lead_partner
   module:
-    - image
     - text
 id: taxonomy_term.lead_partner.default
 targetEntityType: taxonomy_term
@@ -31,14 +30,13 @@ content:
     third_party_settings: {  }
     type: number_integer
     region: content
-  field_image:
-    weight: 3
+  field_partner:
+    weight: 6
     label: above
     settings:
-      image_style: ''
-      image_link: ''
+      link: true
     third_party_settings: {  }
-    type: image
+    type: entity_reference_label
     region: content
   field_weight:
     weight: 4
