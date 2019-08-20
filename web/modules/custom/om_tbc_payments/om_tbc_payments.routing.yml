@@ -5,4 +5,4 @@ om_tbc_payments.payment_controller_prepare:
     _title: 'Prepare'
   requirements:
     _permission: 'access content'
-    _role: 'authenticated'
+#    _role: 'authenticated'

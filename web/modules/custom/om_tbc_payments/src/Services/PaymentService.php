@@ -73,7 +73,7 @@ class PaymentService {
   protected $keyValue;
 
   /**
-   * Current User
+   * Current User.
    *
    * @var \Drupal\Core\Session\AccountProxy
    */
@@ -92,10 +92,10 @@ class PaymentService {
    *   Request.
    * @param \Drupal\Core\File\FileSystem $fileSystem
    *   FileSystem.
-   * @param \Drupal\Core\KeyValueStore\KeyValueFactory
+   * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
    *   KeyValue storage.
    * @param \Drupal\Core\Session\AccountProxy $currentUser
-   *   CurrentUser
+   *   CurrentUser.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
                               LoggerChannelFactoryInterface $loggerFactory,
@@ -120,12 +120,17 @@ class PaymentService {
   }
 
   /**
-   * @param $trans_id
-   * @param $payment_data
+   * Function for adding payment records.
+   *
+   * @param string $trans_id
+   *   Transaction ID.
+   * @param array $payment_data
+   *   Payment Data.
    *
    * @return bool
+   *   bool.
    */
-  public function addPaymentRecord($trans_id, $payment_data) {
+  public function addPaymentRecord($trans_id, array $payment_data) {
     if (!$trans_id && strlen($trans_id) !== 28) {
       $this->loggerFactory
         ->get('om_tbc_payments')
@@ -197,10 +202,10 @@ class PaymentService {
       $lang = "EN";
     }
 
-    $this->tbcPayProcessor->amount = $amount;
+    $this->tbcPayProcessor->amount = $amount * 100;
     $this->tbcPayProcessor->currency = 981;
     $this->tbcPayProcessor->description = $description;
-    $this->tbcPayProcessor->language = 'GE';
+    $this->tbcPayProcessor->language = $lang;
     $id = $this->tbcPayProcessor->sms_start_transaction()['TRANSACTION_ID'];
     if ($id) {
       $this->loggerFactory->get('om_tbc_payments')->info('Transaction ID was generated.');
@@ -216,21 +221,20 @@ class PaymentService {
   /**
    * Make redirect to ufc.
    *
-   * @param String $id
-   *  TransactionID
+   * @param string $id
+   *   TransactionID.
    *
    * @return mixed
    *   Redirect.
    */
   public function makePayment($id) {
     try {
-//      $id = $this->generateTransactionId($amount, $description);
-
+      // $id = $this->generateTransactionId($amount, $description);
       if (!$id || strlen($id) !== 28) {
         $this->loggerFactory->get('om_tbc_payments')->error('Error creating transaction ID.');
         return new Response('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
       }
-      $key = $this->_getString();
+      $key = $this->getString();
       $this->keyValue->get('om_tbc_payments')->set($key, $id);
       $redirect = new RedirectResponse("/donate/prepare?key=$key");
       $redirect->send();
@@ -248,6 +252,7 @@ class PaymentService {
    */
   public function closeDay() {
     $response = $this->tbcPayProcessor->close_day();
+    $this->loggerFactory->get('om_tbc_payments')->info("Day was closed !");
     return Json::encode($response);
   }
 
@@ -256,12 +261,16 @@ class PaymentService {
    *
    * @param string $id
    *   Transaction ID.
-   * @return array   Result.
+   *
+   * @return array
+   *   array.
    */
   public function getPaymentResult($id) {
-    try{
-      return $result = $this->tbcPayProcessor->get_transaction_result($id);
-    }catch(\Exception $e){
+    try {
+      $result = $this->tbcPayProcessor->get_transaction_result($id);
+      return $result;
+    }
+    catch (\Exception $e) {
       $this->loggerFactory->get('om_tbc_payments')->error("Can't get result of payment.");
     }
 
@@ -269,9 +278,12 @@ class PaymentService {
   }
 
   /**
+   * Random string.
+   *
    * @return string
+   *   string
    */
-  private function _getString() {
+  private function getString() {
     return uniqid();
   }
 

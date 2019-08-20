@@ -4,8 +4,8 @@ namespace Drupal\girchi_donations\Utils;
 
 use ABGEO\NBG\Exception\InvalidCurrencyException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\KeyValueStore\KeyValueFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use ABGEO\NBG\Currency;
 
 /**
  * GeD Calculator.
@@ -26,11 +26,11 @@ class GedCalculator {
   protected $loggerFactory;
 
   /**
-   * Currency.
+   * KeyValue.
    *
-   * @var \ABGEO\NBG\Currency
+   * @var \Drupal\Core\KeyValueStore\KeyValueFactory
    */
-  public $USD;
+  protected $keyValue;
 
   /**
    * Constructor for service.
@@ -39,16 +39,15 @@ class GedCalculator {
    *   Entity Type Manager.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
    *   Logger.
-   *
-   * @throws \ABGEO\NBG\Exception\InvalidCurrencyException
-   * @throws \SoapFault
+   * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
+   *   KeyValue.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
-                              LoggerChannelFactoryInterface $loggerFactory
-                                  ) {
+                              LoggerChannelFactoryInterface $loggerFactory,
+                              KeyValueFactory $keyValue) {
     $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $loggerFactory;
-    $this->USD = new Currency(Currency::CURRENCY_USD);
+    $this->keyValue = $keyValue->get('girchi_donations');
   }
 
   /**
@@ -62,7 +61,7 @@ class GedCalculator {
    */
   public function calculate($amount) {
     try {
-      $currency = $this->USD->getCurrency();
+      $currency = $this->getCurrency();
       $ged_amount = $amount / $currency * 100;
 
       return (int) ceil($ged_amount);
@@ -75,8 +74,12 @@ class GedCalculator {
 
   }
 
-  public function getCurrency(){
-    return $this->USD->getCurrency();
+  /**
+   * Return int.
+   */
+  public function getCurrency() {
+    $currency = $this->keyValue->get('usd');
+    return $currency;
   }
 
 }

@@ -41,6 +41,7 @@ function girchi_donations_theme() {
       'render element' => 'children',
       'variables' => [
         'amount' => NULL,
+        'auth' => NULL,
       ],
     ],
     'girchi_donations_fail' => [
@@ -53,13 +54,5 @@ function girchi_donations_theme() {
  * Implements hook_form_alter().
  */
 function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  if ($form_id === 'single_donation_form') {
-    $politician_id = \Drupal::request()->get('politician');
-    if ($politician_id) {
-      $form['politicians']['#default_value'] = $politician_id;
-      $form['politicians']['#attributes']['disabled'] = 'disabled';
-      $form['donation_aim']['#attributes']['disabled'] = 'disabled';
-      $form['#cache'] = ['max-age' => 0];
-    }
-  }
+
 }

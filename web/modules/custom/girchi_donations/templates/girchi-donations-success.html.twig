@@ -26,6 +26,7 @@
                             >
                                 {{'Transaction was successfull'|t}}
                             </h5>
+                            {% if auth %}
                             <div
                                     class="w-100 d-flex flex-column align-items-center mb-4 mb-sm-5"
                             >
@@ -37,6 +38,7 @@
                       <span class="ml-1">{{ amount }}</span>
                     </span>
                             </div>
+                            {%  endif %}
                             <a
                                     href="{{ path('user.page') }}"
                                     class="btn btn-success text-uppercase btn-block btn-lg my-3 my-lg-4 text-nowrap"
@@ -90,4 +92,7 @@
         </div>
         <!-- End of card -->
     </div>
+
 </div>
+
+

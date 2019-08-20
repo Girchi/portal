@@ -34,6 +34,8 @@ class PaymentController extends ControllerBase {
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   ConfigFactory.
+   * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
+   *   Key value.
    */
   public function __construct(ConfigFactory $configFactory, KeyValueFactory $keyValue) {
     $this->configFactory = $configFactory;
