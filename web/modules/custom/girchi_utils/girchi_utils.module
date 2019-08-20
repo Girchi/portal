@@ -288,7 +288,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       unset($form['field_first_name']['widget']['0']['value']['#title']);
       unset($form['field_last_name']['widget']['0']['value']['#title']);
       unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
-      unset($form['field_phone']['widget']['0']['value']['#title']);
+      unset($form['field_tel']['widget']['0']['value']['#title']);
       unset($form['field_personal_id']['widget']['0']['value']['#title']);
       unset($form['field_address']['widget']['0']['value']['#title']);
       unset($form['field_politician']['widget']['value']['#title']);
@@ -306,8 +306,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_phone']['widget'][0]['value']['#attributes']['placeholder'][] = '+995XXXXXXXXX';
+      $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix phone validation-message is-invalid';
 
       $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_politician']['#attributes']['class'][] = 'form-control';
@@ -334,7 +333,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           unset($form['field_first_name']['widget']['0']['value']['#title']);
           unset($form['field_last_name']['widget']['0']['value']['#title']);
           unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
-          unset($form['field_phone']['widget']['0']['value']['#title']);
+          unset($form['field_tel']['widget']['0']['value']['#title']);
           unset($form['field_personal_id']['widget']['0']['value']['#title']);
           unset($form['field_address']['widget']['0']['value']['#title']);
           unset($form['field_politician']['widget']['value']['#title']);
@@ -352,7 +351,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_phone']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_politician']['#attributes']['class'][] = 'form-control';
           $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
@@ -462,6 +461,16 @@ function girchi_utils_preprocess_block(&$variables) {
  * Impelements hook_user_form_submit().
  */
 function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state) {
+  if ($form['#form_id'] == 'user_form') {
+    $value = $form_state->getUserInput();
+    $full_phone = $value['field_tel'][0]['full_phone'];
+
+    $uid = \Drupal::currentUser()->id();
+    $user = User::load($uid);
+    $user->set('field_tel', $full_phone);
+    $user->save();
+  }
+
   if ($_FILES['avatar']['size'] != 0) {
     $image_original_path = $_FILES['avatar']['tmp_name'];
     $mime_type = explode('/', mime_content_type($image_original_path));
