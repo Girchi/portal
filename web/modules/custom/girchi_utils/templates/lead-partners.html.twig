@@ -52,9 +52,9 @@
                                             href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
                                             class="text-decoration-none d-inline-block text-hover-success"
                                     >
-                                        {{ partner.user_name }}
+                                        {{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}
                                         <span class="d-block font-weight-bold"
-                                        >{{ partner.user_surname }}</span
+                                        >{{ partner.uid ? partner.user_surname : 'User'|t }}</span
                                         >
                                     </a>
                                 </h6>
