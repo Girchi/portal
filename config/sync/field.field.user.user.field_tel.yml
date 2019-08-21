@@ -1,4 +1,4 @@
-uuid: aa351a4a-424b-4517-8728-336016d2f100
+uuid: a6c3083c-6928-4a8e-9203-d7a2d533fcef
 langcode: ka
 status: true
 dependencies:
@@ -11,7 +11,7 @@ id: user.user.field_tel
 field_name: field_tel
 entity_type: user
 bundle: user
-label: 'ტელეფონის ნომერი'
+label: tel
 description: ''
 required: false
 translatable: false
