@@ -107,7 +107,7 @@ jQuery(function($) {
                 }
             });
         }
-        console.log($('.navbar-search-input .form-item-combine input'));
+
         addFocusReminder($('.navbar-search-input .form-item-combine input'));
         $(document).ajaxComplete(function(event,request, settings) {
             if(typeof textboxToFocus.formid !== 'undefined') {
