@@ -61,9 +61,18 @@
                             <label class="form-label" for="address">{{ "Address" | t }}</label>
                             {{ element.field_address }}
                         </div>
-                        <div class="form-group mb-2 ">
+                        <div class="form-group is-invalid mb-2 ">
                             <label class="form-label" for="phone">{{ "Phone number" | t }}</label>
-                            {{ element.field_tel }}
+                            <input
+                                    type="phone"
+                                    name="phone"
+                                    class="form-control form-control-lg"
+                                    id="phone"
+                            />
+                            <span
+                                    class="validation-message"
+                                    data-content="ტელეფონის ნომერი სავალდებულოა."
+                            ></span>
                         </div>
                         {% if politican_checked %}
                             <button type="button" class="btn btn-lg btn-block  btn-warning text-uppercase mt-4" data-toggle="modal"

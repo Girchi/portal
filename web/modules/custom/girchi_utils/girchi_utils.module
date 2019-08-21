@@ -306,7 +306,8 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix phone validation-message is-invalid';
+      $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix phone';
+      dump($form['field_tel']);
 
       $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_politician']['#attributes']['class'][] = 'form-control';
@@ -351,7 +352,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix phone';
           $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_politician']['#attributes']['class'][] = 'form-control';
           $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
