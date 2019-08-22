@@ -1,0 +1,28 @@
+uuid: 7713033d-a91b-4249-a66a-b570b83e34f6
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_partner
+    - taxonomy.vocabulary.lead_partner
+id: taxonomy_term.lead_partner.field_partner
+field_name: field_partner
+entity_type: taxonomy_term
+bundle: lead_partner
+label: Partner
+description: 'მიუთითეთ "ტოპ პარტნიორის" სახელი'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

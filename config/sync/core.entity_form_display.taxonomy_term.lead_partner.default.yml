@@ -4,12 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.lead_partner.field_donated_amount
-    - field.field.taxonomy_term.lead_partner.field_image
+    - field.field.taxonomy_term.lead_partner.field_partner
     - field.field.taxonomy_term.lead_partner.field_weight
-    - image.style.thumbnail
     - taxonomy.vocabulary.lead_partner
   module:
-    - image
     - path
     - text
 id: taxonomy_term.lead_partner.default
@@ -18,30 +16,31 @@ bundle: lead_partner
 mode: default
 content:
   description:
-    type: text_textfield
-    weight: 0
+    type: text_textarea
+    weight: 2
     region: content
     settings:
-      size: 60
       placeholder: ''
+      rows: 5
     third_party_settings: {  }
   field_donated_amount:
-    weight: 35
+    weight: 6
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
-  field_image:
-    weight: 33
+  field_partner:
+    weight: 1
     settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: image_image
+    type: entity_reference_autocomplete
     region: content
   field_weight:
-    weight: 34
+    weight: 5
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -49,14 +48,14 @@ content:
     region: content
   langcode:
     type: language_select
-    weight: 2
+    weight: 3
     region: content
     settings:
       include_locked: true
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
@@ -64,7 +63,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
