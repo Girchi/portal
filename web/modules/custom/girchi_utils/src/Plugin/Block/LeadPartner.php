@@ -49,31 +49,33 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
     $top_partners = $term_storage->loadMultiple($tids);
     $final_partners = [];
     foreach ($top_partners as $partner) {
-      $uid = $partner->get('field_partner')->getvalue()[0]['target_id'];
-      /** @var \Drupal\user\Entity\User $user */
-      $user = $user_storage->load($uid);
-      $user_name = $user->get('field_first_name')->value;
-      $user_surname = $user->get('field_last_name')->value;
+      if ($partner->get('field_partner')->getvalue()) {
+        $uid = $partner->get('field_partner')->getvalue()[0]['target_id'];
+        /** @var \Drupal\user\Entity\User $user */
+        $user = $user_storage->load($uid);
+        $user_name = $user->get('field_first_name')->value;
+        $user_surname = $user->get('field_last_name')->value;
 
-      $weight = $partner->get('field_weight')->value;
-      $donation = $partner->get('field_donated_amount')->value;
+        $weight = $partner->get('field_weight')->value;
+        $donation = $partner->get('field_donated_amount')->value;
 
-      if ($user->get('user_picture')->entity) {
-        $profilePictureEntity = $user->get('user_picture')->entity;
-        $profilePicture = $profilePictureEntity->getFileUri();
+        if ($user->get('user_picture')->entity) {
+          $profilePictureEntity = $user->get('user_picture')->entity;
+          $profilePicture = $profilePictureEntity->getFileUri();
+        }
+        else {
+          $profilePicture = NULL;
+        }
+
+        $final_partners[] = [
+          'uid' => $uid,
+          'user_name' => $user_name,
+          'user_surname' => $user_surname,
+          "weight" => $weight,
+          'donation' => $donation,
+          'img' => $profilePicture,
+        ];
       }
-      else {
-        $profilePicture = NULL;
-      }
-
-      $final_partners[] = [
-        'uid' => $uid,
-        'user_name' => $user_name,
-        'user_surname' => $user_surname,
-        "weight" => $weight,
-        'donation' => $donation,
-        'img' => $profilePicture,
-      ];
     }
     return [
       '#theme' => 'lead_partners',

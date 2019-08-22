@@ -24,6 +24,7 @@
 
                 <ul class="list-group list-group-flush mt-2">
                     {% set i=0 %}
+                    {% if leadPartner %}
                     {% for partner in leadPartner %}
                         {% set i=i+1 %}
                         <li
@@ -66,6 +67,7 @@
                         </li>
 
                     {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
             <div
