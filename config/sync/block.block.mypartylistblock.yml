@@ -9,7 +9,7 @@ dependencies:
 id: mypartylistblock
 theme: girchi
 region: content
-weight: -8
+weight: -6
 provider: null
 plugin: my_party_list_block
 settings:

@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-08-15 10:22+0000\n"
-"PO-Revision-Date: 2019-08-15 10:22+0000\n"
+"POT-Creation-Date: 2019-08-20 11:25+0000\n"
+"PO-Revision-Date: 2019-08-20 11:25+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -12,20 +12,97 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "Content type"
-msgstr "კონტენტის ტიპი"
+msgid "Enter your email address or username."
+msgstr ""
+"შეიყვანეთ თქვენი "
+"ელ.ფოსტის მისამართი"
+
+msgid "Email or username"
+msgstr "შეიყვანეთ ელ.ფოსტა "
+
+msgid "Enter the password that accompanies your email address."
+msgstr "შეიყვანეთ პაროლი "
+
+msgid "Password"
+msgstr "პაროლი"
+
+msgid "Log in"
+msgstr "შესვლა"
+
+msgid "Add effect"
+msgstr "ეფექტის დამატება"
+
+msgid "Save configuration"
+msgstr "კონფიგურაციის შენახვა"
+
+msgid "Confirm"
+msgstr "დადასტურება"
+
+msgid "Filter"
+msgstr "ფილტრი"
+
+msgid "Submit"
+msgstr "დადასტურება"
+
+msgid "Search"
+msgstr "ძიება"
+
+msgid "Settings"
+msgstr "პარამეტრები"
+
+msgid "Upload"
+msgstr "ატვირთვა"
+
+msgid "Delete"
+msgstr "წაშლა"
+
+msgid "Remove"
+msgstr "ამოშლა"
+
+msgid "Add"
+msgstr "დამატება"
+
+msgid "Create"
+msgstr "შექმნა"
+
+msgid "Install"
+msgstr "დაყენება"
+
+msgid "Save"
+msgstr "შენახვა"
+
+msgid "Export"
+msgstr "ექსპორტი"
+
+msgid "Import"
+msgstr "იმპორტი"
+
+msgid "Update"
+msgstr "განახლება"
+
+msgid "Manage"
+msgstr "მართვა"
+
+msgid "Configure"
+msgstr "კონფიგურირება"
+
+msgid "Download"
+msgstr "გადმოტვირთვა"
+
+msgid "Edit"
+msgstr "რედაქტირება"
+
+msgid "Cancel"
+msgstr "გაუქმება"
+
+msgid "Block"
+msgstr "ბლოკი"
 
 msgid "Vocabulary"
 msgstr "ლექსიკონი"
 
-msgid "Description"
-msgstr "აღწერა"
-
-msgid "User"
-msgstr "მომხმარებელი"
-
-msgid "Block"
-msgstr "ბლოკი"
+msgid "Home"
+msgstr "მთავარი"
 
 msgid "Text format"
 msgstr "ტექსტის ფორმატი"
@@ -33,8 +110,8 @@ msgstr "ტექსტის ფორმატი"
 msgid "Language"
 msgstr "ენა"
 
-msgid "Page"
-msgstr "გვერდი"
+msgid "Content type"
+msgstr "კონტენტის ტიპი"
 
 msgid "Menu"
 msgstr "მენიუ"
@@ -45,11 +122,23 @@ msgstr "როლი"
 msgid "Date format"
 msgstr "თარიღის ფორმატი"
 
+msgid "Create new account"
+msgstr "რეგისტრაცია"
+
+msgid "Reset your password"
+msgstr "პაროლის აღდგენა"
+
+msgid "Description"
+msgstr "აღწერა"
+
+msgid "Content"
+msgstr "კონტენტი"
+
+msgid "User"
+msgstr "მომხმარებელი"
+
 msgid "Forms"
 msgstr "ფორმები"
-
-msgid "Home"
-msgstr "მთავარი"
 
 msgid "User interface"
 msgstr "მომხმარებლის ინტერფეისი"
@@ -68,9 +157,6 @@ msgstr "მომხმარებელი"
 
 msgid "Pages"
 msgstr "გვერდები"
-
-msgid "Save configuration"
-msgstr "კონფიგურაციის შენახვა"
 
 msgid "delete"
 msgstr "წაშლა"
@@ -96,12 +182,6 @@ msgid "Suffix"
 msgstr "სუფიქსი"
 
 msgid "Approve"
-msgstr "დადასტურება"
-
-msgid "Delete"
-msgstr "წაშლა"
-
-msgid "Submit"
 msgstr "დადასტურება"
 
 msgid "Operations"
@@ -163,15 +243,6 @@ msgstr "ოპერაციები"
 
 msgid "disabled"
 msgstr "გამორთულია"
-
-msgid "Confirm"
-msgstr "დადასტურება"
-
-msgid "Cancel"
-msgstr "გაუქმება"
-
-msgid "Remove"
-msgstr "ამოშლა"
 
 msgid "Last comment"
 msgstr "ბოლო კომენტრარი"
@@ -241,9 +312,6 @@ msgstr "მთავარი გვერდი"
 msgid "Home page"
 msgstr "მთავარი გვერდი"
 
-msgid "Download"
-msgstr "გადმოტვირთვა"
-
 msgid "Version"
 msgstr "ვერსია"
 
@@ -271,9 +339,6 @@ msgstr "ფაილის მდებარეობა"
 msgid "Advanced options"
 msgstr "დამატებითი ოფციები"
 
-msgid "Edit"
-msgstr "რედაქტირება"
-
 msgid "Date"
 msgstr "თარიღი"
 
@@ -282,9 +347,6 @@ msgstr "ზომა"
 
 msgid "Links"
 msgstr "ბმულები"
-
-msgid "Search"
-msgstr "ძიება"
 
 msgid "Daily"
 msgstr "ყოველდღიური"
@@ -309,9 +371,6 @@ msgstr "შეტყობინება"
 
 msgid "Account Name"
 msgstr "მომხმარებლის სახელი"
-
-msgid "Password"
-msgstr "პაროლი"
 
 msgid "Block settings"
 msgstr "ბლოკის პარამეტრები"
@@ -352,9 +411,6 @@ msgstr "კატეგორია"
 msgid "Add container"
 msgstr "კონტეინერის დამატება"
 
-msgid "Settings"
-msgstr "პარამეტრები"
-
 msgid "Name"
 msgstr "სახელი"
 
@@ -373,14 +429,8 @@ msgstr "მშობელ გვერდზე გადასვლა"
 msgid "Go to next page"
 msgstr "შემდეგ გვერდზე გადასვლა"
 
-msgid "Import"
-msgstr "იმპორტი"
-
 msgid "Book"
 msgstr "წიგნი"
-
-msgid "Export"
-msgstr "ექსპორტი"
 
 msgid "settings"
 msgstr "პარამეტრები"
@@ -399,9 +449,6 @@ msgstr "დახმარება"
 
 msgid "Image settings"
 msgstr "სურათის პარამეტრები"
-
-msgid "Update"
-msgstr "განახლება"
 
 msgid "Open"
 msgstr "ღია"
@@ -445,9 +492,6 @@ msgstr "ახლის დამატება"
 msgid "Time"
 msgstr "დრო"
 
-msgid "Add"
-msgstr "დამატება"
-
 msgid "Length"
 msgstr "სიგრძე"
 
@@ -489,9 +533,6 @@ msgstr "ფორუმის სახელი"
 
 msgid "forum"
 msgstr "ფორუმი"
-
-msgid "Manage"
-msgstr "მართვა"
 
 msgid "Refresh"
 msgstr "განახლება"
@@ -544,9 +585,6 @@ msgstr "უცნობი"
 msgid "Attachment"
 msgstr "მიმაგრებული ფაილი"
 
-msgid "Upload"
-msgstr "ატვირთვა"
-
 msgid "Picture"
 msgstr "სურათი"
 
@@ -567,9 +605,6 @@ msgstr "ოპერაცია"
 
 msgid "Continue"
 msgstr "გაგრძელება"
-
-msgid "Configure"
-msgstr "კონფიგურირება"
 
 msgid "Email"
 msgstr "ელ. ფოსტა"
@@ -607,9 +642,6 @@ msgstr "შეტყობინების სათაური."
 msgid "Number of columns"
 msgstr "სვეტების რაოდენობა"
 
-msgid "Create"
-msgstr "შექმნა"
-
 msgid "Separator"
 msgstr "გამყოფი"
 
@@ -640,8 +672,8 @@ msgstr ""
 "კონტენტის ტიპი შვილობილი "
 "გვერდებისთვის"
 
-msgid "All"
-msgstr "ყველა"
+msgid "Active"
+msgstr "აქტიური"
 
 msgid "Done"
 msgstr "დასრულება"
@@ -666,6 +698,9 @@ msgstr "სათაურის გადაწერა"
 
 msgid "CSS class"
 msgstr "CSS კლასი"
+
+msgid "Page"
+msgstr "გვერდი"
 
 msgid "View arguments"
 msgstr "არგუმენტების ნახვა"
@@ -807,9 +842,6 @@ msgstr "გამოქვეყნებული"
 
 msgid "Signature"
 msgstr "ხელმოწერა"
-
-msgid "Filter"
-msgstr "ფილტრი"
 
 msgid "Location"
 msgstr "ადგილმდებარეობა"
@@ -1137,9 +1169,6 @@ msgstr "ყველას მონიშვნა"
 msgid "User login"
 msgstr "მომხმარებლის ავტორიზაცია"
 
-msgid "Log in"
-msgstr "შესვლა"
-
 msgid "Link text"
 msgstr "ბმულის ტექსტი"
 
@@ -1189,9 +1218,6 @@ msgstr "ანონიმური"
 
 msgid "Provider"
 msgstr "პროვაიდერი"
-
-msgid "Install"
-msgstr "დაყენება"
 
 msgid "Save and edit"
 msgstr "შენახვა და რედაქტირება"
@@ -1249,11 +1275,6 @@ msgstr "კომენტარები"
 
 msgid "Full"
 msgstr "სრული"
-
-msgid "1 new"
-msgid_plural "@count new"
-msgstr[0] "1 ახალი"
-msgstr[1] "@count ახალი"
 
 msgid "Condition"
 msgstr "პირობა"
@@ -1868,9 +1889,6 @@ msgstr "დაიწერა"
 
 msgid "Hidden"
 msgstr "დამალული"
-
-msgid "Show"
-msgstr "ჩვენება"
 
 msgid "Site language"
 msgstr "საიტის ენა"
@@ -2535,8 +2553,8 @@ msgstr "გვერდი ვერ მოიძებნა"
 msgid "More help"
 msgstr "მეტი დახმარება"
 
-msgid "Sizes"
-msgstr "ზომები"
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
 
 msgid "Add terms"
 msgstr "ტერმინების დამატება"
@@ -2941,9 +2959,6 @@ msgstr "სტილის სახელი"
 msgid "Update effect"
 msgstr "ეფექტის განახლება"
 
-msgid "Add effect"
-msgstr "ეფექტის დამატება"
-
 msgctxt "Long month name"
 msgid "January"
 msgstr "იანვარი"
@@ -3057,17 +3072,31 @@ msgid "Database system version"
 msgstr "მონაცემთა ბაზის ვერსია"
 
 msgid ""
-"A message has been sent to the new email address %email to confirm the "
-"change. Until confirmed, your current address will be used."
+"A valid email address. All emails from the system will be sent to this "
+"address. The email address is not made public and will only be used if "
+"you wish to receive a new password or wish to receive certain news or "
+"notifications by email."
 msgstr ""
-"ელ-ფოსტის ცვლილების "
-"დამადასტურებელი "
-"შეტყობინება "
-"გამოგზავნილია "
-"მისამართზე: %email. "
-"შეტყობინების "
-"დადასტურებამდე თქვენი "
-"ელ-ფოსტა რჩება უცვლელი."
+"შეიყვანეთ თქვენი ელ.ფოსტა. "
+"ყველა შეტყობინება "
+"მოგივათ მითითებულ "
+"მისამართზე. ინფორმაცია "
+"კონფიდენციალურია და "
+"იქნება გამოყენებული "
+"მხოლოდ თქვენი "
+"სურვილისამებრ ახალი "
+"პაროლის და "
+"შეტყობინებების "
+"მისაღებად."
+
+
+msgid "Provide a password for the new account in both fields."
+msgstr "შეიყვანეთ პაროლი"
+
+msgid "Recommendations to make your password stronger:"
+msgstr ""
+"ძლიერი პაროლისთვის "
+"გაითვალისწინეთ:"
 
 msgid "Main navigation"
 msgstr "Main navigation"
@@ -3191,6 +3220,9 @@ msgstr "სუსტი"
 msgid "Strong"
 msgstr "ძლიერი"
 
+msgid "Main navigation"
+msgstr "Main navigation"
+
 msgid "Provide a password for the new account in both fields."
 msgstr "შეიყვანეთ პაროლი"
 
@@ -3233,30 +3265,30 @@ msgstr ""
 "არ გაქვთ ანგარიში? გაიარეთ "
 "რეგისტრაცია მარტივად"
 
-msgid ""
-"Select a politician, specify the percentage with which you support "
-"him/her and take part in establishing the party listing."
-msgstr ""
-"აირჩიეთ პოლიტიკოსი, "
-"მიუთითეთ თქვენი წონის "
-"რამდენი %-ით უჭერთ მას "
-"მხარს და მიიღე "
-"მონაწილეობა პარტიული "
-"სიის ჩამოყალიბებაში."
 
-msgid "Enter your referral"
-msgstr "მიუთითეთ REFERRAL-ი"
+msgid "Site section links"
+msgstr "Site section links"
+
+msgid "All"
+msgstr "ყველა"
+
+msgid "News"
+msgstr "სიახლეები"
 
 msgid ""
-"You can also use Referral to refer to the person who informed you "
-"about us and you decided to register."
+"Password reset instructions will be sent to your registered email "
+"address."
 msgstr ""
-"თქვენ შეგიძლიათ მიუთითოთ "
-"Referral-ი - ანუ ვისი "
-"მეშვეობითაც გაიგეთ ჩვენს "
-"შესახებ და გადაწყვიტეთ "
-"დარეგისტრირება"
+"პაროლის აღდგენის "
+"ინსტრუქციის სანახავად "
+"შეამოწმეთ თქვენი ელ.ფოსტა"
 
+msgid "Show"
+msgstr "ჩვენება"
+
+msgid "Current password"
+msgstr "მიმდინარე პაროლი"
+=======
 msgid "* Referral is not required"
 msgstr ""
 "* Referral-ის მითითება "
@@ -3327,6 +3359,14 @@ msgstr ""
 "<a href=\":password\">დაგავიწყდა "
 "პაროლი?</a>"
 
+msgid "1 new"
+msgid_plural "@count new"
+msgstr[0] "1 ახალი"
+msgstr[1] "@count ახალი"
+
+msgid "Sizes"
+msgstr "ზომები"
+
 msgid ""
 "Your current password is missing or incorrect; it's required to change "
 "the %name."
@@ -3346,10 +3386,60 @@ msgstr ""
 msgid "Reset password"
 msgstr "პაროლის აღდგენა"
 
+msgid "Enter Email"
+msgstr "მიუთითეთ ელ.ფოსტა"
+
+msgid "Enter password"
+msgstr "მიუთითეთ პაროლი "
+
+msgid "Authorisation"
+msgstr "ავტორიზაცია"
+
+msgid "Password recovery"
+msgstr "აღდგენა"
+
+msgid "Don't have an Girchi account? Register now"
+msgstr ""
+"არ გაქვთ ანგარიში? გაიარეთ "
+"რეგისტრაცია მარტივად"
+
+msgid "Girchi"
+msgstr "გირჩი"
+
+msgid ""
+"Select a politician, specify the percentage with which you support "
+"him/her and take part in establishing the party listing."
+msgstr ""
+"აირჩიეთ პოლიტიკოსი, "
+"მიუთითეთ თქვენი წონის "
+"რამდენი %-ით უჭერთ მას "
+"მხარს და მიიღე "
+"მონაწილეობა პარტიული "
+"სიის ჩამოყალიბებაში."
+
+msgid "Enter your referral"
+msgstr "მიუთითეთ REFERRAL-ი"
+
+msgid ""
+"You can also use Referral to refer to the person who informed you "
+"about us and you decided to register."
+msgstr ""
+"თქვენ შეგიძლიათ მიუთითოთ "
+"Referral-ი - ანუ ვისი "
+"მეშვეობითაც გაიგეთ ჩვენს "
+"შესახებ და გადაწყვიტეთ "
+"დარეგისტრირება"
+
 msgid "* Referral is not required"
 msgstr ""
 "* Referral-ის მითითება "
 "სავალდებულო არაა"
+
+msgid "I read and agree to the terms and conditions"
+msgstr ""
+"წავიკითხე და ვეთანხმები "
+"რეგისტრაციის წესებს და "
+"პირობებს"
 
 msgid "Personal ID"
 msgstr "მიუთითეთ პირადი ნომერი"
@@ -3410,6 +3500,11 @@ msgstr ""
 
 msgid "Want to be politician"
 msgstr "მინდა პოლიტიკოსობა"
+
+msgid "General settings for this site."
+msgstr ""
+"საიტის ზოგადი "
+"პარამეტრები."
 
 msgid "Edit user"
 msgstr "პარამეტრების შეცვლა"
@@ -3473,6 +3568,13 @@ msgstr ""
 msgid "Social Media"
 msgstr "სოციალური მედია"
 
+
+msgid "- Select -"
+msgstr "- აირჩიეთ - "
+
+msgid "Categories"
+msgstr "კატეგორიები"
+
 msgid "General settings"
 msgstr "ძირითადი პარამეტრები."
 
@@ -3516,10 +3618,26 @@ msgstr "გაიმეორეთ პაროლი"
 msgid "members in total"
 msgstr "წევრს შორის"
 
+msgid "More Freedom"
+msgstr "მეტი თავისუფლება"
+
 msgid "all rights reserved. Girchi"
 msgstr ""
 "ყველა უფლება დაცულია. "
 "გირჩი"
+
+msgid "Become a partner"
+msgstr "გახდი პარტნიორი"
+
+msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
+msgstr ""
+"დააფინანსე გირჩი, მიიღე "
+"შესაბამისი რაოდენობის "
+"GeD-ები და მოხვდი "
+"ლიდერბორდში"
+
+msgid "Donate"
+msgstr "დააფინანსე"
 
 msgid "Top partners"
 msgstr "ტოპ პარტნიორები"
@@ -3557,8 +3675,14 @@ msgstr ""
 msgid "ძებნა..."
 msgstr "Search..."
 
+msgid "Search..."
+msgstr "ძებნა..."
+
 msgid "All news"
 msgstr "ყველა სიახლე"
+
+msgid "Last month Top partners"
+msgstr "წინა თვის ტოპ პარტნიორები"
 
 msgid "Politicians"
 msgstr "პოლიტიკოსები"
@@ -3566,8 +3690,12 @@ msgstr "პოლიტიკოსები"
 msgid "Partners"
 msgstr "პარტნიორები"
 
+msgid "Ged amount"
+msgstr "Ged-ების რაოდენობა"
+
 msgid "All news"
 msgstr "ყველა სიახლე"
+
 
 msgid ""
 "Select a politician, Specify the percentage of your weight\n"
@@ -3678,6 +3806,19 @@ msgstr "ახალი ელ.ფოსტა"
 msgid "Enter new email"
 msgstr "შეიყვანეთ ახალი ელ.ფოსტა"
 
+msgid ""
+"A message has been sent to the new email address %email to confirm the "
+"change. Until confirmed, your current address will be used."
+msgstr ""
+"ელ-ფოსტის ცვლილების "
+"დამადასტურებელი "
+"შეტყობინება "
+"გამოგზავნილია "
+"მისამართზე: %email. "
+"შეტყობინების "
+"დადასტურებამდე თქვენი "
+"ელ-ფოსტა რჩება უცვლელი."
+
 msgid "Your email address has been updated to %mail"
 msgstr ""
 "თქვენი განახლებული "
@@ -3699,20 +3840,11 @@ msgstr ""
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
-msgid "Donate to politician"
-msgstr "დააფინანსე პოლიტიკოსი"
+msgid "Girchi party list"
+msgstr "გირჩის პარტიული სია"
 
-msgid "Politician rating"
-msgstr "პოლიტიკური წონა"
-
-msgid "Politician Ged"
-msgstr "გამომუშავებული GED-ები"
-
-msgid "Referrals"
-msgstr "რეფერალები"
-
-msgid "Learn about politician"
-msgstr "გაიცანი პოლიტიკოსი"
+msgid "Supporters"
+msgstr "მხარდამჭერები"
 
 msgid "Intro"
 msgstr "ინტრო"
@@ -3732,17 +3864,83 @@ msgstr "პირადი პარტიული სია"
 msgid "GeD and"
 msgstr "GeD და "
 
+msgid "Politician rating"
+msgstr "პოლიტიკური წონა"
+
+msgid "Politician Ged"
+msgstr "გამომუშავებული GED-ები"
+
+msgid "Referrals"
+msgstr "რეფერალები"
+
+msgid "Donate to politician"
+msgstr "დააფინანსე პოლიტიკოსი"
+
 msgid "Ged &#37;"
 msgstr "Ged-ების &#37;"
 
-msgid "Girchi party list"
-msgstr "გირჩის პარტიული სია"
+msgid "Donation"
+msgstr "შემოწირულობა"
 
-msgid "Supporters"
-msgstr "მხარდამჭერები"
+msgid "Disposable"
+msgstr "ერთჯერადი"
 
-msgid "Favorite news"
-msgstr "რჩეული სიახლეები"
+msgid "Amount"
+msgstr "თანხა"
+
+msgid "Enter amount of GEL"
+msgstr "მიუთითეთ თანხა"
+
+msgid "You will get"
+msgstr "თქვენ ჩაგერიცხებათ"
+
+msgid "Donation aim"
+msgstr "დაფინანსების მიზანი"
+
+msgid "Donation to politician"
+msgstr "პოლიტიკოსის შემოწირულობა"
+
+msgid "Donation settings"
+msgstr ""
+"შემოწირულობის "
+"პარამეტრები"
+
+msgid "Donation status"
+msgstr "შემოწირულობის სტატუსი"
+
+msgid "Multiple"
+msgstr "მრავალჯერადი"
+
+msgid "Periodicity"
+msgstr "პერიოდულობა"
+
+msgid "Donation date"
+msgstr "გადახდის თარიღი "
+
+msgid "Transaction was successfull"
+msgstr ""
+"ტრანზაქცია დასრულდა "
+"წარმატებით\r\n"
+""
+
+msgid "You have recieved"
+msgstr ""
+"თქვენ ჩაგერიცხათ\r\n"
+""
+
+msgid "Profile"
+msgstr "პროფილი"
+
+msgid "Donate Again"
+msgstr "გადახდის გამეორება "
+
+msgid "Please choose Donation aim OR Donation to politician"
+msgstr ""
+"აირჩიეთ დაფინანსების "
+"მიზანი ან პოლიტიკოსი"
+
+msgid "All articles"
+msgstr "ყველა სტატია"
 
 msgid "Add to favorite"
 msgstr "ფავორიტებში დამატება"
@@ -3756,21 +3954,14 @@ msgstr "საჯარო პროფილის შეცვლა"
 msgid "Choose file"
 msgstr "აირჩიეთ სურათი"
 
-msgid "Donation to politician"
-msgstr "პოლიტიკოსის შემოწირულობა"
-
-msgid "Please choose Donation aim OR Donation to politician"
-msgstr ""
-"აირჩიეთ დაფინანსების "
-"მიზანი ან პოლიტიკოსი"
-
-msgid "Donation settings"
-msgstr ""
-"შემოწირულობის "
-"პარამეტრები"
-
 msgid "Choose cover photo"
 msgstr "აირჩიეთ გარეკანის ფოტო"
+
+msgid "Politicians rating"
+msgstr "პოლიტიკოსთა რეიტინგი"
+
+msgid "Party list weight"
+msgstr "პარტიული წონა"
 
 msgid "Please choose Donation aim OR Donation to politician"
 msgstr ""
@@ -3781,4 +3972,5 @@ msgid "Transaction failed ,try again"
 msgstr ""
 "ტრანზაქცია უარყოფილია "
 "სადეთ თავიდან"
+
 

@@ -10,7 +10,7 @@ dependencies:
 id: politicianblock
 theme: girchi
 region: content
-weight: -8
+weight: -9
 provider: null
 plugin: politician_block
 settings:

@@ -42,6 +42,11 @@ function girchi_my_party_list_theme() {
         'supporters' => NULL,
       ],
     ],
+    'politician_rating_block' => [
+      'variables' => [
+        'politicians' => NULL,
+      ],
+    ],
   ];
 }
 

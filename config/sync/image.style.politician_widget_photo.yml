@@ -1,0 +1,15 @@
+uuid: b2aade74-201b-4615-80a6-8aa9356e2af0
+langcode: ka
+status: true
+dependencies: {  }
+name: politician_widget_photo
+label: 'Politician widget photo'
+effects:
+  1e978e34-79cb-4aec-ab73-4182d1d542f8:
+    uuid: 1e978e34-79cb-4aec-ab73-4182d1d542f8
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 247
+      height: 337
+      anchor: center-center

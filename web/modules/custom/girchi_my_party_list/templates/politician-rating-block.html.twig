@@ -1,0 +1,146 @@
+<!-- Start of card -->
+<div class="card mb-2 mb-md-4">
+    <div
+        class="card-header font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4"
+    >
+        {{ 'Politicians rating' |t }}
+        <a
+            href="{{ url('view.party_list.page_1') }}"
+            class="ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap"
+        >{{ 'Full list'|t }}<i class="icon-arrow-right2 text-dark-silver"></i
+            ></a>
+    </div>
+    <div class="card-body p-0 p-lg-4">
+        <!-- Start of rating of politicians visible on large screen as carousel -->
+        <div class="d-lg-none">
+            <div
+                class="owl-carousel owl-theme rating-of-politicians-carousel p-3"
+            >
+                {% for politician in politicians %}
+                    <!-- Start of media -->
+                    <div class="media media-column rounded overflow-hidden">
+                        <div class="media-thumb w-100">
+                            <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
+                                <img
+                                    src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
+                                    class="w-100"
+                                    alt="..."
+                                />
+                            </a>
+                            <div
+                                class="position-absolute position-bottom-0 position-left-0 w-100 px-3 z-index-2"
+                            >
+                                <h5
+                                    class="mt-2 d-flex justify-content-between align-items-end border-bottom border-grey py-2"
+                                >
+                                    <a
+                                        href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}"
+                                        class="text-decoration-none d-block font-weight-bold text-white text-uppercase line-height-1-1"
+                                    >
+                                        <small class="d-block small font-weight-bold"
+                                        >{{ politician.first_name }}</small
+                                        >
+                                        <span>{{ politician.last_name }}</span>
+                                    </a>
+                                    <span
+                                        class="text-light-green font-weight-bold font-size-8  line-height-0-9"
+                                    >{{ '0' ~ politician.rating }}</span
+                                    >
+                                </h5>
+                                <div
+                                    class="font-weight-bold font-size-3 d-flex justify-content-between align-items-center pb-2 text-uppercase"
+                                >
+                        <span
+                            class="text-grey line-height-1-2 line-height-xl-1-5"
+                        >{{ 'Party list weight' | t }}</span
+                        >
+                                    <span class="text-warning text-nowrap">{{ politician.political_ged }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of media -->
+                {% endfor %}
+            </div>
+            <!-- Start of carousel controls -->
+            <div
+                class="card-footer border-top p-0 d-flex justify-content-between"
+            >
+                <button
+                    class="rating-of-politicians-carousel-prev btn py-3 shadow-none rounded-0 text-dark-silver border-right"
+                >
+                    <i class="icon-angle-pointing-to-left"></i>
+                </button>
+                <div
+                    class="rating-of-politicians-carousel-dots owl-dots d-flex align-items-center"
+                ></div>
+                <button
+                    class="rating-of-politicians-carousel-next btn py-3 shadow-none rounded-0 text-dark-silver border-left"
+                >
+                    <i class="icon-angle-arrow-pointing-to-right"></i>
+                </button>
+            </div>
+            <!-- End of carousel controls -->
+        </div>
+        <!-- Start of rating of politicians visible on large screen as carousel -->
+
+        <!-- Start of rating of politicians visible on large screen as list -->
+        <div class="d-none d-lg-block">
+            <div class="row">
+                {% for politician in politicians %}
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                    <!-- Start of media -->
+                    <div
+                        class="media media-column rounded overflow-hidden mb-4 mb-lg-0"
+                    >
+                        <div class="media-thumb w-100">
+                            <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
+                                <img
+                                    src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
+                                    class="w-100"
+                                    alt="..."
+                                />
+                            </a>
+                            <div
+                                class="position-absolute position-bottom-0 position-left-0 w-100 px-3 z-index-2"
+                            >
+                                <h5
+                                    class="mt-2 d-flex justify-content-between align-items-end border-bottom border-grey py-2"
+                                >
+                                    <a
+                                        href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}"
+                                        class="text-decoration-none d-block  text-white text-uppercase line-height-1-1"
+                                    >
+                                        <small class="d-block small font-weight-bold"
+                                        >{{ politician.first_name }}</small
+                                        >
+                                        <span class="font-weight-bold">{{ politician.last_name }}</span>
+                                    </a>
+                                    <span
+                                        class="text-light-green font-weight-bold font-size-8  line-height-0-9"
+                                    >{{ '0' ~ politician.rating }}</span
+                                    >
+                                </h5>
+                                <div
+                                    class="font-weight-bold font-size-3 d-flex justify-content-between align-items-center pb-2 text-uppercase"
+                                >
+                          <span
+                              class="text-grey line-height-1-2 line-height-xl-1-5"
+                          >{{ 'Party list weight' |t }}</span
+                          >
+                                    <span class="text-warning text-nowrap"
+                                    >{{ politician.political_ged }}</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of media -->
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Start of rating of politicians visible on large screen as list -->
+        </div>
+    </div>
+    <!-- End of card -->
+</div>
