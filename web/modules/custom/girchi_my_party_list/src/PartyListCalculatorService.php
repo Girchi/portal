@@ -95,7 +95,7 @@ class PartyListCalculatorService
            * @var \Drupal\user\Entity\User $politician
            */
           $politician = $user_storage->load($uid);
-          if ($politician != NULL) {
+          if (!in_array($uid, $politicians) && $politician != NULL) {
             $politician->set('field_rating_in_party_list', $rating_number);
             $politician->set('field_political_ged', $ged_amount);
             try {
