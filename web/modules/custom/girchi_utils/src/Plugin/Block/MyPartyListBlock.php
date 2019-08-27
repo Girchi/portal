@@ -9,8 +9,10 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Path\CurrentPathStack;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\TypedData\Exception\MissingDataException;
+use Drupal\girchi_users\GEDHelperService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,7 +23,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("My party list block"),
  * )
  */
-class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface
+{
 
   /**
    * Drupal\Core\Session\AccountProxyInterface.
@@ -53,6 +56,20 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
   protected $pathCurrent;
 
   /**
+   * Ged Helper service.
+   *
+   * @var \Drupal\girchi_users\GEDHelperService
+   */
+  protected $gedHelper;
+
+  /**
+   * Current route matcher.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $router;
+
+  /**
    * MyPartyListBlock constructor.
    *
    * @param array $configuration
@@ -69,6 +86,10 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
    *   Logger.
    * @param \Drupal\Core\Path\CurrentPathStack $pathCurrent
    *   PathCurrent.
+   * @param \Drupal\girchi_users\GEDHelperService $ged_helper
+   *   GeD helper service.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $router
+   *   Current route matcher.
    */
   public function __construct(
     array $configuration,
@@ -77,13 +98,17 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
     AccountProxyInterface $accountProxy,
     EntityTypeManager $entityTypeManager,
     LoggerChannelFactoryInterface $loggerFactory,
-    CurrentPathStack $pathCurrent
+    CurrentPathStack $pathCurrent,
+    GEDHelperService $ged_helper,
+    RouteMatchInterface $router
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->accountProxy = $accountProxy;
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerFactory = $loggerFactory;
     $this->pathCurrent = $pathCurrent;
+    $this->gedHelper = $ged_helper;
+    $this->router = $router;
   }
 
   /**
@@ -97,7 +122,10 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
       $container->get('current_user'),
       $container->get('entity_type.manager'),
       $container->get('logger.factory'),
-      $container->get('path.current')
+      $container->get('path.current'),
+      $container->get('girchi_users.ged_helper'),
+      $container->get('current_route_match')
+
     );
   }
 
@@ -105,14 +133,15 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
    * {@inheritdoc}
    */
   public function build() {
-    $GEDHelper = \Drupal::service('girchi_users.ged_helper');
+    $gedHelper = $this->gedHelper;
+
     try {
-      $uid = substr($this->pathCurrent->getPath(), -1, 1);
       $members = [];
       /** @var \Drupal\user\UserStorage $user_storage */
       $user_storage = $this->entityTypeManager->getStorage('user');
       /** @var \Drupal\user\Entity\User $currentUser */
-      $currentUser = \Drupal::routeMatch()->getParameter('user');
+      $currentUser = $this->router
+        ->getParameter('user');
 
       $currentUserGed = $currentUser->get('field_ged')->value ? $currentUser->get('field_ged')->value : 0;
       $membersData = $currentUser->get('field_my_party_list');
@@ -145,8 +174,8 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
             'member_last_name' => $lastName,
             'member_ged_percentage' => $gedPercentage,
             'member_profile_picture' => $memberAvatar,
-            'member_ged_amount_formatted' => $GEDHelper::getFormattedGED($memberGedAmount),
-            'member_ged_amount' => $memberGedAmount,
+            'member_ged_amount' => $gedHelper::getFormattedGED($memberGedAmount),
+            'member_ged_amount_long' => $memberGedAmount,
             'link_to_member' => $linkToMember,
             'is_avatar' => $isAvatar,
           ];

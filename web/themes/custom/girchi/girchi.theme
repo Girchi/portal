@@ -209,7 +209,10 @@ function girchi_preprocess_page(array &$variables)
     }
     $favoriteNewsIds = implode('+', $favoriteNewsIds);
 
-    $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
+
+
+
+//    $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
 
     $variables['user'] = [
       'id' => $user->id(),
@@ -217,11 +220,12 @@ function girchi_preprocess_page(array &$variables)
       'user_picture' => $profilePicture,
       'first_name' => $user->get('field_first_name')->value,
       'last_name' => $user->get('field_last_name')->value,
-      'ged' =>  $GEDHelper::getFormattedGED($user->get('field_ged')->value),
+//      'ged' =>  $GEDHelper::getFormattedGED($user->get('field_ged')->value),
+      'ged' =>  $user->get('field_ged')->value,
       'referrals_profile_picture' => array_slice($referralsImage,0,5),
       'referralCount' => $referralCount,
       'rating_in_party_list' => $user->get('field_rating_in_party_list')->value,
-      'political_ged' => $ged_formatted,
+      'political_ged' => $user->get('field_political_ged')->value,
       'user_rank' => $user->get('field_rank')->value,
       'field_intro' => $user->get('field_intro')->value,
       'field_bio' => $user->get('field_bio')->value,

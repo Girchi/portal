@@ -32,9 +32,9 @@
  */
 #}
 {% set uid = fields.uid.content | striptags | replace({"\n":'', "\r":''}) %}
-{% set ged = fields.field_political_ged.content | striptags | replace({"\n":'', "\r":''}) %}
 {% set supporter_count = supporters[uid]|length %}
 {% set img_url = fields.user_picture.content | striptags  | replace({"\n":'', "\r":''}) %}
+{% set ged = fields.field_political_ged.content | striptags | replace({"\n":'', "\r":''}) %}
 {% set default_img_url = theme_path('images/avatar50x50.png', 1) %}
 <tr>
     <th
@@ -79,7 +79,7 @@
                             </span>
                 <span
                     class="text-warning font-size-4 font-weight-bold d-block d-md-none"
-                >{{ fields.field_political_ged.content}} <i class="icon-ged font-size-3"></i
+                >{{ fields.field_political_ged.content }} <i class="icon-ged font-size-3"></i
                     ></span>
             </h6>
         </div>
@@ -189,7 +189,7 @@
     >
                         <span
                             class="text-warning font-size-4 font-size-xl-5 font-weight-bold text-nowrap"
-                        >{{ ged|ged_formatter }} <i class="icon-ged font-size-4"></i
+                        >{{ ged|ged_long_format }} <i class="icon-ged font-size-4"></i
                             ></span>
     </td>
 </tr>

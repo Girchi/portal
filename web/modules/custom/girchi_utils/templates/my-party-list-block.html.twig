@@ -116,7 +116,7 @@
               <span
                 class="text-success font-size-4 font-weight-bold text-nowrap line-height-1-2 line-height-md-0-9 d-block"
               > <i class="icon-ged font-size-3"></i
-                >{{ member.member_ged_amount_formatted }}</span>
+                >{{ member.member_ged_amount}}</span>
               {{ member.member_ged_percentage }}%
             </td>
           </tr>
@@ -230,7 +230,7 @@
                                 {{member.member_ged_percentage}}%
                             </td>
                             <td class="align-middle text-center d-none d-md-table-cell">
-                                <span class="text-success font-size-4 font-size-xl-4 font-weight-bold text-nowrap"> <i class="icon-ged font-size-3"></i>{{ member.member_ged_amount }}</span>
+                                <span class="text-success font-size-4 font-size-xl-4 font-weight-bold text-nowrap"> <i class="icon-ged font-size-3"></i>{{ member.member_ged_amount_long|ged_long_format}}</span>
                             </td>
                         </tr>
                     {% endfor %}

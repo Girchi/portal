@@ -38,14 +38,14 @@
                     <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Politician rating' | t }}</label>
                     <span class="text-warning font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
                         <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>
-                        {{ user.political_ged }}
+                        {{ user.political_ged|ged_long_format }}
                     </span>
                 </div>
                 {% endif %}
                 <div class="text-center text-lg-left d-flex flex-column mx-lg-3 w-50 w-lg-auto px-3 px-md-4 px-lg-0">
                     <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Politician Ged' | t }}</label>
                     <span class="text-success font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
-                        <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>{{ user.ged ? user.ged : 0 }}
+                        <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>{{ user.ged ? user.ged|ged_long_format : 0}}
                     </span>
                 </div>
                 <div class="pt-3 pt-lg-0 mt-3 mt-lg-0 border-top border-top-lg-0 ml-lg-auto d-flex align-items-center justify-content-center justify-content-lg-start w-100 w-lg-auto">
@@ -106,9 +106,9 @@
                         </h6>
                         <div
                             class="p-3">
-                            {#                            <p class="text-center font-size-3 m-0">#}
+                                                        <p class="text-center font-size-3 m-0">
                             {{ user.field_intro|raw }}
-                            {#                            </p>#}
+                                                        </p>
                             <div class="text-center pb-3 mt-2 border-bottom">
                                 <a class="btn mt-2 border-secondary btn-outline-grey bg-transparent d-inline-block mr-1 btn-sm mb-2 text-hover-light-green border-hover-light-green" data-target="#fullBio" data-toggle="modal" href="#">
                                     {{ 'Full biography'| t }}

@@ -54,7 +54,7 @@
                             class="text-grey line-height-1-2 line-height-xl-1-5"
                         >{{ 'Party list weight' | t }}</span
                         >
-                                    <span class="text-warning text-nowrap">{{ politician.political_ged }}</span>
+                                    <span class="text-warning text-nowrap">{{ politician.political_ged|ged_long_format  }}</span>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                           >{{ 'Party list weight' |t }}</span
                           >
                                     <span class="text-warning text-nowrap"
-                                    >{{ politician.political_ged }}</span
+                                    >{{ politician.political_ged | ged_long_format }}</span
                                     >
                                 </div>
                             </div>
