@@ -38,15 +38,23 @@
                     <li class="list-group-item pl-group-item">
                         <div class="d-flex w-100 align-items-center py-0 py-sm-3 px-0 flex-wrap flex-md-nowrap">
                             <div class="rounded-circle overflow-hidden d-inline-block mx-auto mx-sm-0 mb-3 mb-sm-0">
+                              <a
+                                      href="{{ path('entity.user.canonical', {'user' : partyMember.id}) }}"
+                                      class="rounded-circle overflow  -hidden d-none d-md-block"
+                              >
                                 <img src="{{ partyMember.imgUrl }}"
                                      width="60" class="rounded" alt="{{ partyMember.firstName }} {{ partyMember.lastName }}">
+                              </a>
                             </div>
                             <h6 class="text-center text-sm-left w-100 w-sm-auto text-uppercase line-height-1-2
                              font-size-4 font-size-md-3 font-size-xl-4 mb-0 mx-2 mx-xl-3">
-          <span class="text-decoration-none d-inline-block">
-            <span>{{ partyMember.firstName }} </span>
-            <span class="font-weight-bold">{{ partyMember.lastName }}</span>
-          </span>
+             <a class="d-inline-block text-hover-success" href="{{ path('entity.user.canonical', {'user' : partyMember.id}) }}">
+               <span class="text-decoration-none d-inline-block">
+                  <span>{{ partyMember.firstName }} </span>
+                  <span class="font-weight-bold">{{ partyMember.lastName }}</span>
+               </span>
+             </a>
+
                                 <span class="d-flex  font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center
                                  justify-content-sm-start">
                 {{ 'Politician' | t }}

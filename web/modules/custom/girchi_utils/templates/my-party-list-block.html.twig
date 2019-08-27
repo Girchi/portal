@@ -116,7 +116,7 @@
               <span
                 class="text-success font-size-4 font-weight-bold text-nowrap line-height-1-2 line-height-md-0-9 d-block"
               > <i class="icon-ged font-size-3"></i
-                >{{ member.member_ged_amount }}</span>
+                >{{ member.member_ged_amount_formatted }}</span>
               {{ member.member_ged_percentage }}%
             </td>
           </tr>
@@ -206,7 +206,7 @@
                             </th>
                             <td class="align-middle">
                                 <div class="d-flex w-100 align-items-center">
-                                    <a href="#" class="rounded-circle overflow-hidden d-none d-md-block">
+                                    <a href="{{ path('entity.user.canonical', {'user' : member.uid}) }}" class="rounded-circle overflow-hidden d-none d-md-block">
                                         <img
                                             {% if member.is_avatar %}
                                                 src="{{ image_style_url(member.member_profile_picture , 'user_sidebar') }}"
@@ -216,7 +216,7 @@
                                             class="rounded w-40-px" alt="...">
                                     </a>
                                     <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
-                                        <a href="#" class="d-inline-block text-hover-success">
+                                        <a href="{{ path('entity.user.canonical', {'user' : member.uid}) }}" class="d-inline-block text-hover-success">
                               <span class="text-decoration-none d-inline-block">
                                 <span>{{member.member_first_name}}</span>
                                 <span class="font-weight-bold">{{ member.member_last_name }}</span>

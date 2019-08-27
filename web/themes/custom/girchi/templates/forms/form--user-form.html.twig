@@ -65,12 +65,10 @@
                             <label class="form-label" for="phone">{{ "Phone number" | t }}</label>
                             {{ element.field_phone }}
                         </div>
-                        {% if politican_checked %}
-                            <button type="button" class="btn btn-lg btn-block  btn-warning text-uppercase mt-4" data-toggle="modal"
-                                    data-target="#drupalUserPublicProfile">
-                                {{ 'Edit public profile'|t }}
-                            </button>
-                        {% endif %}
+                        <button type="button" class="btn btn-lg btn-block  btn-warning text-uppercase mt-4" data-toggle="modal"
+                                data-target="#drupalUserPublicProfile">
+                            {{ 'Edit public profile'|t }}
+                        </button>
                         <div class="border bg-dark-white border-dashed rounded px-4 pt-4  mb-4 mt-4">
                             <h6 class="text-uppercase text-success font-weight-bold">
                                 {{ 'Enter your referral'|t }}

@@ -8,25 +8,32 @@
         <div class="card-body p-0">
             <img src="{{ user.field_cover_photo ? image_style_url(user.field_cover_photo, 'politicians_cover') : theme_path() ~ "/images/cover.jpg" }}" class="d-none d-md-block" width="100%" alt="ზურაბ ჯაფარიძე"/>
             <img src="{{ user.field_cover_photo ? image_style_url(user.field_cover_photo, 'politicians_cover_sm') : theme_path() ~ "/images/cover-sm.png" }}" class="d-block d-md-none" width="100%" alt="ზურაბ ჯაფარიძე"/>
-            <div class="bg-gradient-green p-3 d-flex justify-content-center justify-content-lg-between align-items-center flex-column flex-lg-row">
+            <div class="bg-gradient-green {{ user.is_politician ? "p-3" : "p-4" }} d-flex justify-content-center justify-content-lg-between align-items-center flex-column flex-lg-row">
                 <div class="position-relative position-lg-absolute w-150-px h-150-px w-md-220-px h-md-220-px mt-n10 mt-md-n14 mt-lg-0">
                     <div class="w-150-px h-150-px w-md-220-px h-md-220-px overflow-hidden rounded-circle bg-white border-4 border-solid border-white">
                         <img src="{{ user.user_picture ? image_style_url(user.user_picture, 'politicians_profile_picture') : theme_path() ~ "/images/avatar.png" }}" width="100%" alt="ზურაბ ჯაფარიძე"/>
                     </div>
+                    {% if user.is_politician %}
                     <span class="w-50-px h-50-px bg-warning rounded-circle position-absolute position-right-n1 position-center-y text-white font-size-6 font-weight-bold d-flex justify-content-center align-items-center">{{ user.rating_in_party_list < 10 ? '0' ~ user.rating_in_party_list : user.rating_in_party_list  }}</span>
+                    {% endif %}
                 </div>
                 <div class="w-220-px d-none d-lg-block"></div>
                 <h4 class="font-size-4 font-size-md-6 text-white text-uppercase my-3 my-lg-0 m-0 mr-lg-auto ml-lg-5">
                     {{ user.first_name ~ " " ~ user.last_name }}
                 </h4>
+
                 <div class="mb-n5 pb-2 p-lg-0 m-lg-0 d-inline-block">
+                    {% if user.is_politician %}
                     <a class="btn btn-warning text-uppercase btn-lg ml-lg-auto text-nowrap" href="/donate?politician={{ user.id }}">
                         {{ 'Donate to politician' | t }}
                     </a>
+                    {% endif %}
                 </div>
+
             </div>
-            <div class="p-3 d-flex mt-4 mt-lg-0 flex-wrap flex-lg-nowrap justify-content-between align-items-center">
+            <div class="{{  user.is_politician ? "p-3" : "p-4" }} d-flex mt-4 mt-lg-0 flex-wrap flex-lg-nowrap justify-content-between align-items-center">
                 <div class="w-220-px mr-4 d-none d-lg-block"></div>
+                {% if user.is_politician %}
                 <div class="text-center text-lg-left d-flex flex-column mx-lg-3 w-50 w-lg-auto border-right border-right-lg-0 px-3 px-md-4 py-1 p-lg-0">
                     <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Politician rating' | t }}</label>
                     <span class="text-warning font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
@@ -34,10 +41,11 @@
                         {{ user.political_ged }}
                     </span>
                 </div>
+                {% endif %}
                 <div class="text-center text-lg-left d-flex flex-column mx-lg-3 w-50 w-lg-auto px-3 px-md-4 px-lg-0">
                     <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Politician Ged' | t }}</label>
                     <span class="text-success font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
-                        <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>{{ user.ged }}
+                        <i class="icon-ged line-height-1-1 font-size-md-4 font-size-3"></i>{{ user.ged ? user.ged : 0 }}
                     </span>
                 </div>
                 <div class="pt-3 pt-lg-0 mt-3 mt-lg-0 border-top border-top-lg-0 ml-lg-auto d-flex align-items-center justify-content-center justify-content-lg-start w-100 w-lg-auto">
@@ -196,11 +204,11 @@
                                 </th>
                                 <td class="align-middle">
                                     <div class="d-flex w-100 align-items-center">
-                                        <a class="rounded-circle overflow-hidden d-none d-md-block" href="#">
+                                        <a class="rounded-circle overflow-hidden d-none d-md-block" href="{{ path('entity.user.canonical', {'user' : user.uid}) }}">
                                             <img {% if user.image %} src="{{ image_style_url(user.image , 'user_sidebar') }}" {% else %} src="{{ theme_path() ~ '/images/avatar.png' }}" {% endif %} class="rounded w-40-px" alt="...">
                                         </a>
                                         <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
-                                            <a class="d-inline-block text-hover-success" href="#">
+                                            <a class="d-inline-block text-hover-success" href="{{ path('entity.user.canonical', {'user' : user.uid}) }}">
                                                 <span class="text-decoration-none d-inline-block">
                                                     <span>{{user.first_name}}</span>
                                                     <span class="font-weight-bold">{{ user.last_name }}</span>

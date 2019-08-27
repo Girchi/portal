@@ -48,9 +48,10 @@ class TwigExtension extends Twig_Extension
       new \Twig_SimpleFilter('style_color', [$this, 'getStyleColor']),
       new \Twig_SimpleFilter('style_background_color', [$this, 'getStyleBackgroundColor']),
       new \Twig_SimpleFilter('single_value_at', [$this, 'getSingleValueAt']),
+      new \Twig_SimpleFilter('ged_formatter', [$this, 'getFormattedGeD']),
     );
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -274,6 +275,15 @@ class TwigExtension extends Twig_Extension
       }
     }
     return $input;
+  }
+
+  /*
+   * Returns formatted GeD
+   *
+   */
+  public function getFormattedGeD($input){
+    $GEDHelper = \Drupal::service('girchi_users.ged_helper');
+    return $GEDHelper::getFormattedGED($input);
   }
 
 

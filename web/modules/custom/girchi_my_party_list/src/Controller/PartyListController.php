@@ -236,6 +236,8 @@ class PartyListController extends ControllerBase {
             $imgFile = $this->entityTypeManager->getStorage('file')->load($imgId);
             $style = $this->entityTypeManager()->getStorage('image_style')->load('party_member');
             $imgUrl = $style->buildUrl($imgFile->getFileUri());
+          }else{
+            $imgUrl = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
           }
           $uid = $user->id();
           $userArray[] = [

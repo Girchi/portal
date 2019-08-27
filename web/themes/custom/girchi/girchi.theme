@@ -181,7 +181,8 @@ function girchi_preprocess_page(array &$variables)
       $userInfo[] = [
         'first_name' => $referralUser->get('field_first_name')->value,
         'last_name' => $referralUser->get('field_last_name')->value,
-        'image' => $referralProfilePicture
+        'image' => $referralProfilePicture,
+        'uid' => $referralUser->get('uid')->value,
       ];
     }
 
@@ -208,9 +209,6 @@ function girchi_preprocess_page(array &$variables)
     }
     $favoriteNewsIds = implode('+', $favoriteNewsIds);
 
-
-
-
     $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
 
     $variables['user'] = [
@@ -234,7 +232,8 @@ function girchi_preprocess_page(array &$variables)
       'favoriteNewsIds' => $favoriteNewsIds,
       'field_author' => $user->id(),
       'user_info' => $userInfo,
-      'thumbnail_url' => $thumbnail_url
+      'thumbnail_url' => $thumbnail_url,
+      'is_politician' => $user->get('field_politician')->value,
     ];
   }
 
@@ -538,7 +537,7 @@ function girchi_preprocess_views_view_fields(&$variables)
     $politician_ids = [];
     foreach ($view->result as $user) {
       $politician_ids[] = $user->_entity->id();
-    } 
+    }
     if (!empty($politician_ids)) {
       $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
       $supporters = $party_list_calculator->getPoliticiansSupporters($politician_ids);

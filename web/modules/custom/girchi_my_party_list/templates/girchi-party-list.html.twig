@@ -12,7 +12,7 @@
         <td class="align-middle">
             <div class="d-flex w-100 align-items-center">
                 <a
-                    href="#"
+                    href="{{ path('entity.user.canonical', {'user' : supporter.id}) }}"
                     class="rounded-circle overflow  -hidden d-none d-md-block"
                 >
                     <img
@@ -24,9 +24,11 @@
                 <h6
                     class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3"
                 >
+                  <a class="d-inline-block text-hover-success" href="{{ path('entity.user.canonical', {'user' : supporter.id}) }}">
                           <span class="text-decoration-none d-inline-block">
                             <span class="font-weight-bold">{{ supporter.name }}</span>
                           </span>
+                  </a>
                 </h6>
             </div>
         </td>
