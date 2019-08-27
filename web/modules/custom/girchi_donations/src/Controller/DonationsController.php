@@ -2,7 +2,6 @@
 
 namespace Drupal\girchi_donations\Controller;
 
-use ABGEO\NBG\Currency;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManager;
@@ -232,25 +231,6 @@ class DonationsController extends ControllerBase {
       '#type' => 'markup',
       '#theme' => 'girchi_donations_fail',
     ];
-  }
-
-  /**
-   * Function for getting currency.
-   */
-  public function getCurrency() {
-    $usd = new Currency(Currency::CURRENCY_USD);
-    /** @var \Drupal\Console\Core\Utils\KeyValueStorage $key_value */
-    $this->keyValue->get('girchi_donations')->set('usd', $usd->getCurrency());
-    return new JsonResponse("Success");
-  }
-
-  /**
-   * Function for day close.
-   */
-  public function dayClose() {
-    $this->omediaPayment->closeDay();
-    $this->getLogger('girchi_donations')->info('Day was closed !');
-    return new JsonResponse("Success");
   }
 
 }
