@@ -67,10 +67,8 @@ $(document).ready(function () {
                 type: "GET",
                 url: "/api/add/favorite/news/" + nid,
                 success: function(response) {
-                    console.log(response);
                 },
                 error: function(response) {
-                    console.log(response);
                 }
             });
         } else {
@@ -78,15 +76,13 @@ $(document).ready(function () {
                 type: "GET",
                 url: "/api/remove/favorite/news/" + nid,
                 success: function(response) {
-                    console.log(response);
                 },
                 error: function(response) {
-                    console.log(response);
                 }
             });
         }
     });
-    
+
     $('.custom-file-input').on('change',function(e){
         $(this).next('.custom-file-label').html(e.target.files[0].name);
     })
