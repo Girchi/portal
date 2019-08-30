@@ -5,6 +5,7 @@
  * Contains girchi_utils.module.
  */
 
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -203,8 +204,8 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   $currentUser = Drupal::currentUser()->getRoles();
   // Getting Politician text from omedia_settings.
   $config = \Drupal::config('om_site_settings.site_settings');
-  if ($form_id == "user_form") {
 
+  if ($form_id == "user_form") {
     unset($form['field_referral']['widget'][0]['target_id']['#title']);
     unset($form['field_referral']['widget'][0]['target_id']['#description']);
     unset($form['field_referral']['widget']['#title']);
@@ -306,7 +307,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
 
       $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_politician']['#attributes']['class'][] = 'form-control';
@@ -351,7 +352,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
           $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_politician']['#attributes']['class'][] = 'form-control';
           $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
@@ -385,8 +386,12 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
         }
       }
     }
+    // Validate phone filed if it's not empty.
+    $value = $form_state->getUserInput();
+    if (!empty($value['field_tel'][0]['full_phone'])) {
+      $form['#validate'][] = 'telephone_validation';
+    }
   }
-
 }
 
 /**
@@ -438,14 +443,25 @@ function girchi_utils_preprocess_block(&$variables) {
  * Impelements hook_user_form_submit().
  */
 function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state) {
+  // Save full phone into users field.
   if ($form['#form_id'] == 'user_form') {
     $value = $form_state->getUserInput();
-    $full_phone = $value['field_tel'][0]['full_phone'];
+    /** @var \Drupal\Core\Logger\LoggerChannelFactory $logger */
+    $logger = \Drupal::service('logger.factory');
+    if (isset($value['field_tel'][0]['full_phone'])) {
+      try {
+        $full_phone = $value['field_tel'][0]['full_phone'];
+        /** @var \Drupal\user\Entity\User $uid */
+        $uid = \Drupal::currentUser()->id();
+        $user = User::load($uid);
+        $user->set('field_tel', $full_phone);
+        $user->save();
+      }
+      catch (EntityStorageException $e) {
+        $logger->get('girchi_utils')->error($e->getMessage());
+      }
 
-    $uid = \Drupal::currentUser()->id();
-    $user = User::load($uid);
-    $user->set('field_tel', $full_phone);
-    $user->save();
+    }
   }
 
   if ($_FILES['avatar']['size'] != 0) {
@@ -557,4 +573,25 @@ function girchi_utils_user_login(UserInterface $account) {
   $uid = $account->id();
   $response = new RedirectResponse("/user/$uid/edit");
   $response->send();
+}
+
+/**
+ * Validate phone field.
+ *
+ * @param array $form
+ *   Form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function telephone_validation(array $form, FormStateInterface $form_state) {
+  $value = $form_state->getUserInput();
+  $full_phone = $value['field_tel'][0]['full_phone'];
+
+  // Get validation service.
+  $phone_validator = \Drupal::service('telephone_validation.validator');
+  $is_valid = $phone_validator->isValid($full_phone, 1);
+  if (!$is_valid) {
+    $form_state->setErrorByName('field_tel', t('Invalid phone number.'));
+  }
+
 }
