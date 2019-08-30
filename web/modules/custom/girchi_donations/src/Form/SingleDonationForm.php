@@ -85,7 +85,6 @@ class SingleDonationForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    // dump($this->donationUtils->gedCalculator->getCurrency());die;
     $politicians = $this->donationUtils->getPoliticians();
     $options = $this->donationUtils->getTerms();
 
@@ -132,6 +131,8 @@ class SingleDonationForm extends FormBase {
       ],
       '#value' => $this->t('Donate'),
     ];
+
+    $form['#cache'] = ['max-age' => 0];
 
     return $form;
   }

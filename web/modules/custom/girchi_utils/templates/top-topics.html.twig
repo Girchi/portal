@@ -50,7 +50,7 @@
             <div class="col-sm-12 col-md-5 col-lg-12">
                 <!-- Start of banner -->
                 <div
-                    class="frozen rounded position-relative banner banner-default banner-sm-wide banner-md-default h-100 banner-bg-center banner-bg-donate"
+                    class="rounded position-relative banner banner-default banner-sm-wide banner-md-default h-100 banner-bg-center banner-bg-donate"
                 >
                     <div
                         class="position-absolute position-top-0 position-left-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center p-3"
@@ -61,7 +61,7 @@
                         <p class="text-white font-size-2 text-center mb-3 mb-md-4">
                             {{ "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard" |t}}
                         </p>
-                        <a href="#" class="btn btn-warning  btn-lg text-uppercase">
+                        <a href="{{ url('girchi_donations.donations_controller_index') }}" class="btn btn-warning  btn-lg text-uppercase">
                             {{ "Donate"|t }}
                         </a>
                     </div>

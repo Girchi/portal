@@ -48,9 +48,11 @@ class TwigExtension extends Twig_Extension
       new \Twig_SimpleFilter('style_color', [$this, 'getStyleColor']),
       new \Twig_SimpleFilter('style_background_color', [$this, 'getStyleBackgroundColor']),
       new \Twig_SimpleFilter('single_value_at', [$this, 'getSingleValueAt']),
+      new \Twig_SimpleFilter('ged_long_format', [$this, 'getLongFormattedGed']),
+      new \Twig_SimpleFilter('ged_formatter', [$this, 'getFormattedGeD']),
     );
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -274,6 +276,27 @@ class TwigExtension extends Twig_Extension
       }
     }
     return $input;
+  }
+
+  /*
+   * Returns long formatted GeD.
+   * Example: ged_long_format(123456.5) returns (123 457)
+   */
+
+  public function getLongFormattedGed($input){
+    $number = round($input);
+    $longFormattedGed = number_format( $number, 0, ',', ' ' );
+
+    return $longFormattedGed;
+  }
+
+  /*
+   * Returns formatted GeD
+   *
+   */
+  public function getFormattedGeD($input){
+    $GEDHelper = \Drupal::service('girchi_users.ged_helper');
+    return $GEDHelper::getFormattedGED($input);
   }
 
 

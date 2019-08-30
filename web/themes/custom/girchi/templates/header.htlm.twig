@@ -94,7 +94,7 @@
                                     {% endif %}
                                     <span class="d-flex align-items-center font-size-3 text-success"><i
                                                 class="icon-ged line-height-1-1"></i>
-                                    <span class="font-weight-bold line-height-0-7 ml-1">{{ user_header.ged }}</span></span>
+                                    <span class="font-weight-bold line-height-0-7 ml-1">{{ user_header.ged|ged_long_format }}</span></span>
                                 </a>
                             </h6>
                             <a href="{{ url("user.logout") }}"
@@ -168,7 +168,7 @@
                                         {% endif %}
                                         <span class="d-flex align-items-center font-size-3 text-success"><i
                                                     class="icon-ged line-height-1-1"></i>
-                                    <span class="font-weight-bold line-height-0-7 ml-1">{{ user_header.ged }}</span></span>
+                                    <span class="font-weight-bold line-height-0-7 ml-1">{{ user_header.ged|ged_long_format }}</span></span>
                                     </a>
                                 </h6>
                                 <a href="{{ url("user.logout") }}"

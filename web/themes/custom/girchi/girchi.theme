@@ -181,7 +181,8 @@ function girchi_preprocess_page(array &$variables)
       $userInfo[] = [
         'first_name' => $referralUser->get('field_first_name')->value,
         'last_name' => $referralUser->get('field_last_name')->value,
-        'image' => $referralProfilePicture
+        'image' => $referralProfilePicture,
+        'uid' => $referralUser->get('uid')->value,
       ];
     }
 
@@ -211,7 +212,7 @@ function girchi_preprocess_page(array &$variables)
 
 
 
-    $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
+//    $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
 
     $variables['user'] = [
       'id' => $user->id(),
@@ -219,11 +220,12 @@ function girchi_preprocess_page(array &$variables)
       'user_picture' => $profilePicture,
       'first_name' => $user->get('field_first_name')->value,
       'last_name' => $user->get('field_last_name')->value,
-      'ged' =>  $GEDHelper::getFormattedGED($user->get('field_ged')->value),
+//      'ged' =>  $GEDHelper::getFormattedGED($user->get('field_ged')->value),
+      'ged' =>  $user->get('field_ged')->value,
       'referrals_profile_picture' => array_slice($referralsImage,0,5),
       'referralCount' => $referralCount,
       'rating_in_party_list' => $user->get('field_rating_in_party_list')->value,
-      'political_ged' => $ged_formatted,
+      'political_ged' => $user->get('field_political_ged')->value,
       'user_rank' => $user->get('field_rank')->value,
       'field_intro' => $user->get('field_intro')->value,
       'field_bio' => $user->get('field_bio')->value,
@@ -234,7 +236,8 @@ function girchi_preprocess_page(array &$variables)
       'favoriteNewsIds' => $favoriteNewsIds,
       'field_author' => $user->id(),
       'user_info' => $userInfo,
-      'thumbnail_url' => $thumbnail_url
+      'thumbnail_url' => $thumbnail_url,
+      'is_politician' => $user->get('field_politician')->value,
     ];
   }
 
@@ -538,7 +541,7 @@ function girchi_preprocess_views_view_fields(&$variables)
     $politician_ids = [];
     foreach ($view->result as $user) {
       $politician_ids[] = $user->_entity->id();
-    } 
+    }
     if (!empty($politician_ids)) {
       $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
       $supporters = $party_list_calculator->getPoliticiansSupporters($politician_ids);

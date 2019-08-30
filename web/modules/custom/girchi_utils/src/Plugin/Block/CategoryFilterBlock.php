@@ -13,7 +13,7 @@ use Drupal;
  * @Block(
  *  id = "category_filter_block",
  *  admin_label = @Translation("Category filter block"),
- * )
+ * )politician_rating_block
  */
 class CategoryFilterBlock extends BlockBase {
 

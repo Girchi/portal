@@ -22,19 +22,3 @@ girchi_donations.donations_controller_fail:
     _title: 'Donation finish'
   requirements:
     _permission: 'access content'
-
-girchi_donations.donations_get_currency:
-  path: '/donate/ywBWZFTIICO99BOsLSG6'
-  defaults:
-    _controller: '\Drupal\girchi_donations\Controller\DonationsController::getCurrency'
-    _title: 'get currency'
-  requirements:
-    _permission: 'access content'
-
-girchi_donations.donations_day_close:
-  path: '/donate/dayclose'
-  defaults:
-    _controller: '\Drupal\girchi_donations\Controller\DonationsController::dayClose'
-    _title: 'Day close'
-  requirements:
-    _permission: 'access content'

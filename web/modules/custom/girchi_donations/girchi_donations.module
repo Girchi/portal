@@ -5,6 +5,7 @@
  * Contains girchi_donations.module.
  */
 
+use ABGEO\NBG\Currency;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
@@ -55,4 +56,36 @@ function girchi_donations_theme() {
  */
 function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
+}
+
+/**
+ * Implements hook_cron().
+ */
+function girchi_donations_cron() {
+  $current_time = time();
+  $hour = date('H', $current_time);
+  $day = date('d', $current_time);
+
+  /** @var \Drupal\Console\Core\Utils\KeyValueStorage $key_value */
+  $key_value = Drupal::service('keyvalue')->get('girchi_donations');
+
+  $logger_factory = Drupal::service('logger.factory')->get('girchi_donations');
+
+  if ($hour > 21) {
+    if ($day != $key_value->get('close_day')) {
+      /** @var \Drupal\om_tbc_payments\Services\PaymentService $payment_service */
+      $payment_service = Drupal::service('om_tbc_payments.payment_service');
+      $payment_service->closeDay();
+      $logger_factory->info("Day was closed !");
+      $key_value->set('close_day', $day);
+    }
+  }
+  if ($hour > 9) {
+    if ($day != $key_value->get('usd_set_day')) {
+      $usd = new Currency(Currency::CURRENCY_USD);
+      /** @var \Drupal\Console\Core\Utils\KeyValueStorage $key_value */
+      $key_value->set('usd', $usd->getCurrency());
+      $key_value->set('usd_set_day', $day);
+    }
+  }
 }
