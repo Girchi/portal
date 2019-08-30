@@ -55,6 +55,7 @@ module:
   help: 0
   hierarchical_term_formatter: 0
   image: 0
+  international_phone: 0
   language: 0
   layout_discovery: 0
   link: 0

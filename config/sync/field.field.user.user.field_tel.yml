@@ -1,0 +1,21 @@
+uuid: a6c3083c-6928-4a8e-9203-d7a2d533fcef
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_tel
+  module:
+    - international_phone
+    - user
+id: user.user.field_tel
+field_name: field_tel
+entity_type: user
+bundle: user
+label: tel
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: international_phone
