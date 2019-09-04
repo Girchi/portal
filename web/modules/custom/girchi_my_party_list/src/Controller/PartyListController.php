@@ -195,13 +195,27 @@ class PartyListController extends ControllerBase {
     $currentUser = $this->entityTypeManager->getStorage('user')->load($this->currentUser()->id());
     $userList = $request->get('list') ? $request->get('list') : [];
 
+    $max_value = 100;
+    foreach($userList as $key=>$userListItem){
+      $percentage = (int)$userListItem['percentage'];
+      if($percentage > $max_value){
+        $percentage = $max_value;
+        $userList[$key]['percentage'] = $percentage;
+        $max_value -= $percentage;
+      }else if ($percentage < 0){
+        $userList[$key]['percentage'] = 0;
+      }else{
+        $userList[$key]['percentage'] = $percentage;
+        $max_value -= $percentage;
+      }
+    }
+
     $userInfo = array_map(function ($tag) {
       return [
         'target_id' => $tag['politician'],
         'value' => $tag['percentage'] ? $tag['percentage'] : 0,
       ];
     }, $userList);
-
     $currentUser->get('field_my_party_list')->setValue($userInfo);
     $currentUser->save();
     $redirectUrl = $request->headers->get('referer');

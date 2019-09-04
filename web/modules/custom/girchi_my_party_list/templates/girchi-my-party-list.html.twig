@@ -70,8 +70,10 @@
                                        class="form-control form-control-spin-none border form-control-lg py-3
                                        px-1 px-sm-4 ml-2 d-inline-block mr-0 font-size-4 font-weight-bold
                                        text-center max-px-sm-100 max-px-75"
-                                       placeholder="{{ partyMember.percentage }}" min="0" name="list[{{ partyMember.id }}][percentage]"
-                                       value="{{ partyMember.percentage }}" data-original-title="" title="">
+                                       placeholder="{{ partyMember.percentage }}" min="0" max="100"
+                                       name="list[{{ partyMember.id }}][percentage]"
+                                       {% if  partyMember.percentage %} value="{{ partyMember.percentage }}" {% endif %}
+                                       data-original-title="" title="">
                                 <span class="ml-1 mr-0 mr-md-2 font-size-5">%</span>
                                 <button class="btn font-size-4 p-0 shadow-none text-dark-silver
                                 ml-0 ml-md-2 text-hover-danger pl-delete">
