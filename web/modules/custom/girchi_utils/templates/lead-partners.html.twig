@@ -24,12 +24,9 @@
 
                 <ul class="list-group list-group-flush mt-2">
                     {% set i=0 %}
+                    {% if leadPartner %}
                     {% for partner in leadPartner %}
                         {% set i=i+1 %}
-                        {% set fullname = partner.name %}
-                        {% set fullname = fullname|split(' ') %}
-                        {% set name = fullname[0] %}
-                        {% set lastName = fullname[1] %}
                         <li
                                 class="list-group-item d-flex align-items-center px-0"
                         >
@@ -39,11 +36,11 @@
                                 >
                             <div class="d-flex w-100 align-items-center">
                                 <a
-                                        href="#"
+                                        href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
                                         class="rounded-circle overflow-hidden d-inline-block"
                                 >
                                     <img
-                                            src= {{ image_style_url(partner.img, 'partner_image') }}
+                                            src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
                                             class="rounded"
                                             alt="..."
                                     />
@@ -53,12 +50,12 @@
                                         class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3"
                                 >
                                     <a
-                                            href="#"
+                                            href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
                                             class="text-decoration-none d-inline-block text-hover-success"
                                     >
-                                        {{ name }}
+                                        {{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}
                                         <span class="d-block font-weight-bold"
-                                        >{{ lastName }}</span
+                                        >{{ partner.uid ? partner.user_surname : 'User'|t }}</span
                                         >
                                     </a>
                                 </h6>
@@ -70,6 +67,7 @@
                         </li>
 
                     {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
             <div
