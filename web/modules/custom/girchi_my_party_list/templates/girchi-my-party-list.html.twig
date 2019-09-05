@@ -1,3 +1,5 @@
+<div class="partyListMessages my-2">
+</div>
 <div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3">
     <div class="card-body p-3 p-md-4">
         <div class="d-flex flex-column flex-md-row">
@@ -32,7 +34,7 @@
             </div>
         </div>
         <hr class="mx-md-n4  mt-3 mt-md-4" />
-        <form action="{{ path('girchi_my_party_list.party_list_controller_updateUser') }}" method="post">
+        <form action="{{ path('girchi_my_party_list.party_list_controller_updateUser') }}" method="post" id="partyListForm">
             <ul class="list-group my-3 my-md-4 pl-group">
                 {% for partyMember in my_party_list  %}
                     <li class="list-group-item pl-group-item">
@@ -70,8 +72,10 @@
                                        class="form-control form-control-spin-none border form-control-lg py-3
                                        px-1 px-sm-4 ml-2 d-inline-block mr-0 font-size-4 font-weight-bold
                                        text-center max-px-sm-100 max-px-75"
-                                       placeholder="{{ partyMember.percentage }}" min="0" name="list[{{ partyMember.id }}][percentage]"
-                                       value="{{ partyMember.percentage }}" data-original-title="" title="">
+                                       placeholder="{{ partyMember.percentage }}" min="0" max="100"
+                                       name="list[{{ partyMember.id }}][percentage]"
+                                       {% if  partyMember.percentage %} value="{{ partyMember.percentage }}" {% endif %}
+                                       data-original-title="" title="">
                                 <span class="ml-1 mr-0 mr-md-2 font-size-5">%</span>
                                 <button class="btn font-size-4 p-0 shadow-none text-dark-silver
                                 ml-0 ml-md-2 text-hover-danger pl-delete">
