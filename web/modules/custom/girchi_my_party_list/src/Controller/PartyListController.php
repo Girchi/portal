@@ -213,11 +213,10 @@ class PartyListController extends ControllerBase {
         $max_value -= $percentage;
       }
     }
-
     $userInfo = array_map(function ($tag) {
       return [
         'target_id' => $tag['politician'],
-        'value' => $tag['percentage'] ? $tag['percentage'] : 0,
+        'value' => $tag['percentage'] ? (int) $tag['percentage'] : 0,
       ];
     }, $userList);
     $currentUser->get('field_my_party_list')->setValue($userInfo);
