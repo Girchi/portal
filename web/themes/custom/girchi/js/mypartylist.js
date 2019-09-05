@@ -44,7 +44,7 @@ $(document).ready(function () {
 
    let  urlParams = new URLSearchParams(window.location.search);
    if(urlParams.has('error')){
-        $('.parryListMessages').html(`
+        $('.partyListMessages').html(`
              <div class="alert alert-danger" role="alert">
                 <h2 class="visually-hidden">Error message</h2>
                 მითითებული პროცენტული რაოდენობა არასწორია
