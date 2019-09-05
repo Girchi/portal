@@ -36,6 +36,7 @@ function girchi_donations_theme() {
         'right_block' => NULL,
         'form_single' => NULL,
         'form_multiple' => NULL,
+        'politicians' => NULL,
       ],
     ],
     'girchi_donations_success' => [
@@ -55,7 +56,6 @@ function girchi_donations_theme() {
  * Implements hook_form_alter().
  */
 function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
 }
 
 /**
