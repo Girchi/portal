@@ -41,7 +41,7 @@ $(document).ready(function () {
             $(supporter).hide();
           }
         });
-        
+
 
     });
     $('body').on('click', '.politician-modal', (e) => {
@@ -60,6 +60,32 @@ $(document).ready(function () {
             });
     });
 
+    $("#favorite_news").click(e => {
+        var nid = $("#favorite_news").attr("data-node-id");
+        if ($("#favorite_news").is(":checked")) {
+            $.ajax({
+                type: "GET",
+                url: "/api/add/favorite/news/" + nid,
+                success: function(response) {
+                },
+                error: function(response) {
+                }
+            });
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/api/remove/favorite/news/" + nid,
+                success: function(response) {
+                },
+                error: function(response) {
+                }
+            });
+        }
+    });
+
+    $('.custom-file-input').on('change',function(e){
+        $(this).next('.custom-file-label').html(e.target.files[0].name);
+    })
 
 });
 

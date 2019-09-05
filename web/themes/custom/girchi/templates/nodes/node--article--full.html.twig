@@ -40,9 +40,18 @@
                         {% endfor %}
 
                     </div>
-                    <label class = "font-size-1 text-grey font-weight-bold border-dark-silver "for="favorite_news">{{ 'Add to favorite' | t }}</label>
-                    <input type="checkbox" id="favorite_news" data-node-id="{{ node.id }}" {{ checkboxValue ? 'checked' : '' }}>
-
+                    {% if logged_in %}
+                        <div class="form-group">
+                        <span class="form-checkbox">
+                            <span class="form-checkbox-input {{ checkboxValue ? 'checked' : '' }}">
+                                <input type="checkbox" class="form-control form-checkbox" id="favorite_news"
+                                       data-node-id="{{ node.id }}" >
+                        </span>
+                            <label class="form-checkbox-label font-size-1 text-grey font-weight-bold border-dark-silver "
+                                   for="favorite_news">{{ 'Add to favorite' | t }}</label>
+                        </span>
+                        </div>
+                    {% endif %}
                     <h1
                             class="font-size-5 font-size-lg-7 font-weight-bold line-height-1-2"
                     >
