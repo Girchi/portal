@@ -87,43 +87,39 @@ $("#politicians-donation").on("keyup", e => {
                     </a>
                 </li>`);
             if (elementsCounter === 1) {
-                newElement.css('border-top-left-radius', '20px' );
-                newElement.css('border-top-right-radius', '20px' );
-                let a = newElement.find('a').first();
-                a.css('border-top-left-radius', '20px' );
-                a.css('border-top-right-radius', '20px');
+                newElement.css("border-top-left-radius", "20px");
+                newElement.css("border-top-right-radius", "20px");
+                let a = newElement.find("a").first();
+                a.css("border-top-left-radius", "20px");
+                a.css("border-top-right-radius", "20px");
             }
 
             if (elementsCounter === dataLength) {
                 let lastElement = newElement.last();
-                lastElement.css( 'border-bottom-left-radius', '20px' );
-                lastElement.css( 'border-bottom-right-radius', '20px' );
-                let a = lastElement.find('a').first();
-                a.css('border-bottom-left-radius', '20px' );
-                a.css('border-bottom-right-radius', '20px');
+                lastElement.css("border-bottom-left-radius", "20px");
+                lastElement.css("border-bottom-right-radius", "20px");
+                let a = lastElement.find("a").first();
+                a.css("border-bottom-left-radius", "20px");
+                a.css("border-bottom-right-radius", "20px");
             }
 
             politiciansList.append(newElement);
         });
 
-
         $(".politiciansList").selectpicker("refresh");
     });
 });
 
-
-$(".politiciansList").on("click","a", e =>
-{
-    $('#politician-autocomplete').hide();
-    $('#autocomplete-result').show();
-    let item = $(e.target).closest('a');
-    let politicianId = item.attr('id');
-    let img = item.find('img').attr('src');
-    let firstName = item.find('span.pl-politician-first-name')[0].innerText;
-    let lastName = item.find('span.pl-politician-last-name')[0].innerText;
-    $('#autocomplete-result').html(`
+$(".politiciansList").on("click", "a", e => {
+    $("#politician-autocomplete").hide();
+    $("#autocomplete-result").show();
+    let item = $(e.target).closest("a");
+    let politicianId = item.attr("id");
+    let img = item.find("img").attr("src");
+    let firstName = item.find("span.pl-politician-first-name")[0].innerText;
+    let lastName = item.find("span.pl-politician-last-name")[0].innerText;
+    $("#autocomplete-result").html(`
     <button type="button" class="btn btn-white border btn-block bg-hover-white rounded-oval"title="${firstName}
-  
     ${lastName}">
         <div class="d-flex w-100 align-items-center p-1">
             <span class="rounded-circle overflow-hidden d-inline-block">
@@ -139,23 +135,23 @@ $(".politiciansList").on("click","a", e =>
                 პოლიტიკოსი
             </span>
             </h6>
+            <span class="delete-politician font-size-4 p-0 shadow-none text-dark-silver text-hover-danger float-right ml-auto" >
+                    <i class="icon-delete"></i>
+            </span>
         </div>
     </button>
     `);
 
-    $('#politician_id').val(politicianId);
+    $("#politician_id").val(politicianId);
 });
 
-$('#autocomplete-result').on('click',e=>{
-    $('#autocomplete-result').hide();
-    $('#politician-autocomplete').show();
-    $('#politicians-donation').val("");
+$(document).on("click", ".delete-politician", e => {
+    $("#autocomplete-result").hide();
+    $("#politician-autocomplete").show();
+    $("#politicians-donation").val("");
     $("#edit-donation-aim").removeAttr("disabled");
-
-})
+});
 
 $("body:not(#politician-autocomplete)").on("click", e => {
     $(".politiciansList").hide();
-
 });
-
