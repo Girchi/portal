@@ -150,11 +150,12 @@ $('#autocomplete-result').on('click',e=>{
     $('#autocomplete-result').hide();
     $('#politician-autocomplete').show();
     $('#politicians-donation').val("");
+    $("#edit-donation-aim").removeAttr("disabled");
+
 })
 
-$("#politicians-donation").on("focusout", e => {
-    window.setTimeout(()=>{
-        $(".politiciansList").hide();
-    },)
+$("body:not(#politician-autocomplete)").on("click", e => {
+    $(".politiciansList").hide();
+
 });
 
