@@ -78,6 +78,11 @@ class PartyListCalculatorService
           $user_ged = (int)$user->get('field_ged')->getValue()[0]['value'];
           foreach ($user_party_list as $party_list_item) {
             $percentage = (int)$party_list_item['value'];
+            if($percentage > 100){
+              $percentage = 100;
+            }else if($percentage < 0){
+              $percentage = 0;
+            }
             $uid = $party_list_item['target_id'];
             unset($politicians[$uid]);
             if (isset($user_rating[$uid])) {
