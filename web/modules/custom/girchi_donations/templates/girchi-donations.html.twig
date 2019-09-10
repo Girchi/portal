@@ -138,10 +138,12 @@
                                                 <div class="hidden-politician">
                                                     <input id="hidden-first-name" type="hidden" value="{{ current_politician[0].first_name ?? '' }}">
                                                     <input id="hidden-last-name" type="hidden" value="{{ current_politician[0].last_name ?? '' }}">
-                                                    <img src="{{ current_politician[0].image is defined ? image_style_url(current_politician[0].image, 'avatar_xs') : theme_path() ~ "/images/avatar35x35.png" }}" id="hidden-image" hidden>
+                                                    <img src="{{ current_politician[0].image is defined and current_politician[0].image is not null ? image_style_url(current_politician[0].image, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}" id="hidden-image" hidden>
                                                 </div>
                                             </div>
+
                                         </div>
+
                                         {{ form_single.politician_id }}
                                         {{ form_single.currency }}
                                         {{ form_single.submit }}

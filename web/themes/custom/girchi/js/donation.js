@@ -165,7 +165,6 @@ $(document).ready(function() {
         let firstName = document.getElementById('hidden-first-name').value;
         let lastName = document.getElementById('hidden-last-name').value;
         let image = document.getElementById('hidden-image').src;
-        console.log(document.getElementById('hidden-image').src);
         $("#autocomplete-result").html(`
         <button type="button" class="btn btn-white border btn-block bg-hover-white rounded-oval"title="${firstName}
         ${lastName}">
@@ -191,4 +190,5 @@ $(document).ready(function() {
         </button>
         `);
     }
+    $("#politician_id").val(id);
 });
