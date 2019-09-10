@@ -7,11 +7,13 @@ use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\File\FileSystem;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxy;
 use Drupal\language\ConfigurableLanguageManager;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,6 +98,10 @@ class PaymentService {
    *   KeyValue storage.
    * @param \Drupal\Core\Session\AccountProxy $currentUser
    *   CurrentUser.
+   * @param \Drupal\Core\Extension\ModuleHandler $moduleHandler
+   *   ModuleHandler.
+   * @param \Symfony\Component\Dotenv\Dotenv $dotEnv
+   *   Dotenv.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
                               LoggerChannelFactoryInterface $loggerFactory,
@@ -103,8 +109,15 @@ class PaymentService {
                               RequestStack $request_stack,
                               FileSystem $fileSystem,
                               KeyValueFactory $keyValue,
-                              AccountProxy $currentUser
+                              AccountProxy $currentUser,
+                              ModuleHandler $moduleHandler,
+                              Dotenv $dotEnv
   ) {
+    $modulePath = $moduleHandler->getModule('om_tbc_payments')->getPath();
+
+    // Load certificate path and pass.
+    $dotEnv->load($modulePath . '/cert/.cert.env');
+
     $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $loggerFactory;
     $this->languageManager = $languageManager;
@@ -113,8 +126,8 @@ class PaymentService {
     $this->keyValue = $keyValue;
     $this->currentUser = $currentUser;
     $this->tbcPayProcessor = new TbcPayProcessor(
-      'Cert',
-      'Certpass',
+      $_ENV['CERT_PATH'],
+      $_ENV['CERT_PASS'],
       $this->request->getClientIp()
     );
   }
@@ -143,7 +156,7 @@ class PaymentService {
         $values = [
           'trans_id' => $trans_id,
           'user_id' => $this->currentUser->id(),
-          'amount' => $payment_data['amount'],
+          'amount' => $payment_data['amount'] * 100,
           'ip_address' => $this->request->getClientIp(),
           'currency_code' => 981,
           'description' => $payment_data['description'],
