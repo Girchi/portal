@@ -155,3 +155,40 @@ $(document).on("click", ".delete-politician", e => {
 $("body:not(#politician-autocomplete)").on("click", e => {
     $(".politiciansList").hide();
 });
+
+// Get current politician from URL
+$(document).ready(function() {
+    let id = location.search.substring(location.search.lastIndexOf("=") + 1);
+    if (id) {
+        $("#politician-autocomplete").hide();
+        $("#autocomplete-result").show();
+        let firstName = document.getElementById('hidden-first-name').value;
+        let lastName = document.getElementById('hidden-last-name').value;
+        let image = document.getElementById('hidden-image').src;
+        console.log(document.getElementById('hidden-image').src);
+        $("#autocomplete-result").html(`
+        <button type="button" class="btn btn-white border btn-block bg-hover-white rounded-oval"title="${firstName}
+        ${lastName}">
+            <div class="d-flex w-100 align-items-center p-1">
+                <span class="rounded-circle overflow-hidden d-inline-block">
+                    
+                    <img src='${image}' width="35" class="rounded" alt="...">
+                </span>
+                <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2">
+                <span class="text-decoration-none d-inline-block text-hover-success">
+                ${firstName}
+                </span>
+                <span class="font-weight-bold">${lastName}</span>
+                </span>
+                <span class="d-flex font-size-1 text-grey justify-content-center justify-content-sm-start">
+                    პოლიტიკოსი
+                </span>
+                </h6>
+                <span class="delete-politician font-size-4 p-0 shadow-none text-dark-silver text-hover-danger float-right ml-auto" >
+                        <i class="icon-delete"></i>
+                </span>
+            </div>
+        </button>
+        `);
+    }
+});

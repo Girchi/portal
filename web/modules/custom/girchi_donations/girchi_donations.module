@@ -37,6 +37,7 @@ function girchi_donations_theme() {
         'form_single' => NULL,
         'form_multiple' => NULL,
         'politicians' => NULL,
+        'current_politician' => NULL,
       ],
     ],
     'girchi_donations_success' => [
