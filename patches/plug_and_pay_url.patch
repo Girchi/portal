@@ -1,0 +1,13 @@
+diff --git a/src/WeAreDe/TbcPay/TbcPayProcessor.php b/src/WeAreDe/TbcPay/TbcPayProcessor.php
+index df6828e..e287456 100644
+--- a/src/WeAreDe/TbcPay/TbcPayProcessor.php
++++ b/src/WeAreDe/TbcPay/TbcPayProcessor.php
+@@ -25,7 +25,7 @@ class TbcPayProcessor
+      * gateway endpoint
+      * @var string
+      */
+-    public $submit_url = 'https://securepay.ufc.ge:18443/ecomm2/MerchantHandler';
++    public $submit_url = 'https://ecommerce.ufc.ge:18443/ecomm2/MerchantHandler';
+
+     /**
+      * absolute path to certificate

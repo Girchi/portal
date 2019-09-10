@@ -376,6 +376,9 @@
       },
       "drupal/better_exposed_filter": {
         "auto submit": "patches/auto_submit_time.patch"
+      },
+      "wearede/tbcpay-php": {
+        "fix old url": "patches/plug_and_pay_url.patch"
       }
     },
     "installer-paths": {
