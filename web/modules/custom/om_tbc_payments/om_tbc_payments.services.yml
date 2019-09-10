@@ -9,3 +9,5 @@ services:
       - '@file_system'
       - '@keyvalue'
       - '@current_user'
+      - '@module_handler'
+

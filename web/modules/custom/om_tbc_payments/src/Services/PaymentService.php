@@ -82,6 +82,13 @@ class PaymentService {
   protected $currentUser;
 
   /**
+   * dotenv.
+   *
+   * @var \Symfony\Component\Dotenv\Dotenv
+   */
+  protected $dotEnv;
+
+  /**
    * Constructor for service.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -100,8 +107,6 @@ class PaymentService {
    *   CurrentUser.
    * @param \Drupal\Core\Extension\ModuleHandler $moduleHandler
    *   ModuleHandler.
-   * @param \Symfony\Component\Dotenv\Dotenv $dotEnv
-   *   Dotenv.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
                               LoggerChannelFactoryInterface $loggerFactory,
@@ -110,13 +115,13 @@ class PaymentService {
                               FileSystem $fileSystem,
                               KeyValueFactory $keyValue,
                               AccountProxy $currentUser,
-                              ModuleHandler $moduleHandler,
-                              Dotenv $dotEnv
+                              ModuleHandler $moduleHandler
   ) {
     $modulePath = $moduleHandler->getModule('om_tbc_payments')->getPath();
 
     // Load certificate path and pass.
-    $dotEnv->load($modulePath . '/cert/.cert.env');
+    $this->dotEnv = new Dotenv();
+    $this->dotEnv->load($modulePath . '/cert/.cert.env');
 
     $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $loggerFactory;
