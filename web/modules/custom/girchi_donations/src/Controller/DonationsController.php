@@ -166,6 +166,8 @@ class DonationsController extends ControllerBase {
           else {
             $auth = FALSE;
           }
+
+          // Donate GeD to aimed politician.
           if ($donation->get('politician_donation')->value == 1) {
             $ged_manager->create([
               'user_id' => "1",
@@ -174,9 +176,11 @@ class DonationsController extends ControllerBase {
               'title' => 'Donation',
               'name' => 'Donation',
               'status' => TRUE,
-              'Description' => 'Transaction was created by donation',
+              'Description' => 'Transaction was created by politician donation.',
             ])
               ->save();
+            $this->getLogger('girchi_donations')->info("Ged transaction for politician was made.");
+
           }
 
           $this->getLogger('girchi_donations')->info("Ged transaction was made.");
