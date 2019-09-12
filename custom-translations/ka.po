@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-08-20 11:25+0000\n"
-"PO-Revision-Date: 2019-08-20 11:25+0000\n"
+"POT-Creation-Date: 2019-08-29 09:00+0000\n"
+"PO-Revision-Date: 2019-08-29 09:00+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -12,97 +12,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "Enter your email address or username."
-msgstr ""
-"შეიყვანეთ თქვენი "
-"ელ.ფოსტის მისამართი"
-
-msgid "Email or username"
-msgstr "შეიყვანეთ ელ.ფოსტა "
-
-msgid "Enter the password that accompanies your email address."
-msgstr "შეიყვანეთ პაროლი "
-
-msgid "Password"
-msgstr "პაროლი"
-
-msgid "Log in"
-msgstr "შესვლა"
-
-msgid "Add effect"
-msgstr "ეფექტის დამატება"
-
-msgid "Save configuration"
-msgstr "კონფიგურაციის შენახვა"
-
-msgid "Confirm"
-msgstr "დადასტურება"
-
-msgid "Filter"
-msgstr "ფილტრი"
-
-msgid "Submit"
-msgstr "დადასტურება"
-
-msgid "Search"
-msgstr "ძიება"
-
-msgid "Settings"
-msgstr "პარამეტრები"
-
-msgid "Upload"
-msgstr "ატვირთვა"
-
-msgid "Delete"
-msgstr "წაშლა"
-
-msgid "Remove"
-msgstr "ამოშლა"
-
-msgid "Add"
-msgstr "დამატება"
-
-msgid "Create"
-msgstr "შექმნა"
-
-msgid "Install"
-msgstr "დაყენება"
-
-msgid "Save"
-msgstr "შენახვა"
-
-msgid "Export"
-msgstr "ექსპორტი"
-
-msgid "Import"
-msgstr "იმპორტი"
-
-msgid "Update"
-msgstr "განახლება"
-
-msgid "Manage"
-msgstr "მართვა"
-
-msgid "Configure"
-msgstr "კონფიგურირება"
-
-msgid "Download"
-msgstr "გადმოტვირთვა"
-
-msgid "Edit"
-msgstr "რედაქტირება"
-
-msgid "Cancel"
-msgstr "გაუქმება"
-
-msgid "Block"
-msgstr "ბლოკი"
+msgid "Content type"
+msgstr "კონტენტის ტიპი"
 
 msgid "Vocabulary"
 msgstr "ლექსიკონი"
 
-msgid "Home"
-msgstr "მთავარი"
+msgid "Description"
+msgstr "აღწერა"
+
+msgid "User"
+msgstr "მომხმარებელი"
+
+msgid "Content"
+msgstr "კონტენტი"
+
+msgid "Donation"
+msgstr "შემოწირულობა"
+
+msgid "Block"
+msgstr "ბლოკი"
 
 msgid "Text format"
 msgstr "ტექსტის ფორმატი"
@@ -110,8 +39,8 @@ msgstr "ტექსტის ფორმატი"
 msgid "Language"
 msgstr "ენა"
 
-msgid "Content type"
-msgstr "კონტენტის ტიპი"
+msgid "Page"
+msgstr "გვერდი"
 
 msgid "Menu"
 msgstr "მენიუ"
@@ -122,23 +51,11 @@ msgstr "როლი"
 msgid "Date format"
 msgstr "თარიღის ფორმატი"
 
-msgid "Create new account"
-msgstr "რეგისტრაცია"
-
-msgid "Reset your password"
-msgstr "პაროლის აღდგენა"
-
-msgid "Description"
-msgstr "აღწერა"
-
-msgid "Content"
-msgstr "კონტენტი"
-
-msgid "User"
-msgstr "მომხმარებელი"
-
 msgid "Forms"
 msgstr "ფორმები"
+
+msgid "Home"
+msgstr "მთავარი"
 
 msgid "User interface"
 msgstr "მომხმარებლის ინტერფეისი"
@@ -157,6 +74,9 @@ msgstr "მომხმარებელი"
 
 msgid "Pages"
 msgstr "გვერდები"
+
+msgid "Save configuration"
+msgstr "კონფიგურაციის შენახვა"
 
 msgid "delete"
 msgstr "წაშლა"
@@ -184,11 +104,14 @@ msgstr "სუფიქსი"
 msgid "Approve"
 msgstr "დადასტურება"
 
+msgid "Delete"
+msgstr "წაშლა"
+
+msgid "Submit"
+msgstr "დადასტურება"
+
 msgid "Operations"
 msgstr "ოპერაციები"
-
-msgid "Content"
-msgstr "კონტენტი"
 
 msgid "Attribute"
 msgstr "ატრიბუტი"
@@ -243,6 +166,15 @@ msgstr "ოპერაციები"
 
 msgid "disabled"
 msgstr "გამორთულია"
+
+msgid "Confirm"
+msgstr "დადასტურება"
+
+msgid "Cancel"
+msgstr "გაუქმება"
+
+msgid "Remove"
+msgstr "ამოშლა"
 
 msgid "Last comment"
 msgstr "ბოლო კომენტრარი"
@@ -312,6 +244,9 @@ msgstr "მთავარი გვერდი"
 msgid "Home page"
 msgstr "მთავარი გვერდი"
 
+msgid "Download"
+msgstr "გადმოტვირთვა"
+
 msgid "Version"
 msgstr "ვერსია"
 
@@ -339,6 +274,9 @@ msgstr "ფაილის მდებარეობა"
 msgid "Advanced options"
 msgstr "დამატებითი ოფციები"
 
+msgid "Edit"
+msgstr "რედაქტირება"
+
 msgid "Date"
 msgstr "თარიღი"
 
@@ -347,6 +285,9 @@ msgstr "ზომა"
 
 msgid "Links"
 msgstr "ბმულები"
+
+msgid "Search"
+msgstr "ძიება"
 
 msgid "Daily"
 msgstr "ყოველდღიური"
@@ -372,6 +313,9 @@ msgstr "შეტყობინება"
 msgid "Account Name"
 msgstr "მომხმარებლის სახელი"
 
+msgid "Password"
+msgstr "პაროლი"
+
 msgid "Block settings"
 msgstr "ბლოკის პარამეტრები"
 
@@ -393,9 +337,6 @@ msgstr "სურათი"
 msgid "Types"
 msgstr "ტიპები"
 
-msgid "Hierarchy"
-msgstr "იერარქია"
-
 msgid "Required"
 msgstr "სავალდებულო"
 
@@ -410,6 +351,9 @@ msgstr "კატეგორია"
 
 msgid "Add container"
 msgstr "კონტეინერის დამატება"
+
+msgid "Settings"
+msgstr "პარამეტრები"
 
 msgid "Name"
 msgstr "სახელი"
@@ -429,8 +373,14 @@ msgstr "მშობელ გვერდზე გადასვლა"
 msgid "Go to next page"
 msgstr "შემდეგ გვერდზე გადასვლა"
 
+msgid "Import"
+msgstr "იმპორტი"
+
 msgid "Book"
 msgstr "წიგნი"
+
+msgid "Export"
+msgstr "ექსპორტი"
 
 msgid "settings"
 msgstr "პარამეტრები"
@@ -449,6 +399,9 @@ msgstr "დახმარება"
 
 msgid "Image settings"
 msgstr "სურათის პარამეტრები"
+
+msgid "Update"
+msgstr "განახლება"
 
 msgid "Open"
 msgstr "ღია"
@@ -492,6 +445,9 @@ msgstr "ახლის დამატება"
 msgid "Time"
 msgstr "დრო"
 
+msgid "Add"
+msgstr "დამატება"
+
 msgid "Length"
 msgstr "სიგრძე"
 
@@ -533,6 +489,9 @@ msgstr "ფორუმის სახელი"
 
 msgid "forum"
 msgstr "ფორუმი"
+
+msgid "Manage"
+msgstr "მართვა"
 
 msgid "Refresh"
 msgstr "განახლება"
@@ -585,6 +544,9 @@ msgstr "უცნობი"
 msgid "Attachment"
 msgstr "მიმაგრებული ფაილი"
 
+msgid "Upload"
+msgstr "ატვირთვა"
+
 msgid "Picture"
 msgstr "სურათი"
 
@@ -605,6 +567,9 @@ msgstr "ოპერაცია"
 
 msgid "Continue"
 msgstr "გაგრძელება"
+
+msgid "Configure"
+msgstr "კონფიგურირება"
 
 msgid "Email"
 msgstr "ელ. ფოსტა"
@@ -642,6 +607,9 @@ msgstr "შეტყობინების სათაური."
 msgid "Number of columns"
 msgstr "სვეტების რაოდენობა"
 
+msgid "Create"
+msgstr "შექმნა"
+
 msgid "Separator"
 msgstr "გამყოფი"
 
@@ -672,8 +640,8 @@ msgstr ""
 "კონტენტის ტიპი შვილობილი "
 "გვერდებისთვის"
 
-msgid "Active"
-msgstr "აქტიური"
+msgid "All"
+msgstr "ყველა"
 
 msgid "Done"
 msgstr "დასრულება"
@@ -698,9 +666,6 @@ msgstr "სათაურის გადაწერა"
 
 msgid "CSS class"
 msgstr "CSS კლასი"
-
-msgid "Page"
-msgstr "გვერდი"
 
 msgid "View arguments"
 msgstr "არგუმენტების ნახვა"
@@ -842,6 +807,9 @@ msgstr "გამოქვეყნებული"
 
 msgid "Signature"
 msgstr "ხელმოწერა"
+
+msgid "Filter"
+msgstr "ფილტრი"
 
 msgid "Location"
 msgstr "ადგილმდებარეობა"
@@ -1169,6 +1137,9 @@ msgstr "ყველას მონიშვნა"
 msgid "User login"
 msgstr "მომხმარებლის ავტორიზაცია"
 
+msgid "Log in"
+msgstr "შესვლა"
+
 msgid "Link text"
 msgstr "ბმულის ტექსტი"
 
@@ -1218,6 +1189,9 @@ msgstr "ანონიმური"
 
 msgid "Provider"
 msgstr "პროვაიდერი"
+
+msgid "Install"
+msgstr "დაყენება"
 
 msgid "Save and edit"
 msgstr "შენახვა და რედაქტირება"
@@ -1275,6 +1249,11 @@ msgstr "კომენტარები"
 
 msgid "Full"
 msgstr "სრული"
+
+msgid "1 new"
+msgid_plural "@count new"
+msgstr[0] "1 ახალი"
+msgstr[1] "@count ახალი"
 
 msgid "Condition"
 msgstr "პირობა"
@@ -1889,6 +1868,9 @@ msgstr "დაიწერა"
 
 msgid "Hidden"
 msgstr "დამალული"
+
+msgid "Show"
+msgstr "ჩვენება"
 
 msgid "Site language"
 msgstr "საიტის ენა"
@@ -2553,11 +2535,8 @@ msgstr "გვერდი ვერ მოიძებნა"
 msgid "More help"
 msgstr "მეტი დახმარება"
 
-msgid "Add terms"
-msgstr "ტერმინების დამატება"
-
-msgid "Add terms"
-msgstr "ტერმინების დამატება"
+msgid "Sizes"
+msgstr "ზომები"
 
 msgid "« first"
 msgstr "« პირველი"
@@ -2832,15 +2811,6 @@ msgstr "საიტის ინსტალაცია"
 msgid "Finish translations"
 msgstr "თარგმანის დასრულება"
 
-msgid ""
-"By default, dates in this site will be displayed in the chosen time "
-"zone."
-msgstr ""
-"ნაგულისხმევად, ამ საიტზე "
-"თარიღები გამოჩნდება "
-"არჩეული დროის სარტყლის "
-"შესაბამისად."
-
 msgid "Update notifications"
 msgstr "განახლების შეტყობინებები"
 
@@ -2959,6 +2929,9 @@ msgstr "სტილის სახელი"
 msgid "Update effect"
 msgstr "ეფექტის განახლება"
 
+msgid "Add effect"
+msgstr "ეფექტის დამატება"
+
 msgctxt "Long month name"
 msgid "January"
 msgstr "იანვარი"
@@ -3072,6 +3045,347 @@ msgid "Database system version"
 msgstr "მონაცემთა ბაზის ვერსია"
 
 msgid ""
+"A message has been sent to the new email address %email to confirm the "
+"change. Until confirmed, your current address will be used."
+msgstr ""
+"ელ-ფოსტის ცვლილების "
+"დამადასტურებელი "
+"შეტყობინება "
+"გამოგზავნილია "
+"მისამართზე: %email. "
+"შეტყობინების "
+"დადასტურებამდე თქვენი "
+"ელ-ფოსტა რჩება უცვლელი."
+
+msgid "Donation status"
+msgstr "შემოწირულობის სტატუსი"
+
+msgid "Main navigation"
+msgstr "Main navigation"
+
+msgid "Site section links"
+msgstr "Site section links"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"A request to cancel your account has been "
+"made at [site:name].\n"
+"\n"
+"You may now cancel your account on "
+"[site:url-brief] by clicking this link or copying and pasting it into "
+"your browser:\n"
+"\n"
+"[user:cancel-url]\n"
+"\n"
+"NOTE: The cancellation of "
+"your account is not reversible.\n"
+"\n"
+"This link expires in one day and "
+"nothing will happen if it is not used.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"A request to cancel your account has "
+"been made at [site:name].\r\n"
+"\r\n"
+"You may now cancel your account on "
+"[site:url-brief] by clicking this link or copying and pasting it into "
+"your browser:\r\n"
+"\r\n"
+"[user:cancel-url]\r\n"
+"\r\n"
+"NOTE: The "
+"cancellation of your account is not reversible.\r\n"
+"\r\n"
+"This link "
+"expires in one day and nothing will happen if it is not "
+"used.\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"A request to reset the password for your "
+"account has been made at [site:name].\n"
+"\n"
+"You may now log in by "
+"clicking this link or copying and pasting it into your "
+"browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be "
+"used once to log in and will lead you to a page where you can set your "
+"password. It expires after one day and nothing will happen if it's not "
+"used.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"A request to reset the password for your "
+"account has been made at [site:name].\r\n"
+"\r\n"
+"You may now log in by "
+"clicking this link or copying and pasting it into your "
+"browser:\r\n"
+"\r\n"
+"[user:one-time-login-url]\r\n"
+"\r\n"
+"This link can "
+"only be used once to log in and will lead you to a page where you can "
+"set your password. It expires after one day and nothing will happen if "
+"it's not used.\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"A site administrator at [site:name] has "
+"created an account for you. You may now log in by clicking this link "
+"or copying and pasting it into your "
+"browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be "
+"used once to log in and will lead you to a page where you can set your "
+"password.\n"
+"\n"
+"After setting your password, you will be able to log in "
+"at [site:login-url] in the future using:\n"
+"\n"
+"username: "
+"[user:name]\n"
+"password: Your password\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"A site administrator at [site:name] has "
+"created an account for you. You may now log in by clicking this link "
+"or copying and pasting it into your "
+"browser:\r\n"
+"\r\n"
+"[user:one-time-login-url]\r\n"
+"\r\n"
+"This link can "
+"only be used once to log in and will lead you to a page where you can "
+"set your password.\r\n"
+"\r\n"
+"After setting your password, you will be "
+"able to log in at [site:login-url] in the future "
+"using:\r\n"
+"\r\n"
+"username: [user:name]\r\n"
+"password: Your "
+"password\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Thank you for registering at [site:name]. "
+"You may now log in by clicking this link or copying and pasting it "
+"into your browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can "
+"only be used once to log in and will lead you to a page where you can "
+"set your password.\n"
+"\n"
+"After setting your password, you will be able "
+"to log in at [site:login-url] in the future using:\n"
+"\n"
+"username: "
+"[user:name]\n"
+"password: Your password\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"Thank you for registering at "
+"[site:name]. You may now log in by clicking this link or copying and "
+"pasting it into your "
+"browser:\r\n"
+"\r\n"
+"[user:one-time-login-url]\r\n"
+"\r\n"
+"This link can "
+"only be used once to log in and will lead you to a page where you can "
+"set your password.\r\n"
+"\r\n"
+"After setting your password, you will be "
+"able to log in at [site:login-url] in the future "
+"using:\r\n"
+"\r\n"
+"username: [user:name]\r\n"
+"password: Your "
+"password\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Thank you for registering at [site:name]. "
+"Your application for an account is currently pending approval. Once it "
+"has been approved, you will receive another email containing "
+"information about how to log in, set your password, and other "
+"details.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"Thank you for registering at "
+"[site:name]. Your application for an account is currently pending "
+"approval. Once it has been approved, you will receive another email "
+"containing information about how to log in, set your password, and "
+"other details.\r\n"
+"\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name] has applied for an account.\n"
+"\n"
+"[user:edit-url]"
+msgstr ""
+"[user:display-name] has applied for an "
+"account.\r\n"
+"\r\n"
+"[user:edit-url]"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Your account at [site:name] has been "
+"activated.\n"
+"\n"
+"You may now log in by clicking this link or copying "
+"and pasting it into your "
+"browser:\n"
+"\n"
+"[user:one-time-login-url]\n"
+"\n"
+"This link can only be "
+"used once to log in and will lead you to a page where you can set your "
+"password.\n"
+"\n"
+"After setting your password, you will be able to log in "
+"at [site:login-url] in the future using:\n"
+"\n"
+"username: "
+"[user:account-name]\n"
+"password: Your password\n"
+"\n"
+"--  [site:name] "
+"team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"Your account at [site:name] has been "
+"activated.\r\n"
+"\r\n"
+"You may now log in by clicking this link or "
+"copying and pasting it into your "
+"browser:\r\n"
+"\r\n"
+"[user:one-time-login-url]\r\n"
+"\r\n"
+"This link can "
+"only be used once to log in and will lead you to a page where you can "
+"set your password.\r\n"
+"\r\n"
+"After setting your password, you will be "
+"able to log in at [site:login-url] in the future "
+"using:\r\n"
+"\r\n"
+"username: [user:account-name]\r\n"
+"password: Your "
+"password\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Your account on [site:name] has been "
+"blocked.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"Your account on [site:name] has been "
+"blocked.\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid ""
+"[user:display-name],\n"
+"\n"
+"Your account on [site:name] has been "
+"canceled.\n"
+"\n"
+"--  [site:name] team"
+msgstr ""
+"[user:display-name],\r\n"
+"\r\n"
+"Your account on [site:name] has been "
+"canceled.\r\n"
+"\r\n"
+"--  [site:name] team"
+
+msgid "Active"
+msgstr "აქტიური"
+
+msgid "Enter your email address or username."
+msgstr ""
+"შეიყვანეთ თქვენი "
+"ელ.ფოსტის მისამართი"
+
+msgid "Email or username"
+msgstr "შეიყვანეთ ელ.ფოსტა "
+
+msgid "Enter the password that accompanies your email address."
+msgstr "შეიყვანეთ პაროლი "
+
+msgid "Save"
+msgstr "შენახვა"
+
+msgid "Create new account"
+msgstr "რეგისტრაცია"
+
+msgid "Reset your password"
+msgstr "პაროლის აღდგენა"
+
+msgid "Hierarchy"
+msgstr "იერარქია"
+
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
+
+msgid ""
+"By default, dates in this site will be displayed in the chosen time "
+"zone."
+msgstr ""
+"ნაგულისხმევად, ამ საიტზე "
+"თარიღები გამოჩნდება "
+"არჩეული დროის სარტყლის "
+"შესაბამისად."
+
+msgid ""
 "A valid email address. All emails from the system will be sent to this "
 "address. The email address is not made public and will only be used if "
 "you wish to receive a new password or wish to receive certain news or "
@@ -3089,7 +3403,6 @@ msgstr ""
 "შეტყობინებების "
 "მისაღებად."
 
-
 msgid "Provide a password for the new account in both fields."
 msgstr "შეიყვანეთ პაროლი"
 
@@ -3097,15 +3410,6 @@ msgid "Recommendations to make your password stronger:"
 msgstr ""
 "ძლიერი პაროლისთვის "
 "გაითვალისწინეთ:"
-
-msgid "Main navigation"
-msgstr "Main navigation"
-
-msgid "Site section links"
-msgstr "Site section links"
-
-msgid "Active"
-msgstr "აქტიური"
 
 msgid "There is no content"
 msgstr "კონტენტი არ არსებობს "
@@ -3150,46 +3454,6 @@ msgstr "აღდგენა"
 msgid "Ged amount"
 msgstr "Ged-ების რაოდენობა"
 
-msgid "Enter your email address or username."
-msgstr ""
-"შეიყვანეთ თქვენი "
-"ელ.ფოსტის მისამართი"
-
-msgid "Email or username"
-msgstr "შეიყვანეთ ელ.ფოსტა "
-
-msgid "Enter the password that accompanies your email address."
-msgstr "შეიყვანეთ პაროლი "
-
-msgid "Create new account"
-msgstr "რეგისტრაცია"
-
-msgid "Reset your password"
-msgstr "პაროლის აღდგენა"
-
-msgid ""
-"A valid email address. All emails from the system will be sent to this "
-"address. The email address is not made public and will only be used if "
-"you wish to receive a new password or wish to receive certain news or "
-"notifications by email."
-msgstr ""
-"შეიყვანეთ თქვენი ელ.ფოსტა. "
-"ყველა შეტყობინება "
-"მოგივათ მითითებულ "
-"მისამართზე. ინფორმაცია "
-"კონფიდენციალურია და "
-"იქნება გამოყენებული "
-"მხოლოდ თქვენი "
-"სურვილისამებრ ახალი "
-"პაროლის და "
-"შეტყობინებების "
-"მისაღებად."
-
-msgid "Recommendations to make your password stronger:"
-msgstr ""
-"ძლიერი პაროლისთვის "
-"გაითვალისწინეთ:"
-
 msgid "Make it at least 12 characters"
 msgstr "გახადეთ 12 სიმბოლოზე მეტი"
 
@@ -3220,12 +3484,6 @@ msgstr "სუსტი"
 msgid "Strong"
 msgstr "ძლიერი"
 
-msgid "Main navigation"
-msgstr "Main navigation"
-
-msgid "Provide a password for the new account in both fields."
-msgstr "შეიყვანეთ პაროლი"
-
 msgid ""
 "Password reset instructions will be sent to your registered email "
 "address."
@@ -3265,30 +3523,12 @@ msgstr ""
 "არ გაქვთ ანგარიში? გაიარეთ "
 "რეგისტრაცია მარტივად"
 
-
-msgid "Site section links"
-msgstr "Site section links"
-
-msgid "All"
-msgstr "ყველა"
-
 msgid "News"
 msgstr "სიახლეები"
 
-msgid ""
-"Password reset instructions will be sent to your registered email "
-"address."
-msgstr ""
-"პაროლის აღდგენის "
-"ინსტრუქციის სანახავად "
-"შეამოწმეთ თქვენი ელ.ფოსტა"
-
-msgid "Show"
-msgstr "ჩვენება"
-
 msgid "Current password"
 msgstr "მიმდინარე პაროლი"
-=======
+
 msgid "* Referral is not required"
 msgstr ""
 "* Referral-ის მითითება "
@@ -3318,12 +3558,6 @@ msgstr "ვიდეო ბლოგი"
 msgid "All videos"
 msgstr "ყველა ვიდეო"
 
-msgid "Save"
-msgstr "შენახვა"
-
-msgid "News"
-msgstr "სიახლეები"
-
 msgid "Reset password"
 msgstr "პაროლის აღდგენა"
 
@@ -3338,9 +3572,6 @@ msgid "The changes have been saved."
 msgstr ""
 "ცვლილებები წარმატებით "
 "შეინახა"
-
-msgid "Current password"
-msgstr "მიმდინარე პაროლი"
 
 msgid ""
 "A welcome message with further instructions has been sent to your "
@@ -3359,14 +3590,6 @@ msgstr ""
 "<a href=\":password\">დაგავიწყდა "
 "პაროლი?</a>"
 
-msgid "1 new"
-msgid_plural "@count new"
-msgstr[0] "1 ახალი"
-msgstr[1] "@count ახალი"
-
-msgid "Sizes"
-msgstr "ზომები"
-
 msgid ""
 "Your current password is missing or incorrect; it's required to change "
 "the %name."
@@ -3375,36 +3598,6 @@ msgstr ""
 "არასწორად არის შეყვანილი. "
 "პაროლი სავალდებულოა "
 "%ელ-ფოსტის შესაცვლელად."
-
-msgid "Further instructions have been sent to your email address."
-msgstr ""
-"შემდგომი ინსტრუქციები "
-"გაიგზავნა თქვენი "
-"ელექტრონული ფოსტის "
-"მისამართით."
-
-msgid "Reset password"
-msgstr "პაროლის აღდგენა"
-
-msgid "Enter Email"
-msgstr "მიუთითეთ ელ.ფოსტა"
-
-msgid "Enter password"
-msgstr "მიუთითეთ პაროლი "
-
-msgid "Authorisation"
-msgstr "ავტორიზაცია"
-
-msgid "Password recovery"
-msgstr "აღდგენა"
-
-msgid "Don't have an Girchi account? Register now"
-msgstr ""
-"არ გაქვთ ანგარიში? გაიარეთ "
-"რეგისტრაცია მარტივად"
-
-msgid "Girchi"
-msgstr "გირჩი"
 
 msgid ""
 "Select a politician, specify the percentage with which you support "
@@ -3429,64 +3622,6 @@ msgstr ""
 "მეშვეობითაც გაიგეთ ჩვენს "
 "შესახებ და გადაწყვიტეთ "
 "დარეგისტრირება"
-
-msgid "* Referral is not required"
-msgstr ""
-"* Referral-ის მითითება "
-"სავალდებულო არაა"
-
-msgid "I read and agree to the terms and conditions"
-msgstr ""
-"წავიკითხე და ვეთანხმები "
-"რეგისტრაციის წესებს და "
-"პირობებს"
-
-msgid "Personal ID"
-msgstr "მიუთითეთ პირადი ნომერი"
-
-msgid "First name"
-msgstr "მიუთითეთ სახელი"
-
-msgid "Last name"
-msgstr "მიუთითეთ გვარი"
-
-msgid "Date of birth"
-msgstr ""
-"მიუთითეთ დაბადების "
-"თარიღი"
-
-msgid "Phone number"
-msgstr "ტელეფონის ნომერი"
-
-msgid "Amount of GeD"
-msgstr "მიუთითეთ GeD-ების რაოდენობა"
-
-msgid "First Name"
-msgstr "სახელი"
-
-msgid "Last Name"
-msgstr "გვარი"
-
-msgid "Video blog"
-msgstr "ვიდეო ბლოგი"
-
-msgid "All videos"
-msgstr "ყველა ვიდეო"
-
-msgid "There is no content"
-msgstr "კონტენტი არ არსებობს "
-
-msgid "You must agree to the terms and conditions before register"
-msgstr ""
-"რეგისტრაციის "
-"გასაგრძელებლად საჭიროა "
-"დაეთანხმოთ საიტის წესებს!"
-
-msgid "Share"
-msgstr "გაზიარება"
-
-msgid "Print"
-msgstr "ამობეჭვდა"
 
 msgid "Become a politician"
 msgstr "გახდი პოლიტიკოსი"
@@ -3568,7 +3703,6 @@ msgstr ""
 msgid "Social Media"
 msgstr "სოციალური მედია"
 
-
 msgid "- Select -"
 msgstr "- აირჩიეთ - "
 
@@ -3577,25 +3711,6 @@ msgstr "კატეგორიები"
 
 msgid "General settings"
 msgstr "ძირითადი პარამეტრები."
-
-msgid "Become a politician"
-msgstr "გახდი პოლიტიკოსი"
-
-msgid "Become a politician, get enough votes and get into the party list"
-msgstr ""
-"გახდი პოლიტიკოსი, "
-"დააგროვე ხმების "
-"საკმარისი რაოდენობა და "
-"მოხვდი პარტიულ სიაში"
-
-msgid "Want to be politician"
-msgstr "მინდა პოლიტიკოსობა"
-
-msgid "Edit user"
-msgstr "პარამეტრების შეცვლა"
-
-msgid "Change Password"
-msgstr "პაროლის შეცვლა"
 
 msgid "Login"
 msgstr "შესვლა"
@@ -3618,26 +3733,10 @@ msgstr "გაიმეორეთ პაროლი"
 msgid "members in total"
 msgstr "წევრს შორის"
 
-msgid "More Freedom"
-msgstr "მეტი თავისუფლება"
-
 msgid "all rights reserved. Girchi"
 msgstr ""
 "ყველა უფლება დაცულია. "
 "გირჩი"
-
-msgid "Become a partner"
-msgstr "გახდი პარტნიორი"
-
-msgid "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard"
-msgstr ""
-"დააფინანსე გირჩი, მიიღე "
-"შესაბამისი რაოდენობის "
-"GeD-ები და მოხვდი "
-"ლიდერბორდში"
-
-msgid "Donate"
-msgstr "დააფინანსე"
 
 msgid "Top partners"
 msgstr "ტოპ პარტნიორები"
@@ -3675,27 +3774,14 @@ msgstr ""
 msgid "ძებნა..."
 msgstr "Search..."
 
-msgid "Search..."
-msgstr "ძებნა..."
-
 msgid "All news"
 msgstr "ყველა სიახლე"
-
-msgid "Last month Top partners"
-msgstr "წინა თვის ტოპ პარტნიორები"
 
 msgid "Politicians"
 msgstr "პოლიტიკოსები"
 
 msgid "Partners"
 msgstr "პარტნიორები"
-
-msgid "Ged amount"
-msgstr "Ged-ების რაოდენობა"
-
-msgid "All news"
-msgstr "ყველა სიახლე"
-
 
 msgid ""
 "Select a politician, Specify the percentage of your weight\n"
@@ -3795,29 +3881,14 @@ msgstr ""
 
 msgid "You have recieved"
 msgstr ""
-"პაროლის ველი ცარიელია ან "
-"არასწორად არის შეყვანილი. "
-"პაროლი სავალდებულოა "
-"%ელ-ფოსტის შესაცვლელად."
+"თქვენ ჩაგერიცხათ\r\n"
+""
 
 msgid "New Email"
 msgstr "ახალი ელ.ფოსტა"
 
 msgid "Enter new email"
 msgstr "შეიყვანეთ ახალი ელ.ფოსტა"
-
-msgid ""
-"A message has been sent to the new email address %email to confirm the "
-"change. Until confirmed, your current address will be used."
-msgstr ""
-"ელ-ფოსტის ცვლილების "
-"დამადასტურებელი "
-"შეტყობინება "
-"გამოგზავნილია "
-"მისამართზე: %email. "
-"შეტყობინების "
-"დადასტურებამდე თქვენი "
-"ელ-ფოსტა რჩება უცვლელი."
 
 msgid "Your email address has been updated to %mail"
 msgstr ""
@@ -3879,9 +3950,6 @@ msgstr "დააფინანსე პოლიტიკოსი"
 msgid "Ged &#37;"
 msgstr "Ged-ების &#37;"
 
-msgid "Donation"
-msgstr "შემოწირულობა"
-
 msgid "Disposable"
 msgstr "ერთჯერადი"
 
@@ -3905,9 +3973,6 @@ msgstr ""
 "შემოწირულობის "
 "პარამეტრები"
 
-msgid "Donation status"
-msgstr "შემოწირულობის სტატუსი"
-
 msgid "Multiple"
 msgstr "მრავალჯერადი"
 
@@ -3916,17 +3981,6 @@ msgstr "პერიოდულობა"
 
 msgid "Donation date"
 msgstr "გადახდის თარიღი "
-
-msgid "Transaction was successfull"
-msgstr ""
-"ტრანზაქცია დასრულდა "
-"წარმატებით\r\n"
-""
-
-msgid "You have recieved"
-msgstr ""
-"თქვენ ჩაგერიცხათ\r\n"
-""
 
 msgid "Profile"
 msgstr "პროფილი"
@@ -3963,14 +4017,51 @@ msgstr "პოლიტიკოსთა რეიტინგი"
 msgid "Party list weight"
 msgstr "პარტიული წონა"
 
-msgid "Please choose Donation aim OR Donation to politician"
-msgstr ""
-"აირჩიეთ დაფინანსების "
-"მიზანი ან პოლიტიკოსი"
-
 msgid "Transaction failed ,try again"
 msgstr ""
 "ტრანზაქცია უარყოფილია "
 "სადეთ თავიდან"
 
+msgid "This login can be used only once."
+msgstr ""
+"ამ ლინკით სარგებლობას "
+"შეძლებთ მხოლოდ ერთხელ."
+
+msgid ""
+"<p>This is a one-time login for %user_name and will expire on "
+"%expiration_date.</p><p>Click on this button to log in to the site and "
+"change your password.</p>"
+msgstr ""
+"<p> %user_name, ეს არის ერთჯერადი "
+"აუთენთიფიკაციის ფორმა, "
+"რომლის გამოყენების ვადაც "
+"იწურება %expiration_date. </p> <p>ღილაკზე "
+"დაჭერით შეძლებთ "
+"სისტემაში შესვლას და "
+"პაროლის გამოცვლას. </p>"
+
+msgid ""
+"You have just used your one-time login link. It is no longer necessary "
+"to use this link to log in. Please change your password."
+msgstr ""
+"თქვენ წარმატებით "
+"შეხვედით საიტზე. გთხოვთ "
+"შეცვალოთ პაროლი."
+
+msgid "Your new password has been saved."
+msgstr ""
+"პაროლი წარმატებით "
+"შეიცვალა."
+
+msgid ""
+"You have just used your one-time login link. It is no longer necessary "
+"to use this link to log in."
+msgstr ""
+"ერთჯერადი ლინკი "
+"გამოყენებულია და "
+"განმეორებას აღარ "
+"საჭიროებს."
+
+msgid "%name is not recognized as a username or an email address."
+msgstr "ელ.ფოსტა %name არ მოიძებნა."
 

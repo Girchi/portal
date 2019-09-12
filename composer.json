@@ -251,6 +251,7 @@
     "drupal/panels": "^4.3",
     "drupal/paragraphs": "^1.6",
     "drupal/pathauto": "^1.3",
+    "drupal/prlp": "^1.4",
     "drupal/recaptcha": "^2.3",
     "drupal/redirect": "^1.0@beta",
     "drupal/reference_value_pair": "^1.2",
@@ -363,7 +364,8 @@
         "Access user emails ": "https://www.drupal.org/files/issues/2019-04-26/drupal-2799049-30-new-permission-view-user-mail.patch",
         "Fix Entity reference autocomplete with fields": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch",
         "Fix ajax error in views relationships": "https://www.drupal.org/files/issues/2019-05-04/2457999-194.patch",
-        "Fix autocomplete suggestions issue" : "https://www.drupal.org/files/issues/2019-07-30/2909128-6.patch"
+        "Fix autocomplete suggestions issue" : "https://www.drupal.org/files/issues/2019-07-30/2909128-6.patch",
+        "Fix the Notices and Warnings" : "https://www.drupal.org/files/issues/2019-01-21/form_system-undefined_index-3027240-2.patch"
       },
       "drupal/video_embed_facebook": {
         "iframe fix": "https://www.drupal.org/files/issues/2019-05-13/facebook_embed_field.patch"
@@ -376,6 +378,9 @@
       },
       "drupal/better_exposed_filter": {
         "auto submit": "patches/auto_submit_time.patch"
+      },
+      "drupal/change_pwd_page": {
+        "remove reset route": "patches/change_pwd_page.patch"
       },
       "wearede/tbcpay-php": {
         "fix old url": "patches/plug_and_pay_url.patch"

@@ -81,6 +81,7 @@ module:
   panels: 0
   panels_ipe: 0
   path: 0
+  prlp: 0
   reference_value_pair: 0
   role_delegation: 0
   search_api: 0

@@ -202,7 +202,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   $currentUser = Drupal::currentUser()->getRoles();
   // Getting Politician text from omedia_settings.
   $config = \Drupal::config('om_site_settings.site_settings');
-
   if ($form_id == "user_form") {
 
     unset($form['field_referral']['widget'][0]['target_id']['#title']);
@@ -385,32 +384,9 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['#after_build'][] = 'girchi_utils_after_build';
         }
       }
-      // Password reset form.
-      if ($form_id == "user_pass") {
-        // Unset email title.
-        unset($form['name']['#title']);
-        // Add classes to email input.
-        $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
-        $form['name']['#attributes']['id'][] = 'email';
-        $form['name']['#attributes']['placeholder'][] = t('Enter Email');
-
-        // Add classes to submit button.
-        $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
-      }
-    }
-    // Password reset form.
-    if ($form_id == "user_pass") {
-      // Unset email title.
-      unset($form['name']['#title']);
-      // Add classes to email input.
-      $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['name']['#attributes']['id'][] = 'email';
-      $form['name']['#attributes']['placeholder'][] = t('Enter Email');
-
-      // Add classes to submit button.
-      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
     }
   }
+
 }
 
 /**

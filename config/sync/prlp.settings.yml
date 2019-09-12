@@ -1,0 +1,4 @@
+password_required: 1
+login_destination: /user/%user/edit
+_core:
+  default_config_hash: 7RqnZeYxn7rt3fpGvPhvqOAHsID8d2plYLvQT3l0-AA
