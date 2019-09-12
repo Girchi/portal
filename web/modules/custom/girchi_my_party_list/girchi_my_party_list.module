@@ -5,6 +5,7 @@
  * Contains girchi_my_party_list.module.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 
@@ -71,4 +72,29 @@ function girchi_my_party_list_cron() {
    */
   $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
   $party_list_calculator->calculate();
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function girchi_my_party_list_user_presave(EntityInterface $user) {
+  if ($user->original->get('field_politician')->value == 1 && $user->get('field_politician')->value == 0) {
+    $user->set('field_political_ged', 0);
+    $user->set('field_rating_in_party_list', NULL);
+    $user_storage = Drupal::entityTypeManager()->getStorage('user');
+    $user_ids = $user_storage
+      ->getQuery()
+      ->condition('field_ged', '0', '>')
+      ->condition('field_my_party_list', $user->id(), 'IN')
+      ->execute();
+    if (!empty($user_ids)) {
+      $users = $user_storage->loadMultiple($user_ids);
+      foreach ($users as $supporter) {
+        $supporter_party_list = $supporter->get('field_my_party_list')->getValue();
+        $key = array_search($user->id(), array_column($supporter_party_list, 'target_id'));
+        $supporter->get('field_my_party_list')->removeItem((int) $key);
+        $supporter->save();
+      }
+    }
+  }
 }
