@@ -55,6 +55,15 @@ function girchi_donations_theme() {
  * Implements hook_form_alter().
  */
 function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'views_exposed_form') {
+    if (isset($form['created'])) {
+      $created_filter = $form['created'];
+      if (key_exists('max',$created_filter)) {
+        $form['created']['max']['#title'] = 'დასასრული';
+      }
+    }
+  }
+
   if ($form_id === 'single_donation_form') {
     $politician_id = \Drupal::request()->get('politician');
     if ($politician_id) {

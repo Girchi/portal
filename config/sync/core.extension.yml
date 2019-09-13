@@ -21,6 +21,7 @@ module:
   config_translation: 0
   contact: 0
   contextual: 0
+  csv_serialization: 0
   ctools: 0
   datetime: 0
   dblog: 0
@@ -83,6 +84,7 @@ module:
   path: 0
   prlp: 0
   reference_value_pair: 0
+  rest: 0
   role_delegation: 0
   search_api: 0
   search_api_db: 0
@@ -113,10 +115,12 @@ module:
   video_embed_field: 0
   video_embed_wysiwyg: 0
   view_unpublished: 0
+  views_data_export: 0
   views_infinite_scroll: 0
   views_ui: 0
   webform: 0
   webform_ui: 0
+  xls_serialization: 0
   menu_link_content: 1
   pathauto: 1
   content_translation: 10

@@ -280,11 +280,13 @@
     "drupal/video_embed_instagram": "^1.0",
     "drupal/view_unpublished": "^1.0@alpha",
     "drupal/views_base_url": "^1.0",
+    "drupal/views_data_export": "^1.0@beta",
     "drupal/views_infinite_scroll": "^1.5",
     "drupal/webform_composite": "^1.0@beta",
     "drupal/webform_mailchimp": "^5.4",
     "drupal/webform_views": "^5.0@alpha",
     "drupal/workflow": "^1.1",
+    "drupal/xls_serialization": "^1.0",
     "drush/drush": "~9.5",
     "enyo/dropzone": "4.2.0",
     "eyecon/colorpicker": "^1.0",
@@ -378,6 +380,9 @@
       },
       "drupal/better_exposed_filter": {
         "auto submit": "patches/auto_submit_time.patch"
+      },
+      "drupal/views_data_export":{
+        "Fix path set ajax error": "https://www.drupal.org/files/issues/views_data_export_fixed_filename_warning-2919460-2-d8.patch"
       },
       "drupal/change_pwd_page": {
         "remove reset route": "patches/change_pwd_page.patch"
