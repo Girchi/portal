@@ -2,8 +2,6 @@ uuid: 3c806d47-8682-4ad5-a993-da446edcedaf
 langcode: en
 status: true
 dependencies:
-  config:
-    - user.role.administrator
   module:
     - better_exposed_filters
     - girchi_donations
@@ -28,10 +26,9 @@ display:
     position: 0
     display_options:
       access:
-        type: role
+        type: perm
         options:
-          role:
-            administrator: administrator
+          perm: 'administer donation entities'
       cache:
         type: tag
         options: {  }
@@ -763,7 +760,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
+        - user.permissions
       tags: {  }
   data_export_1:
     display_plugin: data_export
@@ -836,5 +833,5 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user.roles
+        - user.permissions
       tags: {  }
