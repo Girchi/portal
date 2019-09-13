@@ -85,7 +85,6 @@ class SingleDonationForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $politicians = $this->donationUtils->getPoliticians();
     $options = $this->donationUtils->getTerms();
 
     $form['amount'] = [
@@ -106,12 +105,17 @@ class SingleDonationForm extends FormBase {
       '#empty_value' => '',
 
     ];
-    $form['politicians'] = [
-      '#type' => 'select',
-      '#options' => $politicians,
+    $form['politician_id'] = [
+      '#title' => 'politician',
+      '#type' => 'hidden',
       '#required' => FALSE,
-      '#empty_value' => '',
+      '#attributes' => [
+        'id' => [
+          'politician_id',
+        ],
+      ],
     ];
+
     $form['currency'] = [
       '#title' => 'currency',
       '#type' => 'hidden',
@@ -142,7 +146,7 @@ class SingleDonationForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $donation_aim = $form_state->getValue('donation_aim');
-    $politician = $form_state->getValue('politicians');
+    $politician = $form_state->getValue('politician_id');
     $amount = $form_state->getValue('amount');
     $description = $donation_aim ? $donation_aim : $politician;
 

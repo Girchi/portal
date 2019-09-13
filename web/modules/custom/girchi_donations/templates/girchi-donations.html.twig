@@ -121,14 +121,30 @@
                                                 {{ form_single.donation_aim }}
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" >
                                             <label class="form-label" for="politicians"
-                                            >{{ 'Donation to politician'|t }}</label
-                                            >
-                                            <div class="form-control form-control-lg">
-                                                {{ form_single.politicians}}
+                                            >{{ 'Donation to politician'|t }}</label>
+                                            <div id="politician-autocomplete">
+                                                <input type="text"
+                                                       class="form-control form-control-lg"
+                                                       id="politicians-donation">
+                                                <div class="politicians-list" style="border-radius: 50px">
+                                                    <ul class="list-group pl-group politiciansList" style=" list-style: none"></ul>
+                                                </div>
                                             </div>
+                                            <div id="autocomplete-result">
+
+
+                                                <div class="hidden-politician">
+                                                    <input id="hidden-first-name" type="hidden" value="{{ current_politician[0].first_name ?? '' }}">
+                                                    <input id="hidden-last-name" type="hidden" value="{{ current_politician[0].last_name ?? '' }}">
+                                                    <img src="{{ current_politician[0].image is defined and current_politician[0].image is not null ? image_style_url(current_politician[0].image, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}" id="hidden-image" hidden>
+                                                </div>
+                                            </div>
+
                                         </div>
+
+                                        {{ form_single.politician_id }}
                                         {{ form_single.currency }}
                                         {{ form_single.submit }}
                                     </form>
