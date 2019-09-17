@@ -45,7 +45,7 @@
                         <span class="form-checkbox">
                             <span class="form-checkbox-input {{ checkboxValue ? 'checked' : '' }}">
                                 <input type="checkbox" class="form-control form-checkbox" id="favorite_news"
-                                       data-node-id="{{ node.id }}" >
+                                       data-node-id="{{ node.id }}" {{ checkboxValue ? 'checked' : '' }}>
                         </span>
                             <label class="form-checkbox-label font-size-1 text-grey font-weight-bold border-dark-silver "
                                    for="favorite_news">{{ 'Add to favorite' | t }}</label>

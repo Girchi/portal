@@ -210,10 +210,15 @@ class UserController extends ControllerBase {
     /** @var \Drupal\node\Entity\NodeStorage $node_storage */
     $node_storage = $this->entityTypeManager->getStorage('node');
     $node = $node_storage->load($nid);
-    $this->user->{'field_favorite_news'}[] = $node;
-    $this->user->save();
+    $fav_news_array = $this->user->{'field_favorite_news'}->getValue();
+    $array_column = array_column($fav_news_array, 'target_id');
+    $key = array_search($nid, $array_column);
+    if ($key == NULL) {
+      $this->user->{'field_favorite_news'}[] = $node;
+      $this->user->save();
+    }
 
-    return new JsonResponse($node);
+    return new JsonResponse("success");
   }
 
   /**
