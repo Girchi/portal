@@ -46,6 +46,70 @@ $("#edit-donation-aim--2").on("change", e => {
     }
 });
 
+//get 10 top politicians on focus.
+$("#politicians-donation").on("focus", e => {
+    $(".politiciansList").show();
+    let politiciansList = $("ul.politiciansList");
+    let elementsCounter = 0;
+    $.ajax({
+        type: "GET",
+        url: "/api/donations/top-politicians"
+    }).done(data => {
+        politiciansList.html("");
+        $.each(data, function(i, user) {
+            let dataLength = data.length;
+            elementsCounter++;
+            let newElement = $(`<li style="border-top: 1px solid #ecf1f5" class="last bg-dark-white politiciansListItem">
+                    <a class="dropdown-item" role="option" style="border-radius: 0" id="${user.id}">
+                    <span class="text">
+                    <div class="d-flex w-100 align-items-center p-1">
+                      <span class="rounded-circle overflow-hidden d-inline-block">
+                        <img
+                                src="${user.imgUrl}"
+                                width="35"
+                                class="rounded pl-politician-avatar"
+                                alt="..."
+                        />
+                      </span>
+                        <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2">
+                            <span
+                                    class="text-decoration-none d-inline-block text-hover-success"
+                            >
+                              <span class="pl-politician-first-name">${user.firstName}</span>
+                              <span class="font-weight-bold pl-politician-last-name">${user.lastName}</span>
+                            </span>
+                            <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                პოლიტიკოსი
+                            </span>
+                        </h6>
+                    </div>
+                    </span>
+                    </a>
+                </li>`);
+             if (elementsCounter === 1) {
+                newElement.css("border-top-left-radius", "20px");
+                newElement.css("border-top-right-radius", "20px");
+                let a = newElement.find("a").first();
+                a.css("border-top-left-radius", "20px");
+                a.css("border-top-right-radius", "20px");
+            }
+
+            if (elementsCounter === dataLength) {
+                let lastElement = newElement.last();
+                lastElement.css("border-bottom-left-radius", "20px");
+                lastElement.css("border-bottom-right-radius", "20px");
+                let a = lastElement.find("a").first();
+                a.css("border-bottom-left-radius", "20px");
+                a.css("border-bottom-right-radius", "20px");
+            }
+
+            politiciansList.append(newElement);
+        });
+        $(".politiciansList").selectpicker("refresh");
+    });
+});
+
+//get politicians on key up.
 $("#politicians-donation").on("keyup", e => {
     $(".politiciansList").show();
     let keyword = e.target.value;
@@ -86,6 +150,7 @@ $("#politicians-donation").on("keyup", e => {
                     </span>
                     </a>
                 </li>`);
+
             if (elementsCounter === 1) {
                 newElement.css("border-top-left-radius", "20px");
                 newElement.css("border-top-right-radius", "20px");
@@ -110,6 +175,7 @@ $("#politicians-donation").on("keyup", e => {
     });
 });
 
+//Choose the politician.
 $(".politiciansList").on("click", "a", e => {
     $("#politician-autocomplete").hide();
     $("#autocomplete-result").show();
@@ -145,6 +211,7 @@ $(".politiciansList").on("click", "a", e => {
     $("#politician_id").val(politicianId);
 });
 
+//Delete choosen politician.
 $(document).on("click", ".delete-politician", e => {
     $("#autocomplete-result").hide();
     $("#politician-autocomplete").show();
@@ -152,8 +219,11 @@ $(document).on("click", ".delete-politician", e => {
     $("#edit-donation-aim").removeAttr("disabled");
 });
 
-$("body:not(#politician-autocomplete)").on("click", e => {
-    $(".politiciansList").hide();
+//hide list.
+$("body").on("click", e => {
+    if(!$(e.target).is('#politicians-donation')){
+        $(".politiciansList").hide();
+    }
 });
 
 // Get current politician from URL
@@ -192,3 +262,8 @@ $(document).ready(function() {
     }
     $("#politician_id").val(id);
 });
+
+$("#politicians-donation").on("focusout", e => {
+    document.getElementById('politicians-donation').value = "";
+});
+

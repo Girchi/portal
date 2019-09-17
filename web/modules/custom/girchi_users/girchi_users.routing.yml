@@ -1,4 +1,3 @@
-
 girchi_users.user_controller_socialAuthPassword:
   path: '/createpassword'
   defaults:
@@ -28,6 +27,14 @@ girchi_users.user_controller_removeFavoriteNews:
   defaults:
     _controller: '\Drupal\girchi_users\Controller\UserController::removeFavoriteNews'
     _title: 'Remove favorite news'
+  requirements:
+    _permission: 'access content'
+
+girchi_users.user_controller_topPoliticians:
+  path: '/api/donations/top-politicians'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::topPliticians'
+    _title: 'Top politicians'
   requirements:
     _permission: 'access content'
 

@@ -121,7 +121,7 @@
                                                 {{ form_single.donation_aim }}
                                             </div>
                                         </div>
-                                        <div class="form-group" >
+                                        <div class="form-group">
                                             <label class="form-label" for="politicians"
                                             >{{ 'Donation to politician'|t }}</label>
                                             <div id="politician-autocomplete">
@@ -129,12 +129,10 @@
                                                        class="form-control form-control-lg"
                                                        id="politicians-donation">
                                                 <div class="politicians-list" style="border-radius: 50px">
-                                                    <ul class="list-group pl-group politiciansList" style=" list-style: none"></ul>
+                                                    <ul class="list-group pl-group politiciansList"></ul>
                                                 </div>
                                             </div>
                                             <div id="autocomplete-result">
-
-
                                                 <div class="hidden-politician">
                                                     <input id="hidden-first-name" type="hidden" value="{{ current_politician[0].first_name ?? '' }}">
                                                     <input id="hidden-last-name" type="hidden" value="{{ current_politician[0].last_name ?? '' }}">
