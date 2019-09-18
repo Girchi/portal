@@ -77,6 +77,13 @@
                     >
                         {{ 'Teacher registration' | t }}
                     </button>
+                    <button
+                        data-toggle="modal"
+                        data-target="#investorRegistration"
+                        class="btn btn-warning text-uppercase btn-block d-md-inline-block w-100 w-sm-auto mt-md-0 ml-md-1"
+                    >
+                        {{ 'Investor registration' | t }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -119,6 +126,13 @@
                         class="btn btn-white text-uppercase btn-block d-md-inline-block  min-w-md-210 mt-md-0 ml-0 ml-md-2"
                     >
                         {{ 'Teacher' | t }}
+                    </button>
+                    <button
+                        data-toggle="modal"
+                        data-target="#investorRegistration"
+                        class="btn btn-white text-uppercase btn-block d-md-inline-block  min-w-md-210 mt-md-0 ml-0 ml-md-2"
+                    >
+                        {{ 'Investor' | t }}
                     </button>
                 </div>
             </div>
@@ -173,7 +187,7 @@
                 <h6
                     class="modal-title font-size-base text-success text-uppercase font-weight-bold"
                 >
-                    ბავშვის რეგისტრაცია
+                    {{ 'Student registration' | t }}
                 </h6>
                 <button
                     type="button"
@@ -189,6 +203,41 @@
             </div>
             <div class="modal-body px-3 px-md-5">
                 {{ student_registration }}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div
+        class="modal fade"
+        id="investorRegistration"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="investorRegistration"
+        aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6
+                        class="modal-title font-size-base text-success text-uppercase font-weight-bold"
+                >
+                    {{ 'Investor registration' | t }}
+                </h6>
+                <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                >
+                    <i
+                            aria-hidden="true"
+                            class="icon-close font-size-3 text-dark-silver"
+                    ></i>
+                </button>
+            </div>
+            <div class="modal-body px-3 px-md-5">
+                {{ investor_registration }}
             </div>
         </div>
     </div>
