@@ -104,6 +104,7 @@ class SingleDonationForm extends FormBase {
       '#options' => $options,
       '#required' => FALSE,
       '#empty_value' => '',
+      '#empty_option' => $this->t('- Select aim -'),
 
     ];
     $form['politicians'] = [
@@ -111,6 +112,7 @@ class SingleDonationForm extends FormBase {
       '#options' => $politicians,
       '#required' => FALSE,
       '#empty_value' => '',
+      '#empty_option' => $this->t('- Select politician -'),
     ];
     $form['currency'] = [
       '#title' => 'currency',
