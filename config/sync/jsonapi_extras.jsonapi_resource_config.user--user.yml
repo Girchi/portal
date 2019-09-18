@@ -1,0 +1,305 @@
+uuid: fd8d02bb-1ea5-4636-992c-c7f51b7fffc4
+langcode: ka
+status: true
+dependencies:
+  module:
+    - user
+id: user--user
+disabled: false
+path: user/user
+resourceType: user--user
+resourceFields:
+  uid:
+    fieldName: uid
+    publicName: uid
+    enhancer:
+      id: ''
+    disabled: false
+  uuid:
+    fieldName: uuid
+    publicName: uuid
+    enhancer:
+      id: ''
+    disabled: false
+  langcode:
+    disabled: true
+    fieldName: langcode
+    publicName: langcode
+    enhancer:
+      id: ''
+  preferred_langcode:
+    disabled: true
+    fieldName: preferred_langcode
+    publicName: preferred_langcode
+    enhancer:
+      id: ''
+  preferred_admin_langcode:
+    disabled: true
+    fieldName: preferred_admin_langcode
+    publicName: preferred_admin_langcode
+    enhancer:
+      id: ''
+  name:
+    disabled: true
+    fieldName: name
+    publicName: name
+    enhancer:
+      id: ''
+  pass:
+    disabled: true
+    fieldName: pass
+    publicName: pass
+    enhancer:
+      id: ''
+  mail:
+    disabled: true
+    fieldName: mail
+    publicName: mail
+    enhancer:
+      id: ''
+  timezone:
+    disabled: true
+    fieldName: timezone
+    publicName: timezone
+    enhancer:
+      id: ''
+  status:
+    disabled: true
+    fieldName: status
+    publicName: status
+    enhancer:
+      id: ''
+  created:
+    disabled: true
+    fieldName: created
+    publicName: created
+    enhancer:
+      id: ''
+  changed:
+    disabled: true
+    fieldName: changed
+    publicName: changed
+    enhancer:
+      id: ''
+  access:
+    fieldName: access
+    publicName: access
+    enhancer:
+      id: ''
+    disabled: false
+  login:
+    disabled: true
+    fieldName: login
+    publicName: login
+    enhancer:
+      id: ''
+  init:
+    disabled: true
+    fieldName: init
+    publicName: init
+    enhancer:
+      id: ''
+  roles:
+    fieldName: roles
+    publicName: roles
+    enhancer:
+      id: ''
+    disabled: false
+  default_langcode:
+    disabled: true
+    fieldName: default_langcode
+    publicName: default_langcode
+    enhancer:
+      id: ''
+  metatag:
+    disabled: true
+    fieldName: metatag
+    publicName: metatag
+    enhancer:
+      id: ''
+  role_change:
+    disabled: true
+    fieldName: role_change
+    publicName: role_change
+    enhancer:
+      id: ''
+  path:
+    fieldName: path
+    publicName: path
+    enhancer:
+      id: ''
+    disabled: false
+  content_translation_source:
+    disabled: true
+    fieldName: content_translation_source
+    publicName: content_translation_source
+    enhancer:
+      id: ''
+  content_translation_outdated:
+    disabled: true
+    fieldName: content_translation_outdated
+    publicName: content_translation_outdated
+    enhancer:
+      id: ''
+  content_translation_uid:
+    disabled: true
+    fieldName: content_translation_uid
+    publicName: content_translation_uid
+    enhancer:
+      id: ''
+  content_translation_status:
+    disabled: true
+    fieldName: content_translation_status
+    publicName: content_translation_status
+    enhancer:
+      id: ''
+  content_translation_created:
+    disabled: true
+    fieldName: content_translation_created
+    publicName: content_translation_created
+    enhancer:
+      id: ''
+  field_address:
+    fieldName: field_address
+    publicName: field_address
+    enhancer:
+      id: ''
+    disabled: false
+  field_bio:
+    fieldName: field_bio
+    publicName: field_bio
+    enhancer:
+      id: ''
+    disabled: false
+  field_cover_photo:
+    fieldName: field_cover_photo
+    publicName: field_cover_photo
+    enhancer:
+      id: ''
+    disabled: false
+  field_date_of_birth:
+    disabled: true
+    fieldName: field_date_of_birth
+    publicName: field_date_of_birth
+    enhancer:
+      id: ''
+  field_facebook_url:
+    fieldName: field_facebook_url
+    publicName: field_facebook_url
+    enhancer:
+      id: ''
+    disabled: false
+  field_favorite_news:
+    disabled: true
+    fieldName: field_favorite_news
+    publicName: field_favorite_news
+    enhancer:
+      id: ''
+  field_first_name:
+    fieldName: field_first_name
+    publicName: field_first_name
+    enhancer:
+      id: ''
+    disabled: false
+  field_ged:
+    fieldName: field_ged
+    publicName: field_ged
+    enhancer:
+      id: ''
+    disabled: false
+  field_intro:
+    fieldName: field_intro
+    publicName: field_intro
+    enhancer:
+      id: ''
+    disabled: false
+  field_last_name:
+    fieldName: field_last_name
+    publicName: field_last_name
+    enhancer:
+      id: ''
+    disabled: false
+  field_my_party_list:
+    fieldName: field_my_party_list
+    publicName: field_my_party_list
+    enhancer:
+      id: ''
+    disabled: false
+  field_personal_id:
+    disabled: true
+    fieldName: field_personal_id
+    publicName: field_personal_id
+    enhancer:
+      id: ''
+  field_phone:
+    disabled: true
+    fieldName: field_phone
+    publicName: field_phone
+    enhancer:
+      id: ''
+  field_political_ged:
+    fieldName: field_political_ged
+    publicName: field_political_ged
+    enhancer:
+      id: ''
+    disabled: false
+  field_politician:
+    fieldName: field_politician
+    publicName: field_politician
+    enhancer:
+      id: ''
+    disabled: false
+  field_profile_video:
+    fieldName: field_profile_video
+    publicName: field_profile_video
+    enhancer:
+      id: ''
+    disabled: false
+  field_public_email:
+    fieldName: field_public_email
+    publicName: field_public_email
+    enhancer:
+      id: ''
+    disabled: false
+  field_rank:
+    fieldName: field_rank
+    publicName: field_rank
+    enhancer:
+      id: ''
+    disabled: false
+  field_rating_in_party_list:
+    fieldName: field_rating_in_party_list
+    publicName: field_rating_in_party_list
+    enhancer:
+      id: ''
+    disabled: false
+  field_referral:
+    fieldName: field_referral
+    publicName: field_referral
+    enhancer:
+      id: ''
+    disabled: false
+  field_referral_url:
+    fieldName: field_referral_url
+    publicName: field_referral_url
+    enhancer:
+      id: ''
+    disabled: false
+  field_social_auth_password:
+    disabled: true
+    fieldName: field_social_auth_password
+    publicName: field_social_auth_password
+    enhancer:
+      id: ''
+  field_twitter_url:
+    fieldName: field_twitter_url
+    publicName: field_twitter_url
+    enhancer:
+      id: ''
+    disabled: false
+  user_picture:
+    fieldName: user_picture
+    publicName: user_picture
+    enhancer:
+      id: ''
+    disabled: false

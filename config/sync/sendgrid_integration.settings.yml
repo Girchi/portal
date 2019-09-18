@@ -1,6 +1,6 @@
-apikey: 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
+apikey: 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
 test_defaults:
-  to: admin@example.com
+  to: oto.zakalashvili@gmail.com
   subject: 'Test Email from SendGrid Module'
   body:
     value: 'Test Message for SendGrid.'
