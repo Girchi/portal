@@ -142,7 +142,7 @@ jQuery(function($) {
             });
         }
 
-        addFocusReminder($('.navbar-search-input .form-item-combine input'));
+        addFocusReminder($('.navbar-search .form-item-combine input'));
         $(document).ajaxComplete(function(event,request, settings) {
             if(typeof textboxToFocus.formid !== 'undefined') {
                 var textBox = $('#' + textboxToFocus.formid + ' input:text[name="' + textboxToFocus.name + '"]');
@@ -152,6 +152,8 @@ jQuery(function($) {
                 //textboxToFocus = {}; // if you have other auto-submitted inputs as well
             }
         });
+
+    addFocusReminder()
 });
 
 $(".investor-parent-checkbox input").on("change",  function () {
