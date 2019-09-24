@@ -146,7 +146,7 @@ class DonationUtils {
    *
    * @param string $type
    *   Type.
-   * @param string $donation
+   * @param array $donation
    *   Donation.
    * @param string $entity_id
    *   Entity id.
@@ -154,13 +154,13 @@ class DonationUtils {
    * @return bool
    *   Boolean.
    */
-  public function addDonationRecord($type, $donation, $entity_id) {
+  public function addDonationRecord($type, array $donation, $entity_id) {
 
     // TYPE 1 - AIM
     // TYPE 2 - Politician.
     try {
       $donationStorage = $this->entityTypeManager->getStorage('donation');
-      if ($type === 1) {
+      if ($type == 1) {
         $additional_fields = ['aim_donation' => TRUE, 'aim_id' => $entity_id];
       }
       else {
@@ -183,6 +183,44 @@ class DonationUtils {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Regular donation creation method.
+   *
+   * @param array $reg_donation
+   *   Regular donation array.
+   * @param string $entity_id
+   *   Entity id.
+   */
+  public function addRegularDonationRecord(array $reg_donation, $entity_id) {
+    // TYPE 1 - AIM
+    // TYPE 2 - Politician.
+    try {
+      $reg_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+      $type = $reg_donation['type'];
+      if ($type == 1) {
+        $additional_field = ['aim_id' => $entity_id];
+      }
+      else {
+        $additional_field = ['politician_id' => $entity_id];
+      }
+
+      $final_fields = array_merge($reg_donation, $additional_field);
+      $reg_donation_entity = $reg_donation_storage->create($final_fields);
+      $reg_donation_entity->save();
+      $this->loggerFactory->get('girchi_donations')->info('Regular donation was created.');
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+    catch (EntityStorageException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+
   }
 
 }
