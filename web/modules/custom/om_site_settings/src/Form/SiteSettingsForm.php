@@ -203,6 +203,19 @@ class SiteSettingsForm extends ConfigFormBase {
       '#title' => t('Password set form'),
       '#default_value' => $config->get('createpass')
     ];
+    $form['politician-rating'] = [
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => t('Politician rating settings'),
+    ];
+    $form['politician-rating']['number_of_politicians'] = [
+      '#type' => 'number',
+      '#title' => t('Number of politicians'),
+    ];
+    $form['politician-rating']['number_of_columns'] = [
+      '#type' => 'number',
+      '#title' => t('Number of columns'),
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -234,6 +247,8 @@ class SiteSettingsForm extends ConfigFormBase {
       'google_analytics_view_id',
       'donation_right_block',
       'createpass',
+      'number_of_politicians',
+      'number_of_columns',
     ];
 
     foreach ($fields as $field_key) {
