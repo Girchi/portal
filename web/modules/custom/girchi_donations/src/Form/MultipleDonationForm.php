@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\girchi_donations\Utils\DonationUtils;
+use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -28,16 +29,26 @@ class MultipleDonationForm extends FormBase {
   protected $messenger;
 
   /**
+   * Payment service.
+   *
+   * @var \Drupal\om_tbc_payments\Services\PaymentService
+   */
+  protected $omediaPayment;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
    *   Donation Utils.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   Messenger.
+   * @param \Drupal\om_tbc_payments\Services\PaymentService $omediaPayment
+   *   Omedia Payment.
    */
-  public function __construct(DonationUtils $donationUtils, MessengerInterface $messenger) {
+  public function __construct(DonationUtils $donationUtils, MessengerInterface $messenger, PaymentService $omediaPayment) {
     $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
+    $this->omediaPayment = $omediaPayment;
   }
 
   /**
@@ -46,7 +57,8 @@ class MultipleDonationForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
         $container->get('girchi_donations.donation_utils'),
-        $container->get('messenger')
+        $container->get('messenger'),
+        $container->get('om_tbc_payments.payment_service')
     );
   }
 
@@ -76,10 +88,10 @@ class MultipleDonationForm extends FormBase {
       '#weight' => '0',
       '#required' => TRUE,
     ];
-    $form['periodicity'] = [
+    $form['frequency'] = [
       '#type' => 'select',
       '#options' => [
-        '1' => 'Month',
+        '1' => '1 Month',
         '3' => '3 Month',
         '6' => '6 Month',
       ],
@@ -149,9 +161,39 @@ class MultipleDonationForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $donation_aim = $form_state->getValue('donation_aim');
     $politician = $form_state->getValue('politicians');
+    $amount = $form_state->getValue('amount');
+    $frequency = $form_state->getValue('frequency');
+    $day = $form_state->getValue('date');
+
+    $description = $donation_aim ? $donation_aim : $politician;
     if (empty($donation_aim) && empty($politician)) {
       $this->messenger->addError('Please choose Donation aim OR Donation to politician');
       $form_state->setRebuild();
+    }
+    else {
+      // TYPE 1 - AIM
+      // TYPE 2 - Politician.
+      $type = $donation_aim ? 1 : 2;
+      $response = $this->omediaPayment->saveCard($amount, $description);
+      if ($response !== NULL) {
+        $this->getLogger('girchi_donations')->info('Card was saved.');
+        $transaction_id = $response['transaction_id'];
+        $card_id = $response['card_id'];
+        $this->donationUtils->addRegularDonationRecord([
+          'trans_id'      => $transaction_id,
+          'card_id'       => $card_id,
+          'user_id'       => $this->currentUser()->id(),
+          'type'          => $type,
+          'frequency'     => (int) $frequency,
+          'payment_day'   => (int) $day,
+          'amount'        => (int) $amount,
+          'status'        => 'INITIAL',
+        ], $description);
+        $this->omediaPayment->makePayment($transaction_id);
+      }
+      else {
+        $this->getLogger('girchi_donations')->error('Error saving  while saving card.');
+      }
     }
   }
 
