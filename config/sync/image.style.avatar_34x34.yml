@@ -1,0 +1,15 @@
+uuid: 354be72c-ddf4-46a1-ad81-c0a9205aa033
+langcode: en
+status: true
+dependencies: {  }
+name: avatar_34x34
+label: 'Avatar 34x34'
+effects:
+  b0db9301-e028-4df6-bfac-0b496fc48a3c:
+    uuid: b0db9301-e028-4df6-bfac-0b496fc48a3c
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 34
+      height: 34
+      anchor: center-center

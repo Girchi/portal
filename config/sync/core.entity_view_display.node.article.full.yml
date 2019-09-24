@@ -97,5 +97,6 @@ hidden:
   field_author: true
   field_favorite_news: true
   field_is_video: true
+  field_meta_tags: true
   langcode: true
   search_api_excerpt: true

@@ -59,6 +59,7 @@ hidden:
   field_author: true
   field_comments: true
   field_favorite_news: true
+  field_meta_tags: true
   field_show_internal_image: true
   field_video_url: true
   langcode: true

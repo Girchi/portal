@@ -162,3 +162,4 @@ content:
     third_party_settings: {  }
 hidden:
   field_favorite_news: true
+  field_meta_tags: true
