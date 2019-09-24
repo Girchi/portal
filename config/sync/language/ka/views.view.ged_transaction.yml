@@ -4,3 +4,23 @@ display:
       exposed_form:
         options:
           submit_button: გაფილტვრა
+      empty:
+        area:
+          content:
+            value: "<div class=\"px-3 px-md-4 py-3\">No transaction found.</div>\r\n"
+            format: full_html
+  public_page:
+    display_options:
+      fields:
+        created:
+          label: თარიღი
+        field_first_name:
+          label: სახელი
+        field_last_name:
+          label: გვარი
+        user:
+          label: მომხმარებელი
+        ged_amount:
+          label: 'Ged-ების რაოდენობა'
+        Description:
+          label: აღწერა

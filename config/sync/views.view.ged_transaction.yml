@@ -76,7 +76,7 @@ display:
           tags:
             previous: ‹‹
             next: ››
-            first: '« First'
+            first: '1'
             last: 'Last »'
           expose:
             items_per_page: false
