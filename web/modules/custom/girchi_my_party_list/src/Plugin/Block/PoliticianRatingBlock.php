@@ -3,6 +3,7 @@
 namespace Drupal\girchi_my_party_list\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,34 +27,42 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
   protected $entityTypeManager;
 
   /**
-   * {@inheritDoc}
+   * ConfigFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager) {
+  protected $configFactory;
+
+  /**
+   * Construct.
+   *
+   * @param array $configuration
+   *   Configuration.
+   * @param int $plugin_id
+   *   Plugin id.
+   * @param string $plugin_definition
+   *   Plugin definition.
+   * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
+   *   Entity type manager.
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   ConfigFactory.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, ConfigFactory $configFactory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->configFactory = $configFactory;
   }
 
   /**
-   * Creates an instance of the plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container to pull out services used in the plugin.
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin ID for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   *
-   * @return static
-   *   Returns an instance of this plugin.
+   * {@inheritDoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory')
     );
   }
 
@@ -71,12 +80,15 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
    * @see \Drupal\block\BlockViewBuilder
    */
   public function build() {
+    $number_of_politicians = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_politicians');
+    $number_of_columns = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_columns');
+    $number_of_rows = (int) ($number_of_politicians / $number_of_columns);
     $politicians = [];
     $userStorage = $this->entityTypeManager->getStorage('user');
     $result = $userStorage->getQuery()
       ->condition('field_politician', TRUE, '=')
       ->condition('field_rating_in_party_list', 0, '>')
-      ->range(0, 4)
+      ->range(0, $number_of_politicians)
       ->sort('field_rating_in_party_list', 'ASC')
       ->execute();
     $users = $userStorage->loadMultiple($result);
@@ -96,9 +108,15 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
         'uid' => $user_id,
       ];
     }
+    $block_settings[] = [
+      'number_of_politicians' => $number_of_politicians,
+      'number_of_columns' => $number_of_columns,
+      'number_of_rows' => $number_of_rows,
+    ];
     return [
       '#theme' => 'politician_rating_block',
       '#politicians' => $politicians,
+      '#block_settings' => $block_settings,
     ];
   }
 
