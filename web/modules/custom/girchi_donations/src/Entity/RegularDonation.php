@@ -78,10 +78,10 @@ class RegularDonation extends ContentEntityBase implements RegularDonationInterf
 
     if (empty($this->get('next_payment_date')->value)) {
       $today = Carbon::now();
-      $day = (int) $today->format('j');
-      $hour = (int) $today->format('G');
-      $month = (int) $today->format('n');
-      $year = (int) $today->format('Y');
+      $day = $today->format('j');
+      $hour = $today->format('G');
+      $month = $today->format('n');
+      $year = $today->format('Y');
       $payment_day = $this->get('payment_day')->value;
       $frequency = $this->get('frequency')->value;
       if ($payment_day > $day) {
@@ -93,11 +93,11 @@ class RegularDonation extends ContentEntityBase implements RegularDonationInterf
         $this->set('next_payment_date', $string);
       }
       elseif ($payment_day <= $day) {
-        if ($hour < 17) {
+        if ($hour < 17 && $payment_day == $day) {
           $payment_date = Carbon::createFromDate($year, $month, $payment_day);
         }
         else {
-          $payment_date = Carbon::createFromDate($year, $month + 1, $payment_day);
+          $payment_date = Carbon::createFromDate($year, (int) $month + $frequency, $payment_day);
         }
         $date = $payment_date->toDateTime();
         $date->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));
