@@ -126,6 +126,8 @@ class DonationsController extends ControllerBase {
       $params = $request->request;
       $trans_id = $params->get('trans_id');
       $storage = $this->entityTypeManager()->getStorage('donation');
+      $reg_donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
+
       $ged_manager = $this->entityTypeManager()->getStorage('ged_transaction');
 
       if (!$trans_id) {
@@ -133,63 +135,106 @@ class DonationsController extends ControllerBase {
         return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
       }
       $donations = $storage->loadByProperties(['trans_id' => $trans_id]);
-      if (empty($donations)) {
-        $this->getLogger('girchi_donations')->error('Donation entity not found.');
-        return new JsonResponse('Donation entity not found.', Response::HTTP_BAD_REQUEST);
+      $reg_donations = $reg_donation_storage->loadByProperties(['trans_id' => $trans_id]);
+
+      if (empty($donations) && empty($reg_donations)) {
+        $this->getLogger('girchi_donations')->error('Donation or Regular Donation entity not found.');
+        return new JsonResponse('Donation or Regular Donation entity not found.', Response::HTTP_BAD_REQUEST);
       }
       /** @var \Drupal\girchi_donations\Entity\Donation $donation */
       $donation = reset($donations);
-      /** @var \Drupal\user\Entity\User $user */
-      $user = $donation->getUser();
+      /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
+      $reg_donation = reset($reg_donations);
 
       $result = $this->omediaPayment->getPaymentResult($trans_id);
       if ($result['RESULT_CODE'] === "000") {
-        if ($donation->getStatus() !== 'OK') {
-          $donation->setStatus('OK');
-          $donation->save();
-          $this->getLogger('girchi_donations')->info("Status was Updated to OK, ID:$trans_id.");
-          $gel_amount = $donation->getAmount();
-          $ged_amount = $this->gedCalculator->calculate($gel_amount);
-          if ($user->id() !== '0') {
-            $ged_manager->create([
-              'user_id' => "1",
-              'user' => $user->id(),
-              'ged_amount' => $ged_amount,
-              'title' => 'Donation',
-              'name' => 'Donation',
-              'status' => TRUE,
-              'Description' => 'Transaction was created by donation',
-            ])
-              ->save();
-            $auth = TRUE;
+        if ($donation) {
+          if ($donation->getStatus() !== 'OK') {
+            /** @var \Drupal\user\Entity\User $user */
+            $user = $donation->getUser();
+            $donation->setStatus('OK');
+            $donation->save();
+            $this->getLogger('girchi_donations')->info("Status was Updated to OK, ID:$trans_id.");
+            $gel_amount = $donation->getAmount();
+            $ged_amount = $this->gedCalculator->calculate($gel_amount);
+            if ($user->id() !== '0') {
+              $ged_manager->create([
+                'user_id' => "1",
+                'user' => $user->id(),
+                'ged_amount' => $ged_amount,
+                'title' => 'Donation',
+                'name' => 'Donation',
+                'status' => TRUE,
+                'Description' => 'Transaction was created by donation',
+              ])
+                ->save();
+              $auth = TRUE;
+            }
+            else {
+              $auth = FALSE;
+            }
+
+            $this->getLogger('girchi_donations')->info("Ged transaction was made.");
+            $this->getLogger('girchi_donations')->info("Payment was successful, ID:$trans_id.");
+            return [
+              '#type' => 'markup',
+              '#theme' => 'girchi_donations_success',
+              '#amount' => $ged_amount,
+              '#auth' => $auth,
+            ];
           }
           else {
-            $auth = FALSE;
+            return $this->redirect('user.page');
           }
+        }
+        elseif ($reg_donation) {
+          if ($reg_donation->getStatus() !== 'ACTIVE') {
+            /** @var \Drupal\user\Entity\User $user */
+            $reg_donation->setStatus('ACTIVE');
+            $reg_donation->save();
+            $reg_donation_details = [
+              'frequency' => $reg_donation->get('frequency')->value,
+              'day' => $reg_donation->get('payment_day')->value,
+              'date' => $reg_donation->get('next_payment_date')->value,
+            ];
+            $this->getLogger('girchi_donations')->info('Regular donation was activated.');
+            return [
+              '#type' => 'markup',
+              '#theme' => 'girchi_donations_success',
+              '#regular_donation' => TRUE,
+              '#reg_data' => $reg_donation_details,
+            ];
+          }
+          else {
+            return $this->redirect('user.page');
+          }
+        }
 
-          $this->getLogger('girchi_donations')->info("Ged transaction was made.");
-          $this->getLogger('girchi_donations')->info("Payment was successful, ID:$trans_id.");
-          return [
-            '#type' => 'markup',
-            '#theme' => 'girchi_donations_success',
-            '#amount' => $ged_amount,
-            '#auth' => $auth,
-          ];
-        }
-        else {
-          return $this->redirect('user.page');
-        }
       }
       else {
         $code = $result['RESULT_CODE'];
-        $donation->setStatus('FAILED');
-        $donation->save();
-        $this->getLogger('girchi_donations')
-          ->error("Payment failed code:$code, ID:$trans_id.");
-        return [
-          '#type' => 'markup',
-          '#theme' => 'girchi_donations_fail',
-        ];
+        if ($donation) {
+          $donation->setStatus('FAILED');
+          $donation->save();
+          $this->getLogger('girchi_donations')
+            ->error("Donation failed code:$code, ID:$trans_id.");
+          return [
+            '#type' => 'markup',
+            '#theme' => 'girchi_donations_fail',
+          ];
+        }
+        elseif ($reg_donation) {
+          $reg_donation->setStatus('FAILED');
+          $reg_donation->save();
+          $this->getLogger('girchi_donations')
+            ->error("Regular Donation failed code:$code, ID:$trans_id.");
+          return [
+            '#type' => 'markup',
+            '#theme' => 'girchi_donations_fail',
+            '#regular_donation' => TRUE,
+          ];
+        }
+
       }
     }
     catch (\Exception $e) {
