@@ -7,15 +7,15 @@ footer_text: ''
 langcode: en
 _core:
   default_config_hash: NkdNpcz0u9s1KM7wnP-gPGF_HA8Yz_hZhCXkWOeroNQ
-contact_info_phone: ''
+contact_info_phone: '598180025'
 contact_info_email: INFO@GIRCHI.COM
 social_media_facebook: 'https://www.facebook.com/GirchiParty/'
 social_media_twitter: 'https://twitter.com/GirchiParty'
 social_media_instagram: ''
 social_media_youtube: 'https://www.youtube.com/channel/UC6o6176a756vk1nZuzAXy5g'
 politician_checkbox_text:
-  value: "<h6>რას ნიშნავს “მინდა პოლიტიკოსობა”?</h6>\r\n\r\n<div>\r\n<div>ამ ღილაკზე თითის დაჭერით, თქვენ რეგისტრირდებით როგორც პოლიტიკოსი, რომელიც საუბრობს გირჩის სახელით.</div>\r\n\r\n<div>\r\n<p>რეგისტრაციის შემდგომ, თქვენ შეგიძლიათ დაგეგმოთ თქვენი პროფესიული პოლიტიკური კარიერა.</p>\r\n\r\n<p>იმისთვის, რომ თქვენ გახდეთ პოლიტიკოსი, აუცილებელია ამ ღილაკზე დაწკაპუნებით დაეთანხმოთ პლატფორმის ორ მთავარ პოსტულატს:<br />\r\n1.&nbsp;&nbsp; &nbsp;ადამიანს ეკუთვნის საკუთარი სხეული.<br />\r\n2.&nbsp;&nbsp; &nbsp;ძალადობა და მისი მხარდაჭერა დაუშვებელია.</p>\r\n\r\n<p>თუ ამის გულწრფელად გჯერათ, კეთილი იყოს თქვენი მობრძანება, გირჩის თავისუფალ საზოგადოებაში.</p>\r\n</div>\r\n</div>\r\n"
-  format: basic_html
+  value: "<h6>რას ნიშნავს “მინდა პოლიტიკოსობა”?</h6>\r\n\r\n<div>\r\n<div class=\"font-size-3 text-grey mb-1\">ამ ღილაკზე თითის დაჭერით, თქვენ რეგისტრირდებით როგორც პოლიტიკოსი, რომელიც საუბრობს გირჩის სახელით.</div>\r\n\r\n<div class=\"font-size-3 text-grey mb-1\">\r\n<p>რეგისტრაციის შემდგომ, თქვენ შეგიძლიათ დაგეგმოთ თქვენი პროფესიული პოლიტიკური კარიერა.</p>\r\n\r\n<p>იმისთვის, რომ თქვენ გახდეთ პოლიტიკოსი, აუცილებელია ამ ღილაკზე დაწკაპუნებით დაეთანხმოთ პლატფორმის ორ მთავარ პოსტულატს:<br />\r\n1.&nbsp;&nbsp; &nbsp;ადამიანს ეკუთვნის საკუთარი სხეული.<br />\r\n2.&nbsp;&nbsp; &nbsp;ძალადობა და მისი მხარდაჭერა დაუშვებელია.</p>\r\n\r\n<p>თუ ამის გულწრფელად გჯერათ, კეთილი იყოს თქვენი მობრძანება, გირჩის თავისუფალ საზოგადოებაში.</p>\r\n</div>\r\n</div>\r\n"
+  format: full_html
 ui_config: 0
 enable_user_ui: 1
 copyright_text: 'ყველა საავტორო უფლების თავზეც გავიარეთ. გირჩი'
@@ -24,3 +24,5 @@ donation_right_block:
   value: "<h6 class=\"text-uppercase text-success font-weight-bold my-3\">მიიღე თანხის შესაბამისი GeD-ები</h6>\r\n\r\n<p class=\"font-size-2 text-grey\">ყოველი შემოწირულობის გაკეთების დროს, სისტემა შესაბამის ლარებს გადააკონვერტირებს იმ დღით არსებული კურსით დოლარში და მიღებულ რიცხვი თქვენ დაგერიცხებათ როგორც GeD-ს.</p>\r\n\r\n<h6 class=\"text-uppercase text-success font-weight-bold mt-4 mb-3\">განსაზღვრე შემოწირულობის მიზანი</h6>\r\n\r\n<p class=\"font-size-2 text-grey\">ეს არააუცილებელი ველია, თუმცა, თქვენ გაქვთ შესაძლებლობა, რომ წინასწარ შექმნილი სიიდან აირჩიოთ სად წავიდეს თქვენს მიერ შემოწირული თანხა (“თარგმანების პროექტისთვის”, “სკოლისთვის”, “ლეგალიზაციის კამპანიისთვის” და ა.შ.)</p>\r\n\r\n<h6 class=\"text-uppercase text-success font-weight-bold mt-4 mb-3\">შექმენი ავტომატური გადარიცხვა</h6>\r\n\r\n<p class=\"font-size-2 text-grey\">პირველ ჯერზე, თქვენ შეგყავთ თქვენი საბანკო ბარათის მონაცემები, ხოლო შემდეგ, შევსებული ფორმის მიხედვით, სისტემა ავტომატურად აკეთებს ტრანზაქციებს შესაბამისი თანხის და პერიოდულობის გათვალისწინებით. მაგალითად ყოველ თვე 50 ლარი.</p>\r\n"
   format: full_html
 createpass: 'გთხოვთ შექმნათ პაროლი გირჩის პორტალისთვის'
+ged_summary: 1555499
+ged_percentage: 0.03110998

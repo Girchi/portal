@@ -91,6 +91,20 @@ function girchi_ged_transactions_entity_presave(EntityInterface $entity) {
 
     $newTitle = $firsName . ' ' . $lastName . ' ' . $uGed . ' GeD';
 
-    $title = $entity->set('title', $newTitle)->value;
+    $entity->set('title', $newTitle)->value;
   }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function girchi_ged_transactions_cron() {
+  $summaryGedCalculation = Drupal::service('girchi_ged_transactions.summarygedcalculation');
+  $gedCalc = $summaryGedCalculation->summaryGedCalculation();
+  /** @var \Drupal\Core\Config\ConfigFactory $configFactory */
+  $configFactory = Drupal::service('config.factory');
+  $configFactory->getEditable('om_site_settings.site_settings')
+    ->set('ged_summary', $gedCalc['gedValue'])
+    ->set('ged_percentage', $gedCalc['gedPercentage'])
+    ->save();
 }

@@ -92,6 +92,7 @@ content:
 hidden:
   contact: true
   field_address: true
+  field_bio: true
   field_cover_photo: true
   field_facebook_url: true
   field_favorite_news: true

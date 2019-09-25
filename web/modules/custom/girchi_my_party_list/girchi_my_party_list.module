@@ -78,7 +78,7 @@ function girchi_my_party_list_cron() {
  * Implements hook_user_presave().
  */
 function girchi_my_party_list_user_presave(EntityInterface $user) {
-  if ($user->original->get('field_politician')->value == 1 && $user->get('field_politician')->value == 0) {
+  if ($user->original !== NULL && $user->original->get('field_politician')->value == 1 && $user->get('field_politician')->value == 0) {
     $user->set('field_political_ged', 0);
     $user->set('field_rating_in_party_list', NULL);
     $user_storage = Drupal::entityTypeManager()->getStorage('user');

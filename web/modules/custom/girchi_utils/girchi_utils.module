@@ -146,7 +146,7 @@ function girchi_utils_theme($existing, $type, $theme, $path) {
     'politician_block' => [
       'variables' =>
         [
-          'language' => NULL,
+          'is_politician' => NULL,
         ],
       'template' => 'politician-block',
     ],

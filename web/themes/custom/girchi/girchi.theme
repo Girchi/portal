@@ -68,7 +68,8 @@ function girchi_page_attachments_alter(array &$page)
   'content' => 'IE=edge',
   ],
   ];
-  $page['#attached']['html_head'][] = [$ie_edge, 'ie_edge'];*/ }
+  $page['#attached']['html_head'][] = [$ie_edge, 'ie_edge'];*/
+}
 
 /**
  * Implements hook_preprocess_page() for page.html.twig.
@@ -93,6 +94,8 @@ function girchi_preprocess_page(array &$variables)
 
   $variables['header_config'] = [
     'enable_user_ui' => $config->get('enable_user_ui'),
+    'ged_summary' => $config->get('ged_summary'),
+    'ged_percentage' => $config->get('ged_percentage'),
   ];
   // Redirect from user profile.
   // Get current route name.
