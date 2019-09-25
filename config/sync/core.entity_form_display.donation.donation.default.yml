@@ -1,0 +1,49 @@
+uuid: ca06a608-7f41-4c54-9cee-488438cd72e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.donation.donation.field_donation_type
+  module:
+    - girchi_donations
+id: donation.donation.default
+targetEntityType: donation
+bundle: donation
+mode: default
+content:
+  aim_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  field_donation_type:
+    weight: 6
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  politician_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }
