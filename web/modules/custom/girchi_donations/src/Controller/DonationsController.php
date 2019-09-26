@@ -146,12 +146,11 @@ class DonationsController extends ControllerBase {
       if ($result['RESULT_CODE'] === "000") {
         if ($donation->getStatus() !== 'OK') {
           $donation->setStatus('OK');
-          $donation->save();
           $this->getLogger('girchi_donations')->info("Status was Updated to OK, ID:$trans_id.");
           $gel_amount = $donation->getAmount();
           $ged_amount = $this->gedCalculator->calculate($gel_amount);
           if ($user->id() !== '0') {
-            $ged_manager->create([
+            $ged_transaction = $ged_manager->create([
               'user_id' => "1",
               'user' => $user->id(),
               'ged_amount' => $ged_amount,
@@ -159,8 +158,10 @@ class DonationsController extends ControllerBase {
               'name' => 'Donation',
               'status' => TRUE,
               'Description' => 'Transaction was created by donation',
-            ])
-              ->save();
+            ]);
+            $ged_transaction->save();
+            $donation->set('field_ged_transaction', $ged_transaction->id());
+            $donation->save();
             $auth = TRUE;
           }
           else {
