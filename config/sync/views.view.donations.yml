@@ -91,15 +91,12 @@ display:
                 is_secondary: false
           text_input_required_format: basic_html
       pager:
-        type: mini
+        type: full
         options:
           items_per_page: 25
           offset: 0
           id: 0
           total_pages: null
-          tags:
-            previous: ‹‹
-            next: ››
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
@@ -108,6 +105,12 @@ display:
             items_per_page_options_all_label: '- ყველა -'
             offset: false
             offset_label: Offset
+          tags:
+            previous: ‹‹
+            next: ››
+            first: '« First'
+            last: 'Last »'
+          quantity: 9
       style:
         type: table
         options:
@@ -838,6 +841,26 @@ display:
     display_options:
       display_extenders: {  }
       path: admin/donations
+      pager:
+        type: mini
+        options:
+          items_per_page: 25
+          offset: 0
+          id: 0
+          total_pages: null
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- ყველა -'
+            offset: false
+            offset_label: Offset
+          tags:
+            previous: ‹‹
+            next: ››
+      defaults:
+        pager: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -903,6 +926,7 @@ display:
         fields: false
         arguments: false
         access: false
+        pager: false
       filter_groups:
         operator: AND
         groups:
@@ -1408,6 +1432,27 @@ display:
         options:
           role:
             authenticated: authenticated
+      pager:
+        type: full
+        options:
+          items_per_page: 8
+          offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: ‹‹
+            next: ››
+            first: '1'
+            last: ''
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- ყველა -'
+            offset: false
+            offset_label: Offset
+          quantity: 4
     cache_metadata:
       max-age: -1
       contexts:
