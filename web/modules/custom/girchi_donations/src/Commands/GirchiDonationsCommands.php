@@ -86,18 +86,20 @@ class GirchiDonationsCommands extends DrushCommands {
           $donations_array[$uid]['transaction'][] = $transaction->id();
         }
       }
-      $i = 0;
       foreach ($donations_array as $array_item) {
         $d = $array_item['donations'];
         $t = $array_item['transaction'];
         if ($t !== NULL) {
-          $i++;
           if (count($d) != count($t)) {
             array_pop($d);
           };
+          $length = count($d);
+          for ($i = 0; $i < $length; $i++) {
+            $d[$i]->set('field_ged_transaction', $t[$i])->save();
+          }
         }
       }
-      dump($i);
+
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
