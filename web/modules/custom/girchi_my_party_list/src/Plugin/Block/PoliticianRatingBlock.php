@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\girchi_users\GEDHelperService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -34,6 +35,13 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
   protected $configFactory;
 
   /**
+   * Ged Formatter.
+   *
+   * @var \Drupal\girchi_users\GEDHelperService
+   */
+  protected $gedFormatter;
+
+  /**
    * Construct.
    *
    * @param array $configuration
@@ -46,11 +54,14 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
    *   Entity type manager.
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   ConfigFactory.
+   * @param \Drupal\girchi_users\GEDHelperService $gedFormatter
+   *   Ged formatter.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, ConfigFactory $configFactory) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, ConfigFactory $configFactory, GEDHelperService $gedFormatter) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->configFactory = $configFactory;
+    $this->gedFormatter = $gedFormatter;
   }
 
   /**
@@ -62,7 +73,9 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('girchi_users.ged_helper')
+
     );
   }
 
@@ -82,13 +95,15 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
   public function build() {
     $number_of_politicians = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_politicians');
     $number_of_columns = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_columns');
-    $number_of_rows = (int) ($number_of_politicians / $number_of_columns);
+
+    $range_value = $number_of_politicians ? $number_of_politicians : 5;
+
     $politicians = [];
     $userStorage = $this->entityTypeManager->getStorage('user');
     $result = $userStorage->getQuery()
       ->condition('field_politician', TRUE, '=')
       ->condition('field_rating_in_party_list', 0, '>')
-      ->range(0, $number_of_politicians)
+      ->range(0, $range_value)
       ->sort('field_rating_in_party_list', 'ASC')
       ->execute();
     $users = $userStorage->loadMultiple($result);
@@ -97,7 +112,7 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
       $last_name = $user->get('field_last_name')->value;
       $img_url = $user->get('user_picture')->entity->getFileUri();
       $rating = $user->get('field_rating_in_party_list')->value;
-      $political_ged = $user->get('field_political_ged')->value;
+      $political_ged = $this->gedFormatter->getFormattedGed($user->get('field_political_ged')->value);
       $user_id = $user->id();
       $politicians[] = [
         'first_name' => $first_name,
@@ -108,16 +123,29 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
         'uid' => $user_id,
       ];
     }
-    $block_settings[] = [
-      'number_of_politicians' => $number_of_politicians,
-      'number_of_columns' => $number_of_columns,
-      'number_of_rows' => $number_of_rows,
-    ];
-    return [
-      '#theme' => 'politician_rating_block',
-      '#politicians' => $politicians,
-      '#block_settings' => $block_settings,
-    ];
+    if (isset($number_of_politicians) && isset($number_of_columns)) {
+      $number_of_rows = (int) ($number_of_politicians / $number_of_columns);
+
+      $block_settings[] = [
+        'number_of_politicians' => $number_of_politicians,
+        'number_of_columns' => $number_of_columns,
+        'number_of_rows' => $number_of_rows,
+      ];
+      return [
+        '#theme' => 'politician_rating_block',
+        '#politicians' => $politicians,
+        '#block_settings' => $block_settings,
+      ];
+
+    }
+    else {
+      return [
+        '#theme' => 'politician_rating_block',
+        '#politicians' => $politicians,
+        '#block_settings' => NULL,
+      ];
+    }
+
   }
 
 }
