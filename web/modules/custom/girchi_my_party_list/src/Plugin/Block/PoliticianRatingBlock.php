@@ -94,7 +94,6 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
    */
   public function build() {
     $number_of_politicians = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_politicians');
-    $number_of_columns = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_columns');
 
     $range_value = $number_of_politicians ? $number_of_politicians : 5;
 
@@ -123,28 +122,12 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
         'uid' => $user_id,
       ];
     }
-    if (!empty($number_of_politicians) && !empty($number_of_columns)) {
-      $number_of_rows = (int) ($number_of_politicians / $number_of_columns);
 
-      $block_settings[] = [
-        'number_of_politicians' => $number_of_politicians,
-        'number_of_columns' => $number_of_columns,
-        'number_of_rows' => $number_of_rows,
-      ];
-      return [
-        '#theme' => 'politician_rating_block',
-        '#politicians' => $politicians,
-        '#block_settings' => $block_settings,
-      ];
-
-    }
-    else {
-      return [
-        '#theme' => 'politician_rating_block',
-        '#politicians' => $politicians,
-        '#block_settings' => NULL,
-      ];
-    }
+    return [
+      '#theme' => 'politician_rating_block',
+      '#politicians' => $politicians,
+      '#block_settings' => NULL,
+    ];
 
   }
 

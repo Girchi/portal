@@ -209,12 +209,10 @@ class SiteSettingsForm extends ConfigFormBase {
       '#title' => t('Politician rating settings'),
     ];
     $form['politician-rating']['number_of_politicians'] = [
-      '#type' => 'number',
+      '#type' => 'select',
       '#title' => t('Number of politicians'),
-    ];
-    $form['politician-rating']['number_of_columns'] = [
-      '#type' => 'number',
-      '#title' => t('Number of columns'),
+      '#options' => ['5' => 5, '10' => 10],
+      '#default_value' => $config->get('number_of_politicians')
     ];
 
     return parent::buildForm($form, $form_state);

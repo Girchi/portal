@@ -88,7 +88,6 @@
         <div class="d-none d-lg-block">
             <!-- politicians-rating-{number of items in row} -->
             <div class="politicians-rating politicians-rating-5">
-                {% if block_settings.0.number_of_rows == 1 %}
                     {% for politician in politicians %}
                         <div class="politicians-rating-item">
                             <!-- Start of media -->
@@ -138,62 +137,6 @@
                             <!-- End of media -->
                         </div>
                     {% endfor %}
-                {% else %}
-                    {% for number_of_row in range (1,block_settings.0.number_of_rows) %}
-                        {% for number_of_column in range(1,block_settings.0.number_of_columns) %}
-                            {#                            {{ drupal_dump(number_of_column) }}#}
-                            {% set politician = politicians[i] %}
-                            <div class="politicians-rating-item">
-                                <!-- Start of media -->
-                                <div
-                                        class="media media-column rounded overflow-hidden mb-4 mb-lg-0"
-                                >
-                                    <div class="media-thumb w-100">
-                                        <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
-                                            <img
-                                                    src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
-                                                    class="w-100"
-                                                    alt="..."
-                                            />
-                                        </a>
-                                        <div
-                                                class="position-absolute position-bottom-0 position-left-0 p-3 w-100 z-index-2"
-                                        >
-                                            <h5
-                                                    class="mt-2 d-flex justify-content-between align-items-end border-bottom border-grey py-2"
-                                            >
-                                                <a
-                                                        href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}"
-                                                        class="text-decoration-none d-block  text-white text-uppercase line-height-1-1 font-size-3 font-size-xl-4"
-                                                >
-                                                    <small class="d-block small font-weight-bold"
-                                                    >{{ politician.first_name }}</small
-                                                    >
-                                                    <span class="font-weight-bold small">{{ politician.last_name }}</span>
-                                                </a>
-                                                <span
-                                                        class="text-light-green font-weight-bold font-size-7 font-size-xl-8  line-height-0-9"
-                                                >{{ politician.rating < 10 ? '0' ~ politician.rating : politician.rating  }}</span
-                                                >
-                                            </h5>
-                                            <div
-                                                    class="font-weight-bold font-size-1 font-size-2 d-flex justify-content-between align-items-center pb-2 text-uppercase"
-                                            >
-                              <span
-                                      class="text-grey line-height-1-2 line-height-xl-1-5"
-                              >{{ 'Party list weight' |t }}</span
-                              >
-                                                <span class="text-warning text-nowrap">{{ politician.political_ged }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End of media -->
-                            </div>
-                            {% set i=i+1 %}
-                        {% endfor %}
-                    {% endfor %}
-                {% endif %}
 
             </div>
         </div>
