@@ -123,7 +123,7 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
         'uid' => $user_id,
       ];
     }
-    if (isset($number_of_politicians) && isset($number_of_columns)) {
+    if (!empty($number_of_politicians) && !empty($number_of_columns)) {
       $number_of_rows = (int) ($number_of_politicians / $number_of_columns);
 
       $block_settings[] = [
