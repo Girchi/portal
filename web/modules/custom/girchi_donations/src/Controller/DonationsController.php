@@ -19,7 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DonationsController.
  */
-class DonationsController extends ControllerBase {
+class DonationsController extends ControllerBase
+{
 
   /**
    * ConfigFactory.
@@ -107,7 +108,8 @@ class DonationsController extends ControllerBase {
                               AccountProxy $currentUser,
                               FormBuilder $formBuilder,
                               DonationUtils $donationUtils
-  ) {
+  )
+  {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
     $this->entityTypeManager = $entityTypeManager;
@@ -121,7 +123,8 @@ class DonationsController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container)
+  {
     return new static(
       $container->get('config.factory'),
       $container->get('om_tbc_payments.payment_service'),
@@ -140,7 +143,8 @@ class DonationsController extends ControllerBase {
    * @return array
    *   Return array with template and variables
    */
-  public function index() {
+  public function index()
+  {
     $config = $this->configFactory->get('om_site_settings.site_settings');
     $right_block = $config->get('donation_right_block')['value'];
     $form_single = $this->formBuilder()
@@ -166,7 +170,8 @@ class DonationsController extends ControllerBase {
    * @return mixed
    *   Response
    */
-  public function finishDonation(Request $request) {
+  public function finishDonation(Request $request)
+  {
     try {
       $params = $request->request;
       $trans_id = $params->get('trans_id');
@@ -214,8 +219,7 @@ class DonationsController extends ControllerBase {
               ])
                 ->save();
               $auth = TRUE;
-            }
-            else {
+            } else {
               $auth = FALSE;
             }
 
@@ -227,12 +231,10 @@ class DonationsController extends ControllerBase {
               '#amount' => $ged_amount,
               '#auth' => $auth,
             ];
-          }
-          else {
+          } else {
             return $this->redirect('user.page');
           }
-        }
-        elseif ($reg_donation) {
+        } elseif ($reg_donation) {
           if ($reg_donation->getStatus() !== 'ACTIVE') {
             /** @var \Drupal\user\Entity\User $user */
             $reg_donation->setStatus('ACTIVE');
@@ -249,14 +251,12 @@ class DonationsController extends ControllerBase {
               '#regular_donation' => TRUE,
               '#reg_data' => $reg_donation_details,
             ];
-          }
-          else {
+          } else {
             return $this->redirect('user.page');
           }
         }
 
-      }
-      else {
+      } else {
         $code = $result['RESULT_CODE'];
         if ($donation) {
           $donation->setStatus('FAILED');
@@ -267,8 +267,7 @@ class DonationsController extends ControllerBase {
             '#type' => 'markup',
             '#theme' => 'girchi_donations_fail',
           ];
-        }
-        elseif ($reg_donation) {
+        } elseif ($reg_donation) {
           $reg_donation->setStatus('FAILED');
           $reg_donation->save();
           $this->getLogger('girchi_donations')
@@ -281,8 +280,7 @@ class DonationsController extends ControllerBase {
         }
 
       }
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->getLogger($e->getMessage());
     }
 
@@ -302,7 +300,8 @@ class DonationsController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function failDonation(Request $request) {
+  public function failDonation(Request $request)
+  {
     $params = $request->request;
     $trans_id = $params->get('trans_id');
     if (!$trans_id) {
@@ -332,7 +331,8 @@ class DonationsController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function regularDonations() {
+  public function regularDonations()
+  {
     $donation_storage = $this->entityTypeManager->getStorage('regular_donation');
     $regular_donations = $donation_storage->loadByProperties(['user_id' => $this->currentUser->id()]);
     $regular_donation_form = $this->formBuilder->getForm('Drupal\girchi_donations\Form\MultipleDonationForm');
@@ -361,7 +361,8 @@ class DonationsController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function updateDonationStatus(Request $request) {
+  public function updateDonationStatus(Request $request)
+  {
     try {
 
       $action = $request->request->get('action');
@@ -373,15 +374,13 @@ class DonationsController extends ControllerBase {
       if ($action == "pause") {
         $regular_donation[$donation_id]->setStatus('PAUSED');
         $regular_donation[$donation_id]->save();
-      }
-      elseif ($action == "resume") {
+      } elseif ($action == "resume") {
         $regular_donation[$donation_id]->setStatus('ACTIVE');
         $regular_donation[$donation_id]->save();
       }
 
       return new JsonResponse("Donation status has been changed to " . $action);
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->getLogger('girchi_donations')->error($e->getMessage());
     }
 
@@ -399,7 +398,8 @@ class DonationsController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function editDonation(Request $request) {
+  public function editDonation(Request $request)
+  {
     try {
       $donation_id = $request->request->get('donation-id');
       $amount = $request->request->get('amount');
@@ -408,7 +408,10 @@ class DonationsController extends ControllerBase {
       $politician = $request->request->get('politician') ? $request->request->get('politician') : "";
       $date = $request->request->get('date');
 
-      if (!empty($donation_id)) {
+      if (!empty($donation_id) &&
+        !empty($amount) &&
+        !empty($period) &&
+        !empty($date)) {
         /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
         $donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
         /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
@@ -419,20 +422,17 @@ class DonationsController extends ControllerBase {
 
         if (!empty($aim)) {
           $regular_donation[$donation_id]->set('aim_id', $aim);
-        }
-        elseif (!empty($politician)) {
+        } elseif (!empty($politician)) {
           $regular_donation[$donation_id]->set('politician_id', $politician);
         }
         $regular_donation[$donation_id]->save();
         $this->messenger()->addMessage($this->t('Donation has been changed.'));
-      }
-      else {
+      } else {
         $this->messenger()->addError($this->t('Failed to change Donation.'));
       }
       return $this->redirect('girchi_donations.regular_donations');
 
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
       $this->getLogger('girchi_donations')->error($e->getMessage());
     }
 
