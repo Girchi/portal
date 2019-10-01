@@ -142,6 +142,16 @@ class MultipleDonationForm extends FormBase {
       '#required' => FALSE,
       '#empty_value' => '',
     ];
+    $form['currency'] = [
+      '#title' => 'currency',
+      '#type' => 'hidden',
+      '#attributes' => [
+        'id' => [
+          'currency_girchi',
+        ],
+      ],
+      '#value' => $this->donationUtils->gedCalculator->getCurrency(),
+    ];
     $form['submit'] = [
       '#type' => 'submit',
       '#attributes' => [

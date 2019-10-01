@@ -5,7 +5,10 @@ namespace Drupal\girchi_donations\Controller;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
+use Drupal\Core\Session\AccountProxy;
+use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -55,6 +58,28 @@ class DonationsController extends ControllerBase {
   protected $keyValue;
 
   /**
+   * Drupal\Core\Session\AccountProxy definition.
+   *
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $currentUser;
+
+
+  /**
+   * Drupal\Core\Form\FormBuilder definition.
+   *
+   * @var \Drupal\Core\Form\FormBuilder
+   */
+  protected $formBuilder;
+
+  /**
+   * DonationUtils definition.
+   *
+   * @var \Drupal\girchi_donations\Utils\DonationUtils
+   */
+  protected $donationUtils;
+
+  /**
    * Construct.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
@@ -67,13 +92,30 @@ class DonationsController extends ControllerBase {
    *   GedCalculator.
    * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
    *   KeyValue storage.
+   * @param \Drupal\Core\Session\AccountProxy $currentUser
+   *   AccountProxy for current user.
+   * @param \Drupal\Core\Form\FormBuilder $formBuilder
+   *   FormBuilder.
+   * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
+   *   Donation utils.
    */
-  public function __construct(ConfigFactory $configFactory, PaymentService $omediaPayment, EntityTypeManager $entityTypeManager, GedCalculator $gedCalculator, KeyValueFactory $keyValue) {
+  public function __construct(ConfigFactory $configFactory,
+                              PaymentService $omediaPayment,
+                              EntityTypeManager $entityTypeManager,
+                              GedCalculator $gedCalculator,
+                              KeyValueFactory $keyValue,
+                              AccountProxy $currentUser,
+                              FormBuilder $formBuilder,
+                              DonationUtils $donationUtils
+  ) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
     $this->entityTypeManager = $entityTypeManager;
     $this->gedCalculator = $gedCalculator;
     $this->keyValue = $keyValue;
+    $this->currentUser = $currentUser;
+    $this->formBuilder = $formBuilder;
+    $this->donationUtils = $donationUtils;
   }
 
   /**
@@ -85,7 +127,10 @@ class DonationsController extends ControllerBase {
       $container->get('om_tbc_payments.payment_service'),
       $container->get('entity_type.manager'),
       $container->get('girchi_donations.ged_calculator'),
-      $container->get('keyvalue')
+      $container->get('keyvalue'),
+      $container->get('current_user'),
+      $container->get('form_builder'),
+      $container->get('girchi_donations.donation_utils')
     );
   }
 
@@ -276,6 +321,121 @@ class DonationsController extends ControllerBase {
       '#type' => 'markup',
       '#theme' => 'girchi_donations_fail',
     ];
+  }
+
+  /**
+   * Route for regular donations page.
+   *
+   * @return mixed
+   *   mixed
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function regularDonations() {
+    $donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+    $regular_donations = $donation_storage->loadByProperties(['user_id' => $this->currentUser->id()]);
+    $regular_donation_form = $this->formBuilder->getForm('Drupal\girchi_donations\Form\MultipleDonationForm');
+    $politicans = $this->donationUtils->getPoliticians();
+    $terms = $this->donationUtils->getTerms();
+
+    return [
+      '#type' => 'markup',
+      '#theme' => 'regular_donations',
+      '#regular_donations' => $regular_donations,
+      '#regular_donation_form' => $regular_donation_form,
+      '#politicians' => $politicans,
+      '#terms' => $terms,
+    ];
+  }
+
+  /**
+   * Route for changing donation status.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   Request.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Json response.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function updateDonationStatus(Request $request) {
+    try {
+
+      $action = $request->request->get('action');
+      $donation_id = $request->request->get('id');
+      /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
+      $donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+      /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
+      $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
+      if ($action == "pause") {
+        $regular_donation[$donation_id]->setStatus('PAUSED');
+        $regular_donation[$donation_id]->save();
+      }
+      elseif ($action == "resume") {
+        $regular_donation[$donation_id]->setStatus('ACTIVE');
+        $regular_donation[$donation_id]->save();
+      }
+
+      return new JsonResponse("Donation status has been changed to " . $action);
+    }
+    catch (\Exception $e) {
+      $this->getLogger('girchi_donations')->error($e->getMessage());
+    }
+
+  }
+
+  /**
+   * Route for editing donation.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   Symfony request.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   *   Redirect response.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function editDonation(Request $request) {
+    try {
+      $donation_id = $request->request->get('donation-id');
+      $amount = $request->request->get('amount');
+      $period = $request->request->get('period');
+      $aim = $request->request->get('aim') ? $request->request->get('aim') : "";
+      $politician = $request->request->get('politician') ? $request->request->get('politician') : "";
+      $date = $request->request->get('date');
+
+      if (!empty($donation_id)) {
+        /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
+        $donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
+        /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
+        $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
+        $regular_donation[$donation_id]->set('amount', $amount);
+        $regular_donation[$donation_id]->set('frequency', $period);
+        $regular_donation[$donation_id]->set('payment_day', $date);
+
+        if (!empty($aim)) {
+          $regular_donation[$donation_id]->set('aim_id', $aim);
+        }
+        elseif (!empty($politician)) {
+          $regular_donation[$donation_id]->set('politician_id', $politician);
+        }
+        $regular_donation[$donation_id]->save();
+        $this->messenger()->addMessage($this->t('Donation has been changed.'));
+      }
+      else {
+        $this->messenger()->addError($this->t('Failed to change Donation.'));
+      }
+      return $this->redirect('girchi_donations.regular_donations');
+
+    }
+    catch (\Exception $e) {
+      $this->getLogger('girchi_donations')->error($e->getMessage());
+    }
+
   }
 
 }
