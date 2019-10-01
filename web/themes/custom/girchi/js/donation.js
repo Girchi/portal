@@ -77,7 +77,7 @@ $('body').on('click', '.pauseDonation',  e => {
                                    </button>`);
 
             $(`[data-wrapper-id=${entity_id}]`).removeClass('bg-gradient-green').addClass('bg-gradient-warning');
-            $(`.donation-status-${entity_id}`).text("PAUSED");
+            $(`.donation-status-${entity_id}`).text(Drupal.t('PAUSED'));
 
         });
 
@@ -96,7 +96,7 @@ $('body').on('click', '.resumeDonation', e => {
                                      ${Drupal.t('Pause')}
                                      </button>`);
             $(`[data-wrapper-id=${entity_id}]`).removeClass('bg-gradient-warning').addClass('bg-gradient-green');
-            $(`.donation-status-${entity_id}`).text("ACTIVE");
+            $(`.donation-status-${entity_id}`).text(Drupal.t("ACTIVE"));
         });
 
 

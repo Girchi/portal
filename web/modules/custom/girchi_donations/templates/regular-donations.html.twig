@@ -1,9 +1,10 @@
+
 <div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3 overflow-hidden">
     <div
         class="d-flex border-bottom flex-column flex-md-row px-3 px-md-4 py-3 align-items-md-center"
     >
         <h6 class="text-uppercase font-weight-bold m-0">
-            ავტომატური გადახდები
+            {{ 'Add new payment' |t }}
         </h6>
         <div class="ml-auto my-n1 d-none d-sm-block">
             <button
@@ -11,7 +12,7 @@
                 data-target="#addPayment"
                 class="btn btn-success text-uppercase"
             >
-                გადახდის დამატება
+                {{ 'Add new payment' |t }}
             </button>
         </div>
     </div>
@@ -21,7 +22,7 @@
             data-target="#addPayment"
             class="btn btn-block d-sm-none mb-3 btn-success text-uppercase"
         >
-            გადახდის დამატება
+            {{ 'Add new payment' |t }}
         </button>
         <hr class="my-3 d-sm-none"/>
         <!-- Start payments list -->
@@ -43,7 +44,12 @@
                             >
                                     <span
                                         class="text-white font-size-3 my-2 d-inline-block {{ "donation-status-" ~ regular_donation.id.value }}"
-                                    >{{ regular_donation.status.value }}</span
+                                    >{% if language == 'ka' %}
+                                            {{ regular_donation.status.value == "PAUSED" ? "შეჩერებული" : "აქტიური" }}
+                                        {% else %}
+                                            {{ regular_donation.status.value }}
+                                        {% endif %}
+                                    </span
                                     >
                                 </div>
                             </div>
@@ -56,7 +62,7 @@
                                         {% if regular_donation.politician_id.target_id == null %}
                                             <span
                                                 class="d-block text-grey font-size-2 font-weight-bold"
-                                            >მიზანი</span
+                                            >{{ 'Donation aim'|t }}</span
                                             >
                                             <span
                                                 class="d-block text-success text-uppercase font-weight-bold"
@@ -65,7 +71,7 @@
                                         {% else %}
                                             <span
                                                 class="d-block text-grey font-size-2 font-weight-bold"
-                                            >პოლიტიკოსი</span
+                                            >{{ 'Politician' | t }}</span
                                             >
                                             <span
                                                 class="d-block text-success text-uppercase font-weight-bold"
@@ -77,11 +83,12 @@
                                             class="d-flex font-size-2 font-weight-bold flex-wrap"
                                         >
                                 <span class="mr-3">
-                                  <span class="text-grey">ვადა: </span>{{ regular_donation.frequency.value }} {{'Month' | t}}
+                                  <span
+                                      class="text-grey">{{ 'Periodicity' | t }}: </span>{{ regular_donation.frequency.value }} {{ 'Month' | t }}
                                 </span>
                                             <span class="mr-3">
                                   <span class="text-grey"
-                                  >გადახდის რიცხვი: </span
+                                  >{{ 'Paying date:' | t }} </span
                                   >{{ regular_donation.payment_day.value }}</span
                                             >
                                         </div>
@@ -140,7 +147,7 @@
                     class="modal-title font-size-3 text-uppercase font-weight-bold"
                     id="addPaymentTitle"
                 >
-                    გადახდის დამატება
+                    {{ 'Add new payment' |t }}
                 </h5>
                 <button
                     type="button"
@@ -268,7 +275,7 @@
                         class="modal-title font-size-3 text-uppercase font-weight-bold"
                         id="editPaymentTitle"
                     >
-                        მხარდამჭერები
+                        {{ 'Donation' |t }}
                     </h5>
                     <button
                         type="button"
@@ -321,7 +328,7 @@
                         <hr class="border-dashed border-secondary"/>
                         <div class="d-flex flex-wrap flex-sm-nowrap">
                             <div class="form-group w-100 w-md-50 pr-sm-2">
-                                <label class="form-label" for="amount">თანხა</label>
+                                <label class="form-label" for="amount">{{ 'Amount' |t }}</label>
                                 <!-- data-rate = how many GED is 1 GEL -->
                                 <input
                                     type="number"
@@ -332,39 +339,39 @@
                                     data-output="#ged-output-add"
                                     data-rate="2"
                                     value="{{ regular_donation.amount.value }}"
-                                    placeholder="მიუთითეთ თანხა"
+                                    placeholder="{{ 'You will get' }}"
                                 />
                             </div>
                             <div class="form-group w-100 w-md-50">
-                                <label class="form-label">თქვენ ჩაგერიცხებათ</label>
+                                <label class="form-label">{{ 'You will recive' |t }}</label>
                                 <div class="text-success font-size-5 d-flex pl-3 pt-2">
                                     <i class="icon-ged"></i>
                                     <span class="ml-1 font-weight-bold ged-output-add"
-                                    >200</span
+                                    >0</span
                                     >
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap flex-sm-nowrap">
                             <div class="form-group w-100 w-md-50 pr-sm-2">
-                                <label class="form-label" for="period">{{'Period' | t}}</label>
+                                <label class="form-label" for="period">{{ 'Periodicity' | t }}</label>
                                 <div class="form-control form-control-lg">
                                     <select name="period" id="period">
-                                        <option value="">აირჩიეთ</option>
+                                        <option value="">{{ 'Select' | t }}</option>
                                         <option {{ regular_donation.frequency.value == 1 ? "selected" : "" }}
-                                            value="1">1 {{'Month' |t}}</option>
+                                            value="1">1 {{ 'Month' |t }}</option>
                                         <option {{ regular_donation.frequency.value == 3 ? "selected" : "" }}
-                                            value="3">3 {{'Month' |t}}</option>
+                                            value="3">3 {{ 'Month' |t }}</option>
                                         <option {{ regular_donation.frequency.value == 6 ? "selected" : "" }}
-                                            value="6">6 {{'Month' |t}}</option>
+                                            value="6">6 {{ 'Month' |t }}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group w-100 w-md-50">
-                                <label class="form-label" for="date">გადახდის თარიღი</label>
+                                <label class="form-label" for="date">{{ 'Donation date' |t }}</label>
                                 <div class="form-control form-control-lg">
                                     <select name="date" id="date">
-                                        <option value="">აირჩიეთ</option>
+                                        <option value="">{{ 'Select' |t }}</option>
                                         {% for i in 1..31 %}
                                             <option {{ i == regular_donation.payment_day.value ? 'selected' : '' }}
                                                 value="{{ i }}">{{ i }}</option>
@@ -376,7 +383,7 @@
                         {% if regular_donation.politician_id.target_id == null %}
                             <div class="form-group">
                                 <label class="form-label" for="description"
-                                >{{ 'Aim' | t }}</label
+                                >{{ 'Donation aim' | t }}</label
                                 >
                                 <div class="form-control form-control-lg">
                                     <select name="aim" id="aim">
@@ -391,7 +398,7 @@
                         {% else %}
                             <div class="form-group">
                                 <label class="form-label" for="description"
-                                >{{ 'Politician' | t }}</label
+                                >{{ 'Donation to politician' | t }}</label
                                 >
                                 <div class="form-control form-control-lg">
                                     <select name="politician" id="politician">
@@ -404,12 +411,12 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <input type="hidden"  name="donation-id" value="{{ regular_donation.id.value }}">
+                        <input type="hidden" name="donation-id" value="{{ regular_donation.id.value }}">
                         <button
                             type="submit"
                             class="btn btn-lg btn-block btn-warning text-uppercase mt-4"
                         >
-                            დამახსოვრება
+                            {{ 'Donate' |t }}
                         </button>
                     </form>
                 </div>
