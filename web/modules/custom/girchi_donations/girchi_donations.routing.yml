@@ -6,6 +6,8 @@ girchi_donations.donations_controller_index:
     _title: 'Donate'
   requirements:
     _permission: 'access content'
+  options:
+    no_cache: 'TRUE'
 
 girchi_donations.donations_controller_finish:
   path: '/donate/finish'
