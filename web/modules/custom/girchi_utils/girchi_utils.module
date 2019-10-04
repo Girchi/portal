@@ -509,12 +509,30 @@ function girchi_utils_simple_sitemap_links_alter(array &$links, $sitemap_variant
  * Implements hook_Webform_submission_presave().
  */
 function girchi_utils_webform_submission_presave(WebformSubmissionInterface $webform_submission) {
+  /** @var \Symfony\Component\HttpFoundation\RequestStack $request_stack */
+  $request_stack = \Drupal::service('request_stack');
+  $request = $request_stack->getCurrentRequest();
+
+  $webform_data = $webform_submission->getData();
+
   if ($webform_submission->getWebform()->id() == 'student_registration') {
-    $start_time = $_POST['start-time'];
-    $end_time = $_POST['end-time'];
-    $webform_data = $webform_submission->getData();
+    $start_time = $request->request->get('start-time');
+    $end_time = $request->request->get('end-time');
     $webform_data['time_range'] = $start_time . '-' . $end_time;
-    $webform_submission->setData($webform_data);
+  }
+
+  $webform_submission->setData($webform_data);
+}
+
+/**
+ * Implements hook_webform_element_alter().
+ */
+function girchi_utils_webform_element_alter(array &$element, FormStateInterface $form_state, array $context) {
+  if (isset($element['#webform']) && $element['#webform'] == 'investor_registration') {
+    $element['#element_validate'][] = [
+      'Drupal\girchi_utils\Validate\ValidationConstraint',
+      'validate',
+    ];
   }
 }
 

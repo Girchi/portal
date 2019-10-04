@@ -254,7 +254,14 @@ function girchi_preprocess_page(array &$variables)
     $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
     $build                             = $view_builder->view($webform);
     $variables['teacher_registration'] = $build;
+    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('investor_registration');
+    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build                             = $view_builder->view($webform);
+    $variables['investor_registration'] = $build;
   }
+
+
+
 }
 
 /**
@@ -390,6 +397,7 @@ function girchi_preprocess_form(array &$variables)
       $variables['cover_name'] = $coverName;
     }
   }
+
 }
 
 /**
@@ -535,7 +543,6 @@ function girchi_preprocess_menu(array &$variables)
   }
 }
 
-
 function girchi_preprocess_views_view_fields(&$variables)
 {
   $view = $variables['view'];
@@ -552,7 +559,6 @@ function girchi_preprocess_views_view_fields(&$variables)
     }
   }
 }
-
 
 function get_user_avatar($user)
 {
