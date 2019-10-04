@@ -5,12 +5,12 @@ namespace Drupal\girchi_utils\Validate;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- *ValidationConstraint
+ * ValidationConstraint.
  */
 class ValidationConstraint {
 
   /**
-   * Function for validation
+   * Function for validation.
    */
   public static function validate(array &$element, FormStateInterface $formState, array &$form) {
     if ($element['#webform_key'] == 'investment_amount') {
