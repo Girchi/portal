@@ -101,10 +101,11 @@ function girchi_ged_transactions_entity_presave(EntityInterface $entity) {
 function girchi_ged_transactions_cron() {
   $summaryGedCalculation = Drupal::service('girchi_ged_transactions.summarygedcalculation');
   $gedCalc = $summaryGedCalculation->summaryGedCalculation();
-  /** @var \Drupal\Core\Config\ConfigFactory $configFactory */
-  $configFactory = Drupal::service('config.factory');
-  $configFactory->getEditable('om_site_settings.site_settings')
-    ->set('ged_summary', $gedCalc['gedValue'])
-    ->set('ged_percentage', $gedCalc['gedPercentage'])
-    ->save();
+  /** @var \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue */
+  $keyValue = Drupal::service('keyvalue');
+  $gedCalculation = $keyValue->get('ged_calculation');
+
+  $gedCalculation->set('ged_summary', $gedCalc['gedValue']);
+  $gedCalculation->set('ged_percentage', $gedCalc['gedPercentage']);
+
 }
