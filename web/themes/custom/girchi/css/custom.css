@@ -58,6 +58,9 @@ html {
 .webform-submission-teacher-registration-form input {
   margin: 0 !important;
 }
+.webform-submission-investor-registration-form input {
+  margin: 0 !important;
+}
 
 .article-body .my-3 img {
   max-width: 100%;
