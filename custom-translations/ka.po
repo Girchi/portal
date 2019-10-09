@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-04 08:40+0000\n"
-"PO-Revision-Date: 2019-10-04 08:40+0000\n"
+"POT-Creation-Date: 2019-10-09 12:02+0000\n"
+"PO-Revision-Date: 2019-10-09 12:02+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4074,14 +4074,17 @@ msgstr ""
 "განმეორებას აღარ "
 "საჭიროებს."
 
-msgid "Donations history"
-msgstr "გადახდების ისტორია"
-
 msgid "Investor registration"
 msgstr "ინვესტორის რეგისტრაცია"
 
 msgid "Investor"
 msgstr "ინვესტორი"
+
+msgid "I am a parent"
+msgstr "მშობელი ვარ"
+
+msgid "Donations history"
+msgstr "გადახდების ისტორია"
 
 msgid "Minimum amount of investment for parents must be equal to 10K dollar."
 msgstr ""
