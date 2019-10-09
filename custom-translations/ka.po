@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-09 12:02+0000\n"
-"PO-Revision-Date: 2019-10-09 12:02+0000\n"
+"POT-Creation-Date: 2019-10-09 14:58+0000\n"
+"PO-Revision-Date: 2019-10-09 14:58+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3883,9 +3883,6 @@ msgstr "სთ"
 msgid "Estimated price in month:"
 msgstr "სავარაუდო ფასი თვეში:"
 
-msgid "@name field is required."
-msgstr "@name სავალდებულო ველია"
-
 msgid "New Email"
 msgstr "ახალი ელ.ფოსტა"
 
@@ -4025,12 +4022,6 @@ msgstr ""
 "აირჩიეთ დაფინანსების "
 "მიზანი ან პოლიტიკოსი"
 
-msgid "ID of aim politician"
-msgstr "მიზანი"
-
-msgid "Amount of money"
-msgstr "თანხა"
-
 msgid "Transaction failed ,try again"
 msgstr ""
 "ტრანზაქცია უარყოფილია "
@@ -4074,21 +4065,6 @@ msgstr ""
 "განმეორებას აღარ "
 "საჭიროებს."
 
-msgid "Investor registration"
-msgstr "ინვესტორის რეგისტრაცია"
-
-msgid "Investor"
-msgstr "ინვესტორი"
-
-msgid "I am a parent"
-msgstr "მშობელი ვარ"
-
-msgid "Donations history"
-msgstr "გადახდების ისტორია"
-
-msgid "Minimum amount of investment for parents must be equal to 10K dollar."
-msgstr ""
-"მინიმალური საინვესტიციო "
-"თანხა მშობლებისთვის "
-"შეადგენს 10K დოლარს."
+msgid "Add child"
+msgstr "ბავშვის დამატება"
 
