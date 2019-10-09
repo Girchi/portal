@@ -84,3 +84,9 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.student-button {
+    display: inline-block !important;
+    cursor: pointer !important;
+    border: 1px solid !important;
+}

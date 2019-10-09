@@ -155,6 +155,7 @@ $(".investor-parent-checkbox input").on("change",  function () {
     }
     else {
         investorChildren.attr('hidden', true);
+        $(".investment-amount").attr('min', 1);
     }
 });
 
