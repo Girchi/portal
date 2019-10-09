@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 uuid: a410b2f5-5279-44f6-ad3e-f957c8d2748b
 langcode: en
 status: true
@@ -5,6 +6,14 @@ dependencies:
   config:
     - field.field.donation.donation.field_donation_type
     - field.field.donation.donation.field_regular_donation
+=======
+uuid: df382b24-4340-45d2-a0d5-f23a725faf81
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.donation.donation.field_ged_transaction
+>>>>>>> origin/500-transaction-relation
   module:
     - girchi_donations
     - user
@@ -20,6 +29,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+<<<<<<< HEAD
   field_donation_type:
     weight: 1
     label: above
@@ -32,6 +42,12 @@ content:
     weight: 2
     label: above
     settings:
+=======
+  field_ged_transaction:
+    weight: 1
+    label: above
+    settings:
+>>>>>>> origin/500-transaction-relation
       link: true
     third_party_settings: {  }
     type: entity_reference_label
