@@ -516,9 +516,13 @@ function girchi_utils_webform_submission_presave(WebformSubmissionInterface $web
   $webform_data = $webform_submission->getData();
 
   if ($webform_submission->getWebform()->id() == 'student_registration') {
-    $start_time = $request->request->get('start-time');
-    $end_time = $request->request->get('end-time');
-    $webform_data['time_range'] = $start_time . '-' . $end_time;
+    $start_times = $request->request->get('start-time');
+    $end_times = $request->request->get('end-time');
+    if (!empty($start_times) && !empty($end_times)) {
+      foreach ($start_times as $key => $start_time) {
+        $webform_data['time_ranges'][] = $start_time . '-' . $end_times[$key];
+      }
+    }
   }
 
   $webform_submission->setData($webform_data);

@@ -70,16 +70,17 @@
     >
         {{ 'How much time will your kid spend in our school' |t }}
     </h6>
-    <div class="row d-lg-none">
+    <div class="row d-lg-none" id="child-select-wrapper">
         <div class="col-12 col-lg-6">
             <div class="form-group">
                 <label class="form-label" for="start-time"
                 >{{ 'Start time' |t }}</label
                 >
                 <select
-                    class="form-control form-control-lg"
-                    id="start-time"
-                    name="start-time"
+                    class="form-control form-control-lg start-time"
+                    name="start-time[1]"
+                    placeholder="მიუთითეთ დაწყების დრო"
+                    data-slider = 1
                 >
                 </select>
             </div>
@@ -90,28 +91,39 @@
                 >{{ 'End time' |t }}</label
                 >
                 <select
-                    class="form-control form-control-lg"
-                    id="end-time"
-                    name="end-time"
+                    class="form-control form-control-lg end-time"
+                    name="end-time[1]"
+                    placeholder="მიუთითეთ დამთავრების დრო"
+                    data-slider = 1
                 >
                 </select>
             </div>
         </div>
     </div>
-    <div class="px-3 d-none d-lg-block">
-        <input
-            class="time-range-picker w-100"
-            name = "time-range1"
-            type="text"
-            data-slider-ticks="[9,10,11,12,13,14,15,16,17,18,19,20,21]"
-            data-slider-ticks-labels='["9 {{ "hrs" |t}}","10 {{ "hrs" |t}}","11 {{ "hrs" |t}}","12 {{ "hrs" |t}}","13 {{ "hrs" |t}}","14 {{ "hrs" |t}}","15 {{ "hrs" |t}}","16 {{ "hrs" |t}}","17 {{ "hrs" |t}}","18 {{ "hrs" |t}}","19 {{ "hrs" |t}}","20 {{ "hrs" |t}}","21 {{ "hrs" |t}}"]'
-            data-slider-min="9"
-            data-slider-max="21"
-            data-slider-step="1"
-            data-slider-price="1000"
-            data-slider-unit="{{ "hrs" |t}}"
-            data-slider-value="[9,13]"
-        />
+    <div id="sliders-wrapper">
+        <div class="px-3 d-none d-lg-block">
+            <input
+                class="time-range-picker w-100"
+                type="text"
+                data-slider-ticks="[9,10,11,12,13,14,15,16,17,18,19,20,21]"
+                data-slider-ticks-labels='["9 სთ","10 სთ","11 სთ","12 სთ","13 სთ","14 სთ","15 სთ","16 სთ","17 სთ","18 სთ","19 სთ","20 სთ","21 სთ"]'
+                data-slider-min="9"
+                data-slider-max="21"
+                data-slider-step="1"
+                data-slider-price="1000"
+                data-slider-unit="სთ"
+                data-slider-value="[9,13]"
+                data-slider-id = "1"
+            />
+        </div>
+    </div>
+    <div class="text-center font-size-6 ">
+        <a class="text-decoration-none text-success" id="addNewChild">
+            <i class="icon-plus"></i>
+        </a>
+        <a class="text-decoration-none text-warning" id="removeLastChild">
+            <i class="icon-delete"></i>
+        </a>
     </div>
     <div class="text-center">
         <div class="d-inline-flex flex-column py-3">
@@ -124,6 +136,6 @@
         </div>
     </div>
     <div class="text-center">
-        {{ element.elements.actions}}
+        {{ element.elements.actions }}
     </div>
 </form>
