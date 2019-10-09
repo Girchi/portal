@@ -158,7 +158,7 @@ class DonationsController extends ControllerBase {
             $gel_amount = $donation->getAmount();
             $ged_amount = $this->gedCalculator->calculate($gel_amount);
             if ($user->id() !== '0') {
-              $ged_manager->create([
+              $transaction = $ged_manager->create([
                 'user_id' => "1",
                 'user' => $user->id(),
                 'ged_amount' => $ged_amount,
@@ -168,6 +168,7 @@ class DonationsController extends ControllerBase {
                 'Description' => 'Transaction was created by donation',
               ])
                 ->save();
+              $donation->set('field_ged_transacton', $transaction->id());
               $auth = TRUE;
             }
             else {
