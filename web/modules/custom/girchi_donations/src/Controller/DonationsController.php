@@ -166,8 +166,8 @@ class DonationsController extends ControllerBase {
                 'name' => 'Donation',
                 'status' => TRUE,
                 'Description' => 'Transaction was created by donation',
-              ])
-                ->save();
+              ]);
+              $transaction->save();
               $donation->set('field_ged_transacton', $transaction->id());
               $auth = TRUE;
             }
