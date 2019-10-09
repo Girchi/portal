@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.donation.donation.field_donation_type
+    - field.field.donation.donation.field_regular_donation
+    - field.field.donation.donation.field_ged_transaction
   module:
     - girchi_donations
 id: donation.donation.default
@@ -17,16 +19,28 @@ content:
     settings:
       match_operator: CONTAINS
       size: 60
-      placeholder: ''
+      placeholder: ""
     region: content
-    third_party_settings: {  }
+    third_party_settings: {}
   field_donation_type:
     weight: 6
     settings:
       size: 60
-      placeholder: ''
-    third_party_settings: {  }
+      placeholder: ""
+    third_party_settings: {}
     type: string_textfield
+    region: content
+  field_regular_donation:
+    weight: 7
+    settings:
+  field_ged_transaction:
+    weight: 6
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ""
+    third_party_settings: {}
+    type: entity_reference_autocomplete
     region: content
   politician_id:
     type: entity_reference_autocomplete
@@ -34,16 +48,16 @@ content:
     settings:
       match_operator: CONTAINS
       size: 60
-      placeholder: ''
+      placeholder: ""
     region: content
-    third_party_settings: {  }
+    third_party_settings: {}
   user_id:
     type: entity_reference_autocomplete
     weight: 5
     settings:
       match_operator: CONTAINS
       size: 60
-      placeholder: ''
+      placeholder: ""
     region: content
-    third_party_settings: {  }
-hidden: {  }
+    third_party_settings: {}
+hidden: {}

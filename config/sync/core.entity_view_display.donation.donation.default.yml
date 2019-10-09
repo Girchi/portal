@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.donation.donation.field_donation_type
+    - field.field.donation.donation.field_regular_donation
+    - field.field.donation.donation.field_ged_transaction
   module:
     - girchi_donations
     - user
@@ -17,29 +19,41 @@ content:
     type: author
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
+    settings: {}
+    third_party_settings: {}
   field_donation_type:
     weight: 1
     label: above
     settings:
       link_to_entity: false
-    third_party_settings: {  }
+    third_party_settings: {}
     type: string
+    region: content
+  field_regular_donation:
+    weight: 2
+    label: above
+    settings:
+  field_ged_transaction:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {}
+    type: entity_reference_label
     region: content
   politician_id:
     label: hidden
     type: author
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
+    settings: {}
+    third_party_settings: {}
   user_id:
     label: hidden
     type: author
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
+    settings: {}
+    third_party_settings: {}
 hidden:
   search_api_excerpt: true
