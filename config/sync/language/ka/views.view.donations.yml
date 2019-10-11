@@ -1,0 +1,31 @@
+display:
+  default:
+    display_options:
+      fields:
+        status:
+          label: 'გადახდის ტიპი'
+        amount:
+          label: თანხა
+        politician_donation:
+          label: 'პოლიტიკოსის დონაცია'
+        aim_donation:
+          label: მიზანი
+        ged_amount:
+          label: 'GeD-ების რაოდენობა'
+  page_2:
+    display_options:
+      fields:
+        aim_donation:
+          label: მიზანი
+        amount:
+          label: თანხა
+        created:
+          label: თარიღი
+        ged_amount:
+          alter:
+            text: '{{ged_amount}}<i class="icon-ged font-size-3"></i>'
+          label: 'GeD-ების რაოდენობა'
+        field_donation_type:
+          label: 'გადახდის ტიპი'
+        politician_id:
+          label: პოლიტიკოსი/მიზანი
