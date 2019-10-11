@@ -77,14 +77,24 @@ class DonationUtils {
 
   /**
    * Function for getting politicians.
+   *
+   * @param bool $entity
+   *   Boolean for getting politicians entity.
+   *
+   * @return array|\Drupal\Core\Entity\EntityInterface[]
+   *   Politicians array.
    */
-  public function getPoliticians() {
+  public function getPoliticians($entity = FALSE) {
 
     $options = [];
     try {
       /** @var \Drupal\user\UserStorage $user_storage */
       $user_storage = $this->entityTypeManager->getStorage('user');
       $politicians = $user_storage->loadByProperties(['field_politician' => TRUE]);
+
+      if ($entity) {
+        return $politicians;
+      }
 
       if ($politicians) {
         /** @var \Drupal\user\Entity\User $politician */
@@ -141,8 +151,11 @@ class DonationUtils {
 
   }
 
+  /**
+   * Function for adding donation records.
+   */
   public function addDonationRecord($type, $donation, $entity_id) {
-    /**
+    /*
      * TYPE 1 - AIM
      * TYPE 2 - Politician
      */
@@ -150,23 +163,27 @@ class DonationUtils {
       $donationStorage = $this->entityTypeManager->getStorage('donation');
       if ($type === 1) {
         $additional_fields = ['aim_donation' => TRUE, 'aim_id' => $entity_id];
-      }else {
-        $additional_fields = ['politician_donation' => TRUE, 'politician_id'=>$entity_id];
+      }
+      else {
+        $additional_fields = ['politician_donation' => TRUE, 'politician_id' => $entity_id];
       }
       $final_fields = array_merge($donation, $additional_fields);
       $entity = $donationStorage->create($final_fields);
       $entity->save();
       $this->loggerFactory->get('girchi_donations')->info('Saved to donations with Status: INITIAL');
-      return true;
-    } catch (InvalidPluginDefinitionException $e) {
+      return TRUE;
+    }
+    catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
-    } catch (PluginNotFoundException $e) {
+    }
+    catch (PluginNotFoundException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
-    } catch (EntityStorageException $e) {
+    }
+    catch (EntityStorageException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
     }
 
-    return false;
+    return FALSE;
   }
 
 }

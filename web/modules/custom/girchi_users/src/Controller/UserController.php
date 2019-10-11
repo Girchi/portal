@@ -9,6 +9,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\social_auth\SocialAuthDataHandler;
+use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -239,6 +240,53 @@ class UserController extends ControllerBase {
     }
 
     return new JsonResponse("success");
+  }
+
+  /**
+   * Top politicans.
+   */
+  public function topPliticians() {
+    $users = $this->entityTypeManager->getStorage('user');
+    $usersArray = $users->getQuery()
+      ->condition('field_politician', TRUE)
+      ->range(0, 10)
+      ->sort('field_rating_in_party_list', 'DESC')
+      ->execute();
+    return new JsonResponse($this->getUsersInfo($usersArray));
+  }
+
+  /**
+   * Get user info.
+   */
+  public function getUsersInfo(array $users) {
+    $userArray = [];
+    if (!empty($users)) {
+      foreach ($users as $user) {
+        $user = User::Load($user);
+        if ($user != NULL) {
+          $firstName = $user->get('field_first_name')->value;
+          $lastName = $user->get('field_last_name')->value;
+          $imgUrl = '';
+          if (!empty($user->get('user_picture')[0])) {
+            $imgId = $user->get('user_picture')[0]->getValue()['target_id'];
+            $imgFile = $this->entityTypeManager->getStorage('file')->load($imgId);
+            $style = $this->entityTypeManager()->getStorage('image_style')->load('party_member');
+            $imgUrl = $style->buildUrl($imgFile->getFileUri());
+          }
+          else {
+            $imgUrl = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+          }
+          $uid = $user->id();
+          $userArray[] = [
+            "id" => $uid,
+            "firstName" => $firstName,
+            "lastName" => $lastName,
+            "imgUrl" => $imgUrl,
+          ];
+        }
+      }
+    }
+    return $userArray;
   }
 
 }

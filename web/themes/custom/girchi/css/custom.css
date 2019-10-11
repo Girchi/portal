@@ -90,3 +90,17 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer !important;
     border: 1px solid !important;
 }
+
+#politician-autocomplete{
+  position: relative;
+}
+
+.politicians-list{
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.politiciansList{
+  list-style: none;
+}

@@ -14,7 +14,6 @@ girchi_my_party_list.party_list_controller_getUsers:
     _title: 'Get users'
   requirements:
     _permission: 'access content'
-    _role: 'authenticated'
 
 girchi_my_party_list.party_list_controller_updateUser:
   path: '/api/party-list/submit'

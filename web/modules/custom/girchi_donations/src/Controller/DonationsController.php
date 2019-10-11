@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
+use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -55,6 +56,20 @@ class DonationsController extends ControllerBase {
   protected $keyValue;
 
   /**
+   * Utils service.
+   *
+   * @var \Drupal\girchi_donations\Utils\DonationUtils
+   */
+  private $donationUtils;
+
+  /**
+   * User storage.
+   *
+   * @var \Drupal\user\UserStorage
+   */
+  private $userStorage;
+
+  /**
    * Construct.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
@@ -67,13 +82,26 @@ class DonationsController extends ControllerBase {
    *   GedCalculator.
    * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
    *   KeyValue storage.
+   * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
+   *   Donation Utils.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function __construct(ConfigFactory $configFactory, PaymentService $omediaPayment, EntityTypeManager $entityTypeManager, GedCalculator $gedCalculator, KeyValueFactory $keyValue) {
+  public function __construct(ConfigFactory $configFactory,
+                              PaymentService $omediaPayment,
+                              EntityTypeManager $entityTypeManager,
+                              GedCalculator $gedCalculator,
+                              KeyValueFactory $keyValue,
+                              DonationUtils $donationUtils) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
     $this->entityTypeManager = $entityTypeManager;
     $this->gedCalculator = $gedCalculator;
     $this->keyValue = $keyValue;
+    $this->donationUtils = $donationUtils;
+    $this->userStorage = $entityTypeManager->getStorage('user');
+
   }
 
   /**
@@ -85,7 +113,9 @@ class DonationsController extends ControllerBase {
       $container->get('om_tbc_payments.payment_service'),
       $container->get('entity_type.manager'),
       $container->get('girchi_donations.ged_calculator'),
-      $container->get('keyvalue')
+      $container->get('keyvalue'),
+      $container->get('girchi_donations.donation_utils')
+
     );
   }
 
@@ -95,13 +125,37 @@ class DonationsController extends ControllerBase {
    * @return array
    *   Return array with template and variables
    */
-  public function index() {
+  public function index(Request $request) {
     $config = $this->configFactory->get('om_site_settings.site_settings');
     $right_block = $config->get('donation_right_block')['value'];
+    $politicians = $this->donationUtils->getPoliticians(TRUE);
     $form_single = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\SingleDonationForm");
     $form_multiple = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\MultipleDonationForm");
+
+    // Get politician ID from query parameter and load its first/last names.
+    if ($request->query->get('politician')) {
+      $politicianId = $request->query->get('politician');
+      $politician = $this->userStorage->load($politicianId);
+
+      if ($politician->get('user_picture')->entity) {
+        $profilePictureEntity = $politician->get('user_picture')->entity;
+        $profilePicture = $profilePictureEntity->getFileUri();
+      }
+      else {
+        $profilePicture = NULL;
+      }
+      $current_politician[] = [
+        'first_name' => $politician->get('field_first_name')->value,
+        'last_name' => $politician->get('field_last_name')->value,
+        'image' => $profilePicture,
+      ];
+
+    }
+    else {
+      $current_politician[] = '';
+    }
 
     return [
       '#type' => 'markup',
@@ -109,6 +163,8 @@ class DonationsController extends ControllerBase {
       '#form_single' => $form_single,
       '#form_multiple' => $form_multiple,
       '#right_block' => $right_block,
+      '#politicians' => $politicians,
+      '#current_politician' => $current_politician,
     ];
   }
 
