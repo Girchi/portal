@@ -27,5 +27,8 @@ display:
           label: 'GeD-ების რაოდენობა'
         field_donation_type:
           label: 'გადახდის ტიპი'
+          settings:
+            format_custom_true: რეგულარული
+            format_custom_false: ერთჯერადი
         politician_id:
           label: პოლიტიკოსი/მიზანი

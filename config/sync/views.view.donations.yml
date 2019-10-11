@@ -1346,8 +1346,8 @@ display:
           label: 'Donation type'
           exclude: false
           alter:
-            alter_text: true
-            text: '{{field_donation_type ? field_donation_type : ''Disposable''|t}}'
+            alter_text: false
+            text: '{{ field_donation_type ? field_donation_type : "Disposable"|t }}'
             make_link: false
             path: ''
             absolute: false
@@ -1380,14 +1380,16 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
-          empty: Disposable
+          empty: '{{''Disposable''|t}}'
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: string
+          type: boolean
           settings:
-            link_to_entity: false
+            format: default
+            format_custom_true: ''
+            format_custom_false: ''
           group_column: value
           group_columns: {  }
           group_rows: true
