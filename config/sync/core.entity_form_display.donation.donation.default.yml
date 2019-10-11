@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.donation.donation.field_donation_type
-    - field.field.donation.donation.field_regular_donation
     - field.field.donation.donation.field_ged_transaction
+    - field.field.donation.donation.field_regular_donation
   module:
     - girchi_donations
 id: donation.donation.default
@@ -23,12 +23,11 @@ content:
     region: content
     third_party_settings: {  }
   field_donation_type:
-    weight: 6
+    weight: 8
     settings:
-      size: 60
-      placeholder: ''
+      display_label: true
     third_party_settings: {  }
-    type: string_textfield
+    type: boolean_checkbox
     region: content
   field_ged_transaction:
     weight: 6

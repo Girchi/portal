@@ -1,5 +1,5 @@
-uuid: dba37e7f-9e31-4301-8525-0cc5d516ec32
-langcode: en
+uuid: b88b5c7e-0983-4898-a2fb-09358fa44509
+langcode: ka
 status: true
 dependencies:
   config:
@@ -16,7 +16,9 @@ required: false
 translatable: false
 default_value:
   -
-    value: BASIC
+    value: 0
 default_value_callback: ''
-settings: {  }
-field_type: string
+settings:
+  on_label: Regular
+  off_label: Disposable
+field_type: boolean
