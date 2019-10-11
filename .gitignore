@@ -59,3 +59,6 @@ config/excluded/*
 # Ignore generated markup files
 front
 web/themes/custom/girchi/dist
+
+console/
+mariadb-init/

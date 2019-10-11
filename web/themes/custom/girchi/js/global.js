@@ -146,4 +146,18 @@ jQuery(function($) {
         });
 });
 
+$(".investor-parent-checkbox input").on("change",  function () {
+    let isChecked = $(this).parent().hasClass('checked');
+    let investorChildren =  $(".investor-children");
+    if(isChecked){
+        investorChildren.attr('hidden', false);
+        $(".investment-amount").attr('min', 10000);
+    }
+    else {
+        investorChildren.attr('hidden', true);
+        $(".investment-amount").attr('min', 1);
+    }
+});
+
+
 

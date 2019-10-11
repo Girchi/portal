@@ -1,26 +1,30 @@
-uuid: e02f5fb0-3e9e-4414-a93f-4d70bdb7f528
-langcode: ka
+uuid: 4c2897c4-3cba-46f2-ba0b-688349ed5e40
+langcode: en
 status: open
 dependencies: {  }
 open: null
 close: null
 weight: 0
-uid: 1
+uid: 76
 template: false
 archive: false
-id: student_registration
-title: 'მოსწავლის რეგისტრაცია'
+id: investor_registration
+title: 'Investor registration'
 description: ''
 category: ''
-elements: "parent_first_name:\n  '#type': textfield\n  '#title': 'მშობლის სახელი'\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მშობლის სახელი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: parent-fname\n  '#label_attributes':\n    class:\n      - form-label\nparent_last_name:\n  '#type': textfield\n  '#title': 'მშობლის გვარი'\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მშობლის გვარი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: parent-lname\n  '#label_attributes':\n    class:\n      - form-label\n    for: parent-lname\nemail:\n  '#type': email\n  '#title': ელ.ფოსტა\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ ელ.ფოსტა'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: email\n  '#label_attributes':\n    class:\n      - form-label\n    for: email\nphone:\n  '#type': tel\n  '#title': ტელეფონი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ ტელეფონი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: phone\n  '#label_attributes':\n    class:\n      - form-label\n    for: phone\naddress:\n  '#type': textfield\n  '#title': მისამართი\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მისამართი'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: district\n  '#label_attributes':\n    class:\n      - form-label\n    for: district\npupil_count:\n  '#type': textfield\n  '#title': 'მოსწავლეების რაოდენობა'\n  '#title_display': before\n  '#placeholder': 'მიუთითეთ მოსწავლეების რაოდენობა'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n    id: number-of-pupils\n  '#label_attributes':\n    class:\n      - form-label\n    for: number-of-pupils\ntime_ranges:\n  '#type': textfield\n  '#title': 'სასურველი დროები'\n  '#multiple': true\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': რეგისტრაცია\n  '#submit__attributes':\n    class:\n      - 'btn btn-lg w-100 w-md-50 w-xl-250-px btn-warning text-uppercase my-3'"
+elements: "first_name:\n  '#type': textfield\n  '#title': 'First name'\n  '#placeholder': 'Enter your name'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nlast_name:\n  '#type': textfield\n  '#title': 'Last name'\n  '#title_display': before\n  '#placeholder': 'Enter your last name'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nemail:\n  '#type': email\n  '#title': Email\n  '#placeholder': 'Enter your email'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\naddress:\n  '#type': textfield\n  '#title': Address\n  '#placeholder': 'Enter your address'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nphone:\n  '#type': tel\n  '#title': Phone\n  '#placeholder': 'Enter your phone number'\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\ninvestment_amount:\n  '#type': number\n  '#title': 'Investment amount'\n  '#placeholder': 'Enter investment amount'\n  '#required': true\n  '#attributes':\n    class:\n      - 'form-control form-control-lg investment-amount'\n  '#label_attributes':\n    class:\n      - form-label\n  '#min': '1'\ni_am_a_parent:\n  '#type': checkbox\n  '#title': 'I am a parent'\n  '#title_display': invisible\n  '#field_prefix': '  <label class=\"form-checkbox-label font-size-1 text-grey font-weight-bold border-dark-silver \"                        for=\"inve'\n  '#wrapper_attributes':\n    class:\n      - 'form-checkbox-input investor-parent-checkbox'\n    style: 'width: 30px;'\n  '#attributes':\n    class:\n      - 'form-control form-checkbox'\n  '#label_attributes':\n    class:\n      - 'form-checkbox-label font-size-1 text-grey font-weight-bold border-dark-silver'\nnumber_of_children:\n  '#type': number\n  '#title': 'Number of children'\n  '#placeholder': 'Number of children'\n  '#states':\n    required:\n      ':input[name=\"i_am_a_parent\"]':\n        checked: true\n  '#attributes':\n    class:\n      - 'form-control form-control-lg'\n  '#label_attributes':\n    class:\n      - form-label\nactions:\n  '#type': webform_actions\n  '#title': 'Submit button(s)'\n  '#submit__label': რეგისტრაცია\n  '#submit__attributes':\n    class:\n      - 'btn btn-lg w-100 w-md-50 w-xl-250-px btn-warning text-uppercase my-3'"
 css: ''
 javascript: ''
 settings:
   ajax: false
   ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
   page: true
   page_submit_path: ''
   page_confirm_path: ''
+  page_admin_theme: false
   form_title: both
   form_submit_once: false
   form_exception_message: ''
@@ -53,7 +57,9 @@ settings:
   submission_label: ''
   submission_log: false
   submission_views: {  }
-  submission_views_replace: {  }
+  submission_views_replace:
+    webform_routes: {  }
+    node_routes: {  }
   submission_user_columns: {  }
   submission_user_duplicate: false
   submission_access_denied: default
@@ -92,6 +98,8 @@ settings:
   draft_auto_save: false
   draft_saved_message: ''
   draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
   confirmation_type: message
   confirmation_title: ''
   confirmation_message: 'რეგისტრაცაი წარმატებით დასრულდა&nbsp;'
@@ -102,6 +110,7 @@ settings:
   confirmation_back_attributes: {  }
   confirmation_exclude_query: false
   confirmation_exclude_token: false
+  confirmation_update: false
   limit_total: null
   limit_total_interval: null
   limit_total_message: ''
