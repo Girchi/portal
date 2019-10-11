@@ -163,7 +163,7 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
               'amount' => $data->get('amount')->value,
               'status' => $status,
               'field_regular_donation' => $data->id(),
-              'field_donation_type' => 'Regular',
+              'field_donation_type' => 1,
             ], $target_id);
           $this->loggerChannelFactory->get('girchi_donations')->info(
             sprintf(
