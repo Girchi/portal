@@ -249,8 +249,9 @@ class UserController extends ControllerBase {
     $users = $this->entityTypeManager->getStorage('user');
     $usersArray = $users->getQuery()
       ->condition('field_politician', TRUE)
+      ->condition('field_rating_in_party_list', "", "!=")
+      ->sort('field_rating_in_party_list', 'ASC')
       ->range(0, 10)
-      ->sort('field_rating_in_party_list', 'DESC')
       ->execute();
     return new JsonResponse($this->getUsersInfo($usersArray));
   }

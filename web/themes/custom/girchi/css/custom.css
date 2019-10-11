@@ -103,4 +103,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 .politiciansList{
   list-style: none;
+  overflow-y: auto;
+  height: 12.5rem;
 }
