@@ -1,10 +1,10 @@
 definitions:
   contact__site_page:
-    weight: -50
+    enabled: false
     menu_name: footer
     parent: ''
-    enabled: true
     expanded: false
+    weight: -50
   node__add_page:
     weight: 1
     menu_name: admin
@@ -132,7 +132,7 @@ definitions:
     enabled: true
     expanded: false
   user__logout:
-    weight: -42
+    weight: -43
     menu_name: account
     parent: ''
     enabled: true
