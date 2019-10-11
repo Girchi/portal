@@ -1,5 +1,5 @@
-uuid: afc36f85-802b-46ae-a879-e1a6edef290f
-langcode: en
+uuid: 952875cc-490e-49a7-86c7-db9c9d15304a
+langcode: ka
 status: true
 dependencies:
   module:
@@ -7,11 +7,8 @@ dependencies:
 id: donation.field_donation_type
 field_name: field_donation_type
 entity_type: donation
-type: string
-settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+type: boolean
+settings: {  }
 module: core
 locked: false
 cardinality: 1
