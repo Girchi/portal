@@ -87,6 +87,14 @@ $(document).ready(function () {
         $(this).next('.custom-file-label').html(e.target.files[0].name);
     })
 
+    $("#schoolVideo").on("hide.bs.modal", function() {
+        var _this = this,
+            youtubeSrc = $(_this).find("iframe").attr("src");
+        $(_this).find("iframe").attr("src", "");
+        $(_this).find("iframe").attr("src", youtubeSrc);
+    });
+
+
 });
 
 function SetCaretAtEnd(elem) {

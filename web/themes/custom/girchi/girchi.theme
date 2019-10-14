@@ -514,7 +514,7 @@ function girchi_preprocess_paragraph(&$variables)
 
   if ($paragraph->getParagraphType()->id() == 'school_goal') {
     $thumbnail_url = "";
-    if($paragraph->field_video){
+    if(!empty($paragraph->field_video->first())){
       $youtube_video_url = $paragraph->field_video->first()->value;
       parse_str(parse_url($youtube_video_url, PHP_URL_QUERY), $url_parsed_array);
 
@@ -526,10 +526,11 @@ function girchi_preprocess_paragraph(&$variables)
     }
 
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
+
     $variables['data'] = [
       "img_uri" => $img_uri,
       "video_thumbnail" => $thumbnail_url,
-      "video" => $paragraph->field_video ? $paragraph->field_video->first()->view() : null
+      "video" => null != $paragraph->field_video->first() ? $paragraph->field_video->first()->view() : null
     ];
   }
 

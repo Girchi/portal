@@ -69,12 +69,14 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content overflow-hidden">
             <div class="modal-header align-items-center px-3 px-md-4">
-               {{ content.field_title }}
-               <button aria-label="Close" class="close ml-6" data-dismiss="modal" type="button">
+                <h5 class="modal-title font-size-3 text-uppercase font-weight-bold" id="supportersTitle">
+                    {{ content.field_title }}
+                </h5>
+                <button aria-label="Close" class="close ml-6" data-dismiss="modal" type="button">
                     <i aria-hidden="true" class="icon-close font-size-3 text-dark-silver"></i>
-               </button>
+                </button>
             </div>
-            <div class="modal-body p-0">
+            <div class="modal-body p-0 school-video">
                 {{ data.video }}
             </div>
         </div>
