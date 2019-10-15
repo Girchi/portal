@@ -142,7 +142,6 @@ $databases['default']['default'] = array (
  */
 $settings['trusted_host_patterns'][] = '^localhost$';
 $settings['trusted_host_patterns'][] = '^.+\.localhost$';
-$settings['trusted_host_patterns'][] = '^girchi\.docker\.remote$';
 $settings['trusted_host_patterns'][] = '^.+\.omedialab\.com$';
 $settings['trusted_host_patterns'][] = '^.+\.girchi\.com$';
 $settings['trusted_host_patterns'][] = '^girchi_nginx';

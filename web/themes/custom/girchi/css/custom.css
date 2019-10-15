@@ -58,9 +58,6 @@ html {
 .webform-submission-teacher-registration-form input {
   margin: 0 !important;
 }
-.webform-submission-investor-registration-form input {
-  margin: 0 !important;
-}
 
 .article-body .my-3 img {
   max-width: 100%;
@@ -83,10 +80,4 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-
-.student-button {
-    display: inline-block !important;
-    cursor: pointer !important;
-    border: 1px solid !important;
 }

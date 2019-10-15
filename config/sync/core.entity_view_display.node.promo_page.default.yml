@@ -15,7 +15,7 @@ bundle: promo_page
 mode: default
 content:
   field_paragraphs:
-    weight: 0
+    weight: 1
     label: hidden
     settings:
       view_mode: default
@@ -23,8 +23,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_revisions_entity_view
     region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_promo_type: true
   langcode: true
-  links: true
   search_api_excerpt: true

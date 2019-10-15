@@ -40,44 +40,13 @@
 #}
 <section class="mt-5 mt-md-8 mb-3 mb-md-5 my-xl-8 position-relative">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="w-auto text-white position-xl-absolute position-bottom-3 mt-4 mt-md-5 mt-xl-0">
+        <img src="{{ image_style_url(data.img_uri, "school_goal") }}" alt="Kids" class="rounded ml-auto d-block w-100 w-xl-60"/>
+        <div class="w-auto w-xl-50 text-white position-xl-absolute position-bottom-3 mt-4 mt-md-5 mt-xl-0">
 
-                    <h3 class="text-uppercase my-3 ml-xl-4 font-size-5 font-size-md-8">{{ content.field_title }}</h3>
-                    <div class="bg-dark-green rounded font-size-3 p-4">
-                        {{ content.field_description }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                {% if data.video %}
-                <a data-target="#schoolVideo" data-toggle="modal" href="#">
-                <img src="{{ data.video_thumbnail }}" alt="Kids" class="rounded ml-auto d-block w-100">
-                    <i class="icon-play-button media-play"></i>
-                </a>
-                {% else %}
-                    <img src="{{image_style_url(data.img_uri, "school_goal") }}" alt="Kids" class="rounded ml-auto d-block w-100"/>
-                {% endif %}
+            <h3 class="text-uppercase my-3 ml-xl-4 font-size-5 font-size-md-8">{{ content.field_title }}</h3>
+            <div class="bg-dark-green rounded font-size-3 p-4">
+                {{ content.field_description }}
             </div>
         </div>
     </div>
 </section>
-
-{#Video MODAL#}
-<div aria-hidden="true" aria-labelledby="schoolVideo" class="modal fade" id="schoolVideo" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content overflow-hidden">
-            <div class="modal-header align-items-center px-3 px-md-4">
-               {{ content.field_title }}
-               <button aria-label="Close" class="close ml-6" data-dismiss="modal" type="button">
-                    <i aria-hidden="true" class="icon-close font-size-3 text-dark-silver"></i>
-               </button>
-            </div>
-            <div class="modal-body p-0">
-                {{ data.video }}
-            </div>
-        </div>
-    </div>
-</div>
-{#ENDMODAL#}

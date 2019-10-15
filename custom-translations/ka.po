@@ -4071,7 +4071,3 @@ msgstr ""
 msgid "Donations history"
 msgstr "გადახდების ისტორია"
 
-msgid "Add child"
-msgstr "ბავშვის დამატება"
-
-

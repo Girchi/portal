@@ -83,21 +83,14 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
     foreach ($users as $user) {
       $first_name = $user->get('field_first_name')->value;
       $last_name = $user->get('field_last_name')->value;
+      $img_url = $user->get('user_picture')->entity->getFileUri();
       $rating = $user->get('field_rating_in_party_list')->value;
       $political_ged = $user->get('field_political_ged')->value;
       $user_id = $user->id();
-
-      if ($user->get('user_picture')->entity) {
-        $img_uri = $user->get('user_picture')->entity->getFileUri();
-      }
-      else {
-        $img_uri = NULL;
-      }
-
       $politicians[] = [
         'first_name' => $first_name,
         'last_name' => $last_name,
-        'img_uri' => $img_uri,
+        'img_uri' => $img_url,
         'rating' => $rating,
         'political_ged' => $political_ged,
         'uid' => $user_id,

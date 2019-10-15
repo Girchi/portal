@@ -6,12 +6,10 @@ dependencies:
     - field.field.paragraph.school_goal.field_description
     - field.field.paragraph.school_goal.field_image
     - field.field.paragraph.school_goal.field_title
-    - field.field.paragraph.school_goal.field_video
     - paragraphs.paragraphs_type.school_goal
   module:
     - image
     - text
-    - video_embed_field
 id: paragraph.school_goal.default
 targetEntityType: paragraph
 bundle: school_goal
@@ -40,17 +38,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_video:
-    weight: 3
-    label: above
-    settings:
-      responsive: true
-      width: 854
-      height: 480
-      autoplay: true
-    third_party_settings: {  }
-    type: video_embed_field_video
     region: content
 hidden:
   search_api_excerpt: true
