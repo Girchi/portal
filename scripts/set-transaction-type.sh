@@ -12,7 +12,14 @@ docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ფულადიკონტრიბუცია' --term_name='0026 - ფულადი კონტრიბუცია'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ფულადი კონტრიუცია' --term_name='0026 - ფულადი კონტრიბუცია'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ფულადი კონტირბუცია' --term_name='0026 - ფულადი კონტრიბუცია'
-docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ფულადი კონრტიბუცია ' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ფულადი კონრტიბუცია' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='გირჩის დაფინანსება' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='თარგმანების დაფინანსება' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='იაგოს დაფინანსება' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ზურაბ ჯაფარიძის დაფინანსება' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ზურაბ ჯაფარიძს დაფინანსება' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ფულადი კონრიბუცია' --term_name='0026 - ფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='პორტალიდან დაულოგინებლად დააფინანსი "გირჩი ზოგადად", ანონიმურად წამოიღო' --term_name='0026 - ფულადი კონტრიბუცია'
 
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='შრომითი კონტრიბუცია' --term_name='0010 - შრომითი კონტრიბუცია'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='შრომითი კონტრიუცია' --term_name='0010 - შრომითი კონტრიბუცია'
@@ -55,6 +62,7 @@ docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='გიორგი კენჭიაშვილისგან' --term_name='0025 - მარკეტი'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ნიკა ქოჩაძისგან ჩარიცხვა' --term_name='0025 - მარკეტი'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ლუკა სიხარულიძისგან' --term_name='0025 - მარკეტი'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ჯილდო შმაქსის იდეის შექმნაში' --term_name='0025 - მარკეტი'
 
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='გადაწერის მსურველი' --term_name='0011 - მთაწმინდაზე გადაწერის მსურველი'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='მთაწინდაზე გადაწერის მსურველი' --term_name='0011 - მთაწმინდაზე გადაწერის მსურველი'
@@ -111,6 +119,7 @@ docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='მორბენალი' --term_name='0021 - სხვა არაფულადი კონტრიბუცია'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='არაფულადი კონტრიბცია' --term_name='0021 - სხვა არაფულადი კონტრიბუცია'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='სტუდიის ტექნიკა' --term_name='0021 - სხვა არაფულადი კონტრიბუცია'
+docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='პორტალის დეველოპმენტისთვის გაწეული კონტრიბუცია' --term_name='0021 - სხვა არაფულადი კონტრიბუცია'
 
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ეგზიტპოლი' --term_name='0022 - გირჩის ეგზიტპოლი მთაწმინდაზე'
 docker-compose exec php drush girchi_ged_transactions:fix-transaction-type --ged_description='ეგზიტპოლი მთაწმინდაზე' --term_name='0022 - გირჩის ეგზიტპოლი მთაწმინდაზე'
