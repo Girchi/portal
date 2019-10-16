@@ -8,7 +8,11 @@ dependencies:
   module:
     - better_exposed_filters
     - girchi_ged_transactions
+    - rest
+    - serialization
     - user
+    - views_data_export
+    - xls_serialization
 id: ged_transaction
 label: 'Ged Transaction'
 module: views
@@ -80,8 +84,8 @@ display:
           id: 0
           total_pages: null
           tags:
-            previous: ‹‹
-            next: ››
+            previous: '‹ წინა'
+            next: 'შემდეგი ›'
             first: '« First'
             last: 'Last »'
           expose:
@@ -89,7 +93,7 @@ display:
             items_per_page_label: 'Items per page'
             items_per_page_options: '5, 10, 25, 50'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
+            items_per_page_options_all_label: '- ყველა -'
             offset: false
             offset_label: Offset
           quantity: 9
@@ -733,6 +737,55 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
+      tags:
+        - 'config:field.storage.user.field_first_name'
+        - 'config:field.storage.user.field_last_name'
+  data_export_1:
+    display_plugin: data_export
+    id: data_export_1
+    display_title: 'Data export'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      style:
+        type: data_export
+        options:
+          formats:
+            xlsx: xlsx
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+          xls_settings:
+            xls_format: Excel2007
+            metadata:
+              creator: ''
+              last_modified_by: ''
+              title: ''
+              description: ''
+              subject: ''
+              keywords: ''
+              category: ''
+              manager: ''
+              company: ''
+      path: admin/ged-transactions/export
+      filename: ged-transactions.xlsx
+      pager:
+        type: some
+        options:
+          items_per_page: 1000
+          offset: 2000
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
         - user.permissions
       tags:
         - 'config:field.storage.user.field_first_name'
