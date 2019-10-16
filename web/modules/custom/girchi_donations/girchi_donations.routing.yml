@@ -24,12 +24,13 @@ girchi_donations.donations_controller_fail:
     _permission: 'access content'
 
 girchi_donations.regular_donations:
-  path: '/regular-donations'
+  path: '/user/regular-donations'
   defaults:
     _controller: '\Drupal\girchi_donations\Controller\DonationsController::regularDonations'
     _title: 'Automatic payments'
   requirements:
     _permission: 'access content'
+    _role: 'authenticated'
 
 girchi_donations.update_donation_status:
   path: 'donate/update_donation_status'
@@ -38,6 +39,7 @@ girchi_donations.update_donation_status:
     _title: 'Update donation status'
   requirements:
     _permission: 'access content'
+    _role: 'authenticated'
 
 girchi_donations.edit_donation:
   path: 'donate/edit_donation'
@@ -46,3 +48,4 @@ girchi_donations.edit_donation:
     _title: 'Update donation status'
   requirements:
     _permission: 'access content'
+    _role: 'authenticated'

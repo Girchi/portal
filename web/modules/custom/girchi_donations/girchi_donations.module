@@ -63,6 +63,7 @@ function girchi_donations_theme() {
         'politicians' => NULL,
         'terms' => NULL,
         'language' => NULL,
+        'current_user_id' => NULL,
       ],
     ],
   ];

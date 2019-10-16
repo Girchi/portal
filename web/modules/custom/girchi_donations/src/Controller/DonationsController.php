@@ -333,8 +333,8 @@ class DonationsController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function regularDonations() {
-    $donation_storage = $this->entityTypeManager->getStorage('regular_donation');
-    $regular_donations = $donation_storage->loadByProperties(['user_id' => $this->currentUser->id()]);
+    $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+    $regular_donations = $regular_donation_storage->loadByProperties(['user_id' => $this->currentUser->id()]);
     $regular_donation_form = $this->formBuilder->getForm('Drupal\girchi_donations\Form\MultipleDonationForm');
     $politicans = $this->donationUtils->getPoliticians();
     $terms = $this->donationUtils->getTerms();
@@ -348,6 +348,7 @@ class DonationsController extends ControllerBase {
       '#politicians' => $politicans,
       '#terms' => $terms,
       '#language' => $language_code,
+      '#current_user_id' => $this->currentUser->id(),
     ];
   }
 
@@ -365,23 +366,31 @@ class DonationsController extends ControllerBase {
    */
   public function updateDonationStatus(Request $request) {
     try {
-
-      $action = $request->request->get('action');
-      $donation_id = $request->request->get('id');
-      /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
-      $donation_storage = $this->entityTypeManager->getStorage('regular_donation');
-      /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
-      $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
-      if ($action == "pause") {
-        $regular_donation[$donation_id]->setStatus('PAUSED');
-        $regular_donation[$donation_id]->save();
+      $user_id = $request->request->get('user_id');
+      if ($user_id == $this->currentUser->id()) {
+        $action = $request->request->get('action');
+        $donation_id = $request->request->get('id');
+        /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
+        $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+        /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
+        $regular_donation_id = $regular_donation_storage->getQuery()
+          ->condition('id', $donation_id, '=')
+          ->condition('status', ['ACTIVE', 'PAUSED'], 'IN')
+          ->execute();
+        $regular_donation = $regular_donation_storage->load(key($regular_donation_id));
+        if ($action == "pause") {
+          $regular_donation->setStatus('PAUSED');
+          $regular_donation->save();
+        }
+        elseif ($action == "resume") {
+          $regular_donation->setStatus('ACTIVE');
+          $regular_donation->save();
+        }
+        return new JsonResponse(["statusCode" => 200, "message" => "Donation status has been changed to " . $action]);
       }
-      elseif ($action == "resume") {
-        $regular_donation[$donation_id]->setStatus('ACTIVE');
-        $regular_donation[$donation_id]->save();
+      else {
+        return new JsonResponse(["statusCode" => 400, "message" => "Failed to change donation status."]);
       }
-
-      return new JsonResponse("Donation status has been changed to " . $action);
     }
     catch (\Exception $e) {
       $this->getLogger('girchi_donations')->error($e->getMessage());
@@ -403,36 +412,46 @@ class DonationsController extends ControllerBase {
    */
   public function editDonation(Request $request) {
     try {
-      $donation_id = $request->request->get('donation-id');
-      $amount = $request->request->get('amount');
-      $period = $request->request->get('period');
-      $aim = $request->request->get('aim') ? $request->request->get('aim') : "";
-      $politician = $request->request->get('politician') ? $request->request->get('politician') : "";
-      $date = $request->request->get('date');
+      $user_id = $request->request->get('user-id');
+      if ($user_id == $this->currentUser->id()) {
+        $donation_id = $request->request->get('donation-id');
+        $amount = $request->request->get('amount');
+        $period = $request->request->get('period');
+        $aim = $request->request->get('aim') ? $request->request->get('aim') : "";
+        $politician = $request->request->get('politician') ? $request->request->get('politician') : "";
+        $date = $request->request->get('date');
 
-      if (!empty($donation_id) &&
-        !empty($amount) &&
-        !empty($period) &&
-        !empty($date)) {
-        /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
-        $donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
-        /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
-        $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
-        $regular_donation[$donation_id]->set('amount', $amount);
-        $regular_donation[$donation_id]->set('frequency', $period);
-        $regular_donation[$donation_id]->set('payment_day', $date);
+        if (!empty($donation_id) &&
+          !empty($amount) &&
+          !empty($period) &&
+          !empty($date)) {
+          if (in_array($period, [1, 3, 6])
+            && in_array($date, range(1, 28))
+          ) {
+            /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
+            $donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
+            /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
+            $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
+            $regular_donation[$donation_id]->set('amount', $amount);
+            $regular_donation[$donation_id]->set('frequency', $period);
+            $regular_donation[$donation_id]->set('payment_day', $date);
 
-        if (!empty($aim)) {
-          $regular_donation[$donation_id]->set('aim_id', $aim);
+            if (!empty($aim)) {
+              $regular_donation[$donation_id]->set('aim_id', $aim);
+            }
+            elseif (!empty($politician)) {
+              $regular_donation[$donation_id]->set('politician_id', $politician);
+            }
+            $regular_donation[$donation_id]->save();
+            $this->messenger()->addMessage($this->t('Donation has been changed.'));
+          }
+          else {
+            $this->messenger()->addError($this->t('Failed to change Donation.'));
+          }
         }
-        elseif (!empty($politician)) {
-          $regular_donation[$donation_id]->set('politician_id', $politician);
-        }
-        $regular_donation[$donation_id]->save();
-        $this->messenger()->addMessage($this->t('Donation has been changed.'));
       }
       else {
-        $this->messenger()->addError($this->t('Failed to change Donation.'));
+        $this->messenger()->addError($this->t('You are not authorized to change donation.'));
       }
       return $this->redirect('girchi_donations.regular_donations');
 
