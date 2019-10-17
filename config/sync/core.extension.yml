@@ -118,7 +118,6 @@ module:
   view_unpublished: 0
   views_data_export: 0
   views_infinite_scroll: 0
-  views_taxonomy_term_name_depth: 0
   views_ui: 0
   webform: 0
   webform_ui: 0
