@@ -686,7 +686,7 @@ display:
           exposed: true
           expose:
             operator_id: tid_op
-            label: Term
+            label: 'Transaction Type'
             description: ''
             use_operator: false
             operator: tid_op
