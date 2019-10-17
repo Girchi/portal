@@ -283,6 +283,7 @@
     "drupal/views_base_url": "^1.0",
     "drupal/views_data_export": "^1.0@beta",
     "drupal/views_infinite_scroll": "^1.5",
+    "drupal/views_taxonomy_term_name_depth": "^3.3",
     "drupal/webform_composite": "^1.0@beta",
     "drupal/webform_mailchimp": "^5.4",
     "drupal/webform_views": "^5.0@alpha",
