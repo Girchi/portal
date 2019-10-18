@@ -23,8 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("My party list block"),
  * )
  */
-class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface
-{
+class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Session\AccountProxyInterface.
@@ -142,55 +141,62 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
       /** @var \Drupal\user\Entity\User $currentUser */
       $currentUser = $this->router
         ->getParameter('user');
+      if ($currentUser) {
+        $currentUserGed = $currentUser->get('field_ged')->value ? $currentUser->get('field_ged')->value : 0;
+        $membersData = $currentUser->get('field_my_party_list');
+        /** @var \Drupal\reference_value_pair\Plugin\Field\FieldType\ReferenceValuePair $member */
+        foreach ($membersData as $member) {
 
-      $currentUserGed = $currentUser->get('field_ged')->value ? $currentUser->get('field_ged')->value : 0;
-      $membersData = $currentUser->get('field_my_party_list');
-
-      /** @var \Drupal\reference_value_pair\Plugin\Field\FieldType\ReferenceValuePair $member */
-      foreach ($membersData as $member) {
-
-        $memberId = $member->get('target_id')->getValue();
-        if ($memberId !== NULL) {
-          $gedPercentage = $member->get('value')->getValue();
-          /** @var \Drupal\user\Entity\User $memberEntity */
-          $memberEntity = $user_storage->load($memberId);
-          $firstName = $memberEntity->get('field_first_name')->value;
-          $lastName = $memberEntity->get('field_last_name')->value;
-          $linkToMember = $memberEntity->url();
-          $memberGedAmount = $currentUserGed * $gedPercentage / 100;
-          /** @var \Drupal\file\Entity\File $avatarEntity */
-          $avatarEntity = $memberEntity->get('user_picture')->entity;
-          if ($avatarEntity) {
-            $memberAvatar = $avatarEntity->getFileUri();
-            $isAvatar = TRUE;
+          $memberId = $member->get('target_id')->getValue();
+          if ($memberId !== NULL) {
+            $gedPercentage = $member->get('value')->getValue();
+            /** @var \Drupal\user\Entity\User $memberEntity */
+            $memberEntity = $user_storage->load($memberId);
+            $firstName = $memberEntity->get('field_first_name')->value;
+            $lastName = $memberEntity->get('field_last_name')->value;
+            $linkToMember = $memberEntity->url();
+            $memberGedAmount = $currentUserGed * $gedPercentage / 100;
+            /** @var \Drupal\file\Entity\File $avatarEntity */
+            $avatarEntity = $memberEntity->get('user_picture')->entity;
+            if ($avatarEntity) {
+              $memberAvatar = $avatarEntity->getFileUri();
+              $isAvatar = TRUE;
+            }
+            else {
+              $memberAvatar = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+              $isAvatar = FALSE;
+            }
+            $members[$memberId] = [
+              'uid' => $memberId,
+              'member_first_name' => $firstName,
+              'member_last_name' => $lastName,
+              'member_ged_percentage' => $gedPercentage,
+              'member_profile_picture' => $memberAvatar,
+              'member_ged_amount' => $gedHelper::getFormattedGED($memberGedAmount),
+              'member_ged_amount_long' => $memberGedAmount,
+              'link_to_member' => $linkToMember,
+              'is_avatar' => $isAvatar,
+            ];
           }
-          else {
-            $memberAvatar = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
-            $isAvatar = FALSE;
-          }
-          $members[$memberId] = [
-            'uid' => $memberId,
-            'member_first_name' => $firstName,
-            'member_last_name' => $lastName,
-            'member_ged_percentage' => $gedPercentage,
-            'member_profile_picture' => $memberAvatar,
-            'member_ged_amount' => $gedHelper::getFormattedGED($memberGedAmount),
-            'member_ged_amount_long' => $memberGedAmount,
-            'link_to_member' => $linkToMember,
-            'is_avatar' => $isAvatar,
-          ];
         }
+        usort($members, function ($a, $b) {
+          if ($a['member_ged_percentage'] == $b['member_ged_percentage']) {
+            return 0;
+          }
+
+          return $a['member_ged_percentage'] < $b['member_ged_percentage'] ? 1 : -1;
+        });
+
+        // Load top 5 users.
+        $members_short = array_slice($members, 0, 5, TRUE);
       }
-      usort($members, function ($a, $b) {
-        if ($a['member_ged_percentage'] == $b['member_ged_percentage']) {
-          return 0;
-        }
 
-        return $a['member_ged_percentage'] < $b['member_ged_percentage'] ? 1 : -1;
-      });
+      return [
+        '#theme' => 'my_party_list_block',
+        '#members_short' => $members_short,
+        '#members' => $members,
+      ];
 
-      // Load top 5 users.
-      $members_short = array_slice($members, 0, 5, TRUE);
     }
     catch (MissingDataException $e) {
       $this->loggerFactory->get('girchi_utils')->error($e->getMessage());
@@ -204,8 +210,6 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
 
     return [
       '#theme' => 'my_party_list_block',
-      '#members_short' => $members_short,
-      '#members' => $members,
     ];
   }
 
