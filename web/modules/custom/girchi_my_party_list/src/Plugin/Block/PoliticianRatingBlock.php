@@ -3,8 +3,10 @@
 namespace Drupal\girchi_my_party_list\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\girchi_users\GEDHelperService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,34 +28,54 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
   protected $entityTypeManager;
 
   /**
-   * {@inheritDoc}
+   * ConfigFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager) {
+  protected $configFactory;
+
+  /**
+   * Ged Formatter.
+   *
+   * @var \Drupal\girchi_users\GEDHelperService
+   */
+  protected $gedFormatter;
+
+  /**
+   * Construct.
+   *
+   * @param array $configuration
+   *   Configuration.
+   * @param int $plugin_id
+   *   Plugin id.
+   * @param string $plugin_definition
+   *   Plugin definition.
+   * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
+   *   Entity type manager.
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   ConfigFactory.
+   * @param \Drupal\girchi_users\GEDHelperService $gedFormatter
+   *   Ged formatter.
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, ConfigFactory $configFactory, GEDHelperService $gedFormatter) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->configFactory = $configFactory;
+    $this->gedFormatter = $gedFormatter;
   }
 
   /**
-   * Creates an instance of the plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container to pull out services used in the plugin.
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin ID for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   *
-   * @return static
-   *   Returns an instance of this plugin.
+   * {@inheritDoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory'),
+      $container->get('girchi_users.ged_helper')
+
     );
   }
 
@@ -71,12 +93,16 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
    * @see \Drupal\block\BlockViewBuilder
    */
   public function build() {
+    $number_of_politicians = $this->configFactory->get('om_site_settings.site_settings')->get('number_of_politicians');
+
+    $range_value = $number_of_politicians ? $number_of_politicians : 5;
+
     $politicians = [];
     $userStorage = $this->entityTypeManager->getStorage('user');
     $result = $userStorage->getQuery()
       ->condition('field_politician', TRUE, '=')
       ->condition('field_rating_in_party_list', 0, '>')
-      ->range(0, 4)
+      ->range(0, $range_value)
       ->sort('field_rating_in_party_list', 'ASC')
       ->execute();
     $users = $userStorage->loadMultiple($result);
@@ -84,7 +110,7 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
       $first_name = $user->get('field_first_name')->value;
       $last_name = $user->get('field_last_name')->value;
       $rating = $user->get('field_rating_in_party_list')->value;
-      $political_ged = $user->get('field_political_ged')->value;
+      $political_ged = $this->gedFormatter->getFormattedGed($user->get('field_political_ged')->value);
       $user_id = $user->id();
 
       if ($user->get('user_picture')->entity) {
@@ -103,10 +129,13 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
         'uid' => $user_id,
       ];
     }
+
     return [
       '#theme' => 'politician_rating_block',
       '#politicians' => $politicians,
+      '#block_settings' => NULL,
     ];
+
   }
 
 }
