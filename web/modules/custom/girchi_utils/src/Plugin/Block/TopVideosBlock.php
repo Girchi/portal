@@ -4,7 +4,9 @@ namespace Drupal\girchi_utils\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
-use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'Videos block' block.
@@ -14,15 +16,54 @@ use Drupal\node\Entity\Node;
  *  admin_label = @Translation("Videos block"),
  * )
  */
-class TopVideosBlock extends BlockBase {
+class TopVideosBlock extends BlockBase implements ContainerFactoryPluginInterface {
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * FrontNewsBlock constructor.
+   *
+   * @param array $configuration
+   *   Array of configuration.
+   * @param int $plugin_id
+   *   Plugin id.
+   * @param string $plugin_definition
+   *   Plugin definition.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entityTypeManager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entityTypeManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $em = \Drupal::entityTypeManager();
+    $em = $this->entityTypeManager;
 
-    /** @var \Drupal\node\Entity\NodeStorage $node_storage */
+    /** @var \Drupal\node\NodeStorage $node_storage */
     $node_storage = $em->getStorage('node');
     $last_published_videos = $node_storage->getQuery()
       ->condition('type', 'article')
@@ -34,7 +75,7 @@ class TopVideosBlock extends BlockBase {
 
     if (!empty($last_published_videos)) {
 
-      $top_videos = Node::loadMultiple($last_published_videos);
+      $top_videos = $node_storage->loadMultiple($last_published_videos);
       krsort($top_videos);
 
       return [

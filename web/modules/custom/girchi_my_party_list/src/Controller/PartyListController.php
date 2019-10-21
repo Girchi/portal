@@ -2,7 +2,6 @@
 
 namespace Drupal\girchi_my_party_list\Controller;
 
-use Drupal;
 use Drupal\Core\Render\Renderer;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
@@ -158,8 +157,7 @@ class PartyListController extends ControllerBase {
     }
 
     if (!empty($user)) {
-      $query = Drupal::entityQuery('user');
-      $nameConditions = $query->orConditionGroup()
+      $nameConditions = $userStorage->getQuery()->orConditionGroup()
         ->condition('field_first_name', $firstName, $queryOperator)
         ->condition('field_last_name', $lastName, 'CONTAINS');
 
@@ -184,7 +182,7 @@ class PartyListController extends ControllerBase {
    *
    *   Request.
    *
-   * @return  mixed
+   * @return mixed
    *
    *   Json Response
    *
@@ -198,10 +196,10 @@ class PartyListController extends ControllerBase {
     $redirectUrl = Url::fromRoute('girchi_my_party_list.party_list_controller_partyList')->toString();
 
     $max_value = 100;
-    foreach($userList as $key=>$userListItem){
-      $percentage = (int)$userListItem['percentage'];
-      if($percentage > 100 || $percentage < 0){
-       $redirectUrl .= '?error=percentage';
+    foreach ($userList as $userListItem) {
+      $percentage = (int) $userListItem['percentage'];
+      if ($percentage > 100 || $percentage < 0) {
+        $redirectUrl .= '?error=percentage';
         return new RedirectResponse($redirectUrl);
       }
 
@@ -252,7 +250,8 @@ class PartyListController extends ControllerBase {
             $imgFile = $this->entityTypeManager->getStorage('file')->load($imgId);
             $style = $this->entityTypeManager()->getStorage('image_style')->load('party_member');
             $imgUrl = $style->buildUrl($imgFile->getFileUri());
-          }else{
+          }
+          else {
             $imgUrl = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
           }
           $uid = $user->id();
