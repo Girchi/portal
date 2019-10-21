@@ -526,11 +526,11 @@ function girchi_preprocess_paragraph(&$variables)
     }
 
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
-
+    $video = $paragraph->field_video->first() !=  null  ? $paragraph->field_video->first()->view() : null;
     $variables['data'] = [
       "img_uri" => $img_uri,
       "video_thumbnail" => $thumbnail_url,
-      "video" => null != $paragraph->field_video->first() ? $paragraph->field_video->first()->view() : null
+      "video" => $video
     ];
   }
 

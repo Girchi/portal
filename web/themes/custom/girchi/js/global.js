@@ -88,12 +88,11 @@ $(document).ready(function () {
     })
 
     $("#schoolVideo").on("hide.bs.modal", function() {
-        var _this = this,
+        let _this = this,
             youtubeSrc = $(_this).find("iframe").attr("src");
-        $(_this).find("iframe").attr("src", "");
-        $(_this).find("iframe").attr("src", youtubeSrc);
+        let video = youtubeSrc.replace('autoplay=1', 'autoplay=0');
+        $(_this).find("iframe").attr("src", video);
     });
-
 
 });
 
@@ -166,6 +165,3 @@ $(".investor-parent-checkbox input").on("change",  function () {
         $(".investment-amount").attr('min', 1);
     }
 });
-
-
-
