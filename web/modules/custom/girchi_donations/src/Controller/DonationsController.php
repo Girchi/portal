@@ -334,7 +334,10 @@ class DonationsController extends ControllerBase {
    */
   public function regularDonations() {
     $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
-    $regular_donations = $regular_donation_storage->loadByProperties(['user_id' => $this->currentUser->id()]);
+    $regular_donations = $regular_donation_storage->getQuery()
+      ->condition('status', ['ACTIVE', 'PAUSED'], 'IN')
+      ->execute();
+    $regular_donations = $regular_donation_storage->loadMultiple($regular_donations);
     $regular_donation_form = $this->formBuilder->getForm('Drupal\girchi_donations\Form\MultipleDonationForm');
     $politicans = $this->donationUtils->getPoliticians();
     $terms = $this->donationUtils->getTerms();
