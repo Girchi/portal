@@ -90,3 +90,8 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer !important;
     border: 1px solid !important;
 }
+
+.politicians-raiting-owl .owl-dot span{
+    width: 0.4rem !important;
+    height: 0.4rem !important;
+}
