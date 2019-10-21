@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.article.field_video_url
     - node.type.article
   module:
+    - datetime
     - image
     - text
     - user
@@ -61,8 +62,17 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-  field_show_internal_image:
+  field_published_date:
+    type: datetime_default
     weight: 7
+    region: content
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: article_short
+    third_party_settings: {  }
+  field_show_internal_image:
+    weight: 8
     label: above
     settings:
       format: default
@@ -101,6 +111,5 @@ hidden:
   field_favorite_news: true
   field_featured_on_slider: true
   field_meta_tags: true
-  field_published_date: true
   langcode: true
   search_api_excerpt: true

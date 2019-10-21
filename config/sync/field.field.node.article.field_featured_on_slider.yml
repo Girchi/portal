@@ -9,7 +9,7 @@ id: node.article.field_featured_on_slider
 field_name: field_featured_on_slider
 entity_type: node
 bundle: article
-label: 'featured on slider'
+label: 'გამოჩნდეს სლაიდერზე'
 description: ''
 required: false
 translatable: false
