@@ -54,6 +54,17 @@ function girchi_donations_theme() {
     'girchi_donations_fail' => [
       'render element' => 'children',
     ],
+    'regular_donations' => [
+      'render element' => 'children',
+      'variables' => [
+        'regular_donations' => NULL,
+        'regular_donation_form' => NULL,
+        'politicians' => NULL,
+        'terms' => NULL,
+        'language' => NULL,
+        'current_user_id' => NULL,
+      ],
+    ],
   ];
 }
 
