@@ -1,16 +1,15 @@
-uuid: ca06a608-7f41-4c54-9cee-488438cd72e8
-langcode: en
+uuid: 37bece89-6cd3-45d3-b6f8-cf41332dc2a8
+langcode: ka
 status: true
 dependencies:
   config:
-    - field.field.donation.donation.field_donation_type
-    - field.field.donation.donation.field_ged_transaction
-    - field.field.donation.donation.field_regular_donation
+    - field.field.regular_donation.regular_donation.field_donations
   module:
+    - datetime
     - girchi_donations
-id: donation.donation.default
-targetEntityType: donation
-bundle: donation
+id: regular_donation.regular_donation.default
+targetEntityType: regular_donation
+bundle: regular_donation
 mode: default
 content:
   aim_id:
@@ -22,15 +21,8 @@ content:
       placeholder: ''
     region: content
     third_party_settings: {  }
-  field_donation_type:
-    weight: 8
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_ged_transaction:
-    weight: 6
+  field_donations:
+    weight: 15
     settings:
       match_operator: CONTAINS
       size: 60
@@ -38,10 +30,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_regular_donation:
-    weight: 7
-    settings: null
+  next_payment_date:
+    type: datetime_default
+    weight: 14
     region: content
+    settings: {  }
+    third_party_settings: {  }
   politician_id:
     type: entity_reference_autocomplete
     weight: 5
