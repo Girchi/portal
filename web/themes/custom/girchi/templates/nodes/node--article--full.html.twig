@@ -24,7 +24,7 @@
                               class="icon-clock-circular-outline mr-1
                             "
                       ></i>
-                      {{ node.getCreatedTime| format_date('article_short') }}</span
+                      {{ content.field_published_date.0 is defined ? content.field_published_date : node.getCreatedTime| format_date('article_short')}}</span
                     >
                     <div class="text-grey"
                     >
