@@ -5,7 +5,6 @@
  * Contains girchi_donations.module.
  */
 
-use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use ABGEO\NBG\Currency;
@@ -127,83 +126,31 @@ function girchi_donations_cron() {
       $today = Carbon::now()
         ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
       $logger_factory->info(
-        sprintf('Start regular donation execution date: %s',
+        sprintf('Start filling regular donation queue execution date: %s',
           Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
       );
-      /** @var \Drupal\om_tbc_payments\Services\PaymentService $omedia_payment */
-      $omedia_payment = Drupal::service('om_tbc_payments.payment_service');
-      /** @var \Drupal\girchi_donations\Utils\DonationUtils $donation_utils */
-      $donation_utils = Drupal::service('girchi_donations.donation_utils');
+      /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
+      $queue_factory = \Drupal::service('queue');
       /** @var \Drupal\Core\Entity\EntityStorageBase $reg_donations_storage */
       $reg_donations_storage = \Drupal::entityTypeManager()
         ->getStorage('regular_donation');
       $reg_donations_ids = $reg_donations_storage->getQuery()
         ->condition('status', 'FAILED', '!=')
         ->condition('status', 'INITIAL', '!=')
+        ->condition('next_payment_date', $today)
         ->execute();
-
       if (!empty($reg_donations_ids)) {
         $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+        $queue = $queue_factory->get('regular_donation_processor');
         /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
         foreach ($reg_donations as $reg_donation) {
-          $frequency = $reg_donation->get('frequency')->value;
-          /** @var DateTime $date */
-          $date = $reg_donation->get('next_payment_date')->value;
-          $status = $reg_donation->getStatus();
-          $amount = (int) $reg_donation->get('amount')->value;
-          $card_id = $reg_donation->get('card_id')->value;
-          $user = $reg_donation->getOwnerId();
-          $type = $reg_donation->get('type')->value;
-
-          if ($type === '1') {
-            $target_id = $reg_donation->get('aim_id')->target_id;
-          }
-          else {
-            $target_id = $reg_donation->get('politician_id')->target_id;
-          }
-          if ($date == $today) {
-            if ($status === 'ACTIVE') {
-              $logger_factory->info(sprintf('Starting regular payment execution for user_id:%s ,card_id:%s', $user, $card_id));
-              $result = $omedia_payment->executePayment($card_id, $amount, 'Regular Payment');
-              if ($result === NULL) {
-                $logger_factory->info(sprintf('Payment execution error for user_id: %s ,card_id: %s', $user, $card_id));
-                continue;
-              }
-              else {
-                $trans_id = $result['transaction_id'];
-                $resp_result = $result['code'];
-                if ($resp_result === '000') {
-                  $status = 'OK';
-                }
-                else {
-                  $status = 'FAILED';
-                }
-                $donation_utils->addDonationRecord($type, [
-                  'trans_id' => $trans_id,
-                  'user_id' => $user,
-                  'amount' => $amount,
-                  'status' => $status,
-                ], $target_id);
-                $logger_factory->info(sprintf('Regular donation execution finished for user: %s , status:%s', $user, $status));
-                $logger_factory->info(sprintf('Donation status was updated to: %s', $status));
-              }
-            }
-            $logger_factory->info(sprintf('Update next payment date for user: %s', $user));
-            /** @var \Carbon\Carbon $payment_date */
-            $payment_date = Carbon::createFromFormat(DateTimeItemInterface::DATE_STORAGE_FORMAT, $date);
-            $next_payment_date = $payment_date->addMonths($frequency)
-              ->toDateTime()
-              ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
-              ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
-            $reg_donation->set(
-              'next_payment_date',
-              $next_payment_date
-            )
-              ->save();
-          }
+          $queue->createItem($reg_donation);
         }
       }
-
+      $logger_factory->info(
+        sprintf('Regular payment queue is ready. date: %s',
+          Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+      );
     }
     catch (InvalidPluginDefinitionException $e) {
       $logger_factory->error($e->getMessage());
@@ -211,13 +158,6 @@ function girchi_donations_cron() {
     catch (PluginNotFoundException $e) {
       $logger_factory->error($e->getMessage());
     }
-    catch (EntityStorageException $e) {
-      $logger_factory->error($e->getMessage());
-    }
-    $logger_factory->info(
-      sprintf('Regular payment execution finished. date: %s',
-        Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
-    );
 
   }
 }

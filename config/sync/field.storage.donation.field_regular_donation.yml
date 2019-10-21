@@ -1,14 +1,15 @@
-uuid: 952875cc-490e-49a7-86c7-db9c9d15304a
+uuid: b90f074d-7bca-4a61-889b-c9f5e41ca9e1
 langcode: ka
 status: true
 dependencies:
   module:
     - girchi_donations
-id: donation.field_donation_type
-field_name: field_donation_type
+id: donation.field_regular_donation
+field_name: field_regular_donation
 entity_type: donation
-type: boolean
-settings: {  }
+type: entity_reference
+settings:
+  target_type: regular_donation
 module: core
 locked: false
 cardinality: 1

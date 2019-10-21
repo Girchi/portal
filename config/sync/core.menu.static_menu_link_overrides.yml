@@ -132,11 +132,11 @@ definitions:
     enabled: true
     expanded: false
   user__logout:
-    weight: -45
+    weight: -42
     menu_name: account
     parent: ''
-    expanded: false
     enabled: true
+    expanded: false
 _core:
   default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
 langcode: ka

@@ -151,8 +151,8 @@ class DonationUtils {
    * @param string $entity_id
    *   Entity id.
    *
-   * @return bool
-   *   Boolean.
+   * @return mixed
+   *   Donation.
    */
   public function addDonationRecord($type, array $donation, $entity_id) {
 
@@ -170,7 +170,7 @@ class DonationUtils {
       $entity = $donationStorage->create($final_fields);
       $entity->save();
       $this->loggerFactory->get('girchi_donations')->info('Saved to donations with Status: INITIAL');
-      return TRUE;
+      return $entity;
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());

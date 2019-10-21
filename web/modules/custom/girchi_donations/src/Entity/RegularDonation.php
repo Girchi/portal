@@ -85,7 +85,6 @@ class RegularDonation extends ContentEntityBase implements RegularDonationInterf
       $payment_day = $this->get('payment_day')->value;
       $frequency = $this->get('frequency')->value;
       if ($payment_day > $day) {
-        $month += $frequency;
         $payment_date = Carbon::createFromDate($year, $month, $payment_day);
         $date = $payment_date->toDateTime();
         $date->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));

@@ -1,0 +1,7 @@
+services:
+  girchi_donations.commands:
+    class: Drupal\girchi_donations\Commands\GirchiDonationsCommands
+    tags:
+      - { name: drush.command }
+    arguments:
+      ['@entity_type.manager', '@logger.factory']
