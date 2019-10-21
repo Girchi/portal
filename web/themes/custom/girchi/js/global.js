@@ -87,6 +87,13 @@ $(document).ready(function () {
         $(this).next('.custom-file-label').html(e.target.files[0].name);
     })
 
+    $("#schoolVideo").on("hide.bs.modal", function() {
+        let _this = this,
+            youtubeSrc = $(_this).find("iframe").attr("src");
+        let video = youtubeSrc.replace('autoplay=1', 'autoplay=0');
+        $(_this).find("iframe").attr("src", video);
+    });
+
 });
 
 function SetCaretAtEnd(elem) {
@@ -158,6 +165,3 @@ $(".investor-parent-checkbox input").on("change",  function () {
         $(".investment-amount").attr('min', 1);
     }
 });
-
-
-

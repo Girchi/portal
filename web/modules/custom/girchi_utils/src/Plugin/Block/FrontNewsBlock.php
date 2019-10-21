@@ -92,7 +92,7 @@ class FrontNewsBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $category_id = $this->configuration['category_select'];
     $em = $this->entityTypeManager;
 
-    /** @var \Drupal\node\NodeStorage $node_storage */
+    /** @var \Drupal\node\Entity\NodeStorage */
     $node_storage = $em->getStorage('node');
     if ($category_id == 'all') {
       $lastest_articles = $node_storage->getQuery()
