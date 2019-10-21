@@ -109,7 +109,8 @@ class FrontNewsBlock extends BlockBase implements ContainerFactoryPluginInterfac
         ->condition('type', 'article')
         ->condition('status', 1)
         ->condition('field_category', $category_id, '=')
-        ->sort('created', "DESC")
+        ->sort('field_published_date', 'DESC')
+        ->sort('created', 'DESC')
         ->range(0, 10)
         ->execute();
     }
