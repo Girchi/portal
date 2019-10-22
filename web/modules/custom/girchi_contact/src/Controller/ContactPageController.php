@@ -5,6 +5,7 @@ namespace Drupal\girchi_contact\Controller;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
@@ -21,14 +22,23 @@ class ContactPageController extends ControllerBase {
   protected $entityTypeManager;
 
   /**
+   * Language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Constructs a new ContactPageController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
-   *
    *   Entity Manager.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   Language manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_manager, LanguageManagerInterface $languageManager) {
     $this->entityTypeManager = $entity_manager;
+    $this->languageManager = $languageManager;
   }
 
   /**
@@ -36,7 +46,9 @@ class ContactPageController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('language_manager')
+
     );
   }
 
@@ -62,7 +74,7 @@ class ContactPageController extends ControllerBase {
       throw $e;
     }
 
-    $langCode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $langCode = $this->languageManager->getCurrentLanguage()->getId();
     $offices = $nodeStorage->getQuery()
       ->condition('type', 'office')
       ->execute();

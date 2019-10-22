@@ -19,4 +19,3 @@ entity.ged_transaction.delete_form:
   base_route:  entity.ged_transaction.canonical
   title: Delete
   weight: 10
-

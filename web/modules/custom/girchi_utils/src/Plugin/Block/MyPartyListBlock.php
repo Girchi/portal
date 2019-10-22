@@ -23,8 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("My party list block"),
  * )
  */
-class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface
-{
+class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Session\AccountProxyInterface.
@@ -174,7 +173,7 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
             'member_last_name' => $lastName,
             'member_ged_percentage' => $gedPercentage,
             'member_profile_picture' => $memberAvatar,
-            'member_ged_amount' => $gedHelper::getFormattedGED($memberGedAmount),
+            'member_ged_amount' => $gedHelper::getFormattedGed($memberGedAmount),
             'member_ged_amount_long' => $memberGedAmount,
             'link_to_member' => $linkToMember,
             'is_avatar' => $isAvatar,

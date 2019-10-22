@@ -1,31 +1,64 @@
-<div class="banner banner-bg-gradient-green mb-3 mb-lg-4 p-3 rounded">
-    <div
-            class="m-1 m-xl-3 d-flex flex-column flex-md-row  align-items-start align-items-md-center"
-    >
-        <img
-                class="d-none d-md-inline"
-                src="/{{ directory }}/dist/css/images/become-politician.png"
-                alt=""
-        />
-        <div class="w-100 w-md-40 w-lg-50 mx-0 mx-md-3 mx-xl-4">
-            <h5
-                    class="text-white text-uppercase font-weight-bold mb-1 line-height-1-0"
-            >
-                {{ "Become a politician" | t }}
-            </h5>
-            <p class="text-white font-size-3 mb-0">
-                {{ "Become a politician, get enough votes and get into the party list" | t }}
-            </p>
-        </div>
-        <a
-                {% if logged_in %}
-                    href="/{% if(language == 'en') %}en/{% endif %}user/{{ user.id }}/edit#avatar-image"
-                {% else %}
-                    href="{{ url("user.login") }}"
-                {% endif %}
-                class="btn btn-warning text-uppercase btn-lg mx-0 mt-3 mt-md-0 ml-md-auto text-nowrap"
+{% if is_politician %}
+{#    Banner of politician donation#}
+    <div class="banner banner-bg-gradient-green mb-3 mb-lg-4 p-3 rounded">
+        <div
+                class="m-1 m-xl-3 d-flex flex-column flex-md-row  align-items-start align-items-md-center"
         >
-            {{ "Want to be politician" | t }}
-        </a>
+            <img
+                    class="d-none d-md-inline"
+                    src="/{{ directory }}/dist/css/images/become-politician.png"
+                    alt=""
+            />
+            <div class="w-100 w-md-40 w-lg-50 mx-0 mx-md-3 mx-xl-4">
+                <h5
+                        class="text-white text-uppercase font-weight-bold mb-1 line-height-1-0"
+                >
+                    {{ "Become a partner"|t }}
+                </h5>
+                <p class="text-white font-size-3 mb-0">
+                    {{ "Fund the GIRCHI, get the relevant GeDs and hit the leaderboard" |t}}
+                </p>
+
+            </div>
+            <a href="{{ url('girchi_donations.donations_controller_index') }}"
+               class="btn btn-warning text-uppercase btn-lg mx-0 mt-3 mt-md-0 ml-md-auto text-nowrap"
+            >
+                {{ "Donate"|t }}
+            </a>
+        </div>
     </div>
-</div>
+{% else%}
+{#    Banner of become a politician#}
+    <div class="banner banner-bg-gradient-green mb-3 mb-lg-4 p-3 rounded">
+        <div
+                class="m-1 m-xl-3 d-flex flex-column flex-md-row  align-items-start align-items-md-center"
+        >
+            <img
+                    class="d-none d-md-inline"
+                    src="/{{ directory }}/dist/css/images/become-politician.png"
+                    alt=""
+            />
+            <div class="w-100 w-md-40 w-lg-50 mx-0 mx-md-3 mx-xl-4">
+                <h5
+                        class="text-white text-uppercase font-weight-bold mb-1 line-height-1-0"
+                >
+                    {{ "Become a politician" | t }}
+                </h5>
+                <p class="text-white font-size-3 mb-0">
+                    {{ "Become a politician, get enough votes and get into the party list" | t }}
+                </p>
+            </div>
+            <a
+                    {% if logged_in %}
+                        href="/{% if(language == 'en') %}en/{% endif %}user/{{ user.id }}/edit#avatar-image"
+                    {% else %}
+                        href="{{ url("user.login") }}"
+                    {% endif %}
+                    class="btn btn-warning text-uppercase btn-lg mx-0 mt-3 mt-md-0 ml-md-auto text-nowrap"
+            >
+                {{ "Want to be politician" | t }}
+            </a>
+        </div>
+    </div>
+{% endif %}
+

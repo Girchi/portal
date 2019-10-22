@@ -2,11 +2,11 @@
 
 namespace Drupal\girchi_my_party_list\Controller;
 
-use Drupal;
 use Drupal\Core\Render\Renderer;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Drupal\girchi_my_party_list\PartyListCalculatorService;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -157,8 +157,7 @@ class PartyListController extends ControllerBase {
     }
 
     if (!empty($user)) {
-      $query = Drupal::entityQuery('user');
-      $nameConditions = $query->orConditionGroup()
+      $nameConditions = $userStorage->getQuery()->orConditionGroup()
         ->condition('field_first_name', $firstName, $queryOperator)
         ->condition('field_last_name', $lastName, 'CONTAINS');
 
@@ -183,7 +182,7 @@ class PartyListController extends ControllerBase {
    *
    *   Request.
    *
-   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   * @return mixed
    *
    *   Json Response
    *
@@ -194,17 +193,32 @@ class PartyListController extends ControllerBase {
   public function updateUser(Request $request) {
     $currentUser = $this->entityTypeManager->getStorage('user')->load($this->currentUser()->id());
     $userList = $request->get('list') ? $request->get('list') : [];
+    $redirectUrl = Url::fromRoute('girchi_my_party_list.party_list_controller_partyList')->toString();
 
+    $max_value = 100;
+    foreach ($userList as $userListItem) {
+      $percentage = (int) $userListItem['percentage'];
+      if ($percentage > 100 || $percentage < 0) {
+        $redirectUrl .= '?error=percentage';
+        return new RedirectResponse($redirectUrl);
+      }
+
+      if ($percentage > $max_value) {
+        $redirectUrl .= '?error=percentage';
+        return new RedirectResponse($redirectUrl);
+      }
+      else {
+        $max_value -= $percentage;
+      }
+    }
     $userInfo = array_map(function ($tag) {
       return [
         'target_id' => $tag['politician'],
-        'value' => $tag['percentage'] ? $tag['percentage'] : 0,
+        'value' => $tag['percentage'] ? (int) $tag['percentage'] : 0,
       ];
     }, $userList);
-
     $currentUser->get('field_my_party_list')->setValue($userInfo);
     $currentUser->save();
-    $redirectUrl = $request->headers->get('referer');
     return new RedirectResponse($redirectUrl);
   }
 
@@ -236,7 +250,8 @@ class PartyListController extends ControllerBase {
             $imgFile = $this->entityTypeManager->getStorage('file')->load($imgId);
             $style = $this->entityTypeManager()->getStorage('image_style')->load('party_member');
             $imgUrl = $style->buildUrl($imgFile->getFileUri());
-          }else{
+          }
+          else {
             $imgUrl = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
           }
           $uid = $user->id();

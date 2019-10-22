@@ -129,7 +129,7 @@ $databases['default']['default'] = array (
   'database' => 'girchi',
   'username' => 'girchi',
   'password' => 'girchi',
-  'prefix' => 'girchidrpl_',
+  'prefix' => '',
   'host' => 'mariadb',
   'port' => '3306',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
@@ -142,6 +142,7 @@ $databases['default']['default'] = array (
  */
 $settings['trusted_host_patterns'][] = '^localhost$';
 $settings['trusted_host_patterns'][] = '^.+\.localhost$';
+$settings['trusted_host_patterns'][] = '^girchi\.docker\.remote$';
 $settings['trusted_host_patterns'][] = '^.+\.omedialab\.com$';
 $settings['trusted_host_patterns'][] = '^.+\.girchi\.com$';
 $settings['trusted_host_patterns'][] = '^girchi_nginx';

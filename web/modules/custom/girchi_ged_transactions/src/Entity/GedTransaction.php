@@ -333,8 +333,10 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
 
     // Get GeD amount of destination user.
     $account = User::load($uID);
-    $account->set('field_ged', $newTransaction);
-    $account->save();
+    if ($account) {
+      $account->set('field_ged', $newTransaction);
+      $account->save();
+    }
 
     parent::postSave($storage);
   }
