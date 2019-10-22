@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-10 10:21+0000\n"
-"PO-Revision-Date: 2019-10-10 10:21+0000\n"
+"POT-Creation-Date: 2019-10-22 09:43+0000\n"
+"PO-Revision-Date: 2019-10-22 09:43+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3469,10 +3469,13 @@ msgstr ""
 
 msgid "Further instructions have been sent to your email address."
 msgstr ""
-"შემდგომი ინსტრუქციები "
-"გაიგზავნა თქვენი "
-"ელექტრონული ფოსტის "
-"მისამართით."
+"პაროლის აღდგენის "
+"ინსტრუქცია გამოგზავნილია "
+"თქვენს ელ-ფოსტაზე. იმ "
+"შემთხვევაში თუ წერილი ვერ "
+"იპოვეთ, აუცილებლად "
+"გადაამოწმეთ spam საქაღალდეც "
+"ან მოგვწერეთ Facebook-ზე :)"
 
 msgid "This login can be used only once."
 msgstr ""
@@ -4024,8 +4027,8 @@ msgstr ""
 
 msgid "Transaction failed ,try again"
 msgstr ""
-"ტრანზაქცია უარყოფილია "
-"სადეთ თავიდან"
+"პაროლი წარმატებით "
+"შეიცვალა."
 
 msgid "All articles"
 msgstr "ყველა სტატია"
@@ -4065,14 +4068,14 @@ msgstr ""
 "განმეორებას აღარ "
 "საჭიროებს."
 
+msgid "Add child"
+msgstr "ბავშვის დამატება"
+
 msgid "Investor registration"
 msgstr "ინვესტორის რეგისტრაცია"
 
 msgid "Investor"
 msgstr "ინვესტორი"
-
-msgid "Add child"
-msgstr "ბავშვის დამატება"
 
 msgid "I am a parent"
 msgstr "მშობელი ვარ"
@@ -4082,4 +4085,10 @@ msgstr ""
 "მშობლებისთვის მინიმალური "
 "საინვესტიციო თანხა უნდა "
 "შეადგენდეს 10K დოლარს."
+
+msgid "Favorite Video"
+msgstr "ფავორიტი ვიდეო"
+
+msgid "Donated amount"
+msgstr "შემოწირული თანხა"
 
