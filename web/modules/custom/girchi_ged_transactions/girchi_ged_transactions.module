@@ -86,12 +86,14 @@ function girchi_ged_transactions_entity_presave(EntityInterface $entity) {
     $uId = (int) $entity->get('user')->target_id;
 
     $account = User::load($uId);
-    $firsName = $account->get('field_first_name')->value;
-    $lastName = $account->get('field_last_name')->value;
+    if ($account) {
+      $firsName = $account->get('field_first_name') ? $account->get('field_first_name')->value : '';
+      $lastName = $account->get('field_last_name') ? $account->get('field_last_name')->value : '';
 
-    $newTitle = $firsName . ' ' . $lastName . ' ' . $uGed . ' GeD';
+      $newTitle = $firsName . ' ' . $lastName . ' ' . $uGed . ' GeD';
 
-    $entity->set('title', $newTitle)->value;
+      $entity->set('title', $newTitle)->value;
+    }
   }
 }
 

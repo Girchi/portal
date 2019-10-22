@@ -6,7 +6,6 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -75,9 +74,10 @@ class PartyListCalculatorService {
           $user_ged = (int) $user->get('field_ged')->getValue()[0]['value'];
           foreach ($user_party_list as $party_list_item) {
             $percentage = (int) $party_list_item['value'];
-            if($percentage > 100){
+            if ($percentage > 100) {
               $percentage = 100;
-            }else if($percentage < 0){
+            }
+            elseif ($percentage < 0) {
               $percentage = 0;
             }
             $uid = $party_list_item['target_id'];
@@ -155,7 +155,7 @@ class PartyListCalculatorService {
     foreach ($users as $user) {
       if (!empty($user->get('user_picture')[0])) {
         $img_id = $user->get('user_picture')[0]->getValue()['target_id'];
-        $img_file = File::load($img_id);
+        $img_file = $this->entityTypeManager->getStorage('file')->load($img_id);
         $style = ImageStyle::load('party_member');
         $img_url = $style->buildUrl($img_file->getFileUri());
       }

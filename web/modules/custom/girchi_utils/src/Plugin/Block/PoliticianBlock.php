@@ -2,14 +2,14 @@
 
 namespace Drupal\girchi_utils\Plugin\Block;
 
+use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountProxy;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
-use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Cache\Cache;
-use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Session\AccountProxyInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'PoliticianBlock' block.
@@ -26,7 +26,6 @@ class PoliticianBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * @var \Drupal\Core\Entity\EntityTypeManager
    */
   protected $entityTypeManager;
-
   /**
    * Drupal\Core\Session\AccountProxyInterface.
    *
@@ -35,36 +34,40 @@ class PoliticianBlock extends BlockBase implements ContainerFactoryPluginInterfa
   protected $accountProxy;
 
   /**
-   * {@inheritDoc}
+   * Language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, AccountProxyInterface $accountProxy) {
+  protected $languageManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    LanguageManagerInterface $languageManager,
+    EntityTypeManager $entity_type_manager,
+    AccountProxy $accountProxy) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->languageManager = $languageManager;
     $this->entityTypeManager = $entity_type_manager;
     $this->accountProxy = $accountProxy;
   }
 
   /**
-   * Creates an instance of the plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container to pull out services used in the plugin.
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin ID for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   *
-   * @return static
-   *   Returns an instance of this plugin.
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('language_manager'),
       $container->get('entity_type.manager'),
       $container->get('current_user')
+
     );
   }
 
@@ -72,13 +75,14 @@ class PoliticianBlock extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function build() {
+    $language = $this->languageManager->getCurrentLanguage()->getId();
+
     /** @var \Drupal\user\UserStorage $user_storage */
     try {
       $user_storage = $this->entityTypeManager->getStorage('user');
       $uid = $this->accountProxy->getAccount()->id();
       $user = $user_storage->load($uid);
       $is_politician = $user->get('field_politician')->value;
-
     }
     catch (InvalidPluginDefinitionException $e) {
     }
@@ -88,6 +92,7 @@ class PoliticianBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return [
       '#theme' => 'politician_block',
       '#is_politician' => $is_politician,
+      '#language' => $language,
     ];
   }
 
@@ -96,13 +101,6 @@ class PoliticianBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function getCacheMaxAge() {
     return 0;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getCacheTags() {
-    return Cache::mergeTags(parent::getCacheTags(), ['taxonomy_term_list:lead_partner']);
   }
 
 }
