@@ -20,9 +20,6 @@ use Drupal\Core\Render\Element;
  *   - attributes: HTML attributes for the containing element.
  */
 function template_preprocess_ged_transaction(array &$variables) {
-  // Fetch GedTransaction Entity Object.
-  $ged_transaction = $variables['elements']['#ged_transaction'];
-
   // Helpful $content variable for templates.
   foreach (Element::children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];

@@ -37,4 +37,3 @@ girchi_users.user_controller_topPoliticians:
     _title: 'Top politicians'
   requirements:
     _permission: 'access content'
-
