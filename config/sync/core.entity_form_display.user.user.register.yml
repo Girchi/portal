@@ -40,6 +40,7 @@ content:
 hidden:
   contact: true
   field_address: true
+  field_bio: true
   field_cover_photo: true
   field_date_of_birth: true
   field_facebook_url: true

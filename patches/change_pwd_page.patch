@@ -1,0 +1,22 @@
+diff --git a/change_pwd_page.routing.yml b/change_pwd_page.routing.yml
+index 19ed243..dabbe36 100644
+--- a/change_pwd_page.routing.yml
++++ b/change_pwd_page.routing.yml
+@@ -5,14 +5,4 @@ change_pwd_page.change_password_form:
+     _title: 'Password Separate Form'
+   requirements:
+     _entity_access: 'user.update'
+-    user: \d+
+-change_pwd_page.reset:
+-  path: '/user/reset/{uid}/{timestamp}/{hash}/new'
+-  defaults:
+-    _controller: '\Drupal\change_pwd_page\Controller\ChangePwdPageController::resetPass'
+-    _title: 'Reset password'
+-  requirements:
+-    _access: 'TRUE'
+-  options:
+-    _maintenance_access: TRUE
+-    no_cache: TRUE
+\ No newline at end of file
++    user: \d+
+\ No newline at end of file

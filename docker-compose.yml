@@ -285,7 +285,7 @@ services:
       - 'traefik.frontend.rule=Host:portainer.${PROJECT_BASE_URL}'
 
   traefik:
-    image: traefik
+    image: traefik:v1.7
     container_name: "${PROJECT_NAME}_traefik"
     command: -c /dev/null --web --docker --logLevel=INFO --defaultEntryPoints='https,http' --entryPoints='Name:https Address::443 TLS:/certs/cert.pem,/certs/key.pem' --entryPoints='Name:http Address::80'
     ports:

@@ -12,7 +12,7 @@ notify:
 register: visitors
 cancel_method: user_cancel_block
 password_reset_timeout: 86400
-password_strength: true
+password_strength: false
 langcode: ka
 _core:
   default_config_hash: r4kwhOM0IWXVMUZDz744Yc16EOh37ZhYbA8kGOhSmLk

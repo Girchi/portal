@@ -147,6 +147,7 @@ function girchi_utils_theme($existing, $type, $theme, $path) {
       'variables' =>
         [
           'language' => NULL,
+          'is_politician' => NULL,
         ],
       'template' => 'politician-block',
     ],
@@ -202,7 +203,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   $currentUser = Drupal::currentUser()->getRoles();
   // Getting Politician text from omedia_settings.
   $config = \Drupal::config('om_site_settings.site_settings');
-
   if ($form_id == "user_form") {
 
     unset($form['field_referral']['widget'][0]['target_id']['#title']);
@@ -385,32 +385,9 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['#after_build'][] = 'girchi_utils_after_build';
         }
       }
-      // Password reset form.
-      if ($form_id == "user_pass") {
-        // Unset email title.
-        unset($form['name']['#title']);
-        // Add classes to email input.
-        $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
-        $form['name']['#attributes']['id'][] = 'email';
-        $form['name']['#attributes']['placeholder'][] = t('Enter Email');
-
-        // Add classes to submit button.
-        $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
-      }
-    }
-    // Password reset form.
-    if ($form_id == "user_pass") {
-      // Unset email title.
-      unset($form['name']['#title']);
-      // Add classes to email input.
-      $form['name']['#attributes']['class'][] = 'form-control form-control-lg fix';
-      $form['name']['#attributes']['id'][] = 'email';
-      $form['name']['#attributes']['placeholder'][] = t('Enter Email');
-
-      // Add classes to submit button.
-      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
     }
   }
+
 }
 
 /**
@@ -533,12 +510,34 @@ function girchi_utils_simple_sitemap_links_alter(array &$links, $sitemap_variant
  * Implements hook_Webform_submission_presave().
  */
 function girchi_utils_webform_submission_presave(WebformSubmissionInterface $webform_submission) {
+  /** @var \Symfony\Component\HttpFoundation\RequestStack $request_stack */
+  $request_stack = \Drupal::service('request_stack');
+  $request = $request_stack->getCurrentRequest();
+
+  $webform_data = $webform_submission->getData();
+
   if ($webform_submission->getWebform()->id() == 'student_registration') {
-    $start_time = $_POST['start-time'];
-    $end_time = $_POST['end-time'];
-    $webform_data = $webform_submission->getData();
-    $webform_data['time_range'] = $start_time . '-' . $end_time;
-    $webform_submission->setData($webform_data);
+    $start_times = $request->request->get('start-time');
+    $end_times = $request->request->get('end-time');
+    if (!empty($start_times) && !empty($end_times)) {
+      foreach ($start_times as $key => $start_time) {
+        $webform_data['time_ranges'][] = $start_time . '-' . $end_times[$key];
+      }
+    }
+  }
+
+  $webform_submission->setData($webform_data);
+}
+
+/**
+ * Implements hook_webform_element_alter().
+ */
+function girchi_utils_webform_element_alter(array &$element, FormStateInterface $form_state, array $context) {
+  if (isset($element['#webform']) && $element['#webform'] == 'investor_registration') {
+    $element['#element_validate'][] = [
+      'Drupal\girchi_utils\Validate\ValidationConstraint',
+      'validate',
+    ];
   }
 }
 

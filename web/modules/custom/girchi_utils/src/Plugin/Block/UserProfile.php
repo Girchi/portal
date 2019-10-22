@@ -5,7 +5,10 @@ namespace Drupal\girchi_utils\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\user\Entity\User;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'UserProfile' block.
@@ -15,7 +18,42 @@ use Drupal\user\Entity\User;
  *  admin_label = @Translation("User profile"),
  * )
  */
-class UserProfile extends BlockBase {
+class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Drupal\Core\Session\AccountProxyInterface.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $accountProxy;
+
+  /**
+   * {@inheritDoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $accountProxy) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entity_type_manager;
+    $this->accountProxy = $accountProxy;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('current_user')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -48,15 +86,17 @@ class UserProfile extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $currentUserId = \Drupal::currentUser()->id();
-    $currentUser = User::load($currentUserId);
+    $user_storage = $this->entityTypeManager->getStorage('user');
+    $currentUserId = $this->accountProxy->getAccount()->id();
+    $currentUser = $user_storage->load($currentUserId);
     $currentUserFirstName = $currentUser->get('field_first_name')->value;
     $currentUserLastName = $currentUser->get('field_last_name')->value;
     $currentUserGed = $currentUser->get('field_ged')->value ? $currentUser->get('field_ged')->value : 0;
     /** @var \Drupal\file\Entity\File $avatarEntity */
     $avatarEntity = $currentUser->get('user_picture')->entity;
     $currentRank = $currentUser->get('field_rank')->value;
-    $numberOfUsers = \Drupal::entityQuery('user')
+    $numberOfUsers = $user_storage
+      ->getQuery()
       ->sort('created', 'DESC')
       ->count()
       ->execute();
@@ -70,13 +110,10 @@ class UserProfile extends BlockBase {
       $isAvatar = FALSE;
     }
 
-    $build = [];
-    $build['user_profile']['#markup'] = 'Implement UserProfile.';
-
     return [
       '#theme' => 'user_profile',
-      '#title' => t('User Profile'),
-      '#description' => 'User profile block',
+      '#title' => $this->t('User Profile'),
+      '#description' => $this->t('User profile block'),
       '#ged' => $this->configuration['ged'],
       '#member' => $this->configuration['member'],
       '#user_id' => $currentUserId,

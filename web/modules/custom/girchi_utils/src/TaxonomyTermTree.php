@@ -53,22 +53,17 @@ class TaxonomyTermTree {
   /**
    * Populates a tree array given a taxonomy term tree object.
    *
-   * @param $tree
-   *
+   * @param array $tree
    *   Tree.
-   *
-   * @param $object
-   *
-   *   Object
-   *
-   * @param $vocabulary
-   *
-   *   Vocabulary
+   * @param object $object
+   *   Object.
+   * @param string $vocabulary
+   *   Vocabulary.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  protected function buildTree(&$tree, $object, $vocabulary) {
+  protected function buildTree(array &$tree, $object, $vocabulary) {
     if ($object->depth != 0) {
       return;
     }
