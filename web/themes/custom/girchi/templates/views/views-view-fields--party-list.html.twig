@@ -79,8 +79,9 @@
                             </span>
                 <span
                     class="text-warning font-size-4 font-weight-bold d-block d-md-none"
-                >{{ fields.field_political_ged.content | striptags | ged_long_format }} <i class="icon-ged font-size-3"></i
-                    ></span>
+                ><i class="icon-ged font-size-3"></i>
+                    {{ fields.field_political_ged.content | striptags | ged_long_format }}
+                </span>
             </h6>
         </div>
     </td>
