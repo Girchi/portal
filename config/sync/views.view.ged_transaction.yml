@@ -12,8 +12,6 @@ dependencies:
     - better_exposed_filters
     - girchi_ged_transactions
     - image
-    - better_exposed_filters
-    - girchi_ged_transactions
     - rest
     - serialization
     - taxonomy
@@ -854,7 +852,6 @@ display:
         - url
         - url.query_args
         - user
-        - user.permissions
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
@@ -923,7 +920,6 @@ display:
         - request_format
         - url
         - user
-        - user.permissions
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
@@ -957,7 +953,6 @@ display:
         - url
         - url.query_args
         - user
-        - user.permissions
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
@@ -1431,6 +1426,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
