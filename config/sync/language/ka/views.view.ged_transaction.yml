@@ -8,6 +8,9 @@ display:
         created_1:
           expose:
             label: თარიღიდან
+        tid:
+          expose:
+            label: 'ტრანზაქციის ტიპი'
       header:
         area:
           content:
@@ -16,3 +19,8 @@ display:
       exposed_form:
         options:
           submit_button: გაფილტვრა
+      empty:
+        area:
+          content:
+            value: "<p><a class=\"button button-action button--primary button--small\" data-drupal-link-system-path=\"admin/content/ged_transaction/add\" href=\"/admin/content/ged_transaction/add\">ახალი ტრანზაქცია </a></p>\r\n"
+            format: full_html

@@ -5,35 +5,36 @@ namespace Drupal\girchi_utils;
 use Drupal\Core\Language\LanguageInterface;
 use Google_Client;
 use Google_Service_AnalyticsReporting;
-use Google_Service_AnalyticsReporting_GetReportsRequest;
+use Google_Service_AnalyticsReportinggetReportsRequest;
 
 /**
- *
+ * Class UpdatePageViews.
  */
 class UpdatePageViews {
 
   /**
-   *
+   * Static function for api call.
    */
-  private static function _apiCall($url) {
-    $reports = self::_getReports($url);
-    $views = self::_getViews($reports);
+  private static function apiCall($url) {
+    $reports = self::getReports($url);
+    $views = self::getViews($reports);
     return $views;
   }
 
   /**
    * Initializes an Analytics Reporting API V4 service object.
    *
-   * @return \Google_Service_AnalyticsReporting An authorized Analytics Reporting API V4 service object.
+   * @return \Google_Service_AnalyticsReporting
+   *   An authorized Analytics Reporting API V4 service object.
    *
    * @throws \Google_Exception
    */
-  private static function _initializeAnalytics() {
-    $KEY_FILE_LOCATION = __DIR__ . '/../service-account-credentials.json';
+  private static function initializeAnalytics() {
+    $key_file_location = __DIR__ . '/../service-account-credentials.json';
     // Create and configure a new client object.
     $client = new Google_Client();
     $client->setApplicationName("Girchi");
-    $client->setAuthConfig($KEY_FILE_LOCATION);
+    $client->setAuthConfig($key_file_location);
     $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
     $analytics = new Google_Service_AnalyticsReporting($client);
     return $analytics;
@@ -42,15 +43,16 @@ class UpdatePageViews {
   /**
    * Get page view reports.
    *
-   * @param $url
+   * @param string $url
    *   Page URL.
    *
-   * @return \Google_Service_AnalyticsReporting_GetReportsResponse Report Response
+   * @return \Google_Service_AnalyticsReportinggetReportsResponse
+   *   Report Response
    *
    * @throws \Google_Exception
    */
-  private static function _getReports($url) {
-    $analytics = self::_initializeAnalytics();
+  private static function getReports($url) {
+    $analytics = self::initializeAnalytics();
     $viewId = \Drupal::config('om_site_settings.site_settings')->get('google_analytics_view_id');
     $query = [
       "viewId" => $viewId,
@@ -73,7 +75,7 @@ class UpdatePageViews {
         ],
       ],
     ];
-    $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
+    $body = new Google_Service_AnalyticsReportinggetReportsRequest();
     $body->setReportRequests([$query]);
     // batchGet the results https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet
     $report = $analytics->reports->batchGet($body);
@@ -83,12 +85,13 @@ class UpdatePageViews {
   /**
    * Get page view count.
    *
-   * @param \Google_Service_AnalyticsReporting_GetReportsResponse $reports
+   * @param \Google_Service_AnalyticsReportinggetReportsResponse $reports
    *   Google Analytics report object.
    *
-   * @return int|null Page views or null.
+   * @return int|null
+   *   Page views or null.
    */
-  private static function _getViews($reports) {
+  private static function getViews(\Google_Service_AnalyticsReportinggetReportsResponse $reports) {
     $rows = $reports[0]->getData()->getRows();
     if ($rows) {
       $metrics = $rows[0]->getMetrics()[0]->values[0];
@@ -100,7 +103,7 @@ class UpdatePageViews {
   }
 
   /**
-   *
+   * Update views.
    */
   public static function updateViews($nids, &$context) {
     $message = t('Updating Views...');
@@ -111,7 +114,7 @@ class UpdatePageViews {
       $path = '/node/' . (int) $nid;
       $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
       $url = \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode);
-      $viewsCount = self::_apiCall('/ge' . $url);
+      $viewsCount = self::apiCall('/ge' . $url);
       $connection = \Drupal::database();
       $prefix = $connection->tablePrefix();
       if ($viewsCount !== NULL) {
@@ -149,7 +152,7 @@ class UpdatePageViews {
   }
 
   /**
-   *
+   * Finished callback function.
    */
   public static function updateViewsFinishedCallback($success, $results, $operations) {
     if ($success) {

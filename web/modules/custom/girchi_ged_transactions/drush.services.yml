@@ -1,0 +1,7 @@
+services:
+  girchi_ged_transactions.commands:
+    class: Drupal\girchi_ged_transactions\Commands\GirchiGedTransactionsCommands
+    tags:
+      - { name: drush.command }
+    arguments:
+      ['@entity_type.manager', '@logger.factory']

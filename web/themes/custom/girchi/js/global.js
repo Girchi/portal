@@ -87,6 +87,13 @@ $(document).ready(function () {
         $(this).next('.custom-file-label').html(e.target.files[0].name);
     })
 
+    $("#schoolVideo").on("hide.bs.modal", function() {
+        let _this = this,
+            youtubeSrc = $(_this).find("iframe").attr("src");
+        let video = youtubeSrc.replace('autoplay=1', 'autoplay=0');
+        $(_this).find("iframe").attr("src", video);
+    });
+
 });
 
 function SetCaretAtEnd(elem) {
@@ -146,4 +153,15 @@ jQuery(function($) {
         });
 });
 
-
+$(".investor-parent-checkbox input").on("change",  function () {
+    let isChecked = $(this).parent().hasClass('checked');
+    let investorChildren =  $(".investor-children");
+    if(isChecked){
+        investorChildren.attr('hidden', false);
+        $(".investment-amount").attr('min', 10000);
+    }
+    else {
+        investorChildren.attr('hidden', true);
+        $(".investment-amount").attr('min', 1);
+    }
+});

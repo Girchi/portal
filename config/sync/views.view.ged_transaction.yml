@@ -5,10 +5,16 @@ dependencies:
   config:
     - field.storage.user.field_first_name
     - field.storage.user.field_last_name
+    - taxonomy.vocabulary.transaction_type
   module:
     - better_exposed_filters
     - girchi_ged_transactions
+    - rest
+    - serialization
+    - taxonomy
     - user
+    - views_data_export
+    - xls_serialization
 id: ged_transaction
 label: 'Ged Transaction'
 module: views
@@ -80,8 +86,8 @@ display:
           id: 0
           total_pages: null
           tags:
-            previous: ‹‹
-            next: ››
+            previous: '‹ წინა'
+            next: 'შემდეგი ›'
             first: '« First'
             last: 'Last »'
           expose:
@@ -89,7 +95,7 @@ display:
             items_per_page_label: 'Items per page'
             items_per_page_options: '5, 10, 25, 50'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
+            items_per_page_options_all_label: '- ყველა -'
             offset: false
             offset_label: Offset
           quantity: 9
@@ -667,6 +673,58 @@ display:
           entity_type: ged_transaction
           entity_field: created
           plugin_id: date
+        tid:
+          id: tid
+          table: taxonomy_term_field_data
+          field: tid
+          relationship: transaction_type
+          group_type: group
+          admin_label: ''
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: tid_op
+            label: 'Transaction Type'
+            description: ''
+            use_operator: false
+            operator: tid_op
+            identifier: tid
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          type: textfield
+          limit: true
+          vid: transaction_type
+          hierarchy: false
+          error_message: true
+          entity_type: taxonomy_term
+          entity_field: tid
+          plugin_id: taxonomy_index_tid
       sorts: {  }
       title: 'Ged Transaction'
       header:
@@ -721,6 +779,17 @@ display:
           entity_type: ged_transaction
           entity_field: user
           plugin_id: standard
+        transaction_type:
+          id: transaction_type
+          table: ged_transaction_field_data
+          field: transaction_type
+          relationship: none
+          group_type: group
+          admin_label: 'Taxonomy term'
+          required: false
+          entity_type: ged_transaction
+          entity_field: transaction_type
+          plugin_id: standard
       arguments: {  }
       display_extenders: {  }
       filter_groups:
@@ -733,6 +802,76 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
+        - user.permissions
+      tags:
+        - 'config:field.storage.user.field_first_name'
+        - 'config:field.storage.user.field_last_name'
+  data_export_1:
+    display_plugin: data_export
+    id: data_export_1
+    display_title: 'Data export'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      style:
+        type: data_export
+        options:
+          formats:
+            xlsx: xlsx
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+          xls_settings:
+            xls_format: Excel2007
+            metadata:
+              creator: ''
+              last_modified_by: ''
+              title: ''
+              description: ''
+              subject: ''
+              keywords: ''
+              category: ''
+              manager: ''
+              company: ''
+      path: admin/ged-transactions/export
+      filename: ged-transactions.xlsx
+      pager:
+        type: none
+        options:
+          offset: 0
+      displays:
+        page_1: page_1
+        default: '0'
+      sorts:
+        ged_amount:
+          id: ged_amount
+          table: ged_transaction_field_data
+          field: ged_amount
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: DESC
+          exposed: false
+          expose:
+            label: ''
+          entity_type: ged_transaction
+          entity_field: ged_amount
+          plugin_id: standard
+      defaults:
+        sorts: false
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
+        - user
         - user.permissions
       tags:
         - 'config:field.storage.user.field_first_name'
@@ -766,6 +905,7 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user
         - user.permissions
       tags:
         - 'config:field.storage.user.field_first_name'
