@@ -19,7 +19,7 @@ class GedTransactionForm extends ContentEntityForm {
     /* @var $entity \Drupal\girchi_ged_transactions\Entity\GedTransaction */
     $form = parent::buildForm($form, $form_state);
 
-    $entity = $this->entity;
+    $this->entity;
 
     return $form;
   }

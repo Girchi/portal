@@ -1,13 +1,28 @@
 display:
   default:
     display_options:
+      filters:
+        field_last_name_value:
+          expose:
+            label: 'გაფილტრე გვარით'
+        created_1:
+          expose:
+            label: თარიღიდან
+        tid:
+          expose:
+            label: 'ტრანზაქციის ტიპი'
+      header:
+        area:
+          content:
+            value: "<p><a class=\"button button-action button--primary button--small\" href=\"/admin/content/ged_transaction/add\">Add GeD transaction</a></p>\r\n"
+            format: basic_html
       exposed_form:
         options:
           submit_button: გაფილტვრა
       empty:
         area:
           content:
-            value: "<div class=\"px-3 px-md-4 py-3\">No transaction found.</div>\r\n"
+            value: "<p><a class=\"button button-action button--primary button--small\" data-drupal-link-system-path=\"admin/content/ged_transaction/add\" href=\"/admin/content/ged_transaction/add\">ახალი ტრანზაქცია </a></p>\r\n"
             format: full_html
   public_page:
     display_options:
@@ -24,3 +39,4 @@ display:
           label: 'Ged-ების რაოდენობა'
         Description:
           label: აღწერა
+
