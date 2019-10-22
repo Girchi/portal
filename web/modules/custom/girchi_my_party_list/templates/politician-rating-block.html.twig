@@ -16,13 +16,14 @@
             <div
                 class="owl-carousel owl-theme rating-of-politicians-carousel p-3"
             >
+
                 {% for politician in politicians %}
                     <!-- Start of media -->
                     <div class="media media-column rounded overflow-hidden">
                         <div class="media-thumb w-100">
                             <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
                                 <img
-                                    src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
+                                    src="{{ politician.img_uri ? image_style_url(politician.img_uri, 'politician_widget_photo') : theme_path() ~ '/images/avatar247x337.png' }}"
                                     class="w-100"
                                     alt="..."
                                 />
@@ -52,7 +53,7 @@
                                 >
                         <span
                             class="text-grey line-height-1-2 line-height-xl-1-5"
-                        >{{ 'Party list weight' | t }}</span
+                        >{{ 'Politician rating' | t }}</span
                         >
                                     <span class="text-warning text-nowrap">{{ politician.political_ged|ged_long_format  }}</span>
                                 </div>
@@ -96,7 +97,7 @@
                         <div class="media-thumb w-100">
                             <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
                                 <img
-                                    src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
+                                    src="{{ politician.img_uri ? image_style_url(politician.img_uri, 'politician_widget_photo') : theme_path() ~ '/images/avatar247x337.png' }}"
                                     class="w-100"
                                     alt="..."
                                 />
@@ -126,7 +127,7 @@
                                 >
                           <span
                               class="text-grey line-height-1-2 line-height-xl-1-5"
-                          >{{ 'Party list weight' |t }}</span
+                          >{{ 'Politician rating' |t }}</span
                           >
                                     <span class="text-warning text-nowrap"
                                     >{{ politician.political_ged | ged_long_format }}</span
@@ -144,3 +145,4 @@
     </div>
     <!-- End of card -->
 </div>
+
