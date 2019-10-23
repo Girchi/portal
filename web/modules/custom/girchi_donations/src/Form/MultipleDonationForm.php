@@ -91,9 +91,9 @@ class MultipleDonationForm extends FormBase {
     $form['frequency'] = [
       '#type' => 'select',
       '#options' => [
-        '1' => '1 Month',
-        '3' => '3 Month',
-        '6' => '6 Month',
+        '1' => $this->t('1 Month'),
+        '3' => $this->t('3 Month'),
+        '6' => $this->t('6 Month'),
       ],
       '#required' => TRUE,
     ];

@@ -34,6 +34,7 @@
                                         {{ 'Disposable'|t }}
                                     </a
                                     >
+                                {% if logged_in %}
                                 </li>
                                     <li class="nav-item">
                                         <a
@@ -49,6 +50,7 @@
                                         </a
                                         >
                                     </li>
+                                {% endif %}
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <div
@@ -133,6 +135,7 @@
                                         {{ form_single.submit }}
                                     </form>
                                 </div>
+                                {% if logged_in %}
                                 <div
                                         class="tab-pane fade"
                                         id="multiple-donation"
@@ -232,6 +235,7 @@
                                         {{ form_multiple.submit }}
                                     </form>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
