@@ -20,7 +20,6 @@ class RegularDonationDeleteForm extends ContentEntityConfirmFormBase {
    *   The form question. The page title will be set to this value.
    */
   public function getQuestion() {
-    parent::getQuestion();
     // TODO: Implement getQuestion() method.
   }
 
@@ -31,7 +30,6 @@ class RegularDonationDeleteForm extends ContentEntityConfirmFormBase {
    *   A URL object.
    */
   public function getCancelUrl() {
-    parent::getCancelUrl();
     // TODO: Implement getCancelUrl() method.
   }
 

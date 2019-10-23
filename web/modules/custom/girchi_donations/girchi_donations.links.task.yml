@@ -38,6 +38,6 @@ entity.regular_donation.edit_form:
 entity.regular_donation.delete_form:
   route_name:  entity.regular_donation.delete_form
   base_route:  entity.regular_donation.canonical
-  title: Delete
+  title: 'Delete'
   weight: 10
 
