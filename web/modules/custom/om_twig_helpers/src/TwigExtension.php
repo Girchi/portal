@@ -8,10 +8,13 @@ use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\block\Entity\Block;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
 use Twig_Extension;
@@ -22,14 +25,16 @@ use Twig_SimpleFunction;
  *
  * @package Drupal\om_twig_helpers
  */
-class TwigExtension extends Twig_Extension {
+class TwigExtension extends Twig_Extension
+{
 
   private $active_langs;
 
   /**
    * {@inheritdoc}
    */
-  public function getName() {
+  public function getName()
+  {
     return 'om_twig_helpers';
   }
 
@@ -37,7 +42,7 @@ class TwigExtension extends Twig_Extension {
    * {@inheritdoc}
    */
   public function getFilters() {
-    return [
+    return array(
       new \Twig_SimpleFilter('path_to_class', [$this, 'getPathToClass']),
       new \Twig_SimpleFilter('no_last_word', [$this, 'getNoLastWord']),
       new \Twig_SimpleFilter('only_last_word', [$this, 'getOnlyLastWord']),
@@ -46,7 +51,7 @@ class TwigExtension extends Twig_Extension {
       new \Twig_SimpleFilter('single_value_at', [$this, 'getSingleValueAt']),
       new \Twig_SimpleFilter('ged_long_format', [$this, 'getLongFormattedGed']),
       new \Twig_SimpleFilter('ged_formatter', [$this, 'getFormattedGeD']),
-    ];
+    );
   }
 
   /**
@@ -94,6 +99,7 @@ class TwigExtension extends Twig_Extension {
    * @return array
    *   Renderable array
    */
+
   public function getFallbackViewField($node, $field, $view_mode = 'default') {
 
     if ($node->get($field)->isEmpty()) {
@@ -297,9 +303,9 @@ class TwigExtension extends Twig_Extension {
   /**
    * Returns formatted GeD.
    */
-  public function getFormattedGeD($input) {
+  public function getFormattedGed($input) {
     $GEDHelper = \Drupal::service('girchi_users.ged_helper');
-    return $GEDHelper::getFormattedGED($input);
+    return $GEDHelper::getFormattedGed($input);
   }
 
   /**
@@ -335,7 +341,7 @@ class TwigExtension extends Twig_Extension {
     return '';
   }
 
-  /**
+  /*
    * Gets true or false by passing boolean field.
    * Only first value is evaluated if boolean field is multivalue.
    *
@@ -409,7 +415,7 @@ class TwigExtension extends Twig_Extension {
 
     if ($file_path) {
       $file_path = ltrim($file_path, '/');
-      $theme_path = $theme_path . '/' . $file_path;
+      $theme_path = $theme_path .'/'. $file_path;
     }
 
     if ($absolute) {
@@ -466,8 +472,7 @@ class TwigExtension extends Twig_Extension {
     $current_lang = \Drupal::languageManager()->getCurrentLanguage();
     if ($return_object) {
       return $current_lang;
-    }
-    else {
+    } else {
       return $current_lang->getId();
     }
   }

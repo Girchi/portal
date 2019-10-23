@@ -20,17 +20,19 @@ class SupportersRegistrationController extends ControllerBase {
    */
   protected $entityFormBuilder;
 
+  /**
+   * Form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilder
+   */
   protected $formBuilder;
 
   /**
    * Constructs a new SupportersRegistrationController object.
    *
    * @param \Drupal\Core\Entity\EntityFormBuilderInterface $entity_form_builder
-   *
    *   Entity Form builder.
-   *
    * @param \Drupal\Core\Form\FormBuilder $formBuilder
-   *
    *   Form builder.
    */
   public function __construct(EntityFormBuilderInterface $entity_form_builder,

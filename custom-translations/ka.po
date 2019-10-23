@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-01 13:20+0000\n"
-"PO-Revision-Date: 2019-10-01 13:20+0000\n"
+"POT-Creation-Date: 2019-10-22 09:43+0000\n"
+"PO-Revision-Date: 2019-10-22 09:43+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,6 @@ msgstr "შეიყვანეთ პაროლი "
 
 msgid "Password"
 msgstr "პაროლი"
-
 
 msgid "Log in"
 msgstr "შესვლა"
@@ -3562,10 +3561,13 @@ msgstr ""
 
 msgid "Further instructions have been sent to your email address."
 msgstr ""
-"შემდგომი ინსტრუქციები "
-"გაიგზავნა თქვენი "
-"ელექტრონული ფოსტის "
-"მისამართით."
+"პაროლის აღდგენის "
+"ინსტრუქცია გამოგზავნილია "
+"თქვენს ელ-ფოსტაზე. იმ "
+"შემთხვევაში თუ წერილი ვერ "
+"იპოვეთ, აუცილებლად "
+"გადაამოწმეთ spam საქაღალდეც "
+"ან მოგვწერეთ Facebook-ზე :)"
 
 msgid "This login can be used only once."
 msgstr ""
@@ -4240,7 +4242,6 @@ msgstr "დააფინანსე პოლიტიკოსი"
 msgid "Ged &#37;"
 msgstr "Ged-ების &#37;"
 
-msgid "Regular donation was activated"
 msgid "Donation"
 msgstr "შემოწირულობა"
 
@@ -4264,8 +4265,8 @@ msgstr "პოლიტიკოსის შემოწირულობა"
 
 msgid "Donation settings"
 msgstr ""
-"რეგულარული გადახდა "
-"გააქტიურებულია"
+"შემოწირულობის "
+"პარამეტრები"
 
 msgid "Payment execution date"
 msgstr "თანხის ჩამოჭრის თარიღი"
@@ -4284,7 +4285,7 @@ msgstr "გადახდის თარიღი"
 
 msgid "Paying date:"
 msgstr "გადახდის თარიღი:"
-=======
+
 msgid "Donation status"
 msgstr "შემოწირულობის სტატუსი"
 
@@ -4318,9 +4319,6 @@ msgid "Please choose Donation aim OR Donation to politician"
 msgstr ""
 "აირჩიეთ დაფინანსების "
 "მიზანი ან პოლიტიკოსი"
-
-msgid "Amount of money"
-msgstr 
 
 msgid "Transaction failed ,try again"
 msgstr ""
@@ -4363,4 +4361,25 @@ msgid "PAUSED"
 msgstr "შეჩერებული"
 msgid "Donations history"
 msgstr "გადახდების ისტორია"
+
+msgid "Investor registration"
+msgstr "ინვესტორის რეგისტრაცია"
+
+msgid "Investor"
+msgstr "ინვესტორი"
+
+msgid "I am a parent"
+msgstr "მშობელი ვარ"
+
+msgid "Minimum amount of investment for parents must be equal to 10K dollar."
+msgstr ""
+"მშობლებისთვის მინიმალური "
+"საინვესტიციო თანხა უნდა "
+"შეადგენდეს 10K დოლარს."
+
+msgid "Favorite Video"
+msgstr "ფავორიტი ვიდეო"
+
+msgid "Donated amount"
+msgstr "შემოწირული თანხა"
 
