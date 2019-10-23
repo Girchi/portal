@@ -30,4 +30,3 @@ girchi_users.user_controller_removeFavoriteNews:
     _title: 'Remove favorite news'
   requirements:
     _permission: 'access content'
-
