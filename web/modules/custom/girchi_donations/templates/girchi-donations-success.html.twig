@@ -68,6 +68,12 @@
                             >
                                 {{'Profile'|t}}
                             </a>
+                            <a
+                                    href="{{ path('girchi_donations.regular_donations') }}"
+                                    class="btn btn-success text-uppercase btn-block btn-lg my-3 my-lg-4 text-nowrap"
+                            >
+                                {{'My regular donations'|t}}
+                            </a>
                             {% if regular_donation is null %}
                             <a
                                     href="{{ path('girchi_donations.donations_controller_index') }}"
