@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-24 10:52+0000\n"
-"PO-Revision-Date: 2019-10-24 10:52+0000\n"
+"POT-Creation-Date: 2019-10-24 13:14+0000\n"
+"PO-Revision-Date: 2019-10-24 13:14+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4024,6 +4024,9 @@ msgstr "შემოწირულობა"
 msgid "Add to favorite"
 msgstr "ფავორიტებში დამატება"
 
+msgid "Next payment date"
+msgstr "შემდეგი გადახდის თარიღი"
+
 msgid "Payment execution date"
 msgstr "თანხის ჩამოჭრის თარიღი"
 
@@ -4047,11 +4050,6 @@ msgstr "აქტიური"
 
 msgid "PAUSED"
 msgstr "შეჩერებული"
-
-msgid "Donation has been changed."
-msgstr ""
-"დონაცია წარმატებით "
-"შეიცვალა"
 
 msgid "This login can be used only once."
 msgstr ""
@@ -4113,10 +4111,4 @@ msgstr "3 თვე"
 
 msgid "6 Month"
 msgstr "6 თვე"
-
-msgid "The edited verison of Donation will be valid after the next payment."
-msgstr ""
-"რედაქტირებული ვერსია "
-"ძალაში შევა შემდეგი "
-"გადახდიდან."
 
