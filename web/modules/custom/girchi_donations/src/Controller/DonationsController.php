@@ -336,6 +336,7 @@ class DonationsController extends ControllerBase {
   public function regularDonations() {
     $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
     $regular_donations = $regular_donation_storage->getQuery()
+      ->condition('user_id', $this->currentUser->id(), '=')
       ->condition('status', ['ACTIVE', 'PAUSED'], 'IN')
       ->sort('created', 'DESC')
       ->execute();
