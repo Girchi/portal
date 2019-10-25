@@ -1,6 +1,7 @@
 services:
   girchi_ged_transactions.ged_agregator_service:
     class: Drupal\girchi_ged_transactions\GedAgregatorService
+    arguments: ['@database']
   girchi_ged_transactions.summarygedcalculation:
     class: Drupal\girchi_ged_transactions\SummaryGedCalculationService
     arguments: ['@entity_type.manager','@logger.factory']
