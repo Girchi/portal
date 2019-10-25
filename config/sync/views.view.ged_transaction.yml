@@ -93,7 +93,7 @@ display:
             items_per_page_options_all_label: '- ყველა -'
             offset: false
             offset_label: Offset
-          quantity: 9
+          quantity: 4
       style:
         type: table
         options:
@@ -936,6 +936,29 @@ display:
         title: Content
         description: ''
         weight: 0
+      pager:
+        type: full
+        options:
+          items_per_page: 30
+          offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: '‹ წინა'
+            next: 'შემდეგი ›'
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- ყველა -'
+            offset: false
+            offset_label: Offset
+          quantity: 9
+      defaults:
+        pager: false
     cache_metadata:
       max-age: -1
       contexts:
@@ -966,6 +989,7 @@ display:
         filters: false
         filter_groups: false
         empty: false
+        pager: false
       fields:
         created:
           id: created
@@ -1570,6 +1594,27 @@ display:
             value: '<div class= "px-3 px-md-4 py-3">No transaction found. </div>'
             format: full_html
           plugin_id: text
+      pager:
+        type: full
+        options:
+          items_per_page: 30
+          offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: '‹ წინა'
+            next: 'შემდეგი ›'
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- ყველა -'
+            offset: false
+            offset_label: Offset
+          quantity: 4
     cache_metadata:
       max-age: -1
       contexts:
