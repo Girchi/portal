@@ -16,3 +16,4 @@ regular_donation.account:
   route_name: girchi_donations.regular_donations
   menu_name: account
   parent: account
+  weight: -46
