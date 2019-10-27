@@ -171,7 +171,8 @@ class DonationsController extends ControllerBase {
       $params = $request->request;
       $trans_id = $params->get('trans_id');
       $storage = $this->entityTypeManager()->getStorage('donation');
-      $reg_donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
+      $reg_donation_storage = $this->entityTypeManager()
+        ->getStorage('regular_donation');
 
       $ged_manager = $this->entityTypeManager()->getStorage('ged_transaction');
 
@@ -183,7 +184,8 @@ class DonationsController extends ControllerBase {
       $reg_donations = $reg_donation_storage->loadByProperties(['trans_id' => $trans_id]);
 
       if (empty($donations) && empty($reg_donations)) {
-        $this->getLogger('girchi_donations')->error('Donation or Regular Donation entity not found.');
+        $this->getLogger('girchi_donations')
+          ->error('Donation or Regular Donation entity not found.');
         return new JsonResponse('Donation or Regular Donation entity not found.', Response::HTTP_BAD_REQUEST);
       }
       /** @var \Drupal\girchi_donations\Entity\Donation $donation */
@@ -198,8 +200,8 @@ class DonationsController extends ControllerBase {
             /** @var \Drupal\user\Entity\User $user */
             $user = $donation->getUser();
             $donation->setStatus('OK');
-            $donation->save();
-            $this->getLogger('girchi_donations')->info("Status was Updated to OK, ID:$trans_id.");
+            $this->getLogger('girchi_donations')
+              ->info("Status was Updated to OK, ID:$trans_id.");
             $gel_amount = $donation->getAmount();
             $ged_amount = $this->gedCalculator->calculate($gel_amount);
             if ($user->id() !== '0') {
@@ -213,15 +215,18 @@ class DonationsController extends ControllerBase {
                 'Description' => 'Transaction was created by donation',
               ]);
               $transaction->save();
-              $donation->set('field_ged_transacton', $transaction->id());
+              $donation->set('field_ged_transaction', $transaction->id());
+              $donation->save();
               $auth = TRUE;
             }
             else {
               $auth = FALSE;
             }
 
-            $this->getLogger('girchi_donations')->info("Ged transaction was made.");
-            $this->getLogger('girchi_donations')->info("Payment was successful, ID:$trans_id.");
+            $this->getLogger('girchi_donations')
+              ->info("Ged transaction was made.");
+            $this->getLogger('girchi_donations')
+              ->info("Payment was successful, ID:$trans_id.");
             return [
               '#type' => 'markup',
               '#theme' => 'girchi_donations_success',
@@ -238,12 +243,35 @@ class DonationsController extends ControllerBase {
             /** @var \Drupal\user\Entity\User $user */
             $reg_donation->setStatus('ACTIVE');
             $reg_donation->save();
+            $this->getLogger('girchi_donations')
+              ->info('Regular donation was activated.');
+            $ged_amount = $this->gedCalculator->calculate($reg_donation->get('amount')->value);
+            $transaction = $ged_manager->create([
+              'user_id' => "1",
+              'user' => $reg_donation->getOwnerId(),
+              'ged_amount' => $ged_amount,
+              'title' => 'Donation',
+              'name' => 'Donation',
+              'status' => TRUE,
+              'Description' => 'Transaction was created by donation',
+            ]);
+            $transaction->save();
+            $this->getLogger('girchi_donations')
+              ->info("Ged transaction was made.");
+            $type = $reg_donation->get('aim_donation')->value ? 1 : 2;
+            $entity_id = $reg_donation->get('aim_id')->value ? $reg_donation->get('aim_id')->value : $reg_donation->get('politician_id')->value;
+            $this->donationUtils->addDonationRecord($type, [
+              'trans_id' => $reg_donation->get('trans_id')->value,
+              'amount' => $reg_donation->get('amount')->value,
+              'user_id' => $reg_donation->getOwnerId(),
+            ], $entity_id);
+            $this->getLogger('girchi_donations')->info("Donation was made.");
             $reg_donation_details = [
               'frequency' => $reg_donation->get('frequency')->value,
               'day' => $reg_donation->get('payment_day')->value,
               'date' => $reg_donation->get('next_payment_date')->value,
+              'field_ged_transaction' => $transaction->id(),
             ];
-            $this->getLogger('girchi_donations')->info('Regular donation was activated.');
             return [
               '#type' => 'markup',
               '#theme' => 'girchi_donations_success',
@@ -287,7 +315,8 @@ class DonationsController extends ControllerBase {
       $this->getLogger($e->getMessage());
     }
 
-    $this->getLogger('girchi_donations')->error('Trans ID or Donation is missing.');
+    $this->getLogger('girchi_donations')
+      ->error('Trans ID or Donation is missing.');
     return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
   }
 
@@ -317,7 +346,8 @@ class DonationsController extends ControllerBase {
     /** @var \Drupal\girchi_donations\Entity\Donation $donation */
     $donation = $storage->loadByProperties(['trans_id' => $trans_id]);
     $donation->setStatus('FAILED');
-    $this->getLogger('girchi_donations')->info("Payment failed code:$code,  ID:$trans_id.");
+    $this->getLogger('girchi_donations')
+      ->error("Payment failed code:$code,  ID:$trans_id.");
     return [
       '#type' => 'markup',
       '#theme' => 'girchi_donations_fail',
@@ -392,10 +422,16 @@ class DonationsController extends ControllerBase {
           $regular_donation->setStatus('ACTIVE');
           $regular_donation->save();
         }
-        return new JsonResponse(["statusCode" => 200, "message" => "Donation status has been changed to " . $action]);
+        return new JsonResponse([
+          "statusCode" => 200,
+          "message" => "Donation status has been changed to " . $action,
+        ]);
       }
       else {
-        return new JsonResponse(["statusCode" => 400, "message" => "Failed to change donation status."]);
+        return new JsonResponse([
+          "statusCode" => 400,
+          "message" => "Failed to change donation status.",
+        ]);
       }
     }
     catch (\Exception $e) {
@@ -435,7 +471,8 @@ class DonationsController extends ControllerBase {
             && in_array($date, range(1, 28))
           ) {
             /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
-            $donation_storage = $this->entityTypeManager()->getStorage('regular_donation');
+            $donation_storage = $this->entityTypeManager()
+              ->getStorage('regular_donation');
             /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
             $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
             $regular_donation[$donation_id]->set('amount', $amount);
@@ -449,15 +486,18 @@ class DonationsController extends ControllerBase {
               $regular_donation[$donation_id]->set('politician_id', $politician);
             }
             $regular_donation[$donation_id]->save();
-            $this->messenger()->addMessage($this->t('Donation has been changed.'));
+            $this->messenger()
+              ->addMessage($this->t('Donation has been changed.'));
           }
           else {
-            $this->messenger()->addError($this->t('Failed to change Donation.'));
+            $this->messenger()
+              ->addError($this->t('Failed to change Donation.'));
           }
         }
       }
       else {
-        $this->messenger()->addError($this->t('You are not authorized to change donation.'));
+        $this->messenger()
+          ->addError($this->t('You are not authorized to change donation.'));
       }
       return $this->redirect('girchi_donations.regular_donations');
 

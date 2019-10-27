@@ -78,31 +78,15 @@ class RegularDonation extends ContentEntityBase implements RegularDonationInterf
 
     if (empty($this->get('next_payment_date')->value)) {
       $today = Carbon::now();
-      $day = $today->format('j');
-      $hour = $today->format('G');
       $month = $today->format('n');
       $year = $today->format('Y');
       $payment_day = $this->get('payment_day')->value;
       $frequency = $this->get('frequency')->value;
-      if ($payment_day > $day) {
-        $payment_date = Carbon::createFromDate($year, $month, $payment_day);
-        $date = $payment_date->toDateTime();
-        $date->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));
-        $string = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
-        $this->set('next_payment_date', $string);
-      }
-      elseif ($payment_day <= $day) {
-        if ($hour < 17 && $payment_day == $day) {
-          $payment_date = Carbon::createFromDate($year, $month, $payment_day);
-        }
-        else {
-          $payment_date = Carbon::createFromDate($year, (int) $month + $frequency, $payment_day);
-        }
-        $date = $payment_date->toDateTime();
-        $date->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));
-        $string = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
-        $this->set('next_payment_date', $string);
-      }
+      $payment_date = Carbon::createFromDate($year, (int) $month + $frequency, $payment_day);
+      $date = $payment_date->toDateTime();
+      $date->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));
+      $string = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+      $this->set('next_payment_date', $string);
     }
   }
 
