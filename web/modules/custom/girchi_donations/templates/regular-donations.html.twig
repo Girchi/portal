@@ -4,7 +4,7 @@
         class="d-flex border-bottom flex-column flex-md-row px-3 px-md-4 py-3 align-items-md-center"
     >
         <h6 class="text-uppercase font-weight-bold m-0">
-            {{ 'Add new payment' |t }}
+            {{ 'Regular donation settings' |t }}
         </h6>
         <div class="ml-auto my-n1 d-none d-sm-block">
             <button
@@ -98,7 +98,7 @@
                                         >
                                        <span class="mr-3">
                                                 <span
-                                                    class="text-grey">{{ 'Next payment date' | t }}: </span>{{ regular_donation.next_payment_date.value }}
+                                                    class="text-grey">{{ 'Next payment date' | t }}: </span>{{ regular_donation.next_payment_date.value | date("m/d/Y")}}
                                             </span>
                                         </div>
                                     </div>
