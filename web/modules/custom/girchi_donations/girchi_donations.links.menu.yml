@@ -17,3 +17,11 @@ regular_donation.account:
   menu_name: account
   parent: account
   weight: -46
+
+donations.account:
+  title: 'Donations'
+  description: ''
+  route_name: view.donations.page_2
+  menu_name: account
+  parent: account
+  weight: -47 
