@@ -258,19 +258,21 @@ class DonationsController extends ControllerBase {
             $transaction->save();
             $this->getLogger('girchi_donations')
               ->info("Ged transaction was made.");
-            $type = $reg_donation->get('aim_donation')->value ? 1 : 2;
-            $entity_id = $reg_donation->get('aim_id')->value ? $reg_donation->get('aim_id')->value : $reg_donation->get('politician_id')->value;
+            $type = $reg_donation->get('type')->value;
+            $entity_id = $reg_donation->get('aim_id')->target_id ? $reg_donation->get('aim_id')->target_id : $reg_donation->get('politician_id')->target_id;
             $this->donationUtils->addDonationRecord($type, [
               'trans_id' => $reg_donation->get('trans_id')->value,
-              'amount' => $reg_donation->get('amount')->value,
+              'amount' => (int) $reg_donation->get('amount')->value,
               'user_id' => $reg_donation->getOwnerId(),
+              'field_donation_type' => 1,
+              'field_ged_transaction' => $transaction->id(),
+              'status' => 'OK',
             ], $entity_id);
             $this->getLogger('girchi_donations')->info("Donation was made.");
             $reg_donation_details = [
               'frequency' => $reg_donation->get('frequency')->value,
               'day' => $reg_donation->get('payment_day')->value,
               'date' => $reg_donation->get('next_payment_date')->value,
-              'field_ged_transaction' => $transaction->id(),
             ];
             return [
               '#type' => 'markup',
