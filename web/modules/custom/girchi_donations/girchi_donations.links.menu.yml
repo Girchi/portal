@@ -9,3 +9,19 @@ regular_donation.admin.structure.settings:
   description: 'Configure Regular donation entities'
   route_name: regular_donation.settings
   parent: system.admin_structure
+
+regular_donation.account:
+  title: 'Regular donations'
+  description: ''
+  route_name: girchi_donations.regular_donations
+  menu_name: account
+  parent: account
+  weight: -46
+
+donations.account:
+  title: 'Donations'
+  description: ''
+  route_name: view.donations.page_2
+  menu_name: account
+  parent: account
+  weight: -47 
