@@ -193,6 +193,8 @@ class DonationsController extends ControllerBase {
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
       $reg_donation = reset($reg_donations);
 
+      $transaction_type_id = $this->entityTypeManager()->getStorage('taxonomy_term')->load(1369) ? '1360' : NULL;
+
       $result = $this->omediaPayment->getPaymentResult($trans_id);
       if ($result['RESULT_CODE'] === "000") {
         if ($donation) {
@@ -213,6 +215,7 @@ class DonationsController extends ControllerBase {
                 'name' => 'Donation',
                 'status' => TRUE,
                 'Description' => 'Transaction was created by donation',
+                'transaction_type' => $transaction_type_id,
               ]);
               $transaction->save();
               $donation->set('field_ged_transaction', $transaction->id());
@@ -254,6 +257,7 @@ class DonationsController extends ControllerBase {
               'name' => 'Donation',
               'status' => TRUE,
               'Description' => 'Transaction was created by donation',
+              'transaction_type' => $transaction_type_id,
             ]);
             $transaction->save();
             $this->getLogger('girchi_donations')
