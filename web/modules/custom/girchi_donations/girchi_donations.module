@@ -8,6 +8,7 @@
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use ABGEO\NBG\Currency;
+use Drupal\Core\Database\Driver\mysql\Schema;
 use Carbon\Carbon;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -160,4 +161,24 @@ function girchi_donations_cron() {
     }
 
   }
+}
+
+/**
+ * Installing regular donation entity.
+ */
+function girchi_donations_update_8701() {
+
+  try {
+    $schema = new Schema(\Drupal::service('database'));
+    if (!$schema->tableExists('regular_donation')) {
+      \Drupal::entityTypeManager()->clearCachedDefinitions();
+      \Drupal::entityDefinitionUpdateManager()
+        ->installEntityType(\Drupal::entityTypeManager()
+          ->getDefinition('regular_donation'));
+    }
+  }
+  catch (PluginNotFoundException $e) {
+    \Drupal::logger('girchi_donations')->error($e->getMessage());
+  }
+
 }
