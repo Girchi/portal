@@ -1,0 +1,21 @@
+uuid: 5acbda2c-c94a-4186-8586-bf3fb2803156
+langcode: ka
+status: true
+dependencies: {  }
+id: girchi
+label: Girchi
+weight: 0
+container_id: GTM-5XR24QG
+path_toggle: null
+path_list: ''
+role_toggle: null
+role_list: {  }
+status_toggle: null
+status_list: ''
+data_layer: dataLayer
+include_classes: 0
+whitelist_classes: ''
+blacklist_classes: ''
+include_environment: 0
+environment_id: ''
+environment_token: ''
