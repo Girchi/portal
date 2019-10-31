@@ -51,3 +51,8 @@ girchi_donations.edit_donation:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
+entity.regular_donation.collection:
+  path: '/admin/regular-donations'
+  requirements:
+    _permission: 'administer regular donation entities'
