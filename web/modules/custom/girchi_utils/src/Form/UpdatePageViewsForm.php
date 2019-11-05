@@ -2,13 +2,40 @@
 
 namespace Drupal\girchi_utils\Form;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * UpdatePageViewsForm.
  */
 class UpdatePageViewsForm extends FormBase {
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * UpdatePageViewsForm Constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
+   */
+  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+    $this->entityTypeManager = $entityTypeManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -33,12 +60,16 @@ class UpdatePageViewsForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $nids = \Drupal::entityQuery('node')
+    $em = $this->entityTypeManager;
+
+    /** @var \Drupal\node\Entity\NodeStorage $node_storage */
+    $node_storage = $em->getStorage('node');
+    $nids = $node_storage->getQuery()
       ->condition('type', 'article')
       ->execute();
 
     $batch = [
-      'title' => t('Updating article...'),
+      'title' => $this->t('Updating article...'),
       'operations' => [
         [
           '\Drupal\girchi_utils\UpdatePageViews::updateViews',

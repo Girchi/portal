@@ -13,4 +13,3 @@ girchi_utils.batch_update_page_views:
     _title: 'Update node views'
   requirements:
     _permission: 'access content'
-
