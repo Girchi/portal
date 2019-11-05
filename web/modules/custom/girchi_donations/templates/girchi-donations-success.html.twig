@@ -21,11 +21,34 @@
                             class="icon-tick-inside-circle font-size-9 text-success"
                     ></i>
                   </span>
+                        {% if regular_donation %}
                             <h5
-                                    class="text-uppercase font-weight line-height-1-3 font-weight-bold text-success text-center mt-3 mb-3 mb-sm-5"
+                                class="text-uppercase font-weight line-height-1-3 font-weight-bold text-success text-center mt-3 mb-3 mb-sm-5"
                             >
-                                {{'Transaction was successfull'|t}}
+                                {{'Regular donation was activated'|t}}
                             </h5>
+                            <div class="d-flex align-items-center m-0 py-2 flex-wrap">
+                                <div>
+                                    <span class="d-block font-size-2 line-height-1-2 text-grey">{{ 'Periodicity'|t }}</span>
+                                    <span class="d-block font-size-3 line-height-1-2 text-success font-weight-bold">{{ reg_data.frequency }} {{ 'Month'|t }}</span>
+                                </div>
+                                <div class="ml-4">
+                                    <span class="d-block font-size-2 line-height-1-2 text-grey">{{'Day'|t}}</span>
+                                    <span class="d-block font-size-3 line-height-1-2 text-success font-weight-bold">{{ reg_data.day }}</span>
+                                </div>
+                                <div class="ml-4">
+                                     <span class="d-block font-size-2 line-height-1-2 text-grey">{{'Payment execution date'|t}}</span>
+                                    <span class="d-block font-size-3 line-height-1-2 text-success font-weight-bold">{{reg_data.date}}</span>
+                                </div>
+                            </div>
+                            {% else %}
+                                <h5
+                                    class="text-uppercase font-weight line-height-1-3 font-weight-bold text-success text-center mt-3 mb-3 mb-sm-5"
+                                >
+                                    {{'Transaction was successfull'|t}}
+                                </h5>
+                            {% endif %}
+
                             {% if auth %}
                             <div
                                     class="w-100 d-flex flex-column align-items-center mb-4 mb-sm-5"
@@ -45,12 +68,22 @@
                             >
                                 {{'Profile'|t}}
                             </a>
+                            {% if regular_donation  %}
+                            <a
+                                    href="{{ path('girchi_donations.regular_donations') }}"
+                                    class="btn btn-success text-uppercase btn-block btn-lg my-3 my-lg-4 text-nowrap"
+                            >
+                                {{'My regular donations'|t}}
+                            </a>
+                            {% endif %}
+                            {% if regular_donation is null %}
                             <a
                                     href="{{ path('girchi_donations.donations_controller_index') }}"
                                     class="btn btn-warning text-uppercase btn-block btn-lg my-3 my-lg-4 text-nowrap"
                             >
                                 {{'Donate Again'|t}}
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-6">
