@@ -64,7 +64,6 @@ class Donation extends ContentEntityBase {
     ];
   }
 
-
   /**
    * Returns the transaction id.
    *
@@ -105,11 +104,10 @@ class Donation extends ContentEntityBase {
     return $this;
   }
 
-
   /**
    * {@inheritdoc}
    */
-    public function getAim() {
+  public function getAim() {
     return $this->get('aim_id')->entity;
   }
 
@@ -139,13 +137,13 @@ class Donation extends ContentEntityBase {
   /**
    * Updates Status.
    *
-   * @param boolean $bool
+   * @param bool $bool
    *   TRUE or FALSE.
    *
    * @return \Drupal\girchi_donations\Entity\Donation
    *   Drupal donation Entity.
    */
-  public function SetDonationHasAim($bool) {
+  public function setDonationHasAim($bool) {
     $this->set('aim_donation', $bool);
     return $this;
   }
@@ -153,13 +151,13 @@ class Donation extends ContentEntityBase {
   /**
    * Updates Status.
    *
-   * @param boolean $bool
+   * @param bool $bool
    *   TRUE or FALSE.
    *
    * @return \Drupal\girchi_donations\Entity\Donation
    *   Drupal donation Entity.
    */
-  public function SetDonationHasPolitician($bool) {
+  public function setDonationHasPolitician($bool) {
     $this->set('aim_donation', $bool);
     return $this;
   }
@@ -191,7 +189,7 @@ class Donation extends ContentEntityBase {
   /**
    * Updates Status.
    *
-   * @param integer $amount
+   * @param int $amount
    *   Status of donation.
    *
    * @return \Drupal\girchi_donations\Entity\Donation
@@ -203,16 +201,14 @@ class Donation extends ContentEntityBase {
   }
 
   /**
-   * Get amount of donation
+   * Get amount of donation.
    *
-   * @return integer
+   * @return int
    *   Amount of donation.
    */
   public function getAmount() {
     return $this->get('amount')->value;
   }
-
-
 
   /**
    * {@inheritdoc}
@@ -248,13 +244,13 @@ class Donation extends ContentEntityBase {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    //STATUS
+    // STATUS.
     $fields['status'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Donation status'))
       ->setDescription(t('Donation status.'))
       ->setDefaultValue('INITIAL');
 
-    //AIM DONATIONS
+    // AIM DONATIONS.
     $fields['aim_donation'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Aim donation'))
       ->setDescription(t('A boolean indicating that this donation was made for special aim.'))
@@ -287,7 +283,7 @@ class Donation extends ContentEntityBase {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    // Politician donation
+    // Politician donation.
     $fields['politician_donation'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Politician donation'))
       ->setDescription(t('A boolean indicating that this donation was made to politician.'))
@@ -320,7 +316,7 @@ class Donation extends ContentEntityBase {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    //Amount
+    // Amount.
     $fields['amount'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Amount of money'))
       ->setDescription(t('Amount of money'));

@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-22 09:43+0000\n"
-"PO-Revision-Date: 2019-10-22 09:43+0000\n"
+"POT-Creation-Date: 2019-10-31 15:05+0400\n"
+"PO-Revision-Date: 2019-10-31 15:05+0400\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3630,13 +3630,10 @@ msgstr ""
 
 msgid "Further instructions have been sent to your email address."
 msgstr ""
-"პაროლის აღდგენის "
-"ინსტრუქცია გამოგზავნილია "
-"თქვენს ელ-ფოსტაზე. იმ "
-"შემთხვევაში თუ წერილი ვერ "
-"იპოვეთ, აუცილებლად "
-"გადაამოწმეთ spam საქაღალდეც "
-"ან მოგვწერეთ Facebook-ზე :)"
+"შემდგომი ინსტრუქციები "
+"გაიგზავნა თქვენი "
+"ელექტრონული ფოსტის "
+"მისამართით."
 
 msgid "This login can be used only once."
 msgstr ""
@@ -4180,9 +4177,7 @@ msgid "Donation to politician"
 msgstr "პოლიტიკოსის შემოწირულობა"
 
 msgid "Donation settings"
-msgstr ""
-"შემოწირულობის "
-"პარამეტრები"
+msgstr "გადახდების კონფიგურაცია"
 
 msgid "Donation status"
 msgstr "შემოწირულობის სტატუსი"
@@ -4218,10 +4213,15 @@ msgstr ""
 "აირჩიეთ დაფინანსების "
 "მიზანი ან პოლიტიკოსი"
 
+msgid "Amount of money"
+msgstr ""
+"ტრანზაქცია უარყოფილია "
+"სადეთ თავიდან"
+
 msgid "Transaction failed ,try again"
 msgstr ""
-"პაროლი წარმატებით "
-"შეიცვალა."
+"ტრანზაქცია უარყოფილია "
+"სადეთ თავიდან"
 
 msgid "All articles"
 msgstr "ყველა სტატია"
@@ -4317,8 +4317,49 @@ msgstr ""
 "საინვესტიციო თანხა უნდა "
 "შეადგენდეს 10K დოლარს."
 
-msgid "Favorite Video"
-msgstr "ფავორიტი ვიდეო"
+msgid "Regular donation settings"
+msgstr ""
+"ავტომატური დაფინანსების "
+"მართვა"
+
+msgid "1 Month"
+msgstr "1 თვე"
+
+msgid "3 Month"
+msgstr "3 თვე"
+
+msgid "6 Month"
+msgstr "6 თვე"
+
+msgid "Resume"
+msgstr "გაგრძელება"
+
+msgid "PAUSED"
+msgstr "შეჩერებული"
+
+msgid "Pause"
+msgstr "შეჩერება"
+
+msgid "ACTIVE"
+msgstr "აქტიური"
+
+msgid "Regular donation was activated"
+msgstr "შემოწირულობა"
+
+msgid "Next payment date"
+msgstr "მომდევნო გადახდის თარიღი"
+
+msgid "Payment execution date"
+msgstr "თანხის ჩამოჭრის თარიღი"
+
+msgid "Add new payment"
+msgstr "ახალი გადახდის დამატება"
+
+msgid "Paying date"
+msgstr "გადახდის თარიღი"
+
+msgid "Paying date:"
+msgstr "გადახდის თარიღი:"
 
 msgid "Invalid phone number."
 msgstr ""
@@ -4326,3 +4367,43 @@ msgstr ""
 "ვალიდური."
 msgid "Donated amount"
 msgstr "შემოწირული თანხა"
+msgid "Donation has been changed."
+msgstr ""
+"დონაცია წარმატებით "
+"შეიცვალა"
+
+msgid "Donations history"
+msgstr "გადახდების ისტორია"
+
+msgid "Donations"
+msgstr "გადახდები"
+
+msgid "The edited verison of Donation will be valid after the next payment."
+msgstr ""
+"რედაქტირებული ვერსია "
+"ძალაში შევა შემდეგი "
+"გადახდიდან."
+
+msgid "My regular donations"
+msgstr ""
+"ჩემი რეგულარული "
+"დონაციები"
+
+msgid "Regular donations"
+msgstr "რეგულარული დონაციები"
+
+msgid "Regular donations settings"
+msgstr ""
+"ავტომატური დაფინანსების "
+"მართვა"
+
+msgid "Automatic payments"
+msgstr "ავტომატური დაფინანსება"
+
+msgid ""
+"The edited verison of Periodicity and date will be valid after the "
+"next payment."
+msgstr ""
+"პერიოდულობის და თარიღის "
+"ცვლილება ძალაში შევა "
+"შემდეგი გადახდიდან."
