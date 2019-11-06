@@ -1,0 +1,26 @@
+uuid: 7e2cdf8b-6941-42e4-b226-64d406a10347
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.donation.field_ged_transaction
+  module:
+    - girchi_donations
+id: donation.donation.field_ged_transaction
+field_name: field_ged_transaction
+entity_type: donation
+bundle: donation
+label: 'Ged transaction'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:ged_transaction'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

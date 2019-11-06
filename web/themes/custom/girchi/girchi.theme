@@ -215,7 +215,7 @@ function girchi_preprocess_page(array &$variables)
 
 
 
-//    $ged_formatted = $GEDHelper::getFormattedGED($user->get('field_political_ged')->value);
+//    $ged_formatted = $GEDHelper::getFormattedGed($user->get('field_political_ged')->value);
 
     $variables['user'] = [
       'id' => $user->id(),
@@ -223,7 +223,7 @@ function girchi_preprocess_page(array &$variables)
       'user_picture' => $profilePicture,
       'first_name' => $user->get('field_first_name')->value,
       'last_name' => $user->get('field_last_name')->value,
-//      'ged' =>  $GEDHelper::getFormattedGED($user->get('field_ged')->value),
+//      'ged' =>  $GEDHelper::getFormattedGed($user->get('field_ged')->value),
       'ged' =>  $user->get('field_ged')->value,
       'referrals_profile_picture' => array_slice($referralsImage,0,5),
       'referralCount' => $referralCount,
@@ -254,6 +254,10 @@ function girchi_preprocess_page(array &$variables)
     $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
     $build                             = $view_builder->view($webform);
     $variables['teacher_registration'] = $build;
+    $webform                           = \Drupal::entityTypeManager()->getStorage('webform')->load('investor_registration');
+    $view_builder                      = \Drupal::service('entity_type.manager')->getViewBuilder('webform');
+    $build                             = $view_builder->view($webform);
+    $variables['investor_registration'] = $build;
   }
 }
 
@@ -390,6 +394,7 @@ function girchi_preprocess_form(array &$variables)
       $variables['cover_name'] = $coverName;
     }
   }
+
 }
 
 /**
@@ -505,9 +510,24 @@ function girchi_preprocess_paragraph(&$variables)
   }
 
   if ($paragraph->getParagraphType()->id() == 'school_goal') {
+    $thumbnail_url = "";
+    if(!empty($paragraph->field_video->first())){
+      $youtube_video_url = $paragraph->field_video->first()->value;
+      parse_str(parse_url($youtube_video_url, PHP_URL_QUERY), $url_parsed_array);
+
+      if (!empty($url_parsed_array['v'])) {
+        $video_id_array = explode("?v=",$paragraph->field_video->first()->value);
+        $video_id = $video_id_array[1];
+        $thumbnail_url = sprintf("https://img.youtube.com/vi/%s/maxresdefault.jpg", $video_id);
+      }
+    }
+
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
+    $video = $paragraph->field_video->first() !=  null  ? $paragraph->field_video->first()->view() : null;
     $variables['data'] = [
       "img_uri" => $img_uri,
+      "video_thumbnail" => $thumbnail_url,
+      "video" => $video
     ];
   }
 
@@ -535,7 +555,6 @@ function girchi_preprocess_menu(array &$variables)
   }
 }
 
-
 function girchi_preprocess_views_view_fields(&$variables)
 {
   $view = $variables['view'];
@@ -552,7 +571,6 @@ function girchi_preprocess_views_view_fields(&$variables)
     }
   }
 }
-
 
 function get_user_avatar($user)
 {

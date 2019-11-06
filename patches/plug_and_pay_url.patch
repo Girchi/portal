@@ -1,5 +1,5 @@
 diff --git a/src/WeAreDe/TbcPay/TbcPayProcessor.php b/src/WeAreDe/TbcPay/TbcPayProcessor.php
-index df6828e..e287456 100644
+index df6828e..8c14740 100644
 --- a/src/WeAreDe/TbcPay/TbcPayProcessor.php
 +++ b/src/WeAreDe/TbcPay/TbcPayProcessor.php
 @@ -25,7 +25,7 @@ class TbcPayProcessor
@@ -11,3 +11,69 @@ index df6828e..e287456 100644
 
      /**
       * absolute path to certificate
+@@ -79,6 +79,12 @@ class TbcPayProcessor
+      */
+     public $biller;
+
++     /**
++     * hash generated to pass bank for saving card
++     * @var string
++     */
++    public $biller_id;
++
+     /**
+      * ? this seems to be ignored by tbcbank
+      * @var string
+@@ -391,5 +397,52 @@ class TbcPayProcessor
+         return $this->process($post_fields);
+     }
+
++    /**
++     * Save card.
++     * start transaction for saving client card with 0 amount.
++     * @return array  TRANSACTION_ID
++     * TRANSACTION_ID - transaction identifier (28 characters in base64 encoding)
++     * error          - in case of an error
++     */
++    public function save_card()
++    {
++        $post_fields = array(
++            'command'            => 'z', // identifies a request for transaction registration
++            'amount'             => $this->amount,
++            'currency'           => $this->currency,
++            'client_ip_addr'     => $this->client_ip_addr,
++            'description'        => $this->description,
++            'language'           => $this->language,
++            'biller'             => $this->biller,
++            'biller_client_id'   => $this->biller_id,
++            'perspayee_expi ry'  => '08/30',
++            'msg_type'           => 'SMS',
++            'perspayee_gen'      => '1'
++        );
++
++        return $this->process($post_fields);
++    }
++
++      /**
++     * Execute transaciton.
++     * Execute transaciton for saved card.
++     * @return array TRANSACTION_ID
++     * TRANSACTION_ID - transaction identifier (28 characters in base64 encoding)
++     * error          - in case of an error
++     */
++    public function execute_transaction()
++    {
++        $post_fields = array(
++            'command'            => 'e', // identifies a request for transaction registration
++            'amount'             => $this->amount,
++            'currency'           => $this->currency,
++            'client_ip_addr'     => $this->client_ip_addr,
++            'description'        => $this->description,
++            'language'           => $this->language,
++            'biller_client_id'   => $this->biller_id,
++        );
++
++        return $this->process($post_fields);
++    }
+     // Regular payments need to be implemented!
+ }

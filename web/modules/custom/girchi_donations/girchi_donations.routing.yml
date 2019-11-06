@@ -6,6 +6,8 @@ girchi_donations.donations_controller_index:
     _title: 'Donate'
   requirements:
     _permission: 'access content'
+  options:
+    no_cache: 'TRUE'
 
 girchi_donations.donations_controller_finish:
   path: '/donate/finish'
@@ -22,3 +24,35 @@ girchi_donations.donations_controller_fail:
     _title: 'Donation finish'
   requirements:
     _permission: 'access content'
+
+girchi_donations.regular_donations:
+  path: '/user/regular-donations'
+  defaults:
+    _controller: '\Drupal\girchi_donations\Controller\DonationsController::regularDonations'
+    _title: 'Automatic payments'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+
+girchi_donations.update_donation_status:
+  path: 'donate/update_donation_status'
+  defaults:
+    _controller: '\Drupal\girchi_donations\Controller\DonationsController::updateDonationStatus'
+    _title: 'Update donation status'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+
+girchi_donations.edit_donation:
+  path: 'donate/edit_donation'
+  defaults:
+    _controller: '\Drupal\girchi_donations\Controller\DonationsController::editDonation'
+    _title: 'Update donation status'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+
+entity.regular_donation.collection:
+  path: '/admin/regular-donations'
+  requirements:
+    _permission: 'administer regular donation entities'

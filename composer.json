@@ -212,9 +212,10 @@
     "drupal/csv_serialization": "^1.0",
     "drupal/default_content": "^1.0@alpha",
     "drupal/devel": "^1.0@RC",
+    "drupal/devel_entity_updates": "^1.0",
     "drupal/diff": "^1.0@RC",
     "drupal/disable_messages": "^1.0",
-    "drupal/dropzonejs": "dev-1.x",
+    "drupal/dropzonejs": "2.x-dev",
     "drupal/drush_language": "^1.0@RC",
     "drupal/editor_advanced_link": "^1.4",
     "drupal/editor_file": "^1.2",
@@ -292,6 +293,7 @@
     "eyecon/colorpicker": "^1.0",
     "google/apiclient": "^2.0",
     "harvesthq/chosen": "1.8.7",
+    "nesbot/carbon": "^2.24",
     "nicolab/php-ftp-client": "^1.4",
     "symfony/dotenv": "^4.3",
     "wearede/tbcpay-php": "^0.9.3",
@@ -388,7 +390,7 @@
         "remove reset route": "patches/change_pwd_page.patch"
       },
       "wearede/tbcpay-php": {
-        "fix old url": "patches/plug_and_pay_url.patch"
+        "Fix url and add card save": "patches/plug_and_pay_url.patch"
       }
     },
     "installer-paths": {

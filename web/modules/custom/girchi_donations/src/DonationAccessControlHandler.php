@@ -22,12 +22,12 @@ class DonationAccessControlHandler extends EntityAccessControlHandler {
     switch ($operation) {
       case 'view':
         return AccessResult::allowedIfHasPermission($account, 'view published donation entities');
-//
-//      case 'update':
-//        return AccessResult::allowedIfHasPermission($account, 'edit donation entities');
 
-//      case 'delete':
-//        return AccessResult::allowedIfHasPermission($account, 'delete donation entities');
+      case 'update':
+        return AccessResult::allowedIfHasPermission($account, 'edit donation entities');
+
+      case 'delete':
+        return AccessResult::allowedIfHasPermission($account, 'delete donation entities');
     }
 
     // Unknown operation, no opinion.
