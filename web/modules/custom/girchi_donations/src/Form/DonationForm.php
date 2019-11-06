@@ -19,8 +19,7 @@ class DonationForm extends ContentEntityForm {
     /* @var $entity \Drupal\girchi_donations\Entity\Donation */
     $form = parent::buildForm($form, $form_state);
 
-    $entity = $this->entity;
-
+    // $entity = $this->entity;
     return $form;
   }
 

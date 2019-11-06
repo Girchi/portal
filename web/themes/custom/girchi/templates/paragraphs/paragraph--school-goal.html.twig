@@ -52,10 +52,10 @@
             </div>
             <div class="col-lg-6">
                 {% if data.video %}
-                <a data-target="#schoolVideo" data-toggle="modal" href="#">
-                <img src="{{ data.video_thumbnail }}" alt="Kids" class="rounded ml-auto d-block w-100">
-                    <i class="icon-play-button media-play"></i>
-                </a>
+                    <a data-target="#schoolVideo" data-toggle="modal" href="#">
+                        <img src="{{ data.video_thumbnail }}" alt="Kids" class="rounded ml-auto d-block w-100">
+                        <i class="icon-play-button media-play"></i>
+                    </a>
                 {% else %}
                     <img src="{{image_style_url(data.img_uri, "school_goal") }}" alt="Kids" class="rounded ml-auto d-block w-100"/>
                 {% endif %}

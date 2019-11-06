@@ -5,4 +5,6 @@ om_tbc_payments.payment_controller_prepare:
     _title: 'Prepare'
   requirements:
     _permission: 'access content'
+  options:
+    no_cache: 'TRUE'
 #    _role: 'authenticated'
