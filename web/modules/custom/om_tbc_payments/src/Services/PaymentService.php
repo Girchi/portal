@@ -82,7 +82,7 @@ class PaymentService {
   protected $currentUser;
 
   /**
-   * dotenv.
+   * Dotenv.
    *
    * @var \Symfony\Component\Dotenv\Dotenv
    */
@@ -213,17 +213,10 @@ class PaymentService {
    */
   public function generateTransactionId($amount, $description) {
 
-    if ($this->languageManager->getCurrentLanguage()->getId() === 'ka') {
-      $lang = "GE";
-    }
-    else {
-      $lang = "EN";
-    }
-
     $this->tbcPayProcessor->amount = $amount * 100;
     $this->tbcPayProcessor->currency = 981;
     $this->tbcPayProcessor->description = $description;
-    $this->tbcPayProcessor->language = $lang;
+    $this->tbcPayProcessor->language = $this->getLanguage();
     $id = $this->tbcPayProcessor->sms_start_transaction()['TRANSACTION_ID'];
     if ($id) {
       $this->loggerFactory->get('om_tbc_payments')->info('Transaction ID was generated.');
@@ -234,6 +227,39 @@ class PaymentService {
       $this->loggerFactory->get('om_tbc_payments')->error('Error generating transaction ID in payment service.');
       return NULL;
     }
+  }
+
+  /**
+   * Wrapper function to save card.
+   *
+   * @param int $amount
+   *   Amount of GEL.
+   * @param string $description
+   *   Description for transaction.
+   *
+   * @return array
+   *   Array with transaction and card id.
+   */
+  public function saveCard($amount, $description) {
+    $card_id = $this->generateCardCode();
+    $this->tbcPayProcessor->amount = $amount * 100;
+    $this->tbcPayProcessor->currency = 981;
+    $this->tbcPayProcessor->description = $description;
+    $this->tbcPayProcessor->language = $this->getLanguage();
+    $this->tbcPayProcessor->biller_id = $card_id;
+    $response = $this->tbcPayProcessor->save_card();
+    if (isset($response['TRANSACTION_ID']) && $card_id) {
+      $this->loggerFactory->get('om_tbc_payments')->info('Transaction id for saving card was generated.');
+      return [
+        'transaction_id' => $response['TRANSACTION_ID'],
+        'card_id' => $card_id,
+      ];
+    }
+    else {
+      $this->loggerFactory->get('om_tbc_payments')->error('Error while generating transaction ID for card save in payment service.');
+      return NULL;
+    }
+
   }
 
   /**
@@ -263,6 +289,43 @@ class PaymentService {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Wrapper function for executing payment.
+   *
+   * @param string $card_id
+   *   Saved card id.
+   * @param int $amount
+   *   Amount of money.
+   * @param string $description
+   *   Description.
+   *
+   * @return array
+   *   Response from TBC.
+   */
+  public function executePayment($card_id, $amount, $description) {
+    $this->tbcPayProcessor->biller_id = $card_id;
+    $this->tbcPayProcessor->amount = $amount * 100;
+    $this->tbcPayProcessor->currency = 981;
+    $this->tbcPayProcessor->description = 'Regular payment';
+    $response = $this->tbcPayProcessor->execute_transaction();
+    if (empty($response)) {
+      $this->loggerFactory->get('om_tbc_payments')->error('Error executing payment.');
+      return NULL;
+    }
+    else {
+      $transaction_id = $response['TRANSACTION_ID'];
+      $result = $response['RESULT_CODE'];
+      $result_code = $response['RESULT_CODE'];
+      $this->addPaymentRecord($transaction_id, ['amount' => $amount, 'description' => $description]);
+      $this->loggerFactory->get('om_tbc_payments')->info(sprintf('Payment was executed. Status: %s, Card id: %s', $result, $card_id));
+      return [
+        'transaction_id' => $transaction_id,
+        'result'         => $result,
+        'code'           => $result_code,
+      ];
+    }
   }
 
   /**
@@ -303,6 +366,31 @@ class PaymentService {
    */
   private function getString() {
     return uniqid();
+  }
+
+  /**
+   * Random string for card code.
+   *
+   * @return string
+   *   card code.
+   */
+  private function generateCardCode() {
+    return md5(uniqid(10, TRUE));
+  }
+
+  /**
+   * Function for getting language.
+   *
+   * @return string
+   *   Language string.
+   */
+  public function getLanguage() {
+    if ($this->languageManager->getCurrentLanguage()->getId() === 'ka') {
+      return "GE";
+    }
+    else {
+      return "EN";
+    }
   }
 
 }

@@ -259,9 +259,6 @@ function girchi_preprocess_page(array &$variables)
     $build                             = $view_builder->view($webform);
     $variables['investor_registration'] = $build;
   }
-
-
-
 }
 
 /**

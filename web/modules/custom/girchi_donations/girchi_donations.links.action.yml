@@ -3,3 +3,8 @@ entity.donation.add_form:
   title: 'Add Donation'
   appears_on:
     - entity.donation.collection
+entity.regular_donation.add_form:
+  route_name: entity.regular_donation.add_form
+  title: 'Add Regular donation'
+  appears_on:
+    - entity.regular_donation.collection
