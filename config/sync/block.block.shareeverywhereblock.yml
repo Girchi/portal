@@ -1,6 +1,6 @@
 uuid: ba9a9e79-0d85-4bbe-b0fc-e15acee215e5
 langcode: ka
-status: true
+status: false
 dependencies:
   module:
     - ctools
