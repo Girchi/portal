@@ -44,7 +44,7 @@
                                     </a>
                                     <span
                                         class="text-light-green font-weight-bold font-size-8  line-height-0-9"
-                                    >{{ '0' ~ politician.rating }}</span
+                                    >{{politician.rating < 10 ? '0' ~ politician.rating : politician.rating  }}</span
                                     >
                                 </h5>
                                 <div
@@ -119,7 +119,7 @@
                                             </a>
                                             <span
                                                     class="text-light-green font-weight-bold font-size-7 font-size-xl-8  line-height-0-9"
-                                            >{{ '0' ~ politician.rating }}</span
+                                            >{{politician.rating < 10 ? '0' ~ politician.rating : politician.rating  }}</span
                                             >
                                         </h5>
                                         <div
