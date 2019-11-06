@@ -19,11 +19,19 @@
                   <span class="d-block text-center">
                     <i class="icon-error font-size-9 text-danger"></i>
                   </span>
-                            <h5
+                            {% if regular_donation %}
+                                <h5
                                     class="text-uppercase font-weight line-height-1-3 font-weight-bold text-danger text-center mt-3 mb-4 mb-sm-7"
-                            >
-                                {{'Transaction failed ,try again'|t}}
-                            </h5>
+                                >
+                                    {{'Regular Donation failed ,try again'|t}}
+                                </h5>
+                            {% else %}
+                                <h5
+                                        class="text-uppercase font-weight line-height-1-3 font-weight-bold text-danger text-center mt-3 mb-4 mb-sm-7"
+                                >
+                                    {{'Transaction failed ,try again'|t}}
+                                </h5>
+                            {% endif %}
                             <a
                                     href="{{ path('user.page') }}"
                                     class="btn btn-success text-uppercase btn-block btn-lg my-3 my-lg-4 text-nowrap"
