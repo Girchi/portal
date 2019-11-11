@@ -1,0 +1,22 @@
+{#
+/**
+ * @file credit_card.html.twig
+ * Default theme implementation to present Credit card data.
+ *
+ * This template is used when viewing Credit card pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_credit_card()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('credit_card') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

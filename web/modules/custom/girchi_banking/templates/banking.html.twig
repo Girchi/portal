@@ -1,0 +1,247 @@
+<div class="mobile my-2">
+    <button
+        data-toggle="modal"
+        data-target="#addPayment"
+        class="btn btn-success btn-block text-uppercase"
+    >
+        ახალი ბარათის დამატება
+    </button>
+</div>
+
+<div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3 overflow-hidden">
+    <div
+        class="d-flex border-bottom flex-column flex-md-row px-3 px-md-4 py-3 align-items-md-center"
+    >
+        <h6 class="text-uppercase font-weight-bold m-0">
+            ჩემი ბარათები
+        </h6>
+        <div class="ml-auto my-n1 d-none d-sm-block">
+            <button
+                data-toggle="modal"
+                data-target="#addPayment"
+                class="btn btn-success text-uppercase desktop"
+            >
+                ახალი ბარათის დამატება
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-3 p-sm-4">
+
+        <!-- Desktop -->
+        <div class="desktop">
+            <hr class="my-3 d-sm-none"/>
+            <div class="card border overflow-hidden mb-3 mb-sm-4">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="cc-dark col-md-3 m-2">
+                                <span class="chip"></span>
+                                <img src="/{{ directory }}/images/visa2.svg" id="logo-visa" alt="">
+                                <!-- <img src="./mc_symbol.svg" height="55px" width="55px" id="logo-mastercard" alt="" > -->
+                                <span class="cc-number">**** **** **** 9846</span>
+                                <span class="cc-name">Girchi</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div
+                                class="d-flex flex-column flex-lg-row py-3 pr-4 position-relative h-100 align-items-lg-center ml-4 mr-4"
+                            >
+                                <!-- Start left side -->
+                                <div>
+                              <span
+                                  class="d-block text-grey font-size-2 font-weight-bold"
+                              >დამატების თარიღი</span
+                              >
+                                    <span
+                                        class="d-block text-success text-uppercase font-weight-bold"
+                                    >10/12/2019</span
+                                    >
+                                </div>
+                                <!-- End left size -->
+                                <!-- Start right side -->
+                                <div
+                                    class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
+                                >
+                                    <button
+                                        class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                    >
+                                        წაშლა
+                                    </button>
+                                </div>
+                                <!-- End right side -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card border overflow-hidden mb-3 mb-sm-4">
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="cc-green col-md-3 m-2">
+                                <span class="chip"></span>
+                                <?xml version="1.0" encoding="UTF-8"?>
+                                <img src="/{{ directory }}/images/mc_symbol.svg" height="55px" width="55px"
+                                     id="logo-mastercard" alt="">
+                                <span class="cc-number">**** **** **** 9846</span>
+                                <span class="cc-name">Girchi</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div
+                                class="d-flex flex-column flex-lg-row py-3 pr-4 position-relative h-100 align-items-lg-center ml-4 mr-4"
+                            >
+                                <div>
+                              <span
+                                  class="d-block text-grey font-size-2 font-weight-bold"
+                              >დამატების თარიღი</span
+                              >
+                                    <span
+                                        class="d-block text-success text-uppercase font-weight-bold"
+                                    >10/12/2019</span
+                                    >
+                                </div>
+                                <div
+                                    class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
+                                >
+                                    <button
+                                        class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                    >
+                                        წაშლა
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile">
+            <table class="table m-0 table-hover">
+                <tbody>
+                <tr>
+                    <td class="align-middle">
+                        <div class="d-flex w-100 align-items-center my-2">
+                            <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
+                                <span class="text-grey font-size-4 font-weight-bold d-block">**** **** **** 4958</span>
+                            </h6>
+                        </div>
+                    </td>
+                    <td>
+                        <img src="/{{ directory }}/images/Visa_Inc._logo.svg" height="60px" width="60px"
+                             alt="mastercard">
+                    </td>
+                    <td class="text-right text-md-center align-middle">
+                        <button
+                            class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
+                            <i class="icon-delete"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                        <div class="d-flex w-100 align-items-center my-2">
+                            <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
+                                <span class="text-grey font-size-4 font-weight-bold d-block">**** **** **** 4958</span>
+                            </h6>
+                        </div>
+                    </td>
+                    <td>
+                        <img src="/{{ directory }}/images/mc_symbol.svg" height="60px" width="60px" alt="mastercard">
+                    </td>
+                    <td class="text-right text-md-center align-middle">
+                        <button
+                            class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
+                            <i class="icon-delete"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- End of desktop -->
+    </div>
+</div>
+
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="addPayment"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="addPaymentTitle"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5
+                    class="modal-title font-size-3 text-uppercase font-weight-bold"
+                    id="addPaymentTitle"
+                >
+                    ბარათის დამახსოვრება
+                </h5>
+                <button
+                    type="button"
+                    class="close ml-2"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <i
+                        aria-hidden="true"
+                        class="icon-close font-size-3 text-dark-silver"
+                    ></i>
+                </button>
+            </div>
+            <div
+                class="modal-body pt-0  pl-3 pr-3 pb-3 pl-md-5 pr-md-5 pb-md-5"
+            >
+                <form method="POST">
+                    {{ save_form.form_build_id }}
+                    {{ save_form.form_token}}
+                    {{ save_form.form_id }}
+                    <p class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4">
+                        <img src="/{{ directory }}/dist/css/images/tbc-logo-ka-ge.svg" alt=""
+                             class="mt-2 mt-sm-0 mr-3 mr-sm-0" height="17">
+                        <img src="/{{ directory }}/dist/css/images/bog-geo-horizontal.png" alt=""
+                             class="mt-2 mt-sm-0 mr-3 mr-sm-0" height="17">
+                        <img src="/{{ directory }}/dist/css/images/liberty-geo.svg" alt=""
+                             class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                             height="12">
+                        <img src="/{{ directory }}/dist/css/images/visa.png" alt="" class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                             height="12">
+                        <img src="/{{ directory }}/dist/css/images/mc.svg" alt="" class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                             height="17">
+                    </p>
+                    <hr class="border-dashed border-secondary"/>
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <p class="text-primary font-size-3">
+                                თქვენ გადამისამართდებით TBC ბანკის გადახდის გვერდზე
+                                სადაც მითითებული იქნება თანხა: <span class="font-weight-bold font-size-4"
+                                                                     style="color: #0DAEEE">0.00</span>, <br>
+                                რაც მიანიშნებს იმას, რომ მოცემული ტრანზაქციისას თქვენი<br>
+                                ბარათიდან არ ხდება თანხის ჩამოჭრა.
+                            </p>
+                        </div>
+                        <div class="col-md-4 col-12 align-items-center">
+                            <img src="/{{ directory }}/images/tbc-e1531314087528-300x266.png" height="120px"
+                                 width="120px" alt="tbc">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="text-primary font-size-3 font-weight-bold mt-2">
+                                ბარათის მონაცემებს შეიყვანთ მოცემულ გვერდზე,
+                                წარმატების შემთხვევაში თქვენი ბარათი <br> დამახსოვრებული იქნება სისტემაში.
+                            </p>
+                        </div>
+                    </div>
+                    {{ save_form.submit }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{ attach_library('girchi_banking/girchi_banking') }}
+

@@ -1,0 +1,5 @@
+entity.credit_card.add_form:
+  route_name: entity.credit_card.add_form
+  title: 'Add Credit card'
+  appears_on:
+    - entity.credit_card.collection

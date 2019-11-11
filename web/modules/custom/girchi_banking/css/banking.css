@@ -1,0 +1,109 @@
+/*
+ * General o>
+ *
+ * ==================== */
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans:700);
+
+/*
+ * The Card
+ *
+ * ==================== */
+.cc-green {
+  box-sizing: border-box;
+  font-family: "Consolas", monospace;
+  font-size: 14px;
+  background-color: #327f37;
+  border-radius: 10px;
+  display: block;
+  height: 150px;
+  letter-spacing: 0.1rem;
+  position: relative;
+  text-align: left;
+  text-transform: uppercase;
+  width: 225px;
+}
+
+.cc-dark {
+  box-sizing: border-box;
+  font-family: "Consolas", monospace;
+  font-size: 14px;
+  background-color: #33353c;
+  border-radius: 10px;
+  display: block;
+  height: 150px;
+  letter-spacing: 0.1rem;
+  position: relative;
+  text-align: left;
+  text-transform: uppercase;
+  width: 225px;
+}
+
+.chip {
+  background: #efb77f;
+  border-radius: 5px;
+  display: block;
+  height: 23px;
+  left: 30px;
+  position: absolute;
+  top: 50px;
+  width: 33px;
+}
+
+.cc-number {
+  background: linear-gradient(#eee, #999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  bottom: 45px;
+  font-size: 12px;
+  left: 30px;
+  position: absolute;
+}
+
+.cc-date {
+  background: linear-gradient(#eee, #999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  bottom: 40px;
+  left: 30px;
+  position: absolute;
+}
+
+.cc-name {
+  background: linear-gradient(#eee, #999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  bottom: 15px;
+  left: 30px;
+  position: absolute;
+  font-size: 15px;
+}
+
+#logo-visa {
+  position: relative;
+  margin-top: -8px;
+  left: 155px;
+}
+
+#logo-mastercard {
+  position: relative;
+  margin-top: -5px;
+  left: 155px;
+}
+
+#save-submit {
+  background-color: #0daeee;
+  color: white;
+}
+
+.mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}

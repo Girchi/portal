@@ -1,0 +1,7 @@
+
+# Credit card menu items definition
+credit_card.admin.structure.settings:
+  title: 'Credit card settings'
+  description: 'Configure Credit card entities'
+  route_name: credit_card.settings
+  parent: system.admin_structure
