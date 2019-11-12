@@ -5,7 +5,9 @@
  * Contains girchi_banking.module.
  */
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Database\Driver\mysql\Schema;
 
 /**
  * Implements hook_help().
@@ -35,4 +37,26 @@ function girchi_banking_theme() {
       ],
     ],
   ];
+}
+
+/**
+ * Installing CreditCard entity.
+ */
+function girchi_banking_update_8702() {
+  try {
+
+    $schema = new Schema(\Drupal::service('database'));
+    if (!$schema->tableExists('credit_card')) {
+      \Drupal::entityTypeManager()->clearCachedDefinitions();
+      \Drupal::entityDefinitionUpdateManager()
+        ->installEntityType(\Drupal::entityTypeManager()
+          ->getDefinition('credit_card'));
+    }
+
+  }
+  catch (PluginNotFoundException $e) {
+
+    \Drupal::logger('girchi_banking')->error($e->getMessage());
+  }
+
 }

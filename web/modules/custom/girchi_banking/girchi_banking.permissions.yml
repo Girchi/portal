@@ -14,6 +14,3 @@ edit credit card entities:
 
 view credit card entities:
   title: 'View Credit card entities'
-
-permission_callbacks:
-  - \Drupal\girchi_banking\CreditCardPermissions::generatePermissions

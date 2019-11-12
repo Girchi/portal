@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\girchi_banking;
+namespace Drupal\girchi_banking\Services;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;

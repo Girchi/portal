@@ -4,7 +4,7 @@ namespace Drupal\girchi_banking\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\girchi_banking\BankingUtils;
+use Drupal\girchi_banking\Services\BankingUtils;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -32,7 +32,7 @@ class SaveCreditCardForm extends FormBase {
   /**
    * Drupal\girchi_banking\BankingUtils definition.
    *
-   * @var \Drupal\girchi_banking\BankingUtils
+   * @var \Drupal\girchi_banking\Services\BankingUtils
    */
   protected $bankingUtils;
 
@@ -50,7 +50,7 @@ class SaveCreditCardForm extends FormBase {
    *   EM.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   Logger.
-   * @param \Drupal\girchi_banking\BankingUtils $bankingUtils
+   * @param \Drupal\girchi_banking\Services\BankingUtils $bankingUtils
    *   Banking utils.
    * @param \Drupal\om_tbc_payments\Services\PaymentService $omediaPayment
    *   OM TBC payments.
@@ -110,8 +110,18 @@ class SaveCreditCardForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->omediaPayment->saveCard(1, 'Girchi.com');
 
+    $tbc_response = $this->omediaPayment->saveCard(1, 'Girchi.com');
+    $trans_id = $tbc_response['transaction_id'];
+    $card_id = $tbc_response['card_id'];
+    $card = $this->bankingUtils->prepareCard($trans_id, $card_id);
+    if ($card) {
+      $this->omediaPayment->makePayment($trans_id);
+    }
+    else {
+      $this->messenger->addError($this->t('Error while saving card'));
+      $form_state->setRebuild();
+    }
   }
 
 }
