@@ -20,26 +20,28 @@
                     <span
                             class="text-grey font-size-1 d-inline-flex align-items-center"
                     >
-                      <i
-                              class="icon-clock-circular-outline mr-1
-                            "
-                      ></i>
-                      {{ node.getCreatedTime| format_date('article_short') }}</span
-                    >
-                    <div class="text-grey"
-                    >
-                      {{ total_view_count ~ ' Views'|t }}
-                    </div
-                    >
+                          <i
+                                  class="icon-clock-circular-outline mr-1
+                                "
+                          ></i>
+                          {{ node.getCreatedTime| format_date('article_short') }}
+                        <div class="text-grey border-dark-silver pl-2 ml-1 border-left"
+                        >
+                          {{ total_view_count ~ ' Views'|t }}
+                        </div
+                        >
 
-                        {% for categoryName,id in  terms %}
-                                <a
-                                        href="{{ path('view.news.page_1') }}?category={{ id }}"
-                                        class="font-size-1 text-grey font-weight-bold border-dark-silver pl-2 ml-1 border-left"
-                                >{{ categoryName }}</a>
-                        {% endfor %}
-
+                            {% for categoryName,id in  terms %}
+                                    <a
+                                            href="{{ path('view.news.page_1') }}?category={{ id }}"
+                                            class="font-size-1 text-grey font-weight-bold border-dark-silver pl-2 ml-1 border-left"
+                                    >{{ categoryName }}</a>
+                            {% endfor %}
+                    </span
+                    >
                     </div>
+
+
                     {% if logged_in %}
                         <div class="form-group">
                         <span class="form-checkbox">

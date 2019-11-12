@@ -1,0 +1,26 @@
+uuid: 6fb320d3-ea35-4bcb-a2cc-fcf18ad71912
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.donation.field_regular_donation
+  module:
+    - girchi_donations
+id: donation.donation.field_regular_donation
+field_name: field_regular_donation
+entity_type: donation
+bundle: donation
+label: 'Regular donation'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:regular_donation'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

@@ -180,3 +180,6 @@ $(".investor-parent-checkbox input").on("change",  function () {
         $(".investment-amount").attr('min', 1);
     }
 });
+
+
+
