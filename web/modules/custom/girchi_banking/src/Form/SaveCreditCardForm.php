@@ -4,6 +4,8 @@ namespace Drupal\girchi_banking\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\girchi_banking\BankingUtils;
+use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
@@ -28,19 +30,41 @@ class SaveCreditCardForm extends FormBase {
   protected $loggerFactory;
 
   /**
+   * Drupal\girchi_banking\BankingUtils definition.
+   *
+   * @var \Drupal\girchi_banking\BankingUtils
+   */
+  protected $bankingUtils;
+
+  /**
+   * Payment service.
+   *
+   * @var \Drupal\om_tbc_payments\Services\PaymentService
+   */
+  protected $omediaPayment;
+
+  /**
    * Constructs a new SaveCreditCardForm object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   EM.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   Logger.
+   * @param \Drupal\girchi_banking\BankingUtils $bankingUtils
+   *   Banking utils.
+   * @param \Drupal\om_tbc_payments\Services\PaymentService $omediaPayment
+   *   OM TBC payments.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    LoggerChannelFactoryInterface $logger_factory
+    LoggerChannelFactoryInterface $logger_factory,
+    BankingUtils $bankingUtils,
+    PaymentService $omediaPayment
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $logger_factory;
+    $this->bankingUtils = $bankingUtils;
+    $this->omediaPayment = $omediaPayment;
   }
 
   /**
@@ -49,7 +73,9 @@ class SaveCreditCardForm extends FormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('logger.factory')
+      $container->get('logger.factory'),
+      $container->get('girchi_banking.utils'),
+      $container->get('om_tbc_payments.payment_service')
     );
   }
 
@@ -84,8 +110,8 @@ class SaveCreditCardForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    dump("test");
-    die;
+    $this->omediaPayment->saveCard(1, 'Girchi.com');
+
   }
 
 }
