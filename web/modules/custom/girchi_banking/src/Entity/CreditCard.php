@@ -129,6 +129,46 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
   }
 
   /**
+   * Function for getting generated id for execution.
+   *
+   * @return string
+   *   TBC id;
+   */
+  public function getTbcId() {
+    return $this->get('tbc_id')->value;
+  }
+
+  /**
+   * Function for getting type of credit card.d.
+   *
+   * @return string
+   *   VISA OR Mastercard
+   */
+  public function getType() {
+    return $this->get('type')->value;
+  }
+
+  /**
+   * Function for getting last 4 digits.
+   *
+   * @return string
+   *   last 4 digits.
+   */
+  public function getDigits() {
+    return $this->get('digits')->value;
+  }
+
+  /**
+   * Function for getting credit card status.
+   *
+   * @return string
+   *   Status.
+   */
+  public function getStatus() {
+    return $this->get('status')->value;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {

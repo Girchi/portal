@@ -86,4 +86,25 @@ class BankingUtils {
     return NULL;
   }
 
+  /**
+   * Function for guessing type.
+   *
+   * @param string $num
+   *   String 4 or 5.
+   *
+   * @return string
+   *   Visa or MC.
+   */
+  public function guessType($num) {
+    if ($num == '4') {
+      return 'VISA';
+    }
+    elseif ($num == '5') {
+      return 'MC';
+
+    }
+
+    return NULL;
+  }
+
 }
