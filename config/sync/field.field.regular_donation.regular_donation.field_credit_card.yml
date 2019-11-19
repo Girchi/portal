@@ -1,0 +1,26 @@
+uuid: 6ef40e0c-d110-4b76-a195-25487f4e0d99
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.regular_donation.field_credit_card
+  module:
+    - girchi_donations
+id: regular_donation.regular_donation.field_credit_card
+field_name: field_credit_card
+entity_type: regular_donation
+bundle: regular_donation
+label: 'Credit Card'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:credit_card'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

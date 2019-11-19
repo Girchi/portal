@@ -3,6 +3,7 @@ langcode: ka
 status: true
 dependencies:
   config:
+    - field.field.regular_donation.regular_donation.field_credit_card
     - field.field.regular_donation.regular_donation.field_donations
   module:
     - datetime
@@ -21,6 +22,15 @@ content:
       placeholder: ''
     region: content
     third_party_settings: {  }
+  field_credit_card:
+    weight: 16
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_donations:
     weight: 15
     settings:

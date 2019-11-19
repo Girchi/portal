@@ -25,7 +25,6 @@ module:
   ctools: 0
   datetime: 0
   dblog: 0
-  devel: 0
   devel_entity_updates: 0
   drush_language: 0
   dynamic_page_cache: 0
@@ -44,6 +43,7 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  girchi_banking: 0
   girchi_contact: 0
   girchi_donations: 0
   girchi_ged_transactions: 0
