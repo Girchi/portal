@@ -11,12 +11,11 @@ dependencies:
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
+    - field.field.user.user.field_phone
     - field.field.user.user.field_politician
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
-    - field.field.user.user.field_referral_url
-    - field.field.user.user.field_tel
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -84,7 +83,6 @@ hidden:
   field_referral_url: true
   field_social_auth_password: true
   field_twitter_url: true
-  field_tel: true
   langcode: true
   masquerade: true
   member_for: true
