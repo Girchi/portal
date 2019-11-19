@@ -171,8 +171,8 @@ class DonationsController extends ControllerBase {
       $params = $request->request;
       $trans_id = $params->get('trans_id');
       $storage = $this->entityTypeManager()->getStorage('donation');
-      $reg_donation_storage = $this->entityTypeManager()
-        ->getStorage('regular_donation');
+      $credit_card_storage = $this->entityTypeManager()
+        ->getStorage('credit_card');
 
       $ged_manager = $this->entityTypeManager()->getStorage('ged_transaction');
 
@@ -181,9 +181,9 @@ class DonationsController extends ControllerBase {
         return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
       }
       $donations = $storage->loadByProperties(['trans_id' => $trans_id]);
-      $reg_donations = $reg_donation_storage->loadByProperties(['trans_id' => $trans_id]);
+      $credit_cards = $credit_card_storage->loadByProperties(['trans_id' => $trans_id]);
 
-      if (empty($donations) && empty($reg_donations)) {
+      if (empty($donations) && empty($credit_cards)) {
         $this->getLogger('girchi_donations')
           ->error('Donation or Regular Donation entity not found.');
         return new JsonResponse('Donation or Regular Donation entity not found.', Response::HTTP_BAD_REQUEST);
@@ -191,7 +191,7 @@ class DonationsController extends ControllerBase {
       /** @var \Drupal\girchi_donations\Entity\Donation $donation */
       $donation = reset($donations);
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
-      $reg_donation = reset($reg_donations);
+      $credit_card = reset($credit_cards);
 
       $transaction_type_id = $this->entityTypeManager()->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
 
@@ -241,51 +241,12 @@ class DonationsController extends ControllerBase {
             return $this->redirect('user.page');
           }
         }
-        elseif ($reg_donation) {
-          if ($reg_donation->getStatus() !== 'ACTIVE') {
-            /** @var \Drupal\user\Entity\User $user */
-            $reg_donation->setStatus('ACTIVE');
-            $ged_amount = $this->gedCalculator->calculate($reg_donation->get('amount')->value);
-            $transaction = $ged_manager->create([
-              'user_id' => "1",
-              'user' => $reg_donation->getOwnerId(),
-              'ged_amount' => $ged_amount,
-              'title' => 'Donation',
-              'name' => 'Donation',
-              'status' => TRUE,
-              'Description' => 'Transaction was created by donation',
-              'transaction_type' => $transaction_type_id,
-            ]);
-            $transaction->save();
-            $this->getLogger('girchi_donations')
-              ->info("Ged transaction was made.");
-            $type = $reg_donation->get('type')->value;
-            $entity_id = $reg_donation->get('aim_id')->target_id ? $reg_donation->get('aim_id')->target_id : $reg_donation->get('politician_id')->target_id;
-            $donation = $this->donationUtils->addDonationRecord($type, [
-              'trans_id' => $reg_donation->get('trans_id')->value,
-              'amount' => (int) $reg_donation->get('amount')->value,
-              'user_id' => $reg_donation->getOwnerId(),
-              'field_donation_type' => 1,
-              'field_ged_transaction' => $transaction->id(),
-              'status' => 'OK',
-            ], $entity_id);
-            /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $donations */
-            $donations = $reg_donation->get('field_donations');
-            $donations->appendItem($donation->id());
-            $this->getLogger('girchi_donations')->info("Donation was made.");
-            $reg_donation->save();
-            $this->getLogger('girchi_donations')
-              ->info('Regular donation was activated.');
-            $reg_donation_details = [
-              'frequency' => $reg_donation->get('frequency')->value,
-              'day' => $reg_donation->get('payment_day')->value,
-              'date' => $reg_donation->get('next_payment_date')->value,
-            ];
+        elseif ($credit_card) {
+          if ($credit_card->getStatus() !== 'ACTIVE') {
+            // @TODO credit card save.
             return [
               '#type' => 'markup',
               '#theme' => 'girchi_donations_success',
-              '#regular_donation' => TRUE,
-              '#reg_data' => $reg_donation_details,
             ];
           }
           else {
@@ -306,16 +267,10 @@ class DonationsController extends ControllerBase {
             '#theme' => 'girchi_donations_fail',
           ];
         }
-        elseif ($reg_donation) {
-          $reg_donation->setStatus('FAILED');
-          $reg_donation->save();
-          $this->getLogger('girchi_donations')
-            ->error("Regular Donation failed code:$code, ID:$trans_id.");
-          return [
-            '#type' => 'markup',
-            '#theme' => 'girchi_donations_fail',
-            '#regular_donation' => TRUE,
-          ];
+        elseif ($credit_card) {
+          $credit_card->setStatus('FAILED');
+          $credit_card->save();
+          // @TODO Credit card fail.
         }
 
       }
