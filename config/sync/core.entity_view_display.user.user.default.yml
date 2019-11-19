@@ -25,12 +25,14 @@ dependencies:
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
     - field.field.user.user.user_picture
     - image.style.avatar_image
   module:
     - datetime
     - image
+    - international_phone
     - reference_value_pair
     - telephone
     - text
@@ -164,6 +166,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_tel:
+    weight: 58
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: InternationalPhoneDefaultFormatter
     region: content
   masquerade:
     weight: 50

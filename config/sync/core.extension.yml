@@ -25,7 +25,6 @@ module:
   ctools: 0
   datetime: 0
   dblog: 0
-  devel: 0
   devel_entity_updates: 0
   drush_language: 0
   dynamic_page_cache: 0
@@ -58,6 +57,7 @@ module:
   help: 0
   hierarchical_term_formatter: 0
   image: 0
+  international_phone: 0
   language: 0
   layout_discovery: 0
   link: 0

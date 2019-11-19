@@ -25,6 +25,7 @@ dependencies:
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
     - field.field.user.user.user_picture
     - image.style.avatar_image
@@ -32,6 +33,7 @@ dependencies:
     - datetime
     - entity_reference_revisions
     - image
+    - international_phone
     - path
     - reference_value_pair
     - telephone
@@ -206,6 +208,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_tel:
+    weight: 31
+    settings: {  }
+    third_party_settings: {  }
+    type: InternationalPhoneDefaultWidget
     region: content
   field_twitter_url:
     weight: 24
