@@ -4289,3 +4289,11 @@ msgstr ""
 msgid "Donated amount"
 msgstr "შემოწირული თანხა"
 
+msgid "Every month"
+msgstr "ყოველ თვე"
+
+msgid "Once in every 3 months"
+msgstr "3 თვეში ერთხელ"
+
+msgid "Once in every 6 months"
+msgstr "6 თვეში ერთხელ"
