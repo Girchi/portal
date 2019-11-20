@@ -4434,3 +4434,12 @@ msgid "Invalid phone number."
 msgstr ""
 "ტელეფონის ნომერი არ არის "
 "ვალიდური."
+
+msgid "Every month"
+msgstr "ყოველ თვე"
+
+msgid "Once in every 3 months"
+msgstr "3 თვეში ერთხელ"
+
+msgid "Once in every 6 months"
+msgstr "6 თვეში ერთხელ"

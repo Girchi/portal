@@ -374,11 +374,11 @@
                                     <select name="period" id="period">
                                         <option value="">{{ 'Select' | t }}</option>
                                         <option {{ regular_donation.frequency.value == 1 ? "selected" : "" }}
-                                            value="1">1 {{ 'Month' |t }}</option>
+                                            value="1">{{ 'Every month' |t }}</option>
                                         <option {{ regular_donation.frequency.value == 3 ? "selected" : "" }}
-                                            value="3">3 {{ 'Month' |t }}</option>
+                                            value="3">{{ 'Once in every 3 months' |t }}</option>
                                         <option {{ regular_donation.frequency.value == 6 ? "selected" : "" }}
-                                            value="6">6 {{ 'Month' |t }}</option>
+                                            value="6">{{ 'Once in every 6 months' |t }}</option>
                                     </select>
                                 </div>
                             </div>
