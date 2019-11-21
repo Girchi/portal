@@ -9,7 +9,6 @@ use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\Core\Session\AccountProxy;
-use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -57,13 +56,6 @@ class DonationsController extends ControllerBase {
    */
 
   protected $keyValue;
-
-  /**
-   * Utils service.
-   *
-   * @var \Drupal\girchi_donations\Utils\DonationUtils
-   */
-  private $donationUtils;
 
   /**
    * User storage.
