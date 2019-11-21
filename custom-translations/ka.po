@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-10 10:21+0000\n"
-"PO-Revision-Date: 2019-10-10 10:21+0000\n"
+"POT-Creation-Date: 2019-10-31 15:05+0400\n"
+"PO-Revision-Date: 2019-10-31 15:05+0400\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -12,6 +12,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+msgid "Content type"
+msgstr "კონტენტის ტიპი"
+msgid "Content type"
+msgstr "კონტენტის ტიპი"
+
+msgid "Vocabulary"
+msgstr "ლექსიკონი"
+
+msgid "Description"
+msgstr "აღწერა"
+
+msgid "User"
+msgstr "მომხმარებელი"
+
+msgid "Content"
+msgstr "კონტენტი"
+
+msgid "Donation"
+msgstr "შემოწირულობა"
+
+msgid "Block"
+msgstr "ბლოკი"
 msgid "Enter your email address or username."
 msgstr ""
 "შეიყვანეთ თქვენი "
@@ -3127,6 +3149,66 @@ msgstr "Main navigation"
 msgid "Site section links"
 msgstr "Site section links"
 
+msgid "Active"
+msgstr "აქტიური"
+
+msgid "Enter your email address or username."
+msgstr ""
+"შეიყვანეთ თქვენი "
+"ელ.ფოსტის მისამართი"
+
+msgid "Email or username"
+msgstr "შეიყვანეთ ელ.ფოსტა "
+
+msgid "Enter the password that accompanies your email address."
+msgstr "შეიყვანეთ პაროლი "
+
+msgid "Save"
+msgstr "შენახვა"
+
+msgid "Create new account"
+msgstr "რეგისტრაცია"
+
+msgid "Reset your password"
+msgstr "პაროლის აღდგენა"
+
+msgid "Hierarchy"
+msgstr "იერარქია"
+
+msgid "Add terms"
+msgstr "ტერმინების დამატება"
+
+msgid ""
+"By default, dates in this site will be displayed in the chosen time "
+"zone."
+msgstr ""
+"ნაგულისხმევად, ამ საიტზე "
+"თარიღები გამოჩნდება "
+"არჩეული დროის სარტყლის "
+"შესაბამისად."
+
+msgid ""
+"A message has been sent to the new email address %email to confirm the "
+"change. Until confirmed, your current address will be used."
+msgstr ""
+"ელ-ფოსტის ცვლილების "
+"დამადასტურებელი "
+"შეტყობინება "
+"გამოგზავნილია "
+"მისამართზე: %email. "
+"შეტყობინების "
+"დადასტურებამდე თქვენი "
+"ელ-ფოსტა რჩება უცვლელი."
+
+msgid "Donation status"
+msgstr "შემოწირულობის სტატუსი"
+
+msgid "Main navigation"
+msgstr "Main navigation"
+
+msgid "Site section links"
+msgstr "Site section links"
+
 msgid ""
 "[user:display-name],\n"
 "\n"
@@ -3984,9 +4066,7 @@ msgid "Donation to politician"
 msgstr "პოლიტიკოსის შემოწირულობა"
 
 msgid "Donation settings"
-msgstr ""
-"შემოწირულობის "
-"პარამეტრები"
+msgstr "გადახდების კონფიგურაცია"
 
 msgid "Donation status"
 msgstr "შემოწირულობის სტატუსი"
@@ -4022,6 +4102,11 @@ msgstr ""
 "აირჩიეთ დაფინანსების "
 "მიზანი ან პოლიტიკოსი"
 
+msgid "Amount of money"
+msgstr ""
+"ტრანზაქცია უარყოფილია "
+"სადეთ თავიდან"
+
 msgid "Transaction failed ,try again"
 msgstr ""
 "ტრანზაქცია უარყოფილია "
@@ -4051,6 +4136,39 @@ msgstr "პოლიტიკოსთა რეიტინგი"
 msgid "Party list weight"
 msgstr "პარტიული წონა"
 
+msgid "Transaction failed ,try again"
+msgstr ""
+"ტრანზაქცია უარყოფილია "
+"სადეთ თავიდან"
+
+msgid "Donated amount"
+msgstr "შემოწირული თანხა"
+msgid "This login can be used only once."
+msgstr ""
+"ამ ლინკით სარგებლობას "
+"შეძლებთ მხოლოდ ერთხელ."
+
+msgid ""
+"<p>This is a one-time login for %user_name and will expire on "
+"%expiration_date.</p><p>Click on this button to log in to the site and "
+"change your password.</p>"
+msgstr ""
+"<p> %user_name, ეს არის ერთჯერადი "
+"აუთენთიფიკაციის ფორმა, "
+"რომლის გამოყენების ვადაც "
+"იწურება %expiration_date. </p> <p>ღილაკზე "
+"დაჭერით შეძლებთ "
+"სისტემაში შესვლას და "
+"პაროლის გამოცვლას. </p>"
+
+msgid ""
+"You have just used your one-time login link. It is no longer necessary "
+"to use this link to log in. Please change your password."
+msgstr ""
+"თქვენ წარმატებით "
+"შეხვედით საიტზე. გთხოვთ "
+"შეცვალოთ პაროლი."
+
 msgid "Your new password has been saved."
 msgstr ""
 "პაროლი წარმატებით "
@@ -4065,14 +4183,14 @@ msgstr ""
 "განმეორებას აღარ "
 "საჭიროებს."
 
+msgid "Add child"
+msgstr "ბავშვის დამატება"
+
 msgid "Investor registration"
 msgstr "ინვესტორის რეგისტრაცია"
 
 msgid "Investor"
 msgstr "ინვესტორი"
-
-msgid "Add child"
-msgstr "ბავშვის დამატება"
 
 msgid "I am a parent"
 msgstr "მშობელი ვარ"
@@ -4083,3 +4201,99 @@ msgstr ""
 "საინვესტიციო თანხა უნდა "
 "შეადგენდეს 10K დოლარს."
 
+msgid "Regular donation settings"
+msgstr ""
+"ავტომატური დაფინანსების "
+"მართვა"
+
+msgid "1 Month"
+msgstr "1 თვე"
+
+msgid "3 Month"
+msgstr "3 თვე"
+
+msgid "6 Month"
+msgstr "6 თვე"
+
+msgid "Resume"
+msgstr "გაგრძელება"
+
+msgid "PAUSED"
+msgstr "შეჩერებული"
+
+msgid "Pause"
+msgstr "შეჩერება"
+
+msgid "ACTIVE"
+msgstr "აქტიური"
+
+msgid "Regular donation was activated"
+msgstr "შემოწირულობა"
+
+msgid "Next payment date"
+msgstr "მომდევნო გადახდის თარიღი"
+
+msgid "Payment execution date"
+msgstr "თანხის ჩამოჭრის თარიღი"
+
+msgid "Add new payment"
+msgstr "ახალი გადახდის დამატება"
+
+msgid "Paying date"
+msgstr "გადახდის თარიღი"
+
+msgid "Paying date:"
+msgstr "გადახდის თარიღი:"
+
+msgid "Donation has been changed."
+msgstr ""
+"დონაცია წარმატებით "
+"შეიცვალა"
+
+msgid "Donations history"
+msgstr "გადახდების ისტორია"
+
+msgid "Donations"
+msgstr "გადახდები"
+
+msgid "The edited verison of Donation will be valid after the next payment."
+msgstr ""
+"რედაქტირებული ვერსია "
+"ძალაში შევა შემდეგი "
+"გადახდიდან."
+
+msgid "My regular donations"
+msgstr ""
+"ჩემი რეგულარული "
+"დონაციები"
+
+msgid "Regular donations"
+msgstr "რეგულარული დონაციები"
+
+msgid "Regular donations settings"
+msgstr ""
+"ავტომატური დაფინანსების "
+"მართვა"
+
+msgid "Automatic payments"
+msgstr "ავტომატური დაფინანსება"
+
+msgid ""
+"The edited verison of Periodicity and date will be valid after the "
+"next payment."
+msgstr ""
+"პერიოდულობის და თარიღის "
+"ცვლილება ძალაში შევა "
+"შემდეგი გადახდიდან."
+
+msgid "Donated amount"
+msgstr "შემოწირული თანხა"
+
+msgid "Every month"
+msgstr "ყოველ თვე"
+
+msgid "Once in every 3 months"
+msgstr "3 თვეში ერთხელ"
+
+msgid "Once in every 6 months"
+msgstr "6 თვეში ერთხელ"

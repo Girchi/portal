@@ -6,14 +6,31 @@ administer donation entities:
   description: 'Allow to access the administration form to configure Donation entities.'
   restrict access: true
 
-#delete donation entities:
-#  title: 'Delete Donation entities'
+delete donation entities:
+  title: 'Delete Donation entities'
 
-#edit donation entities:
-#  title: 'Edit Donation entities'
+edit donation entities:
+  title: 'Edit Donation entities'
 
 view published donation entities:
   title: 'View published Donation entities'
 
 view unpublished donation entities:
   title: 'View unpublished Donation entities'
+add regular donation entities:
+  title: 'Create new Regular donation entities'
+
+administer regular donation entities:
+  title: 'Administer Regular donation entities'
+  description: 'Allow to access the administration form to configure Regular donation entities.'
+  restrict access: true
+
+delete regular donation entities:
+  title: 'Delete Regular donation entities'
+
+edit regular donation entities:
+  title: 'Edit Regular donation entities'
+
+view regular donation entities:
+  title: 'View published Regular donation entities'
+

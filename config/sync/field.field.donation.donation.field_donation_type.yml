@@ -1,0 +1,24 @@
+uuid: b88b5c7e-0983-4898-a2fb-09358fa44509
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.donation.field_donation_type
+  module:
+    - girchi_donations
+id: donation.donation.field_donation_type
+field_name: field_donation_type
+entity_type: donation
+bundle: donation
+label: 'Donation type'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Regular
+  off_label: Disposable
+field_type: boolean

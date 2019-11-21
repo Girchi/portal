@@ -5,9 +5,14 @@
  * Contains girchi_donations.module.
  */
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use ABGEO\NBG\Currency;
+use Drupal\Core\Database\Driver\mysql\Schema;
+use Carbon\Carbon;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
 /**
  * Implements hook_help().
@@ -45,10 +50,23 @@ function girchi_donations_theme() {
       'variables' => [
         'amount' => NULL,
         'auth' => NULL,
+        'regular_donation' => NULL,
+        'reg_data' => NULL,
       ],
     ],
     'girchi_donations_fail' => [
       'render element' => 'children',
+    ],
+    'regular_donations' => [
+      'render element' => 'children',
+      'variables' => [
+        'regular_donations' => NULL,
+        'regular_donation_form' => NULL,
+        'politicians' => NULL,
+        'terms' => NULL,
+        'language' => NULL,
+        'current_user_id' => NULL,
+      ],
     ],
   ];
 }
@@ -60,7 +78,7 @@ function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $fo
   if ($form_id == 'views_exposed_form') {
     if (isset($form['created'])) {
       $created_filter = $form['created'];
-      if (key_exists('max', $created_filter)) {
+      if (array_key_exists('max', $created_filter)) {
         $form['created']['max']['#title'] = 'დასასრული';
       }
     }
@@ -84,10 +102,9 @@ function girchi_donations_cron() {
   $current_time = time();
   $hour = date('H', $current_time);
   $day = date('d', $current_time);
-
   /** @var \Drupal\Console\Core\Utils\KeyValueStorage $key_value */
   $key_value = Drupal::service('keyvalue')->get('girchi_donations');
-
+  /** @var  \Drupal\Core\Logger\LoggerChannel $logger_factory */
   $logger_factory = Drupal::service('logger.factory')->get('girchi_donations');
 
   if ($hour > 21) {
@@ -107,4 +124,63 @@ function girchi_donations_cron() {
       $key_value->set('usd_set_day', $day);
     }
   }
+  if ($hour > 18) {
+    try {
+      $today = Carbon::now()
+        ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+      $logger_factory->info(
+        sprintf('Start filling regular donation queue execution date: %s',
+          Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+      );
+      /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
+      $queue_factory = \Drupal::service('queue');
+      /** @var \Drupal\Core\Entity\EntityStorageBase $reg_donations_storage */
+      $reg_donations_storage = \Drupal::entityTypeManager()
+        ->getStorage('regular_donation');
+      $reg_donations_ids = $reg_donations_storage->getQuery()
+        ->condition('status', 'FAILED', '!=')
+        ->condition('status', 'INITIAL', '!=')
+        ->condition('next_payment_date', $today)
+        ->execute();
+      if (!empty($reg_donations_ids)) {
+        $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+        $queue = $queue_factory->get('regular_donation_processor');
+        /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
+        foreach ($reg_donations as $reg_donation) {
+          $queue->createItem($reg_donation);
+        }
+      }
+      $logger_factory->info(
+        sprintf('Regular payment queue is ready. date: %s',
+          Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+      );
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+
+  }
+}
+
+/**
+ * Installing regular donation entity.
+ */
+function girchi_donations_update_8701() {
+
+  try {
+    $schema = new Schema(\Drupal::service('database'));
+    if (!$schema->tableExists('regular_donation')) {
+      \Drupal::entityTypeManager()->clearCachedDefinitions();
+      \Drupal::entityDefinitionUpdateManager()
+        ->installEntityType(\Drupal::entityTypeManager()
+          ->getDefinition('regular_donation'));
+    }
+  }
+  catch (PluginNotFoundException $e) {
+    \Drupal::logger('girchi_donations')->error($e->getMessage());
+  }
+
 }
