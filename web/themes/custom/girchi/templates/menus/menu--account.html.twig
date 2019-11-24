@@ -24,8 +24,9 @@
   We call a macro which calls itself to render the full tree.
   @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
-{{ menus.menu_links(items, attributes, 0, logged_in) }}
-        {% macro menu_links(items, attributes, menu_level, logged_in)  %}
+
+{{ menus.menu_links(items, attributes, 0) }}
+        {% macro menu_links(items, attributes, menu_level) %}
             {% import _self as menus %}
             {% if items %}
                 <nav class="navbar navbar-expand-lg p-0 d-block">
@@ -34,28 +35,16 @@
                             class="nav-vertical list-group list-group-flush font-weight-bold w-100 "
                         >
                             {# no UL for level1 (see page.tpl) #}
-                            {% if (logged_in) %}
-                                {% for item in items %}
-                                    <a
-                                        class="py-3 px-3 px-md-4 d-block list-group-item
-                                list-group-item-action text-uppercase font-size-3
-                                {{ item.in_active_trail ? 'active' : '' }}"
-                                        href="{{ item.url }}"
-                                    >
-                                        {{ item.title }}
-                                    </a>
-                                {% endfor %}
-                            {% else %}
-                                    <a
-                                        class="py-3 px-3 px-md-4 d-block list-group-item
-                                list-group-item-action text-uppercase font-size-3
-                                {{ items['user.logout'].in_active_trail ? 'active' : '' }}"
-                                            href="{{ items['user.logout'].url }}"
-                                    >
-                                        {{ items['user.logout'].title }}
-                                    </a>
-                            {% endif %}
-
+                            {% for item in items %}
+                                <a
+                                    class="py-3 px-3 px-md-4 d-block list-group-item
+                            list-group-item-action text-uppercase font-size-3
+                            {{ item.in_active_trail ? 'active' : '' }}"
+                                    href="{{ item.url }}"
+                                >
+                                    {{ item.title }}
+                                </a>
+                            {% endfor %}
                         </div>
                     </div>
                 </nav>

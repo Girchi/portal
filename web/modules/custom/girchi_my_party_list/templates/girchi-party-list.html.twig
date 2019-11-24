@@ -37,15 +37,15 @@
         >
                     <span
                         class="text-success font-size-4 font-weight-bold d-block d-md-none text-nowrap line-height-0-8"
-                    ><i class="icon-ged font-size-3"></i
-                        >{{ supporter.ged_amount }}</span>
+                    >{{ supporter.ged_amount }}<i class="icon-ged font-size-3"></i
+                        ></span>
 {{ supporter.percentage }}%
         </td>
         <td class="align-middle text-center d-none d-md-table-cell">
                     <span
                         class="text-success font-size-4 font-size-xl-4 font-weight-bold text-nowrap"
-                    ><i class="icon-ged font-size-3"></i
-                        >{{ supporter.ged_amount|ged_long_format }}</span>
+                    >{{ supporter.ged_amount|ged_long_format }} <i class="icon-ged font-size-3"></i
+                        ></span>
         </td>
     </tr>
 {% endfor %}

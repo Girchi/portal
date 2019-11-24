@@ -6,14 +6,12 @@
     >
         {{ 'Last month Top partners'|t }}
 
-        <a
-                href="#"
-                class="ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap"
-                data-toggle="modal"
-                data-target="#leadPartnerFullList"
-        >{{ 'Full list'|t }}
-            <i class="icon-arrow-right2 text-dark-silver"></i>
-        </a>
+{#        <a#}
+{#                href="#"#}
+{#                class="ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap"#}
+{#        >{{ 'Full list'|t }}#}
+{#            <i class="icon-arrow-right2 text-dark-silver"></i>#}
+{#        </a>#}
     </div>
     <div class="card-body p-3 py-md-3 px-xl-4">
         <div class="tab-content" id="myTabContent">
@@ -27,7 +25,7 @@
                 <ul class="list-group list-group-flush mt-2">
                     {% set i=0 %}
                     {% if leadPartner %}
-                    {% for partner in leadPartner | slice(0, 5) %}
+                    {% for partner in leadPartner %}
                         {% set i=i+1 %}
                         <li
                                 class="list-group-item d-flex align-items-center px-0"
@@ -99,101 +97,3 @@
         </div>
     </div>
 </div>
-
-{#Lead partner modal#}
-
-<div
-        class="modal fade"
-        id="leadPartnerFullList"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="fullListTitle"
-        aria-hidden="true"
->
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content overflow-hidden">
-            <div class="modal-header align-items-center px-3 px-md-4">
-                <h5
-                        class="modal-title font-size-3 text-uppercase font-weight-bold"
-                        id="supportersTitle"
-                >
-                    {{ 'Last month Top partners' | t }}
-                </h5>
-                <button
-                        type="button"
-                        class="close ml-2"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                >
-                    <i
-                            aria-hidden="true"
-                            class="icon-close font-size-3 text-dark-silver"
-                    ></i>
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                <table class="table m-0 table-hover">
-                    <thead>
-                    <tr class="bg-dark-white">
-                        <th
-                                scope="col"
-                                class="align-middle w-auto w-md-80-px text-center text-dark-silver font-size-2 border-0"
-                        >
-                            #
-                        </th>
-                        <th
-                                scope="col"
-                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0"
-                        >
-                            {{ "Name" |t }}
-                        </th>
-                        <th
-                                scope="col"
-                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0 text-center line-height-1-2"
-                        >
-                            {{ "Donated amount" |t  }}
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for partner in leadPartner %}
-                        <tr>
-                            <th scope="row" class="pl-3 w-auto w-md-80-px text-center align-middle">
-                                <span class="font-size-4 font-size-xl-5 text-dark-silver font-weight-normal">{{ loop.index }}</span>
-                            </th>
-                            <td class="align-middle">
-                                <div class="d-flex w-100 align-items-center">
-                                    <a
-                                        href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
-                                        class="rounded-circle overflow-hidden d-none d-md-block">
-                                        <img
-                                                src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
-                                                class="rounded"
-                                                alt="..."
-                                        />
-                                    </a>
-                                    <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
-                                        <a href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}" class="d-inline-block text-hover-success">
-                              <span class="text-decoration-none d-inline-block">
-                                <span>{{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}</span>
-                                <span class="font-weight-bold">{{ partner.uid ? partner.user_surname : 'User'|t }}</span>
-                              </span>
-                                        </a>
-                                    </h6>
-                                </div>
-                            </td>
-                            <td class="text-right text-md-center align-middle font-weight-bold">
-                                 <span
-                                         class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
-                                 >{{ partner.donation }} ₾</span
-                                 >
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-

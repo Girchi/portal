@@ -1,27 +1,14 @@
+
+## Donation menu items definition
+#entity.donation.collection:
+#  title: 'Donation list'
+#  route_name: entity.donation.collection
+#  description: 'List Donation entities'
+#  parent: system.admin_structure
+#  weight: 100
+
 donation.admin.structure.settings:
   title: 'Donation settings'
   description: 'Configure Donation entities'
   route_name: donation.settings
   parent: system.admin_structure
-
-regular_donation.admin.structure.settings:
-  title: 'Regular donation settings'
-  description: 'Configure Regular donation entities'
-  route_name: regular_donation.settings
-  parent: system.admin_structure
-
-regular_donation.account:
-  title: 'Regular donation settings'
-  description: ''
-  route_name: girchi_donations.regular_donations
-  menu_name: account
-  parent: account
-  weight: -46
-
-donations.account:
-  title: 'Donations history'
-  description: ''
-  route_name: view.donations.page_2
-  menu_name: account
-  parent: account
-  weight: -47 

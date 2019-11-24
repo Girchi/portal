@@ -56,18 +56,19 @@
                             ></a>
                     </li>
                     {% endif %}
+                    {% if footer_config.instagram %}
+                        <li class="navbar-list-item">
+                            <a href="{{ footer_config.instagram }}" target="_blank" class="text-decoration-none">
+                                <i class="icon-social-twitter-circular-button text-hover-light-blue"></i
+                                ></a>
+                        </li>
+                    {% endif %}
                     {% if footer_config.youtube %}
                     <li class="navbar-list-item">
                         <a href="{{ footer_config.youtube }}" target="_blank" class="text-decoration-none"
                         ><i class="icon-social-youtube-circular-button text-hover-danger"></i
                             ></a>
                     </li>
-                    {% endif %}
-                    {% if footer_config.instagram %}
-                        <li class="navbar-list-item">
-                            <a href="{{ footer_config.instagram  }}" target="_blank" class="text-decoration-none"
-                            ><i class="icon-instagram instagram-hover" ></i></a>
-                        </li>
                     {% endif %}
                 </ul>
             </nav>
