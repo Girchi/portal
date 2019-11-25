@@ -22,6 +22,7 @@ girchi_users.user_controller_addFavoriteNews:
     _title: 'Add favorite news'
   requirements:
     _permission: 'access content'
+    _role: 'authenticated'
 
 girchi_users.user_controller_removeFavoriteNews:
   path: '/api/remove/favorite/news/{nid}'
@@ -30,3 +31,4 @@ girchi_users.user_controller_removeFavoriteNews:
     _title: 'Remove favorite news'
   requirements:
     _permission: 'access content'
+    _role: 'authenticated'
