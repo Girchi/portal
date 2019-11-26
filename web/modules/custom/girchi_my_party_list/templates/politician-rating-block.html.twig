@@ -22,9 +22,9 @@
                         <div class="media-thumb w-100">
                             <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
                                 <img
-                                        src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
-                                        class="w-100"
-                                        alt="..."
+                                    src="{{ politician.img_uri ? image_style_url(politician.img_uri, 'politician_widget_photo') : theme_path() ~ '/images/avatar247x337.png' }}"
+                                    class="w-100"
+                                    alt="..."
                                 />
                             </a>
                             <div
@@ -97,9 +97,9 @@
                                 <div class="media-thumb w-100">
                                     <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
                                         <img
-                                                src="{{ image_style_url(politician.img_uri, 'politician_widget_photo') }}"
-                                                class="w-100"
-                                                alt="..."
+                                            src="{{ politician.img_uri ? image_style_url(politician.img_uri, 'politician_widget_photo') : theme_path() ~ '/images/avatar247x337.png' }}"
+                                            class="w-100"
+                                            alt="..."
                                         />
                                     </a>
                                     <div
