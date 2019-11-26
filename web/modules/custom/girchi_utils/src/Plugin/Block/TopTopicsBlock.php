@@ -64,18 +64,22 @@ class TopTopicsBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $em = $this->entityTypeManager;
     $slider_topics_num = 5;
 
-    /** @var \Drupal\node\Entity\NodeStorage $node_storage */
+    /** @var \Drupal\node\NodeStorage $node_storage */
     $node_storage = $em->getStorage('node');
     $last_published_nodes = $node_storage->getQuery()
       ->condition('type', 'article')
       ->condition('status', 1)
-      ->sort('created', "DESC")
+      ->condition('field_featured_on_slider', 1)
+      ->sort('field_published_date', "DESC")
+      ->sort('created', 'DESC')
       ->range(0, 10)
       ->execute();
 
-    if (!empty($last_published_nodes)) {
+    $node_count = count($last_published_nodes);
+    if (!empty($last_published_nodes) && $node_count == 10) {
+
+      /** @var \Drupal\node\NodeStorage $node_storage */
       $last_published_nodes_ent = $node_storage->loadMultiple($last_published_nodes);
-      krsort($last_published_nodes_ent);
       $slider_topics = array_slice($last_published_nodes_ent, 0, $slider_topics_num);
       $bottom_topics = array_slice($last_published_nodes_ent, 5, 2);
 
@@ -85,9 +89,51 @@ class TopTopicsBlock extends BlockBase implements ContainerFactoryPluginInterfac
         '#bottom_topics' => $bottom_topics,
       ];
     }
-    else {
+    elseif (!empty($last_published_nodes) && $node_count < 10) {
+
+      $ids = '(';
+      $ids .= implode(',', array_keys($last_published_nodes));
+      $ids .= ')';
+
+      $needed_amount = 10 - $node_count;
+      $nodes = $node_storage->getQuery()
+        ->condition('type', 'article')
+        ->condition('status', 1)
+        ->condition('nid', $ids, 'NOT IN')
+        ->sort('field_published_date', "DESC")
+        ->sort('created', 'DESC')
+        ->range(0, $needed_amount)
+        ->execute();
+
+      /** @var \Drupal\node\NodeStorage $node_storage */
+      $last_published_nodes_ent = $node_storage->loadMultiple(array_merge($last_published_nodes, $nodes));
+      $slider_topics = array_slice($last_published_nodes_ent, 0, $slider_topics_num);
+      $bottom_topics = array_slice($last_published_nodes_ent, 5, 2);
+
       return [
         '#theme' => 'top_topics',
+        '#slider_topics' => $slider_topics,
+        '#bottom_topics' => $bottom_topics,
+      ];
+
+    }
+    else {
+      $last_published_nodes = $node_storage->getQuery()
+        ->condition('type', 'article')
+        ->condition('status', 1)
+        ->sort('field_published_date', "DESC")
+        ->sort('created', 'DESC')
+        ->range(0, 10)
+        ->execute();
+
+      $last_published_nodes_ent = $node_storage->loadMultiple($last_published_nodes);
+      $slider_topics = array_slice($last_published_nodes_ent, 0, $slider_topics_num);
+      $bottom_topics = array_slice($last_published_nodes_ent, 5, 2);
+
+      return [
+        '#theme' => 'top_topics',
+        '#slider_topics' => $slider_topics,
+        '#bottom_topics' => $bottom_topics,
       ];
     }
 
