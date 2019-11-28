@@ -44,6 +44,27 @@ class SingleDonationForm extends FormBase {
   protected $currentUser;
 
   /**
+   * Politicians.
+   *
+   * @var array
+   */
+  protected $politicians;
+
+  /**
+   * Options.
+   *
+   * @var array
+   */
+  protected $options;
+
+  /**
+   * Current currency.
+   *
+   * @var \Drupal\Core\KeyValueStore\KeyValueStoreInterface|mixed
+   */
+  protected $currency;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
@@ -60,6 +81,9 @@ class SingleDonationForm extends FormBase {
     $this->messenger = $messenger;
     $this->omediaPayment = $omediaPayment;
     $this->currentUser = $currentUser;
+    $this->politicians = $donationUtils->getPoliticians();
+    $this->options = $donationUtils->getTerms();
+    $this->currency = $donationUtils->gedCalculator->getCurrency();
   }
 
   /**
@@ -85,9 +109,6 @@ class SingleDonationForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $politicians = $this->donationUtils->getPoliticians();
-    $options = $this->donationUtils->getTerms();
-
     $form['amount'] = [
       '#type' => 'number',
       '#attributes' => [
@@ -101,7 +122,7 @@ class SingleDonationForm extends FormBase {
     ];
     $form['donation_aim'] = [
       '#type' => 'select',
-      '#options' => $options,
+      '#options' => $this->options,
       '#required' => FALSE,
       '#empty_value' => '',
       '#empty_option' => $this->t('- Select aim -'),
@@ -109,7 +130,7 @@ class SingleDonationForm extends FormBase {
     ];
     $form['politicians'] = [
       '#type' => 'select',
-      '#options' => $politicians,
+      '#options' => $this->politicians,
       '#required' => FALSE,
       '#empty_value' => '',
       '#empty_option' => $this->t('- Select politician -'),
@@ -122,7 +143,7 @@ class SingleDonationForm extends FormBase {
           'currency_girchi',
         ],
       ],
-      '#value' => $this->donationUtils->gedCalculator->getCurrency(),
+      '#value' => $this->currency,
     ];
     $form['submit'] = [
       '#type' => 'submit',
@@ -147,7 +168,6 @@ class SingleDonationForm extends FormBase {
     $politician = $form_state->getValue('politicians');
     $amount = $form_state->getValue('amount');
     $description = $donation_aim ? $donation_aim : $politician;
-
     if (empty($donation_aim) && empty($politician)) {
       $this->messenger->addError($this->t('Please choose Donation aim OR Donation to politician'));
       $form_state->setRebuild();
