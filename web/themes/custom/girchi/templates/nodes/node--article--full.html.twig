@@ -92,16 +92,9 @@
                             ></i>
                             <span class="text-grey text-uppercase ">tweet</span>
                         </a>
-                        <a
-                                href="#"
-                                onclick="window.print();return false;"
-                                class="btn btn-outline-secondary bg-hover-dark-white d-flex d-lg-inline-flex mb-2 mb-lg-0  align-items-center btn-with-icon px-3 justify-content-center justify-content-lg-start"
-                        >
-                            <i
-                                    class="icon-print font-size-6 mr-2 line-height-1-3 text-grey ml-n1"
-                            ></i>
-                            <span class="text-grey text-uppercase ">{{ 'Print'|t }}</span>
-                        </a>
+                        <div class="btn btn-outline-secondary bg-hover-dark-white d-flex d-lg-inline-flex mb-2 mb-lg-0  align-items-center mr-0 mr-lg-2 px-3 justify-content-lg-start justify-content-center">
+                            {{content.share_everywhere}}
+                        </div>
                     </div>
                     <br>
                     <div class="pt-3 d-print-none">
