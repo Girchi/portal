@@ -246,6 +246,7 @@ class SiteSettingsForm extends ConfigFormBase {
       'donation_right_block',
       'createpass',
       'number_of_politicians',
+      'number_of_columns',
     ];
 
     foreach ($fields as $field_key) {
