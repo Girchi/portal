@@ -20,48 +20,58 @@ use Symfony\Component\HttpFoundation\Response;
  * Class DonationsController.
  */
 class DonationsController extends ControllerBase {
+
   /**
    * ConfigFactory.
    *
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
+
   /**
    * EntityTypeManagerInterface definition.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
   /**
    * Payment service.
    *
    * @var \Drupal\om_tbc_payments\Services\PaymentService
    */
   protected $omediaPayment;
+
   /**
    * Ged calculator.
    *
    * @var \Drupal\girchi_donations\Utils\GedCalculator
    */
   public $gedCalculator;
+
   /**
    * KeyValue.
    *
    * @var \Drupal\Core\KeyValueStore\KeyValueFactory
    */
+
   protected $keyValue;
+
   /**
    * Drupal\Core\Session\AccountProxy definition.
    *
    * @var \Drupal\Core\Session\AccountProxy
    */
   protected $currentUser;
+
+
   /**
    * Drupal\Core\Form\FormBuilder definition.
    *
    * @var \Drupal\Core\Form\FormBuilder
    */
   protected $formBuilder;
+
   /**
    * DonationUtils definition.
    *
@@ -137,6 +147,7 @@ class DonationsController extends ControllerBase {
       ->getForm("Drupal\girchi_donations\Form\SingleDonationForm");
     $form_multiple = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\MultipleDonationForm");
+
     return [
       '#type' => 'markup',
       '#theme' => 'girchi_donations',
@@ -162,13 +173,16 @@ class DonationsController extends ControllerBase {
       $storage = $this->entityTypeManager()->getStorage('donation');
       $reg_donation_storage = $this->entityTypeManager()
         ->getStorage('regular_donation');
+
       $ged_manager = $this->entityTypeManager()->getStorage('ged_transaction');
+
       if (!$trans_id) {
         $this->getLogger('girchi_donations')->error('Trans ID is missing.');
         return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
       }
       $donations = $storage->loadByProperties(['trans_id' => $trans_id]);
       $reg_donations = $reg_donation_storage->loadByProperties(['trans_id' => $trans_id]);
+
       if (empty($donations) && empty($reg_donations)) {
         $this->getLogger('girchi_donations')
           ->error('Donation or Regular Donation entity not found.');
@@ -178,7 +192,9 @@ class DonationsController extends ControllerBase {
       $donation = reset($donations);
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
       $reg_donation = reset($reg_donations);
+
       $transaction_type_id = $this->entityTypeManager()->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
+
       $result = $this->omediaPayment->getPaymentResult($trans_id);
       if ($result['RESULT_CODE'] === "000") {
         if ($donation) {
@@ -209,6 +225,7 @@ class DonationsController extends ControllerBase {
             else {
               $auth = FALSE;
             }
+
             $this->getLogger('girchi_donations')
               ->info("Ged transaction was made.");
             $this->getLogger('girchi_donations')
@@ -275,6 +292,7 @@ class DonationsController extends ControllerBase {
             return $this->redirect('user.page');
           }
         }
+
       }
       else {
         $code = $result['RESULT_CODE'];
@@ -299,11 +317,13 @@ class DonationsController extends ControllerBase {
             '#regular_donation' => TRUE,
           ];
         }
+
       }
     }
     catch (\Exception $e) {
       $this->getLogger($e->getMessage());
     }
+
     $this->getLogger('girchi_donations')
       ->error('Trans ID or Donation is missing.');
     return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
@@ -328,6 +348,7 @@ class DonationsController extends ControllerBase {
       $this->getLogger('girchi_donations')->error("Trans ID is missing.");
       return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
     }
+
     $result = $this->omediaPayment->getPaymentResult($trans_id);
     $code = $result['RESULT_CODE'];
     $storage = $this->entityTypeManager()->getStorage('donation');
@@ -363,6 +384,7 @@ class DonationsController extends ControllerBase {
     $politicans = $this->donationUtils->getPoliticians();
     $terms = $this->donationUtils->getTerms();
     $language_code = $this->languageManager()->getCurrentLanguage()->getId();
+
     return [
       '#type' => 'markup',
       '#theme' => 'regular_donations',
@@ -424,6 +446,7 @@ class DonationsController extends ControllerBase {
     catch (\Exception $e) {
       $this->getLogger('girchi_donations')->error($e->getMessage());
     }
+
   }
 
   /**
@@ -448,6 +471,7 @@ class DonationsController extends ControllerBase {
         $aim = $request->request->get('aim') ? $request->request->get('aim') : "";
         $politician = $request->request->get('politician') ? $request->request->get('politician') : "";
         $date = $request->request->get('date');
+
         if (!empty($donation_id) &&
           !empty($amount) &&
           !empty($period) &&
@@ -463,6 +487,7 @@ class DonationsController extends ControllerBase {
             $regular_donation[$donation_id]->set('amount', $amount);
             $regular_donation[$donation_id]->set('frequency', $period);
             $regular_donation[$donation_id]->set('payment_day', $date);
+
             if (!empty($aim)) {
               $regular_donation[$donation_id]->set('aim_id', $aim);
             }
@@ -484,10 +509,12 @@ class DonationsController extends ControllerBase {
           ->addError($this->t('You are not authorized to change donation.'));
       }
       return $this->redirect('girchi_donations.regular_donations');
+
     }
     catch (\Exception $e) {
       $this->getLogger('girchi_donations')->error($e->getMessage());
     }
+
   }
 
 }
