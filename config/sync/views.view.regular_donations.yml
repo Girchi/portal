@@ -7,7 +7,11 @@ dependencies:
   module:
     - datetime
     - girchi_donations
+    - rest
+    - serialization
     - user
+    - views_data_export
+    - xls_serialization
 id: regular_donations
 label: 'Regular donations'
 module: views
@@ -589,7 +593,63 @@ display:
           absolute: false
           entity_type: regular_donation
           plugin_id: entity_link_delete
-      filters: {  }
+        amount:
+          id: amount
+          table: regular_donation
+          field: amount
+          entity_type: regular_donation
+          entity_field: amount
+          plugin_id: field
+      filters:
+        status:
+          id: status
+          table: regular_donation
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: status_op
+            label: 'Donation status'
+            description: ''
+            use_operator: false
+            operator: status_op
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: 'Donation status'
+            description: null
+            identifier: status
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1: {  }
+              2: {  }
+              3: {  }
+          entity_type: regular_donation
+          entity_field: status
+          plugin_id: string
       sorts:
         changed:
           id: changed
@@ -618,7 +678,62 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
+        - user.permissions
+      tags:
+        - 'config:field.storage.regular_donation.field_donations'
+  data_export_1:
+    display_plugin: data_export
+    id: data_export_1
+    display_title: 'Data export'
+    position: 2
+    display_options:
+      display_extenders: {  }
+      title: 'Regular donations export'
+      defaults:
+        title: false
+      style:
+        type: data_export
+        options:
+          formats:
+            xlsx: xlsx
+          csv_settings:
+            delimiter: ','
+            enclosure: '"'
+            escape_char: \
+            strip_tags: true
+            trim: true
+            encoding: utf8
+            utf8_bom: '0'
+          xls_settings:
+            xls_format: Excel2007
+            metadata:
+              creator: ''
+              last_modified_by: ''
+              title: ''
+              description: ''
+              subject: ''
+              keywords: ''
+              category: ''
+              manager: ''
+              company: ''
+      path: admin/regular-donations/export
+      filename: regular-donations.xlsx
+      displays:
+        page_1: page_1
+        default: '0'
+      pager:
+        type: none
+        options:
+          offset: 0
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - request_format
+        - url
         - user.permissions
       tags:
         - 'config:field.storage.regular_donation.field_donations'
@@ -635,6 +750,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
         - user.permissions
       tags:
