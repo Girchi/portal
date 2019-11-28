@@ -4297,3 +4297,7 @@ msgstr "3 თვეში ერთხელ"
 
 msgid "Once in every 6 months"
 msgstr "6 თვეში ერთხელ"
+
+msgid "Transaction history"
+msgstr "გადახდების ისტორია"
+
