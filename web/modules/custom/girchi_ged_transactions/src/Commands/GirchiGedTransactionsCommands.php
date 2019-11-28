@@ -73,4 +73,26 @@ class GirchiGedTransactionsCommands extends DrushCommands {
     }
   }
 
+  /**
+   * Main command.
+   *
+   * @command girchi_ged_transactions:fix-donation-transactions
+   * @aliases fix-donation-transactions
+   */
+  public function setTypeForDonationTransactions() {
+    $ged_transactions_storage = $this->entityTypeManager->getStorage('ged_transaction');
+    $ged_transactions_ids = $ged_transactions_storage->getQuery()
+      ->condition('Description', 'Transaction was created by donation', '=')
+      ->execute();
+
+    $ged_transactions = $ged_transactions_storage->loadMultiple($ged_transactions_ids);
+
+    $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369);
+
+    foreach ($ged_transactions as $ged_transaction) {
+      $ged_transaction->set("transaction_type", $transaction_type_id);
+      $ged_transaction->save();
+    }
+  }
+
 }

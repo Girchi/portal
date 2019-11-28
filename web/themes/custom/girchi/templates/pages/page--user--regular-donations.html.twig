@@ -1,0 +1,34 @@
+{% block page_head %}
+    {% include '@girchi/header.htlm.twig' %}
+{% endblock %}
+<div class="container">
+    <div class="my-3 my-sm-4">
+        <div class="row flex-column-reverse flex-lg-row">
+            {% block page_main %}
+                {% if page.sidebar_primary %}
+                    <div class="col-md-12 col-lg-3 order-1 order-lg-0">
+                        {{ page.sidebar_primary }}
+                    </div>
+                {% endif %}
+
+                {% if page.content_top %}
+                    {{ page.content_top }}
+                {% endif %}
+
+                {% if page.content %}
+                    <div class="col-md-12 col-lg-9">
+                        {{ page.content }}
+                    </div>
+                {% endif %}
+
+                {% if page.content_bottom %}
+                    {{ page.content_bottom }}
+                {% endif %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% block page_foot %}
+    {% include '@girchi/footer.html.twig' %}
+{% endblock %}

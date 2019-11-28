@@ -1,4 +1,4 @@
-name: 'girchi_ged_transactions'
+name: 'Girchi GED Transactions'
 type: module
 description: 'Module for ged transactions'
 core: 8.x

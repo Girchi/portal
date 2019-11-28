@@ -1,0 +1,443 @@
+{{ print_block('politicianblock') }}
+<div class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3 overflow-hidden">
+    <div
+        class="d-flex border-bottom flex-column flex-md-row px-3 px-md-4 py-3 align-items-md-center"
+    >
+        <h6 class="text-uppercase font-weight-bold m-0">
+            {{ 'Regular donation settings' |t }}
+        </h6>
+        <div class="ml-auto my-n1 d-none d-sm-block">
+            <button
+                data-toggle="modal"
+                data-target="#addPayment"
+                class="btn btn-success text-uppercase"
+            >
+                {{ 'Add new payment' |t }}
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-3 p-sm-4">
+        <button
+            data-toggle="modal"
+            data-target="#addPayment"
+            class="btn btn-block d-sm-none mb-3 btn-success text-uppercase"
+        >
+            {{ 'Add new payment' |t }}
+        </button>
+        <hr class="my-3 d-sm-none"/>
+        <!-- Start payments list -->
+        <div>
+            {% for regular_donation in regular_donations %}
+                <!-- Start card -->
+                <div class="card border overflow-hidden mb-3 mb-sm-4">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-12 col-sm-4 col-lg-3">
+                                <div data-wrapper-id="{{ regular_donation.id.value }}"
+                                     class="position-relative h-100
+                                    {{ regular_donation.status.value == 'ACTIVE' ? 'bg-gradient-green' : 'bg-gradient-warning' }}
+                                    text-center pt-3 pt-sm-0 pt-lg-3 d-flex flex-column justify-content-center"
+                                >
+                            <span
+                                class="mt-2 min-w-120 font-size-4 rounded-oval text-white font-weight-bold bg-black-0-2 py-3 px-4 mx-auto d-inline-block"
+                            >{{ regular_donation.amount.value }} ₾</span
+                            >
+                                    <span
+                                        class="text-white font-size-3 my-2 d-inline-block {{ "donation-status-" ~ regular_donation.id.value }}"
+                                    >{% if language == 'ka' %}
+                                            {{ regular_donation.status.value == "PAUSED" ? "შეჩერებული" : "აქტიური" }}
+                                        {% else %}
+                                            {{ regular_donation.status.value }}
+                                        {% endif %}
+                                    </span
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-8 col-lg-9">
+                                <div
+                                    class="d-flex flex-column flex-lg-row py-3 pl-3 pl-sm-0 position-relative h-100 align-items-lg-center mr-1"
+                                >
+                                    <!-- Start left side -->
+                                    <div>
+                                        {% if regular_donation.politician_id.target_id == null %}
+                                            <span
+                                                class="d-block text-grey font-size-2 font-weight-bold"
+                                            >{{ 'Donation aim'|t }}</span
+                                            >
+                                            <span
+                                                class="d-block text-success text-uppercase font-weight-bold"
+                                            >{{ drupal_field('name', 'taxonomy_term', regular_donation.aim_id.target_id) }}</span
+                                            >
+                                        {% else %}
+                                            <span
+                                                class="d-block text-grey font-size-2 font-weight-bold"
+                                            >{{ 'Politician' | t }}</span
+                                            >
+                                            <span
+                                                class="d-block text-success text-uppercase font-weight-bold"
+                                            >{{ get_full_name(regular_donation.politician_id.target_id) }}</span
+                                            >
+                                        {% endif %}
+                                        <hr class="my-2"/>
+                                        <div
+                                            class="d-flex font-size-2 font-weight-bold flex-wrap"
+                                        >
+                                <span class="mr-3">
+                                  <span
+                                      class="text-grey">{{ 'Periodicity' | t }}: </span>{{ regular_donation.frequency.value }} {{ 'Month' | t }}
+                                </span>
+                                            <span class="mr-3">
+                                  <span class="text-grey"
+                                  >{{ 'Paying date:' | t }} </span
+                                  >{{ regular_donation.payment_day.value }}
+                                            </span>
+
+                                        </div>
+                                        <div
+                                            class="d-flex font-size-2 font-weight-bold flex-wrap"
+                                        >
+                                       <span class="mr-3">
+                                                <span
+                                                    class="text-grey">{{ 'Next payment date' | t }}: </span>{{ regular_donation.next_payment_date.value | date("m/d/Y")}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- End left size -->
+                                    <!-- Start right side -->
+                                    <div
+                                        class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
+                                    >
+                                        {% if regular_donation.status.value == 'ACTIVE' %}
+                                            <button
+                                                data-id="{{ regular_donation.id.value }}"
+                                                user-id="{{ current_user_id }}"
+                                                class="pauseDonation btn btn-outline-light-silver mr-sm-1 text-grey text-uppercase px-2 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                            >
+                                                {{ 'Pause' |t }}
+                                            </button>
+                                        {% else %}
+                                            <button
+                                                data-id="{{ regular_donation.id.value }}"
+                                                user-id="{{ current_user_id }}"
+                                                class="resumeDonation btn btn-success mr-sm-1 text-uppercase px-2 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0">
+                                                {{ 'Resume' |t }}
+                                            </button>
+                                        {% endif %}
+                                        <button
+                                            data-toggle="modal"
+                                            user-id="{{ current_user_id }}"
+                                            data-target="{{ "#editPayment-" ~ regular_donation.id.value }}"
+                                            class="btn btn-outline-light-silver text-grey text-uppercase px- d-block d-sm-inline-block w-100 w-sm-auto mt-2 mt-sm-0"
+                                        >
+                                            {{ 'Edit' |t }}
+                                        </button>
+                                    </div>
+                                    <!-- End right side -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End card -->
+            {% endfor %}
+        </div>
+        <!-- End payments list -->
+    </div>
+</div>
+<div
+    class="modal fade"
+    id="addPayment"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="addPaymentTitle"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5
+                    class="modal-title font-size-3 text-uppercase font-weight-bold"
+                    id="addPaymentTitle"
+                >
+                    {{ 'Add new payment' |t }}
+                </h5>
+                <button
+                    type="button"
+                    class="close ml-2"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <i
+                        aria-hidden="true"
+                        class="icon-close font-size-3 text-dark-silver"
+                    ></i>
+                </button>
+            </div>
+            <div class="modal-body pt-0  pl-3 pr-3 pb-3 pl-md-5 pr-md-5 pb-md-5">
+                <form method="POST">
+                    {{ regular_donation_form.form_build_id }}
+                    {{ regular_donation_form.form_token }}
+                    {{ regular_donation_form.form_id }}
+                    <p
+                        class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
+                    >
+                        <img
+                            src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
+                            alt=""
+                            class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                            height="17"
+                        />
+                        <img
+                            src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
+                            alt=""
+                            class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                            height="17"
+                        />
+                        <img
+                            src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
+                            alt=""
+                            class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                            height="12"
+                        />
+                        <img
+                            src="/themes/custom/girchi/dist/css/images/visa.png"
+                            alt=""
+                            class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                            height="12"
+                        />
+                        <img
+                            src="/themes/custom/girchi/dist/css/images/mc.svg"
+                            alt=""
+                            class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                            height="17"
+                        />
+                    </p>
+                    <hr class="border-dashed border-secondary"/>
+                    <div class="d-flex flex-wrap flex-sm-nowrap">
+                        <div
+                            class="form-group form-group w-100 w-md-50 pr-sm-2"
+                        >
+                            <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
+                            {{ regular_donation_form.amount }}
+                        </div>
+                        <div class="form-group w-100 w-md-50">
+                            <label class="form-label">{{ 'You will get'|t }}</label>
+                            <div
+                                class="text-success font-size-5 d-flex pl-3 pt-2"
+                            >
+                                <i class="icon-ged"></i>
+                                <span class="ml-1" id="ged-place-2">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap flex-sm-nowrap">
+                        <div class="form-group w-100 w-md-50 pr-sm-2">
+                            <label class="form-label" for="period"
+                            >{{ 'Periodicity'|t }}</label
+                            >
+                            <div class="form-control form-control-lg">
+                                {{ regular_donation_form.frequency }}
+                            </div>
+                        </div>
+                        <div class="form-group w-100 w-md-50  pl-sm-2">
+                            <label class="form-label" id="date"
+                            >{{ 'Donation date'|t }}</label
+                            >
+                            <div class="form-control form-control-lg">
+                                {{ regular_donation_form.date }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="description"
+                        >{{ 'Donation aim'|t }}</label
+                        >
+                        <div class="form-control form-control-lg">
+                            {{ regular_donation_form.donation_aim }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="politicians"
+                        >{{ 'Donation to politician'|t }}</label
+                        >
+                        <div class="form-control form-control-lg">
+                            {{ regular_donation_form.politicians }}
+                        </div>
+                    </div>
+                    {{ regular_donation_form.currency }}
+                    {{ regular_donation_form.submit }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% for regular_donation in regular_donations %}
+    <div
+        class="modal fade"
+        id="{{ "editPayment-" ~ regular_donation.id.value }}"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="editPaymentTitle"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content overflow-hidden">
+                <div class="modal-header align-items-center px-3 px-md-4">
+                    <h5
+                        class="modal-title font-size-3 text-uppercase font-weight-bold"
+                        id="editPaymentTitle"
+                    >
+                        {{ 'Donation' |t }}
+                    </h5>
+                    <button
+                        type="button"
+                        class="close ml-2"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                    >
+                        <i
+                            aria-hidden="true"
+                            class="icon-close font-size-3 text-dark-silver"
+                        ></i>
+                    </button>
+                </div>
+                <div class="modal-body pt-0  pl-3 pr-3 pb-3 pl-md-5 pr-md-5 pb-md-5">
+                    <form method="post" action="/donate/edit_donation">
+                        <p
+                            class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
+                        >
+                            <img
+                                src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
+                                alt=""
+                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                height="17"
+                            />
+                            <img
+                                src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
+                                alt=""
+                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                height="17"
+                            />
+                            <img
+                                src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
+                                alt=""
+                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                height="12"
+                            />
+                            <img
+                                src="/themes/custom/girchi/dist/css/images/visa.png"
+                                alt=""
+                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                height="12"
+                            />
+                            <img
+                                src="/themes/custom/girchi/dist/css/images/mc.svg"
+                                alt=""
+                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                height="17"
+                            />
+                        </p>
+                        <hr class="border-dashed border-secondary"/>
+                        <h5 class="font-size-3 font-weight-bold text-warning">
+                            {{ 'The edited verison of Periodicity and date will be valid after the next payment.' |t }}
+                        </h5>
+                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                            <div class="form-group w-100 w-md-50 pr-sm-2">
+                                <label class="form-label" for="amount">{{ 'Amount' |t }}</label>
+                                <!-- data-rate = how many GED is 1 GEL -->
+                                <input
+                                    type="number"
+                                    class="form-control form-control-lg amount"
+                                    id="amount"
+                                    name="amount"
+                                    data-toggle="calculate-ged"
+                                    data-output="#ged-output-add"
+                                    data-rate="2"
+                                    value="{{ regular_donation.amount.value }}"
+                                    placeholder="{{ 'You will get' }}"
+                                />
+                            </div>
+                            <div class="form-group w-100 w-md-50">
+                                <label class="form-label">{{ 'You will get' |t }}</label>
+                                <div class="text-success font-size-5 d-flex pl-3 pt-2">
+                                    <i class="icon-ged"></i>
+                                    <span class="ml-1 font-weight-bold ged-output-add"
+                                    >0</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                            <div class="form-group w-100 w-md-50 pr-sm-2">
+                                <label class="form-label" for="period">{{ 'Periodicity' | t }}</label>
+                                <div class="form-control form-control-lg">
+                                    <select name="period" id="period">
+                                        <option value="">{{ 'Select' | t }}</option>
+                                        <option {{ regular_donation.frequency.value == 1 ? "selected" : "" }}
+                                            value="1">{{ 'Every month' |t }}</option>
+                                        <option {{ regular_donation.frequency.value == 3 ? "selected" : "" }}
+                                            value="3">{{ 'Once in every 3 months' |t }}</option>
+                                        <option {{ regular_donation.frequency.value == 6 ? "selected" : "" }}
+                                            value="6">{{ 'Once in every 6 months' |t }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group w-100 w-md-50">
+                                <label class="form-label" for="date">{{ 'Donation date' |t }}</label>
+                                <div class="form-control form-control-lg">
+                                    <select name="date" id="date">
+                                        <option value="">{{ 'Select' |t }}</option>
+                                        {% for i in 1..31 %}
+                                            <option {{ i == regular_donation.payment_day.value ? 'selected' : '' }}
+                                                value="{{ i }}">{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        {% if regular_donation.politician_id.target_id == null %}
+                            <div class="form-group">
+                                <label class="form-label" for="description"
+                                >{{ 'Donation aim' | t }}</label
+                                >
+                                <div class="form-control form-control-lg">
+                                    <select name="aim" id="aim">
+                                        <option value="">{{ 'Select' |t }}</option>
+                                        {% for key, term in terms %}
+                                            <option {{ key == regular_donation.aim_id.target_id ? "selected" : "" }}
+                                                value="{{ key }}">{{ term }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                <label class="form-label" for="description"
+                                >{{ 'Donation to politician' | t }}</label
+                                >
+                                <div class="form-control form-control-lg">
+                                    <select name="politician" id="politician">
+                                        <option value="">{{ 'Select' |t }}</option>
+                                        {% for key, politician in politicians %}
+                                            <option {{ key == regular_donation.politician_id.target_id ? "selected" : "" }}
+                                                value="{{ key }}">{{ politician }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <input type="hidden" name="donation-id" value="{{ regular_donation.id.value }}">
+                        <input type="hidden" name="user-id" value="{{ current_user_id }}">
+                        <button
+                            type="submit"
+                            class="btn btn-lg btn-block btn-warning text-uppercase mt-4"
+                        >
+                            {{ 'Donate' |t }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{{ attach_library('girchi/donation') }}

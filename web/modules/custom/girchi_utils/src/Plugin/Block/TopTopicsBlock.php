@@ -4,7 +4,9 @@ namespace Drupal\girchi_utils\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
-use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'TopTopicsBlock' block.
@@ -14,28 +16,70 @@ use Drupal\node\Entity\Node;
  *  admin_label = @Translation("Top topics block"),
  * )
  */
-class TopTopicsBlock extends BlockBase {
+class TopTopicsBlock extends BlockBase implements ContainerFactoryPluginInterface {
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * FrontNewsBlock constructor.
+   *
+   * @param array $configuration
+   *   Array of configuration.
+   * @param int $plugin_id
+   *   Plugin id.
+   * @param string $plugin_definition
+   *   Plugin definition.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entityTypeManager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entityTypeManager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $em = \Drupal::entityTypeManager();
+    $em = $this->entityTypeManager;
     $slider_topics_num = 5;
 
-    /** @var \Drupal\node\Entity\NodeStorage $node_storage */
+    /** @var \Drupal\node\NodeStorage $node_storage */
     $node_storage = $em->getStorage('node');
     $last_published_nodes = $node_storage->getQuery()
       ->condition('type', 'article')
       ->condition('status', 1)
-      ->sort('created', "DESC")
+      ->condition('field_featured_on_slider', 1)
+      ->sort('field_published_date', "DESC")
+      ->sort('created', 'DESC')
       ->range(0, 10)
       ->execute();
 
-    if (!empty($last_published_nodes)) {
+    $node_count = count($last_published_nodes);
+    if (!empty($last_published_nodes) && $node_count == 10) {
 
-      $last_published_nodes_ent = Node::loadMultiple($last_published_nodes);
-      krsort($last_published_nodes_ent);
+      /** @var \Drupal\node\NodeStorage $node_storage */
+      $last_published_nodes_ent = $node_storage->loadMultiple($last_published_nodes);
       $slider_topics = array_slice($last_published_nodes_ent, 0, $slider_topics_num);
       $bottom_topics = array_slice($last_published_nodes_ent, 5, 2);
 
@@ -45,9 +89,51 @@ class TopTopicsBlock extends BlockBase {
         '#bottom_topics' => $bottom_topics,
       ];
     }
-    else {
+    elseif (!empty($last_published_nodes) && $node_count < 10) {
+
+      $ids = '(';
+      $ids .= implode(',', array_keys($last_published_nodes));
+      $ids .= ')';
+
+      $needed_amount = 10 - $node_count;
+      $nodes = $node_storage->getQuery()
+        ->condition('type', 'article')
+        ->condition('status', 1)
+        ->condition('nid', $ids, 'NOT IN')
+        ->sort('field_published_date', "DESC")
+        ->sort('created', 'DESC')
+        ->range(0, $needed_amount)
+        ->execute();
+
+      /** @var \Drupal\node\NodeStorage $node_storage */
+      $last_published_nodes_ent = $node_storage->loadMultiple(array_merge($last_published_nodes, $nodes));
+      $slider_topics = array_slice($last_published_nodes_ent, 0, $slider_topics_num);
+      $bottom_topics = array_slice($last_published_nodes_ent, 5, 2);
+
       return [
         '#theme' => 'top_topics',
+        '#slider_topics' => $slider_topics,
+        '#bottom_topics' => $bottom_topics,
+      ];
+
+    }
+    else {
+      $last_published_nodes = $node_storage->getQuery()
+        ->condition('type', 'article')
+        ->condition('status', 1)
+        ->sort('field_published_date', "DESC")
+        ->sort('created', 'DESC')
+        ->range(0, 10)
+        ->execute();
+
+      $last_published_nodes_ent = $node_storage->loadMultiple($last_published_nodes);
+      $slider_topics = array_slice($last_published_nodes_ent, 0, $slider_topics_num);
+      $bottom_topics = array_slice($last_published_nodes_ent, 5, 2);
+
+      return [
+        '#theme' => 'top_topics',
+        '#slider_topics' => $slider_topics,
+        '#bottom_topics' => $bottom_topics,
       ];
     }
 

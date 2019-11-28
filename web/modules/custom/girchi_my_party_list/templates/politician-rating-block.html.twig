@@ -16,7 +16,6 @@
             <div
                 class="owl-carousel owl-theme rating-of-politicians-carousel p-3"
             >
-
                 {% for politician in politicians %}
                     <!-- Start of media -->
                     <div class="media media-column rounded overflow-hidden">
@@ -45,17 +44,17 @@
                                     </a>
                                     <span
                                         class="text-light-green font-weight-bold font-size-8  line-height-0-9"
-                                    >{{ '0' ~ politician.rating }}</span
+                                    >{{politician.rating < 10 ? '0' ~ politician.rating : politician.rating  }}</span
                                     >
                                 </h5>
                                 <div
                                     class="font-weight-bold font-size-3 d-flex justify-content-between align-items-center pb-2 text-uppercase"
                                 >
                         <span
-                            class="text-grey line-height-1-2 line-height-xl-1-5"
-                        >{{ 'Politician rating' | t }}</span
+                                class="text-grey line-height-1-2 line-height-xl-1-5"
+                        >{{ 'Party list weight' | t }}</span
                         >
-                                    <span class="text-warning text-nowrap">{{ politician.political_ged|ged_long_format  }}</span>
+                                    <span class="text-warning text-nowrap">{{ politician.political_ged }}</span>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +72,7 @@
                     <i class="icon-angle-pointing-to-left"></i>
                 </button>
                 <div
-                    class="rating-of-politicians-carousel-dots owl-dots d-flex align-items-center"
+                    class="rating-of-politicians-carousel-dots owl-dots politicians-raiting-owl d-flex align-items-center"
                 ></div>
                 <button
                     class="rating-of-politicians-carousel-next btn py-3 shadow-none rounded-0 text-dark-silver border-left"
@@ -87,62 +86,63 @@
 
         <!-- Start of rating of politicians visible on large screen as list -->
         <div class="d-none d-lg-block">
-            <div class="row">
-                {% for politician in politicians %}
-                    <div class="col-sm-6 col-md-6 col-lg-3">
-                    <!-- Start of media -->
-                    <div
-                        class="media media-column rounded overflow-hidden mb-4 mb-lg-0"
-                    >
-                        <div class="media-thumb w-100">
-                            <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
-                                <img
-                                    src="{{ politician.img_uri ? image_style_url(politician.img_uri, 'politician_widget_photo') : theme_path() ~ '/images/avatar247x337.png' }}"
-                                    class="w-100"
-                                    alt="..."
-                                />
-                            </a>
+            <!-- politicians-rating-{number of items in row} -->
+            <div class="politicians-rating politicians-rating-5">
+                    {% for politician in politicians %}
+                        <div class="politicians-rating-item">
+                            <!-- Start of media -->
                             <div
-                                class="position-absolute position-bottom-0 position-left-0 w-100 px-3 z-index-2"
+                                    class="media media-column rounded overflow-hidden mb-4 mb-lg-0"
                             >
-                                <h5
-                                    class="mt-2 d-flex justify-content-between align-items-end border-bottom border-grey py-2"
-                                >
-                                    <a
-                                        href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}"
-                                        class="text-decoration-none d-block  text-white text-uppercase line-height-1-1"
-                                    >
-                                        <small class="d-block small font-weight-bold"
-                                        >{{ politician.first_name }}</small
-                                        >
-                                        <span class="font-weight-bold">{{ politician.last_name }}</span>
+                                <div class="media-thumb w-100">
+                                    <a href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}" class="media-thumb-link overlay">
+                                        <img
+                                            src="{{ politician.img_uri ? image_style_url(politician.img_uri, 'politician_widget_photo') : theme_path() ~ '/images/avatar247x337.png' }}"
+                                            class="w-100"
+                                            alt="..."
+                                        />
                                     </a>
-                                    <span
-                                        class="text-light-green font-weight-bold font-size-8  line-height-0-9"
-                                    >{{ '0' ~ politician.rating }}</span
+                                    <div
+                                            class="position-absolute position-bottom-0 position-left-0 p-3 w-100 z-index-2"
                                     >
-                                </h5>
-                                <div
-                                    class="font-weight-bold font-size-3 d-flex justify-content-between align-items-center pb-2 text-uppercase"
-                                >
-                          <span
-                              class="text-grey line-height-1-2 line-height-xl-1-5"
-                          >{{ 'Politician rating' |t }}</span
-                          >
-                                    <span class="text-warning text-nowrap"
-                                    >{{ politician.political_ged | ged_long_format }}</span
-                                    >
+                                        <h5
+                                                class="mt-2 d-flex justify-content-between align-items-end border-bottom border-grey py-2"
+                                        >
+                                            <a
+                                                    href="{{ path('entity.user.canonical', {'user' : politician.uid}) }}"
+                                                    class="text-decoration-none d-block  text-white text-uppercase line-height-1-1 font-size-3 font-size-xl-4"
+                                            >
+                                                <small class="d-block small font-weight-bold"
+                                                >{{ politician.first_name }}</small
+                                                >
+                                                <span class="font-weight-bold small">{{ politician.last_name }}</span>
+                                            </a>
+                                            <span
+                                                    class="text-light-green font-weight-bold font-size-7 font-size-xl-8  line-height-0-9"
+                                            >{{politician.rating < 10 ? '0' ~ politician.rating : politician.rating  }}</span
+                                            >
+                                        </h5>
+                                        <div
+                                                class="font-weight-bold font-size-1 font-size-xl-3 d-flex justify-content-between align-items-center pb-2 text-uppercase"
+                                        >
+                              <span
+                                      class="text-grey line-height-1-2 line-height-xl-1-5"
+                              >{{ 'Party list weight' |t }}</span
+                              >
+                                            <span class="text-warning text-nowrap">{{ politician.political_ged}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- End of media -->
                         </div>
-                    </div>
-                    <!-- End of media -->
-                </div>
-                {% endfor %}
+                    {% endfor %}
+
             </div>
-            <!-- Start of rating of politicians visible on large screen as list -->
         </div>
+        <!-- Start of rating of politicians visible on large screen as list -->
     </div>
-    <!-- End of card -->
 </div>
+<!-- End of card -->
+
 

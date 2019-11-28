@@ -13,7 +13,6 @@ use Drupal\user\EntityOwnerInterface;
  */
 interface DonationInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
-  // Add get/set methods for your configuration properties here.
   /**
    * Gets the Donation creation timestamp.
    *
@@ -32,6 +31,5 @@ interface DonationInterface extends ContentEntityInterface, EntityChangedInterfa
    *   The called Donation entity.
    */
   public function setCreatedTime($timestamp);
-
 
 }
