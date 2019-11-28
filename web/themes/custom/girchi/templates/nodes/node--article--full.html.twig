@@ -24,7 +24,7 @@
                                   class="icon-clock-circular-outline mr-1
                                 "
                           ></i>
-                          {{ node.getCreatedTime| format_date('article_short') }}
+                          {{ content.field_published_date.0 is defined ? content.field_published_date : node.getCreatedTime| format_date('article_short')}}</span>
                         <div class="text-grey border-dark-silver pl-2 ml-1 border-left"
                         >
                           {{ total_view_count ~ ' Views'|t }}
@@ -40,14 +40,12 @@
                     </span
                     >
                     </div>
-
-
                     {% if logged_in %}
                         <div class="form-group">
                         <span class="form-checkbox">
                             <span class="form-checkbox-input {{ checkboxValue ? 'checked' : '' }}">
                                 <input type="checkbox" class="form-control form-checkbox" id="favorite_news"
-                                       data-node-id="{{ node.id }}" >
+                                       data-node-id="{{ node.id }}" {{ checkboxValue ? 'checked' : '' }}>
                         </span>
                             <label class="form-checkbox-label font-size-1 text-grey font-weight-bold border-dark-silver "
                                    for="favorite_news">{{ 'Add to favorite' | t }}</label>
