@@ -28,7 +28,7 @@
             <span
                     class="text-grey font-size-1 d-inline-flex align-items-center">
                           <i class="icon-clock-circular-outline mr-1"></i>
-                          {{ node.createdtime|format_date('omedia_short') }} </span>
+                          {{ content.field_published_date.0 is defined ? content.field_published_date : node.getCreatedTime| format_date('article_short')}} </span>
         </div>
     </div>
     <!-- End of media -->

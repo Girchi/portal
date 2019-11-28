@@ -82,6 +82,10 @@ function girchi_preprocess_page(array &$variables)
   // Get config from site settings.
   $config = \Drupal::config('om_site_settings.site_settings');
 
+  /** @var \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue */
+  $keyValue = Drupal::service('keyvalue');
+  $gedCalculation = $keyValue->get('ged_calculation');
+
   $variables['footer_config'] = [
     'phone' => $config->get('contact_info_phone'),
     'email' => $config->get('contact_info_email'),
@@ -94,8 +98,8 @@ function girchi_preprocess_page(array &$variables)
 
   $variables['header_config'] = [
     'enable_user_ui' => $config->get('enable_user_ui'),
-    'ged_summary' => $config->get('ged_summary'),
-    'ged_percentage' => $config->get('ged_percentage'),
+    'ged_summary' => $gedCalculation->get('ged_summary'),
+    'ged_percentage' => $gedCalculation->get('ged_percentage'),
   ];
   // Redirect from user profile.
   // Get current route name.

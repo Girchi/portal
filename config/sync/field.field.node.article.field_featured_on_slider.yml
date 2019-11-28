@@ -1,0 +1,23 @@
+uuid: 4d99e9d7-c4ee-486c-8835-95d061e7b1cb
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_on_slider
+    - node.type.article
+id: node.article.field_featured_on_slider
+field_name: field_featured_on_slider
+entity_type: node
+bundle: article
+label: 'გამოჩნდეს სლაიდერზე'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: ჩართვა
+  off_label: გამორთვა
+field_type: boolean
