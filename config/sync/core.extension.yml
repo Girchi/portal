@@ -91,6 +91,7 @@ module:
   search_api_db: 0
   sendgrid_integration: 0
   serialization: 0
+  share_everywhere: 0
   shortcut: 0
   simple_sitemap: 0
   social_api: 0

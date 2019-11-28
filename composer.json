@@ -261,6 +261,7 @@
     "drupal/search_api": "^1.0",
     "drupal/select_or_other": "^1.0@alpha",
     "drupal/sendgrid_integration": "^1.2",
+    "drupal/share_everywhere": "^1.1",
     "drupal/simple_sitemap": "^3.2",
     "drupal/smart_trim": "^1.0",
     "drupal/social_api": "^2.0",

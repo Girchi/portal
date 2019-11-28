@@ -1,0 +1,131 @@
+buttons:
+  facebook_like:
+    name: 'Facebook like'
+    enabled: 0
+  facebook_share:
+    name: 'Facebook share'
+    title: 'Share on Facebook'
+    enabled: 0
+    image: facebook-share.svg
+  twitter:
+    name: Twitter
+    title: 'Share on Twitter'
+    enabled: 0
+    image: twitter.svg
+  googleplus:
+    name: Google+
+    title: 'Share on Google+'
+    enabled: 0
+    image: googleplus.svg
+  linkedin:
+    name: LinkedIn
+    title: 'Share on LinkedIn'
+    enabled: 0
+    image: linkedin.svg
+  messenger:
+    name: Messenger
+    title: 'Share via Messenger'
+    enabled: 0
+    image: messenger.svg
+  viber:
+    name: Viber
+    title: 'Share via Viber'
+    enabled: 1
+    image: viber.svg
+  whatsapp:
+    name: WhatsApp
+    title: 'Share via WhatsApp'
+    enabled: 0
+    image: whatsapp.svg
+share_icon:
+  image: share-icon.svg
+  alt: 'Share icon'
+title: 'Share Everywhere'
+display_title: 0
+style: share_everywhere
+include_css: 0
+include_js: 0
+collapsible: '0'
+location: content
+alignment: left
+content_types:
+  article: article
+  office: 0
+  page: 0
+  promo_page: 0
+view_modes:
+  article:
+    full: full
+    page_header: 0
+    rss: 0
+    search_index: 0
+    search_result: 0
+    slider: 0
+    teaser: 0
+    teaser_lg: 0
+    teaser_media: 0
+    teaser_numbered: 0
+    teaser_sm: 0
+    teaser_vertical: 0
+    teaser_video: 0
+    token: 0
+    under_slider: 0
+  page:
+    full: full
+    page_header: 0
+    rss: 0
+    search_index: 0
+    search_result: 0
+    slider: 0
+    teaser: 0
+    teaser_lg: 0
+    teaser_media: 0
+    teaser_numbered: 0
+    teaser_sm: 0
+    teaser_vertical: 0
+    teaser_video: 0
+    token: 0
+    under_slider: 0
+  office:
+    full: full
+    page_header: 0
+    rss: 0
+    search_index: 0
+    search_result: 0
+    slider: 0
+    teaser: 0
+    teaser_lg: 0
+    teaser_media: 0
+    teaser_numbered: 0
+    teaser_sm: 0
+    teaser_vertical: 0
+    teaser_video: 0
+    token: 0
+    under_slider: 0
+  promo_page:
+    full: full
+    page_header: 0
+    rss: 0
+    search_index: 0
+    search_result: 0
+    slider: 0
+    teaser: 0
+    teaser_lg: 0
+    teaser_media: 0
+    teaser_numbered: 0
+    teaser_sm: 0
+    teaser_vertical: 0
+    teaser_video: 0
+    token: 0
+    under_slider: 0
+product_types:
+  default: default
+product_view_modes:
+  default:
+    full: full
+restricted_pages:
+  pages: ''
+  type: show
+weight: 10
+_core:
+  default_config_hash: GQDoLEOR4E5eoYvZ5ZgimP0c4Edxmwpc_hd9kBF8La0
