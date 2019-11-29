@@ -56,6 +56,7 @@ module:
   help: 0
   hierarchical_term_formatter: 0
   image: 0
+  international_phone: 0
   language: 0
   layout_discovery: 0
   link: 0
@@ -90,6 +91,7 @@ module:
   search_api_db: 0
   sendgrid_integration: 0
   serialization: 0
+  share_everywhere: 0
   shortcut: 0
   simple_sitemap: 0
   social_api: 0

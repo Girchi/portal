@@ -25,14 +25,15 @@ dependencies:
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
     - field.field.user.user.user_picture
     - image.style.avatar_image
   module:
     - datetime
     - image
+    - international_phone
     - reference_value_pair
-    - telephone
     - text
     - user
 _core:
@@ -43,7 +44,7 @@ bundle: user
 mode: default
 content:
   field_address:
-    weight: 51
+    weight: 11
     label: hidden
     settings:
       link_to_entity: false
@@ -51,14 +52,14 @@ content:
     type: string
     region: content
   field_bio:
-    weight: 57
+    weight: 17
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
   field_date_of_birth:
-    weight: 16
+    weight: 9
     label: above
     settings:
       format_type: medium
@@ -75,7 +76,7 @@ content:
     type: string
     region: content
   field_ged:
-    weight: 15
+    weight: 8
     label: above
     settings:
       thousand_separator: ''
@@ -92,7 +93,7 @@ content:
     type: string
     region: content
   field_my_party_list:
-    weight: 52
+    weight: 12
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -106,16 +107,8 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_phone:
-    weight: 4
-    label: above
-    settings:
-      title: ''
-    third_party_settings: {  }
-    type: telephone_link
-    region: content
   field_political_ged:
-    weight: 56
+    weight: 16
     label: above
     settings:
       link_to_entity: false
@@ -123,7 +116,7 @@ content:
     type: string
     region: content
   field_politician:
-    weight: 5
+    weight: 6
     label: above
     settings:
       format: yes-no
@@ -133,7 +126,7 @@ content:
     type: boolean
     region: content
   field_rank:
-    weight: 54
+    weight: 14
     label: hidden
     settings:
       thousand_separator: ''
@@ -142,7 +135,7 @@ content:
     type: number_integer
     region: content
   field_rating_in_party_list:
-    weight: 53
+    weight: 13
     label: above
     settings:
       thousand_separator: ''
@@ -151,7 +144,7 @@ content:
     type: number_integer
     region: content
   field_referral:
-    weight: 6
+    weight: 7
     label: above
     settings:
       link: true
@@ -159,14 +152,21 @@ content:
     type: entity_reference_label
     region: content
   field_referral_url:
-    weight: 55
+    weight: 15
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
     region: content
+  field_tel:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: InternationalPhoneDefaultFormatter
+    region: content
   masquerade:
-    weight: 50
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -189,6 +189,7 @@ hidden:
   field_facebook_url: true
   field_favorite_news: true
   field_intro: true
+  field_phone: true
   field_profile_video: true
   field_public_email: true
   field_social_auth_password: true
