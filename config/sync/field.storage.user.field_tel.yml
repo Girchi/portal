@@ -1,0 +1,19 @@
+uuid: 50495c6e-798f-4292-b54d-96c0712dc713
+langcode: en
+status: true
+dependencies:
+  module:
+    - international_phone
+    - user
+id: user.field_tel
+field_name: field_tel
+entity_type: user
+type: international_phone
+settings: {  }
+module: international_phone
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
