@@ -155,32 +155,31 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
 
             ]);
             $ged_t->save();
+            /** @var \Drupal\girchi_donations\Entity\Donation $donation */
+            $donation = $this->donationUtils->addDonationRecord(
+              $type,
+              [
+                'trans_id' => $trans_id,
+                'user_id' => $data->getOwnerId(),
+                'amount' => $data->get('amount')->value,
+                'status' => $status,
+                'field_regular_donation' => $data->id(),
+                'field_donation_type' => 1,
+                'field_ged_transaction' => $ged_t->id(),
+              ], $target_id);
+            $this->loggerChannelFactory->get('girchi_donations')->info(
+              sprintf(
+                'Donation status was updated to: %s , user: %s',
+                $status,
+                $data->getOwner()->get('name')->value));
+            /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $donations */
+            $donations = $data->get('field_donations');
+            $donations->appendItem($donation->id());
           }
           else {
             $status = 'FAILED';
           }
-          /** @var \Drupal\girchi_donations\Entity\Donation $donation */
-          $donation = $this->donationUtils->addDonationRecord(
-            $type,
-            [
-              'trans_id' => $trans_id,
-              'user_id' => $data->getOwnerId(),
-              'amount' => $data->get('amount')->value,
-              'status' => $status,
-              'field_regular_donation' => $data->id(),
-              'field_donation_type' => 1,
-              'field_ged_transaction' => $ged_t->id(),
-            ], $target_id);
-          $this->loggerChannelFactory->get('girchi_donations')->info(
-            sprintf(
-              'Donation status was updated to: %s , user: %s',
-              $status,
-              $data->getOwner()->get('name')->value));
-          /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $donations */
-          $donations = $data->get('field_donations');
-          $donations->appendItem($donation->id());
         }
-
         $this->loggerChannelFactory->get('girchi_donations')->info(
           sprintf(
             'Regular donation execution finished for user: %s , status:%s',
