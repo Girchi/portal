@@ -1396,7 +1396,7 @@ display:
           label: Description
           exclude: false
           alter:
-            alter_text: false
+            alter_text: true
             text: ''
             make_link: false
             path: ''

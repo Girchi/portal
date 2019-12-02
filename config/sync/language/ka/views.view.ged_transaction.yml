@@ -34,6 +34,8 @@ display:
           label: 'Ged-ების რაოდენობა'
         Description:
           label: აღწერა
+          alter:
+            text: '{{ Description__value == "Transaction was created by donation" ? "ტრანზქცია შექმნილია დონაციის შედეგად" : Description }}'
       filters:
         combine:
           expose:
