@@ -24,7 +24,7 @@
                                   class="icon-clock-circular-outline mr-1
                                 "
                           ></i>
-                          {{ content.field_published_date.0 is defined ? content.field_published_date : node.getCreatedTime| format_date('article_short')}}</span>
+                          {{ content.field_published_date.0 is defined ? content.field_published_date : node.getCreatedTime| format_date('article_short')}}
                         <div class="text-grey border-dark-silver pl-2 ml-1 border-left"
                         >
                           {{ total_view_count ~ ' Views'|t }}
@@ -37,8 +37,7 @@
                                             class="font-size-1 text-grey font-weight-bold border-dark-silver pl-2 ml-1 border-left"
                                     >{{ categoryName }}</a>
                             {% endfor %}
-                    </span
-                    >
+                    </span>
                     </div>
                     {% if logged_in %}
                         <div class="form-group">

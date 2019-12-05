@@ -68,7 +68,7 @@ $(document).ready(function() {
 
     $("#favorite_news").on("change", function(e) {
         var nid = $("#favorite_news").attr("data-node-id");
-        if ($(this).parent().hasClass("checked")) { 
+        if ($(this).parent().hasClass("checked")) {
             $.ajax({
                 type: "GET",
                 url: "/api/add/favorite/news/" + nid,
@@ -150,7 +150,7 @@ jQuery(function($) {
         });
     };
 
-    addFocusReminder($(".navbar-search-input .form-item-combine input"));
+    addFocusReminder($('.navbar-search .form-item-combine input'));
     $(document).ajaxComplete(function(event, request, settings) {
         if (typeof textboxToFocus.formid !== "undefined") {
             var textBox = $(
@@ -166,6 +166,7 @@ jQuery(function($) {
             //textboxToFocus = {}; // if you have other auto-submitted inputs as well
         }
     });
+    addFocusReminder();
 });
 
 $(".investor-parent-checkbox input").on("change",  function () {
