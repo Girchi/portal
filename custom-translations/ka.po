@@ -4428,12 +4428,16 @@ msgstr ""
 "ცვლილება ძალაში შევა "
 "შემდეგი გადახდიდან."
 
+msgid "Transaction history"
+msgstr "გადახდების ისტორია"
 msgid "Donated amount"
 msgstr "შემოწირული თანხა"
 msgid "Invalid phone number."
 msgstr ""
 "ტელეფონის ნომერი არ არის "
 "ვალიდური."
+msgid "Donated amount"
+msgstr "შემოწირული თანხა"
 
 msgid "Every month"
 msgstr "ყოველ თვე"
@@ -4446,4 +4450,3 @@ msgstr "6 თვეში ერთხელ"
 
 msgid "Transaction history"
 msgstr "გადახდების ისტორია"
-
