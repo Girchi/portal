@@ -600,13 +600,6 @@ display:
           entity_type: regular_donation
           entity_field: amount
           plugin_id: field
-        status:
-          id: status
-          table: regular_donation
-          field: status
-          entity_type: regular_donation
-          entity_field: status
-          plugin_id: field
       filters:
         status:
           id: status
