@@ -8,10 +8,13 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
 use Drupal\Core\Session\AccountProxy;
+use Drupal\girchi_donations\Event\DonationEvents;
+use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,6 +82,14 @@ class DonationsController extends ControllerBase {
    */
   protected $donationUtils;
 
+
+  /**
+   * Event Dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $dispatcher;
+
   /**
    * Construct.
    *
@@ -98,6 +109,8 @@ class DonationsController extends ControllerBase {
    *   FormBuilder.
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
    *   Donation utils.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   *   EventDispatcher.
    */
   public function __construct(ConfigFactory $configFactory,
                               PaymentService $omediaPayment,
@@ -106,7 +119,8 @@ class DonationsController extends ControllerBase {
                               KeyValueFactory $keyValue,
                               AccountProxy $currentUser,
                               FormBuilder $formBuilder,
-                              DonationUtils $donationUtils
+                              DonationUtils $donationUtils,
+                              EventDispatcherInterface $dispatcher
   ) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
@@ -116,6 +130,7 @@ class DonationsController extends ControllerBase {
     $this->currentUser = $currentUser;
     $this->formBuilder = $formBuilder;
     $this->donationUtils = $donationUtils;
+    $this->dispatcher = $dispatcher;
   }
 
   /**
@@ -130,7 +145,8 @@ class DonationsController extends ControllerBase {
       $container->get('keyvalue'),
       $container->get('current_user'),
       $container->get('form_builder'),
-      $container->get('girchi_donations.donation_utils')
+      $container->get('girchi_donations.donation_utils'),
+      $container->get('event_dispatcher')
     );
   }
 
@@ -225,7 +241,8 @@ class DonationsController extends ControllerBase {
             else {
               $auth = FALSE;
             }
-
+            $donationEvent = new DonationEvents($donation);
+            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
             $this->getLogger('girchi_donations')
               ->info("Ged transaction was made.");
             $this->getLogger('girchi_donations')
