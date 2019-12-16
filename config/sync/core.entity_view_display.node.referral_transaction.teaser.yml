@@ -1,0 +1,29 @@
+uuid: 44a8a4d0-665f-43ec-8764-258a21d99b90
+langcode: ka
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.referral_transaction.field_user
+    - node.type.referral_transaction
+  module:
+    - user
+id: node.referral_transaction.teaser
+targetEntityType: node
+bundle: referral_transaction
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  share_everywhere:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_user: true
+  langcode: true
+  search_api_excerpt: true
