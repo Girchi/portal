@@ -36,6 +36,27 @@ class MultipleDonationForm extends FormBase {
   protected $omediaPayment;
 
   /**
+   * Politicians.
+   *
+   * @var array
+   */
+  protected $politicians;
+
+  /**
+   * Options.
+   *
+   * @var array
+   */
+  protected $options;
+
+  /**
+   * Current currency.
+   *
+   * @var \Drupal\Core\KeyValueStore\KeyValueStoreInterface|mixed
+   */
+  protected $currency;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
@@ -49,6 +70,9 @@ class MultipleDonationForm extends FormBase {
     $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
     $this->omediaPayment = $omediaPayment;
+    $this->politicians = $donationUtils->getPoliticians();
+    $this->options = $donationUtils->getTerms();
+    $this->currency = $donationUtils->gedCalculator->getCurrency();
   }
 
   /**
@@ -74,9 +98,6 @@ class MultipleDonationForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $politicians = $this->donationUtils->getPoliticians();
-    $options = $this->donationUtils->getTerms();
-
     $form['amount'] = [
       '#type' => 'number',
       '#attributes' => [
@@ -91,9 +112,9 @@ class MultipleDonationForm extends FormBase {
     $form['frequency'] = [
       '#type' => 'select',
       '#options' => [
-        '1' => $this->t('1 Month'),
-        '3' => $this->t('3 Month'),
-        '6' => $this->t('6 Month'),
+        '1' => $this->t('Every month'),
+        '3' => $this->t('Once in every 3 months'),
+        '6' => $this->t('Once in every 6 months'),
       ],
       '#required' => TRUE,
     ];
@@ -132,15 +153,17 @@ class MultipleDonationForm extends FormBase {
     ];
     $form['donation_aim'] = [
       '#type' => 'select',
-      '#options' => $options,
+      '#options' => $this->options,
       '#required' => FALSE,
       '#empty_value' => '',
+      '#empty_option' => $this->t('- Select aim -'),
     ];
     $form['politicians'] = [
       '#type' => 'select',
-      '#options' => $politicians,
+      '#options' => $this->politicians,
       '#required' => FALSE,
       '#empty_value' => '',
+      '#empty_option' => $this->t('- Select politician -'),
     ];
     $form['currency'] = [
       '#title' => 'currency',
@@ -150,7 +173,7 @@ class MultipleDonationForm extends FormBase {
           'currency_girchi',
         ],
       ],
-      '#value' => $this->donationUtils->gedCalculator->getCurrency(),
+      '#value' => $this->currency,
     ];
     $form['submit'] = [
       '#type' => 'submit',

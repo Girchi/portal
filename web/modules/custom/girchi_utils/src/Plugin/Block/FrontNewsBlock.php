@@ -18,7 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class FrontNewsBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
   /**
    * Entity type manager.
    *
@@ -100,7 +99,8 @@ class FrontNewsBlock extends BlockBase implements ContainerFactoryPluginInterfac
         ->condition('type', 'article')
         ->condition('status', 1)
         ->condition('field_is_video', '0')
-        ->sort('created', "DESC")
+        ->sort('field_published_date', 'DESC')
+        ->sort('created', 'DESC')
         ->range(0, 10)
         ->execute();
     }
@@ -109,20 +109,19 @@ class FrontNewsBlock extends BlockBase implements ContainerFactoryPluginInterfac
         ->condition('type', 'article')
         ->condition('status', 1)
         ->condition('field_category', $category_id, '=')
-        ->sort('created', "DESC")
+        ->sort('field_published_date', 'DESC')
+        ->sort('created', 'DESC')
         ->range(0, 10)
         ->execute();
     }
-
     $articles = $node_storage->loadMultiple($lastest_articles);
-    krsort($articles);
 
     $template = [
       '#theme' => 'front_page_articles',
       '#articles' => $articles,
     ];
 
-    $category = $this->entityTypeManager->getStorage('taxonomy_term')->load($category_id);
+    $category = $em->getStorage('taxonomy_term')->load($category_id);
     if ($category) {
       $template['#category'] = $category->getName();
     }

@@ -5,15 +5,21 @@ dependencies:
   config:
     - core.entity_view_mode.node.full
     - field.field.node.article.body
+    - field.field.node.article.field_author
     - field.field.node.article.field_category
     - field.field.node.article.field_comments
+    - field.field.node.article.field_favorite_news
+    - field.field.node.article.field_featured_on_slider
     - field.field.node.article.field_image
     - field.field.node.article.field_is_video
+    - field.field.node.article.field_meta_tags
+    - field.field.node.article.field_published_date
     - field.field.node.article.field_show_internal_image
     - field.field.node.article.field_tags
     - field.field.node.article.field_video_url
     - node.type.article
   module:
+    - datetime
     - facebook_comments
     - image
     - text
@@ -41,7 +47,7 @@ content:
     third_party_settings: {  }
   field_comments:
     type: facebook_comments_formatter
-    weight: 7
+    weight: 8
     region: content
     label: above
     settings:
@@ -58,6 +64,15 @@ content:
     settings:
       image_style: ''
       image_link: ''
+    third_party_settings: {  }
+  field_published_date:
+    type: datetime_default
+    weight: 7
+    region: content
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: article_short
     third_party_settings: {  }
   field_show_internal_image:
     type: boolean
@@ -96,6 +111,8 @@ content:
 hidden:
   field_author: true
   field_favorite_news: true
+  field_featured_on_slider: true
   field_is_video: true
+  field_meta_tags: true
   langcode: true
   search_api_excerpt: true

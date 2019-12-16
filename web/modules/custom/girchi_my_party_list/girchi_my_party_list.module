@@ -46,6 +46,7 @@ function girchi_my_party_list_theme() {
     'politician_rating_block' => [
       'variables' => [
         'politicians' => NULL,
+        'block_settings' => NULL,
       ],
     ],
   ];

@@ -1,0 +1,7 @@
+services:
+  girchi_users.commands:
+    class: Drupal\girchi_users\Commands\GirchiUsersCommands
+    tags:
+      - { name: drush.command }
+    arguments:
+      ['@entity_type.manager']

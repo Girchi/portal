@@ -9,13 +9,13 @@
                 class="position-absolute position-bottom-0 pb-3 position-left-0 w-100 px-4 z-index-3 overlay-100"
         >
                         <span
-                                class="text-grey mb-2 font-size-1 d-flex align-items-center"
+                                class="text-light-silver mb-2 font-size-1 d-flex align-items-center"
                         >
                           <i
                                   class="icon-clock-circular-outline mr-1
                     "
                           ></i>
-                          {{ node.getCreatedTime| format_date('article_short') }}</span
+                          {{ content.field_published_date.0 is defined ? content.field_published_date : node.getCreatedTime| format_date('article_short')}}</span
                         >
             <h6>
                 <a

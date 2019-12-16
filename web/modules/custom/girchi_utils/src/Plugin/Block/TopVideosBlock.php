@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class TopVideosBlock extends BlockBase implements ContainerFactoryPluginInterface {
+
   /**
    * Entity type manager.
    *
@@ -69,14 +70,14 @@ class TopVideosBlock extends BlockBase implements ContainerFactoryPluginInterfac
       ->condition('type', 'article')
       ->condition('status', 1)
       ->condition('field_is_video', 1)
-      ->sort('created', "DESC")
+      ->sort('field_published_date', 'DESC')
+      ->sort('created', 'DESC')
       ->range(0, 10)
       ->execute();
 
     if (!empty($last_published_videos)) {
 
       $top_videos = $node_storage->loadMultiple($last_published_videos);
-      krsort($top_videos);
 
       return [
         '#theme' => 'top_videos',
