@@ -2,16 +2,39 @@
 
 namespace Drupal\girchi_referral\EventSubscriber;
 
+use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
+use Drupal\girchi_referral\CreateReferralTransactionService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class DonationSubscriber implements EventSubscriberInterface
-{
+/**
+ * Donation subscriber.
+ */
+class DonationSubscriber implements EventSubscriberInterface {
+  /**
+   * Referral transaction service.
+   *
+   * @var \Drupal\girchi_referral\CreateReferralTransactionService
+   */
+
+  private $referralTransactionService;
 
   /**
-   * Returns an array of event names this subscriber wants to listen to.
+   * DonationSubscriber constructon.
    *
-   * @return array The event names to listen to
+   * @param \Drupal\girchi_referral\CreateReferralTransactionService $referralTransactionService
+   *
+   *   Referral transaction service.
+   */
+  public function __construct(CreateReferralTransactionService $referralTransactionService) {
+    $this->referralTransactionService = $referralTransactionService;
+  }
+
+  /**
+   * Get subscribed events.
+   *
+   * @return array
+   *   The event names to listen to.
    */
   public static function getSubscribedEvents() {
     $events[DonationEventsConstants::DONATION_SUCCESS] = ['onDonationCreation'];
@@ -20,10 +43,20 @@ class DonationSubscriber implements EventSubscriberInterface
   }
 
   /**
-   * @param \Drupal\girchi_donations\Event\DonationEventsConstants $event
+   * On donation creation.
+   *
+   * @param \Drupal\girchi_donations\Event\DonationEvents $event
+   *
+   *   Event.
    */
-  public function onDonationCreation(DonationEventsConstants $event) {
-    dump($event);
+  public function onDonationCreation(DonationEvents $event) {
+    $user = $event->getUser();
+    if ($referral_id = $user->get('field_referral')->target_id) {
+      $amount = $event->getDonation()->getAmount();
+      $this->referralTransactionService->createReferralTransaction($user, $referral_id, $amount);
+      $this->referralTransactionService->countFeferralsMoney($referral_id);
+    }
+
   }
 
 }

@@ -1,12 +1,11 @@
 <?php
 
-
 namespace Drupal\girchi_referral;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
- * Class CreateReferralTransactions
+ * Class CreateReferralTransactions.
  */
 class CreateReferralTransactionService {
   /**
@@ -28,13 +27,39 @@ class CreateReferralTransactionService {
   }
 
   /**
-   * Function to create referral transaction
+   * Function to create referral transaction.
    */
-  public function createReferralTransaction(){
-
+  public function createReferralTransaction($user, $referral_id, $donation) {
+    $amount = $donation / 10;
+    /** @var \Drupal\node\Entity\NodeStorage */
+    $node_storage = $this->entityTypeManager->getStorage('node');
+    $referral_transaction = $node_storage->create([
+      'type' => 'referral_transaction',
+      'field_user' => $user,
+      'field_referral' => $referral_id,
+      'field_donation' => $donation,
+      'field_amount_of_money' => $amount,
+      'title' => 'Referral transaction',
+    ]);
+    $referral_transaction->save();
 
   }
 
+  /**
+   * CalculateAndUpdateTotalGeds.
+   */
+  public function countFeferralsMoney($uid) {
+    $node_storage = $this->entityTypeManager->getStorage('node');
+    $referral_transactions = $node_storage->loadByProperties(['field_referral' => $uid]);
+    $sum_of_money = 0;
+    foreach ($referral_transactions as $referral_transaction) {
+      $amount_of_money = $referral_transaction->get('field_amount_of_money')->value;
+      $sum_of_money = $sum_of_money + $amount_of_money;
+    }
 
+    $user = $this->entityTypeManager->getStorage('user')->load($uid);
+    $user->set('field_referral_benefits', $sum_of_money);
+    $user->save();
+  }
 
 }
