@@ -24,6 +24,9 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_amount_of_money: true
+  field_donation: true
+  field_referral: true
   field_user: true
   langcode: true
   search_api_excerpt: true

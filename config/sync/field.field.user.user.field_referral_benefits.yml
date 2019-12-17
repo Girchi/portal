@@ -1,0 +1,24 @@
+uuid: 6fb91cc6-cd0c-4467-8243-7ff285b680d1
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_referral_benefits
+  module:
+    - user
+id: user.user.field_referral_benefits
+field_name: field_referral_benefits
+entity_type: user
+bundle: user
+label: 'Referral benefits'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: float
