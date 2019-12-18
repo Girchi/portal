@@ -30,132 +30,145 @@
         <!-- Desktop -->
         <div class="desktop">
             <hr class="my-3 d-sm-none"/>
-            <div class="card border overflow-hidden mb-3 mb-sm-4">
-                <div class="card-body p-0">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="cc-dark col-md-3 m-2">
-                                <span class="chip"></span>
-                                <img src="/{{ directory }}/images/visa2.svg" id="logo-visa" alt="">
-                                <!-- <img src="./mc_symbol.svg" height="55px" width="55px" id="logo-mastercard" alt="" > -->
-                                <span class="cc-number">**** **** **** 9846</span>
-                                <span class="cc-name">Girchi</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div
-                                class="d-flex flex-column flex-lg-row py-3 pr-4 position-relative h-100 align-items-lg-center ml-4 mr-4"
-                            >
-                                <!-- Start left side -->
-                                <div>
+            {% for card in cards %}
+                {% if card.Type() == 'MC' %}
+                    <div class="card border overflow-hidden mb-3 mb-sm-4">
+                        <div class="card-body p-0">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="cc-green col-md-3 m-2">
+                                        <span class="chip"></span>
+                                        <?xml version="1.0" encoding="UTF-8"?>
+                                        <img src="/{{ directory }}/images/mc_symbol.svg" height="55px" width="55px"
+                                             id="logo-mastercard" alt="">
+                                        <span class="cc-number">**** **** **** {{ card.Digits() }}</span>
+                                        <span class="cc-name">{{ card.Expiry(TRUE) }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div
+                                        class="d-flex flex-column flex-lg-row py-3 pr-4 position-relative h-100 align-items-lg-center ml-4 mr-4"
+                                    >
+                                        <div>
                               <span
                                   class="d-block text-grey font-size-2 font-weight-bold"
                               >დამატების თარიღი</span
                               >
-                                    <span
-                                        class="d-block text-success text-uppercase font-weight-bold"
-                                    >10/12/2019</span
-                                    >
+                                            <span
+                                                class="d-block text-success text-uppercase font-weight-bold"
+                                            >{{ card.CreatedTime(TRUE) }}</span
+                                            >
+                                        </div>
+                                        <div
+                                            class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
+                                        >
+                                            <button
+                                                class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                            >
+                                                წაშლა
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- End left size -->
-                                <!-- Start right side -->
-                                <div
-                                    class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
-                                >
-                                    <button
-                                        class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
-                                    >
-                                        წაშლა
-                                    </button>
-                                </div>
-                                <!-- End right side -->
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card border overflow-hidden mb-3 mb-sm-4">
-                <div class="card-body p-0">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="cc-green col-md-3 m-2">
-                                <span class="chip"></span>
-                                <?xml version="1.0" encoding="UTF-8"?>
-                                <img src="/{{ directory }}/images/mc_symbol.svg" height="55px" width="55px"
-                                     id="logo-mastercard" alt="">
-                                <span class="cc-number">**** **** **** 9846</span>
-                                <span class="cc-name">Girchi</span>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div
-                                class="d-flex flex-column flex-lg-row py-3 pr-4 position-relative h-100 align-items-lg-center ml-4 mr-4"
-                            >
-                                <div>
+                {% elseif card.Type() == 'VISA' %}
+                    <div class="card border overflow-hidden mb-3 mb-sm-4">
+                        <div class="card-body p-0">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="cc-dark col-md-3 m-2">
+                                        <span class="chip"></span>
+                                        <img src="/{{ directory }}/images/visa2.svg" id="logo-visa" alt="">
+                                        <!-- <img src="./mc_symbol.svg" height="55px" width="55px" id="logo-mastercard" alt="" > -->
+                                        <span class="cc-number">**** **** **** {{ card.Digits() }}</span>
+                                        <span class="cc-name">{{ card.Expiry(TRUE) }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div
+                                        class="d-flex flex-column flex-lg-row py-3 pr-4 position-relative h-100 align-items-lg-center ml-4 mr-4"
+                                    >
+                                        <!-- Start left side -->
+                                        <div>
                               <span
                                   class="d-block text-grey font-size-2 font-weight-bold"
                               >დამატების თარიღი</span
                               >
-                                    <span
-                                        class="d-block text-success text-uppercase font-weight-bold"
-                                    >10/12/2019</span
-                                    >
-                                </div>
-                                <div
-                                    class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
-                                >
-                                    <button
-                                        class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
-                                    >
-                                        წაშლა
-                                    </button>
+                                            <span
+                                                class="d-block text-success text-uppercase font-weight-bold"
+                                            >{{ card.CreatedTime(TRUE) }}</span
+                                            >
+                                        </div>
+                                        <!-- End left size -->
+                                        <!-- Start right side -->
+                                        <div
+                                            class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
+                                        >
+                                            <button
+                                                class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                            >
+                                                წაშლა
+                                            </button>
+                                        </div>
+                                        <!-- End right side -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                {% endif %}
+            {% endfor %}
         </div>
         <div class="mobile">
             <table class="table m-0 table-hover">
                 <tbody>
-                <tr>
-                    <td class="align-middle">
-                        <div class="d-flex w-100 align-items-center my-2">
-                            <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
-                                <span class="text-grey font-size-4 font-weight-bold d-block">**** **** **** 4958</span>
-                            </h6>
-                        </div>
-                    </td>
-                    <td>
-                        <img src="/{{ directory }}/images/Visa_Inc._logo.svg" height="60px" width="60px"
-                             alt="mastercard">
-                    </td>
-                    <td class="text-right text-md-center align-middle">
-                        <button
-                            class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
-                            <i class="icon-delete"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="align-middle">
-                        <div class="d-flex w-100 align-items-center my-2">
-                            <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
-                                <span class="text-grey font-size-4 font-weight-bold d-block">**** **** **** 4958</span>
-                            </h6>
-                        </div>
-                    </td>
-                    <td>
-                        <img src="/{{ directory }}/images/mc_symbol.svg" height="60px" width="60px" alt="mastercard">
-                    </td>
-                    <td class="text-right text-md-center align-middle">
-                        <button
-                            class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
-                            <i class="icon-delete"></i>
-                        </button>
-                    </td>
-                </tr>
+                {% for card in cards %}
+                    {% if card.Type() == 'MC' %}
+                        <tr>
+                            <td class="align-middle">
+                                <div class="d-flex w-100 align-items-center my-2">
+                                    <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
+                                        <span
+                                            class="text-grey font-size-4 font-weight-bold d-block">**** **** **** {{ card.Digits() }}</span>
+                                    </h6>
+                                </div>
+                            </td>
+                            <td>
+                                <img src="/{{ directory }}/images/mc_symbol.svg" height="60px" width="60px"
+                                     alt="mastercard">
+                            </td>
+                            <td class="text-right text-md-center align-middle">
+                                <button
+                                    class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
+                                    <i class="icon-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% elseif card.Type() == 'VISA' %}
+                        <tr>
+                            <td class="align-middle">
+                                <div class="d-flex w-100 align-items-center my-2">
+                                    <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
+                                        <span
+                                            class="text-grey font-size-4 font-weight-bold d-block">**** **** **** {{card.Digits()}}</span>
+                                    </h6>
+                                </div>
+                            </td>
+                            <td>
+                                <img src="/{{ directory }}/images/Visa_Inc._logo.svg" height="60px" width="60px"
+                                     alt="mastercard">
+                            </td>
+                            <td class="text-right text-md-center align-middle">
+                                <button
+                                    class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
+                                    <i class="icon-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -198,7 +211,7 @@
             >
                 <form method="POST">
                     {{ save_form.form_build_id }}
-                    {{ save_form.form_token}}
+                    {{ save_form.form_token }}
                     {{ save_form.form_id }}
                     <p class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4">
                         <img src="/{{ directory }}/dist/css/images/tbc-logo-ka-ge.svg" alt=""

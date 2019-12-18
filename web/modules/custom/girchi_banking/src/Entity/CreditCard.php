@@ -2,6 +2,7 @@
 
 namespace Drupal\girchi_banking\Entity;
 
+use Carbon\Carbon;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
@@ -86,7 +87,10 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCreatedTime() {
+  public function getCreatedTime($format = FALSE) {
+    if ($format) {
+      return Carbon::createFromTimestamp($this->get('created')->value)->format('Y/m/d');
+    }
     return $this->get('created')->value;
   }
 
@@ -139,6 +143,37 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
   }
 
   /**
+   * Function for getting expiry.
+   *
+   * @param bool $format
+   *   Format expiry e.g '03/22'.
+   *
+   * @return string
+   *   expiry;
+   */
+  public function getExpiry($format = FALSE) {
+    if ($format) {
+      return substr_replace($this->get('expiry')->value, '/', 2, 0);
+    }
+    return $this->get('expiry')->value;
+  }
+
+  /**
+   * Function for setting expiry.
+   *
+   * @param string $expiry
+   *   Expiry string e.g 0322.
+   *
+   * @return \Drupal\girchi_banking\Entity\CreditCard
+   *   Credit card.;
+   */
+  public function setExpiry($expiry) {
+    $this->set('expiry', $expiry);
+    return $this;
+
+  }
+
+  /**
    * Function for getting type of credit card.d.
    *
    * @return string
@@ -146,6 +181,26 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
    */
   public function getType() {
     return $this->get('type')->value;
+  }
+
+  /**
+   * Function for setting credit card type.
+   *
+   * @param string $type
+   *   Type MC or Visa.
+   *
+   * @return \Drupal\girchi_banking\Entity\CreditCard
+   *   Credit card.
+   *
+   * @throws \Exception
+   */
+  public function setType($type) {
+    if (preg_match('(MC|VISA)', $type) === 1) {
+      $this->set('type', $type);
+      return $this;
+    }
+
+    throw new \Exception(sprintf('Invalid Type for credit card type: %s', $type));
   }
 
   /**
@@ -159,6 +214,20 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
   }
 
   /**
+   * Function for setting last 4 digits.
+   *
+   * @param string $digits
+   *   Digits.
+   *
+   * @return \Drupal\girchi_banking\Entity\CreditCard
+   *   Credit card.
+   */
+  public function setDigits($digits) {
+    $this->set('digits', $digits);
+    return $this;
+  }
+
+  /**
    * Function for getting credit card status.
    *
    * @return string
@@ -166,6 +235,26 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
    */
   public function getStatus() {
     return $this->get('status')->value;
+  }
+
+  /**
+   * Function for setting credit card status.
+   *
+   * @param string $status
+   *   Status.
+   *
+   * @return \Drupal\girchi_banking\Entity\CreditCard
+   *   Credit Card.
+   *
+   * @throws \Exception
+   */
+  public function setStatus($status) {
+    if (preg_match('(OK|INITIAL|ACTIVE)', $status) === 1) {
+      $this->set('status', $status);
+      return $this;
+    }
+
+    throw new \Exception(sprintf('Invalid Type for credit card status: %s', $status));
   }
 
   /**
@@ -205,7 +294,8 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
 
     $fields['tbc_id'] = BaseFieldDefinition::create('string')
       ->setLabel('TBC id')
-      ->setDescription('Card id for TBC');
+      ->setDescription('Card id for TBC')
+      ->setReadOnly(TRUE);
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
@@ -239,7 +329,11 @@ class CreditCard extends ContentEntityBase implements CreditCardInterface {
 
     $fields['status'] = BaseFieldDefinition::create('string')
       ->setLabel('Status')
-      ->setDescription('Satus of credit card INITIAL/OK/FAILED');
+      ->setDescription('Status of credit card INITIAL/OK/FAILED');
+
+    $fields['expiry'] = BaseFieldDefinition::create('string')
+      ->setLabel('Expiry')
+      ->setDescription('Card expiry date');
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

@@ -50,6 +50,7 @@ function girchi_donations_theme() {
         'auth' => NULL,
         'regular_donation' => NULL,
         'reg_data' => NULL,
+        'card' => NULL,
       ],
     ],
     'girchi_donations_fail' => [

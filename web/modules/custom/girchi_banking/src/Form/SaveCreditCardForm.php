@@ -112,10 +112,10 @@ class SaveCreditCardForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     $tbc_response = $this->omediaPayment->saveCard(1, 'Girchi.com');
-    $trans_id = $tbc_response['transaction_id'];
-    $card_id = $tbc_response['card_id'];
-    $card = $this->bankingUtils->prepareCard($trans_id, $card_id);
-    if ($card) {
+    if ($tbc_response) {
+      $trans_id = $tbc_response['transaction_id'];
+      $card_id = $tbc_response['card_id'];
+      $this->bankingUtils->prepareCard($trans_id, $card_id);
       $this->omediaPayment->makePayment($trans_id);
     }
     else {

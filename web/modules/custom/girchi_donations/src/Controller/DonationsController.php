@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
 use Drupal\Core\Session\AccountProxy;
+use Drupal\girchi_banking\Services\BankingUtils;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\om_tbc_payments\Services\PaymentService;
@@ -80,6 +81,13 @@ class DonationsController extends ControllerBase {
   protected $donationUtils;
 
   /**
+   * Banking utils definition.
+   *
+   * @var \Drupal\girchi_banking\Services\BankingUtils
+   */
+  protected $bankingUtils;
+
+  /**
    * Construct.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
@@ -98,6 +106,8 @@ class DonationsController extends ControllerBase {
    *   FormBuilder.
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
    *   Donation utils.
+   * @param \Drupal\girchi_banking\Services\BankingUtils $bankingUtils
+   *   Banking utils.
    */
   public function __construct(ConfigFactory $configFactory,
                               PaymentService $omediaPayment,
@@ -106,7 +116,8 @@ class DonationsController extends ControllerBase {
                               KeyValueFactory $keyValue,
                               AccountProxy $currentUser,
                               FormBuilder $formBuilder,
-                              DonationUtils $donationUtils
+                              DonationUtils $donationUtils,
+                              BankingUtils $bankingUtils
   ) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
@@ -116,6 +127,7 @@ class DonationsController extends ControllerBase {
     $this->currentUser = $currentUser;
     $this->formBuilder = $formBuilder;
     $this->donationUtils = $donationUtils;
+    $this->bankingUtils = $bankingUtils;
   }
 
   /**
@@ -130,7 +142,8 @@ class DonationsController extends ControllerBase {
       $container->get('keyvalue'),
       $container->get('current_user'),
       $container->get('form_builder'),
-      $container->get('girchi_donations.donation_utils')
+      $container->get('girchi_donations.donation_utils'),
+      $container->get('girchi_banking.utils')
     );
   }
 
@@ -171,9 +184,8 @@ class DonationsController extends ControllerBase {
       $params = $request->request;
       $trans_id = $params->get('trans_id');
       $storage = $this->entityTypeManager()->getStorage('donation');
-      $credit_card_storage = $this->entityTypeManager()
+      $card_storage = $this->entityTypeManager()
         ->getStorage('credit_card');
-
       $ged_manager = $this->entityTypeManager()->getStorage('ged_transaction');
 
       if (!$trans_id) {
@@ -181,8 +193,7 @@ class DonationsController extends ControllerBase {
         return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
       }
       $donations = $storage->loadByProperties(['trans_id' => $trans_id]);
-      $credit_cards = $credit_card_storage->loadByProperties(['trans_id' => $trans_id]);
-
+      $credit_cards = $card_storage->loadByProperties(['trans_id' => $trans_id]);
       if (empty($donations) && empty($credit_cards)) {
         $this->getLogger('girchi_donations')
           ->error('Donation or Regular Donation entity not found.');
@@ -193,7 +204,9 @@ class DonationsController extends ControllerBase {
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
       $credit_card = reset($credit_cards);
 
-      $transaction_type_id = $this->entityTypeManager()->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
+      $transaction_type_id = $this->entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->load(1369) ? '1369' : NULL;
 
       $result = $this->omediaPayment->getPaymentResult($trans_id);
       if ($result['RESULT_CODE'] === "000") {
@@ -243,11 +256,20 @@ class DonationsController extends ControllerBase {
         }
         elseif ($credit_card) {
           if ($credit_card->getStatus() !== 'ACTIVE') {
-            // @TODO credit card save.
-            return [
-              '#type' => 'markup',
-              '#theme' => 'girchi_donations_success',
-            ];
+            $active_card = $this->bankingUtils->parseAndMerge($credit_card, $result);
+            if (!$active_card) {
+              return [
+                '#type' => 'markup',
+                '#theme' => 'girchi_donations_fail',
+              ];
+            }
+            else {
+              return [
+                '#type' => 'markup',
+                '#theme' => 'girchi_donations_success',
+                '#card' => $active_card,
+              ];
+            }
           }
           else {
             return $this->redirect('user.page');
