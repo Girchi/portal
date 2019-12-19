@@ -172,7 +172,7 @@
                                         {% for i in 0..3 %}
                                             <li class="d-inline-flex align-items-center">
                                                 <a
-                                                    title="{{ user.referrals[i]['referral_name']}}"
+                                                    title="{{ user.referrals[i]['referral_name'] ~ ' ' ~user.referrals[i]['referral_surname'] }}"
                                                     href="{{ path('entity.user.canonical', {'user' : user.referrals[i]['referral_id']}) }}"
                                                     class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal"
                                                 >
