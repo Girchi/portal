@@ -81,17 +81,25 @@ html {
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .student-button {
-    display: inline-block !important;
-    cursor: pointer !important;
-    border: 1px solid !important;
+  display: inline-block !important;
+  cursor: pointer !important;
+  border: 1px solid !important;
 }
 
-.politicians-raiting-owl .owl-dot span{
-    width: 0.4rem !important;
-    height: 0.4rem !important;
+.politicians-raiting-owl .owl-dot span {
+  width: 0.4rem !important;
+  height: 0.4rem !important;
+}
+
+.first-ref {
+  border: none !important;
+}
+
+.top-block-arrow {
+  padding-top: 10px;
 }

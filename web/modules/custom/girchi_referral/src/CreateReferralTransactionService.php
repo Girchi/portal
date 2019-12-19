@@ -3,6 +3,7 @@
 namespace Drupal\girchi_referral;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\girchi_donations\Entity\Donation;
 
 /**
  * Class CreateReferralTransactions.
@@ -29,16 +30,18 @@ class CreateReferralTransactionService {
   /**
    * Function to create referral transaction.
    */
-  public function createReferralTransaction($user, $referral_id, $donation) {
-    $amount = $donation / 10;
+  public function createReferralTransaction($user, $referral_id, Donation $donation) {
+    $donation_entity = $donation->id();
+    $donation_amount = $donation->getAmount();
+    $ref_benefit = $donation_amount / 10;
     /** @var \Drupal\node\Entity\NodeStorage */
     $node_storage = $this->entityTypeManager->getStorage('node');
     $referral_transaction = $node_storage->create([
       'type' => 'referral_transaction',
       'field_user' => $user,
       'field_referral' => $referral_id,
-      'field_donation' => $donation,
-      'field_amount_of_money' => $amount,
+      'field_donation' => $donation_entity,
+      'field_amount_of_money' => $ref_benefit,
       'title' => 'Referral transaction',
     ]);
     $referral_transaction->save();
