@@ -14,87 +14,87 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-6">
                         <div
-                                class="px-md-8  px-lg-4 px-xl-8 py-3  py-2 py-md-3  py-xl-4"
+                            class="px-md-8  px-lg-4 px-xl-8 py-3  py-2 py-md-3  py-xl-4"
                         >
                             <ul
-                                    class="nav nav-tabs nav-justified"
-                                    id="myTab"
-                                    role="tablist"
+                                class="nav nav-tabs nav-justified"
+                                id="myTab"
+                                role="tablist"
                             >
                                 <li class="nav-item">
                                     <a
-                                            class="nav-link active text-uppercase py-3"
-                                            id="single-donation-tab"
-                                            data-toggle="tab"
-                                            href="#single-donation"
-                                            role="tab"
-                                            aria-controls="single-donation"
-                                            aria-selected="true"
+                                        class="nav-link active text-uppercase py-3"
+                                        id="single-donation-tab"
+                                        data-toggle="tab"
+                                        href="#single-donation"
+                                        role="tab"
+                                        aria-controls="single-donation"
+                                        aria-selected="true"
                                     >
                                         {{ 'Disposable'|t }}
                                     </a
                                     >
-                                {% if logged_in %}
+                                    {% if logged_in %}
                                 </li>
-                                    <li class="nav-item">
-                                        <a
-                                                class="nav-link text-uppercase py-3"
-                                                id="multiple-donation-tab"
-                                                data-toggle="tab"
-                                                href="#multiple-donation"
-                                                role="tab"
-                                                aria-controls="multiple-donation"
-                                                aria-selected="false"
-                                        >
-                                            {{ 'Multiple'|t }}
-                                        </a
-                                        >
-                                    </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link text-uppercase py-3"
+                                        id="multiple-donation-tab"
+                                        data-toggle="tab"
+                                        href="#multiple-donation"
+                                        role="tab"
+                                        aria-controls="multiple-donation"
+                                        aria-selected="false"
+                                    >
+                                        {{ 'Multiple'|t }}
+                                    </a
+                                    >
+                                </li>
                                 {% endif %}
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <div
-                                        class="tab-pane fade show active"
-                                        id="single-donation"
-                                        role="tabpanel"
-                                        aria-labelledby="single-donation-tab"
+                                    class="tab-pane fade show active"
+                                    id="single-donation"
+                                    role="tabpanel"
+                                    aria-labelledby="single-donation-tab"
                                 >
-                                    <form method="POST" >
+                                    <form method="POST">
                                         {{ form_single.form_build_id }}
-                                        {{ form_single.form_token}}
+                                        {{ form_single.form_token }}
                                         {{ form_single.form_id }}
                                         <p
-                                                class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
+                                            class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
                                         >
                                             <img
-                                                    src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="17"
+                                                src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
+                                                alt=""
+                                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                height="17"
                                             />
                                             <img
-                                                    src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="17"
+                                                src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
+                                                alt=""
+                                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                height="17"
                                             />
                                             <img
-                                                    src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="12"
+                                                src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
+                                                alt=""
+                                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                height="12"
                                             />
                                             <img
-                                                    src="/themes/custom/girchi/dist/css/images/visa.png"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="12"
+                                                src="/themes/custom/girchi/dist/css/images/visa.png"
+                                                alt=""
+                                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                height="12"
                                             />
                                             <img
-                                                    src="/themes/custom/girchi/dist/css/images/mc.svg"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="17"
+                                                src="/themes/custom/girchi/dist/css/images/mc.svg"
+                                                alt=""
+                                                class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                height="17"
                                             />
                                         </p>
                                         <hr class="border-dashed border-secondary"/>
@@ -108,7 +108,7 @@
                                                     {{ 'You will get'|t }}
                                                 </label>
                                                 <div
-                                                        class="text-success font-size-5 d-flex pl-3 pt-2"
+                                                    class="text-success font-size-5 d-flex pl-3 pt-2"
                                                 >
                                                     <i class="icon-ged"></i>
                                                     <span class="ml-1" id="ged-place1">0</span>
@@ -128,120 +128,318 @@
                                             >{{ 'Donation to politician'|t }}</label
                                             >
                                             <div class="form-control form-control-lg">
-                                                {{ form_single.politicians}}
+                                                {{ form_single.politicians }}
                                             </div>
                                         </div>
                                         {{ form_single.currency }}
                                         {{ form_single.submit }}
                                     </form>
                                 </div>
+
                                 {% if logged_in %}
-                                <div
+                                    <div
                                         class="tab-pane fade"
                                         id="multiple-donation"
                                         role="tabpanel"
                                         aria-labelledby="multiple-donation-tab"
-                                >
-                                    <form method="POST">
-                                        {{ form_multiple.form_build_id }}
-                                        {{ form_multiple.form_token}}
-                                        {{ form_multiple.form_id }}
-                                        <p
-                                                class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
-                                        >
-                                            <img
-                                                    src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="17"
-                                            />
-                                            <img
-                                                    src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="17"
-                                            />
-                                            <img
-                                                    src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="12"
-                                            />
-                                            <img
-                                                    src="/themes/custom/girchi/dist/css/images/visa.png"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="12"
-                                            />
-                                            <img
-                                                    src="/themes/custom/girchi/dist/css/images/mc.svg"
-                                                    alt=""
-                                                    class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                    height="17"
-                                            />
-                                        </p>
-                                        <hr class="border-dashed border-secondary"/>
-                                        <div class="d-flex flex-wrap flex-sm-nowrap">
-                                            <div
-                                                    class="form-group form-group w-100 w-md-50 pr-sm-2"
-                                            >
-                                                <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
-                                                {{ form_multiple.amount }}
-                                            </div>
-                                            <div class="form-group w-100 w-md-50">
-                                                <label class="form-label">{{ 'You will get'|t }}</label>
+                                    >
+                                        {% if has_active_card %}
+                                            <form method="POST">
+                                                {{ form_multiple.form_build_id }}
+                                                {{ form_multiple.form_token }}
+                                                {{ form_multiple.form_id }}
+                                                {{ form_multiple.card_id }}
+
+                                                <p
+                                                    class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4"
+                                                >
+                                                    <img
+                                                        src="/themes/custom/girchi/dist/css/images/tbc-logo-ka-ge.svg"
+                                                        alt=""
+                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                        height="17"
+                                                    />
+                                                    <img
+                                                        src="/themes/custom/girchi/dist/css/images/bog-geo-horizontal.png"
+                                                        alt=""
+                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                        height="17"
+                                                    />
+                                                    <img
+                                                        src="/themes/custom/girchi/dist/css/images/liberty-geo.svg"
+                                                        alt=""
+                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                        height="12"
+                                                    />
+                                                    <img
+                                                        src="/themes/custom/girchi/dist/css/images/visa.png"
+                                                        alt=""
+                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                        height="12"
+                                                    />
+                                                    <img
+                                                        src="/themes/custom/girchi/dist/css/images/mc.svg"
+                                                        alt=""
+                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                        height="17"
+                                                    />
+                                                </p>
+                                                <hr class="border-dashed border-secondary"/>
+                                                <div class="d-flex flex-wrap flex-sm-nowrap">
+                                                    <div
+                                                        class="form-group form-group w-100 w-md-50 pr-sm-2"
+                                                    >
+                                                        <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
+                                                        {{ form_multiple.amount }}
+                                                    </div>
+                                                    <div class="form-group w-100 w-md-50">
+                                                        <label class="form-label">{{ 'You will get'|t }}</label>
+                                                        <div
+                                                            class="text-success font-size-5 d-flex pl-3 pt-2"
+                                                        >
+                                                            <i class="icon-ged"></i>
+                                                            <span class="ml-1" id="ged-place-2">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-wrap flex-sm-nowrap">
+                                                    <div class="form-group w-100 w-md-50 pr-sm-2">
+                                                        <label class="form-label" for="period"
+                                                        >{{ 'Periodicity'|t }}</label
+                                                        >
+                                                        <div class="form-control form-control-lg">
+                                                            {{ form_multiple.frequency }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group w-100 w-md-50  pl-sm-2">
+                                                        <label class="form-label" id="date"
+                                                        >{{ 'Donation date'|t }}</label
+                                                        >
+                                                        <div class="form-control form-control-lg">
+                                                            {{ form_multiple.date }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="description"
+                                                    >{{ 'Donation aim'|t }}</label
+                                                    >
+                                                    <div class="form-control form-control-lg">
+                                                        {{ form_multiple.donation_aim }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="politicians"
+                                                    >{{ 'Donation to politician'|t }}</label
+                                                    >
+                                                    <div class="form-control form-control-lg">
+                                                        {{ form_multiple.politicians }}
+                                                    </div>
+                                                </div>
+
+                                                {# Start of modal#}
                                                 <div
-                                                        class="text-success font-size-5 d-flex pl-3 pt-2"
+                                                    class="modal fade"
+                                                    id="chooseCard"
+                                                    tabindex="-1"
+                                                    role="dialog"
+                                                    aria-labelledby="chooseCardTitle"
+                                                    aria-hidden="true"
                                                 >
-                                                    <i class="icon-ged"></i>
-                                                    <span class="ml-1" id="ged-place-2">0</span>
+                                                    <div
+                                                        class="modal-dialog modal-dialog-centered"
+                                                        role="document"
+                                                    >
+                                                        <div class="modal-content overflow-hidden">
+                                                            <div
+                                                                class="modal-header align-items-center px-3 px-md-4"
+                                                            >
+                                                                <h5
+                                                                    class="modal-title font-size-3 text-uppercase font-weight-bold"
+                                                                    id="addPaymentTitle"
+                                                                >
+                                                                    ავტომატური დაფინანსება
+                                                                </h5>
+                                                                <button
+                                                                    type="button"
+                                                                    class="close ml-2"
+                                                                    data-dismiss="modal"
+                                                                    aria-label="Close"
+                                                                >
+                                                                    <i
+                                                                        aria-hidden="true"
+                                                                        class="icon-close font-size-3 text-dark-silver"
+                                                                    ></i>
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="modal-body pt-0  pl-3 pr-3 pb-3 pl-md-5 pr-md-5 pb-md-5"
+                                                            >
+                                                                <form action="">
+                                                                    <div class="container py-2">
+                                                                        <h6
+                                                                            class="text-uppercase m-0"
+                                                                        >
+                                                                            მიზანი/პოლიტიკოსი: <b class="text-success" id="main-holder">ზურაბ ჯაფარიძეს</b>
+
+                                                                        </h6>
+                                                                        <h6
+                                                                            class="text-uppercase m-0"
+                                                                        >
+                                                                            თანხა: <b class="text-success" id="amount-holder">15 ლარი</b>
+
+                                                                        </h6>
+                                                                        <h6
+                                                                            class="text-uppercase m-0"
+                                                                        >
+                                                                            ყოველთვე ჩაგერიცხებათ: <b class="text-success" id="ged-holder"><i class="icon-ged line-height-1-1"></i>15</b>
+
+                                                                        </h6>
+                                                                        <h6
+                                                                            class="text-uppercase m-0"
+                                                                        >
+                                                                            პერიოდულობა: <b class="text-success" id="date-holder">1 თვე</b>
+
+                                                                        </h6>
+                                                                    </div>
+
+                                                                    <div class="cc-selector pt-4 row">
+                                                                        <div
+                                                                            class="align-self-center margin-control"
+                                                                        >
+
+                                                                            {% for card in cards %}
+                                                                                {% if card.Type() == 'VISA' %}
+                                                                                    <input
+                                                                                        id="{{card.id()}}"
+                                                                                        type="radio"
+                                                                                        name="credit-card"
+                                                                                        value="{{ card.id() }}"
+                                                                                    />
+                                                                                    <label
+                                                                                        class="drinkcard-cc"
+                                                                                        for="{{ card.id() }}"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="cc-dark-mobile col-md-3 m-2"
+                                                                                        >
+                                                                                            <span class="chip-mobile"></span>
+                                                                                            <img
+                                                                                                src="/{{ directory }}/images/visa2.svg"
+                                                                                                class="logo-visa-mobile"
+                                                                                                height="35px"
+                                                                                                width="35px"
+                                                                                                alt=""
+                                                                                            />
+                                                                                            <span class="cc-number-mobile"
+                                                                                            >**** **** **** {{ card.Digits() }}</span
+                                                                                            >
+                                                                                            <span class="cc-name-mobile"
+                                                                                            >{{ card.Expiry(TRUE) }}</span
+                                                                                            >
+                                                                                        </div>
+                                                                                    </label>
+                                                                                {% elseif card.Type() == 'MC' %}
+                                                                                    <input
+                                                                                        id="{{card.id()}}"
+                                                                                        type="radio"
+                                                                                        name="credit-card"
+                                                                                        value="{{ card.id() }}"
+                                                                                    />
+                                                                                    <label class="drinkcard-cc" for="{{ card.id() }}">
+                                                                                        <div
+                                                                                            class="cc-green-mobile col-md-3 m-2"
+                                                                                        >
+                                                                                            <span class="chip-mobile"></span>
+                                                                                            <img
+                                                                                                src="/{{ directory }}/images/mc_symbol.svg"
+                                                                                                height="35px"
+                                                                                                width="35px"
+                                                                                                class="logo-mastercard-mobile"
+                                                                                                alt=""
+                                                                                            />
+                                                                                            <span class="cc-number-mobile"
+                                                                                            >**** **** **** {{card.Digits()}}</span
+                                                                                            >
+                                                                                            <span class="cc-name-mobile"
+                                                                                            >{{card.Expiry(TRUE)}}</span
+                                                                                            >
+                                                                                        </div>
+                                                                                    </label>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </div>
+                                                                    {{ form_multiple.submit }}
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-wrap flex-sm-nowrap">
-                                            <div class="form-group w-100 w-md-50 pr-sm-2">
-                                                <label class="form-label" for="period"
-                                                >{{ 'Periodicity'|t }}</label
+                                                {# End of modal#}
+                                                <button
+                                                    id="cardSelector"
+                                                    data-toggle="modal"
+                                                    data-target="#chooseCard"
+                                                    class="btn btn-lg btn-block btn-warning text-uppercase mt-4"
                                                 >
-                                                <div class="form-control form-control-lg">
-                                                    {{ form_multiple.frequency }}
+                                                    {{'Donate'|t}}
+                                                </button>
+
+                                            </form>
+                                        {% else %}
+                                            <form method="POST">
+                                                {{ card_save_form.form_build_id }}
+                                                {{ card_save_form.form_token }}
+                                                {{ card_save_form.form_id }}
+                                                <p class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4">
+                                                    <img src="/{{ directory }}/dist/css/images/tbc-logo-ka-ge.svg" alt=""
+                                                         class="mt-2 mt-sm-0 mr-3 mr-sm-0" height="17">
+                                                    <img src="/{{ directory }}/dist/css/images/bog-geo-horizontal.png" alt=""
+                                                         class="mt-2 mt-sm-0 mr-3 mr-sm-0" height="17">
+                                                    <img src="/{{ directory }}/dist/css/images/liberty-geo.svg" alt=""
+                                                         class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                         height="12">
+                                                    <img src="/{{ directory }}/dist/css/images/visa.png" alt="" class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                         height="12">
+                                                    <img src="/{{ directory }}/dist/css/images/mc.svg" alt="" class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                         height="17">
+                                                </p>
+                                                <hr class="border-dashed border-secondary"/>
+                                                <div class="row">
+                                                    <div class="col-12 col-md-8">
+                                                        <p class="text-primary font-size-3">
+                                                            თქვენ გადამისამართდებით TBC ბანკის გადახდის გვერდზე
+                                                            სადაც მითითებული იქნება თანხა: <span class="font-weight-bold font-size-4"
+                                                                                                 style="color: #0DAEEE">0.00</span>, <br>
+                                                            რაც მიანიშნებს იმას, რომ მოცემული ტრანზაქციისას თქვენი<br>
+                                                            ბარათიდან არ ხდება თანხის ჩამოჭრა.
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-md-4 col-12 align-items-center">
+                                                        <img src="/{{ directory }}/images/tbc-e1531314087528-300x266.png" height="120px"
+                                                             width="120px" alt="tbc">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group w-100 w-md-50  pl-sm-2">
-                                                <label class="form-label" id="date"
-                                                >{{ 'Donation date'|t }}</label
-                                                >
-                                                <div class="form-control form-control-lg">
-                                                    {{ form_multiple.date }}
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="text-primary font-size-3 font-weight-bold mt-2">
+                                                            ბარათის მონაცემებს შეიყვანთ მოცემულ გვერდზე,
+                                                            წარმატების შემთხვევაში თქვენი ბარათი <br> დამახსოვრებული იქნება სისტემაში.
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="description"
-                                            >{{ 'Donation aim'|t }}</label
-                                            >
-                                            <div class="form-control form-control-lg">
-                                                {{ form_multiple.donation_aim }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label" for="politicians"
-                                            >{{ 'Donation to politician'|t }}</label
-                                            >
-                                            <div class="form-control form-control-lg">
-                                                {{ form_multiple.politicians}}
-                                            </div>
-                                        </div>
-                                        {{ form_multiple.submit }}
-                                    </form>
-                                </div>
+                                                {{ card_save_form.submit }}
+                                            </form>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-6">
                         <div class="px-md-8 px-lg-3 px-xl-5 py-2 py-md-3  py-xl-4">
-                            {{ right_block | raw | t  }}
+                            {{ right_block | raw | t }}
                         </div>
                     </div>
                 </div>
@@ -250,3 +448,4 @@
     </div>
 </div>
 {{ attach_library('girchi/donation') }}
+{{ attach_library('girchi_banking/girchi_banking') }}

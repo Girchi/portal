@@ -88,6 +88,13 @@ class DonationsController extends ControllerBase {
   protected $bankingUtils;
 
   /**
+   * Drupal\Core\Session\AccountProxy definition.
+   *
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $accountProxy;
+
+  /**
    * Construct.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
@@ -108,6 +115,8 @@ class DonationsController extends ControllerBase {
    *   Donation utils.
    * @param \Drupal\girchi_banking\Services\BankingUtils $bankingUtils
    *   Banking utils.
+   * @param \Drupal\Core\Session\AccountProxy $accountProxy
+   *   Account proxy.
    */
   public function __construct(ConfigFactory $configFactory,
                               PaymentService $omediaPayment,
@@ -117,7 +126,8 @@ class DonationsController extends ControllerBase {
                               AccountProxy $currentUser,
                               FormBuilder $formBuilder,
                               DonationUtils $donationUtils,
-                              BankingUtils $bankingUtils
+                              BankingUtils $bankingUtils,
+                              AccountProxy $accountProxy
   ) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
@@ -128,6 +138,7 @@ class DonationsController extends ControllerBase {
     $this->formBuilder = $formBuilder;
     $this->donationUtils = $donationUtils;
     $this->bankingUtils = $bankingUtils;
+    $this->accountProxy = $accountProxy;
   }
 
   /**
@@ -143,7 +154,8 @@ class DonationsController extends ControllerBase {
       $container->get('current_user'),
       $container->get('form_builder'),
       $container->get('girchi_donations.donation_utils'),
-      $container->get('girchi_banking.utils')
+      $container->get('girchi_banking.utils'),
+      $container->get('current_user')
     );
   }
 
@@ -160,6 +172,9 @@ class DonationsController extends ControllerBase {
       ->getForm("Drupal\girchi_donations\Form\SingleDonationForm");
     $form_multiple = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\MultipleDonationForm");
+    $card_save_form = $this->formBuilder()->getForm('Drupal\girchi_banking\Form\SaveCreditCardForm');
+    $has_active_card = $this->bankingUtils->hasAvailableCards($this->accountProxy->id());
+    $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
     return [
       '#type' => 'markup',
@@ -167,6 +182,9 @@ class DonationsController extends ControllerBase {
       '#form_single' => $form_single,
       '#form_multiple' => $form_multiple,
       '#right_block' => $right_block,
+      '#has_active_card' => $has_active_card,
+      '#card_save_form' => $card_save_form,
+      '#cards' => $cards,
     ];
   }
 

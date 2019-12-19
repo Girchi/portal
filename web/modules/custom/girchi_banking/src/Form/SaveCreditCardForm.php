@@ -95,7 +95,7 @@ class SaveCreditCardForm extends FormBase {
       '#value' => $this->t('Submit'),
       '#attributes' => [
         'class' => [
-          'btn btn-lg btn-block  text-uppercase mt-2',
+          'btn btn-lg btn-block text-uppercase mt-2',
         ],
         'id' => [
           'save-submit',

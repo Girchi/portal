@@ -7,6 +7,7 @@ use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Session\AccountProxy;
 use Drupal\girchi_banking\Entity\CreditCard;
 use Drupal\om_tbc_payments\Services\PaymentService;
 
@@ -37,6 +38,20 @@ class BankingUtils {
   protected $omTbcPaymentsPaymentService;
 
   /**
+   * Card storage definition.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageBase
+   */
+  protected $cardStorage;
+
+  /**
+   * Drupal\Core\Session\AccountProxy definition.
+   *
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $accountProxy;
+
+  /**
    * Constructs a new BankingUtils object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -45,11 +60,23 @@ class BankingUtils {
    *   Logger.
    * @param \Drupal\om_tbc_payments\Services\PaymentService $om_tbc_payments_payment_service
    *   Omedia TBC payment service.
+   * @param \Drupal\Core\Session\AccountProxy $accountProxy
+   *   Current User.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactoryInterface $logger_factory, PaymentService $om_tbc_payments_payment_service) {
-    $this->entityTypeManager = $entity_type_manager;
-    $this->loggerFactory = $logger_factory;
-    $this->omTbcPaymentsPaymentService = $om_tbc_payments_payment_service;
+  public function __construct(EntityTypeManagerInterface $entity_type_manager,
+                              LoggerChannelFactoryInterface $logger_factory,
+                              PaymentService $om_tbc_payments_payment_service,
+                              AccountProxy $accountProxy) {
+    try {
+      $this->entityTypeManager = $entity_type_manager;
+      $this->loggerFactory = $logger_factory;
+      $this->omTbcPaymentsPaymentService = $om_tbc_payments_payment_service;
+      $this->accountProxy = $accountProxy;
+      $this->cardStorage = $this->entityTypeManager->getStorage('credit_card');
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_banking')->error($e->getMessage());
+    }
   }
 
   /**
@@ -65,9 +92,8 @@ class BankingUtils {
    */
   public function prepareCard($trans_id, $card_id) {
     try {
-      $card_storage = $this->entityTypeManager->getStorage('credit_card');
       if ($trans_id && $card_id) {
-        $card = $card_storage->create([
+        $card = $this->cardStorage->create([
           'trans_id' => $trans_id,
           'tbc_id' => $card_id,
           'status' => 'INITIAL',
@@ -175,8 +201,7 @@ class BankingUtils {
    */
   public function hasAvailableCards($uid) {
     try {
-      $card_storage = $this->entityTypeManager->getStorage('credit_card');
-      $cards = $card_storage->getQuery()
+      $cards = $this->cardStorage->getQuery()
         ->condition('user_id', $uid)
         ->condition('status', 'ACTIVE')
         ->execute();
@@ -195,6 +220,73 @@ class BankingUtils {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Function for getting active cards.
+   *
+   * @param string $uid
+   *   User id.
+   *
+   * @return array|\Drupal\Core\Entity\EntityInterface[]
+   *   Array of credit cards.
+   */
+  public function getActiveCards($uid) {
+    try {
+      if ($this->hasAvailableCards($uid)) {
+        return $this->cardStorage->loadByProperties([
+          'user_id' => $uid,
+          'status' => 'ACTIVE',
+        ]);
+      }
+
+      return [];
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_banking')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_banking')->error($e->getMessage());
+    }
+    return [];
+  }
+
+  /**
+   * Function for validating cards.
+   *
+   * @param string $card_id
+   *   Credit Card ID.
+   * @param string $uid
+   *   User id.
+   *
+   * @return \Drupal\girchi_banking\Entity\CreditCard|bool
+   *   validation.
+   */
+  public function validateCardAttachment($card_id, $uid) {
+
+    $card_array = $this->cardStorage->loadByProperties(['id' => $card_id]);
+    if (!empty($card_array)) {
+      /** @var \Drupal\girchi_banking\Entity\CreditCard $card */
+      $card = $card_array[$card_id];
+      if ($card->getOwnerId() == $uid && $card->getStatus() == 'ACTIVE') {
+        return $card;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Function for getting card by Id.
+   *
+   * @param string $card_id
+   *   Credit Card ID.
+   *
+   * @return bool|\Drupal\girchi_banking\Entity\CreditCard
+   *   Credit card;
+   */
+  public function getCardById($card_id) {
+    return $this->validateCardAttachment($card_id, $this->accountProxy->id());
   }
 
 }
