@@ -1,0 +1,86 @@
+uuid: 0a11a000-17ae-4a5b-b7ab-455d530fe960
+langcode: ka
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.full_name
+    - field.field.user.user.field_address
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_cover_photo
+    - field.field.user.user.field_date_of_birth
+    - field.field.user.user.field_facebook_url
+    - field.field.user.user.field_favorite_news
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_ged
+    - field.field.user.user.field_intro
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_my_party_list
+    - field.field.user.user.field_personal_id
+    - field.field.user.user.field_phone
+    - field.field.user.user.field_political_ged
+    - field.field.user.user.field_politician
+    - field.field.user.user.field_profile_video
+    - field.field.user.user.field_public_email
+    - field.field.user.user.field_rank
+    - field.field.user.user.field_rating_in_party_list
+    - field.field.user.user.field_referral
+    - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_url
+    - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_tel
+    - field.field.user.user.field_twitter_url
+    - field.field.user.user.user_picture
+  module:
+    - user
+_core:
+  default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
+id: user.user.full_name
+targetEntityType: user
+bundle: user
+mode: full_name
+content:
+  field_first_name:
+    weight: 0
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_last_name:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  field_address: true
+  field_bio: true
+  field_cover_photo: true
+  field_date_of_birth: true
+  field_facebook_url: true
+  field_favorite_news: true
+  field_ged: true
+  field_intro: true
+  field_my_party_list: true
+  field_personal_id: true
+  field_phone: true
+  field_political_ged: true
+  field_politician: true
+  field_profile_video: true
+  field_public_email: true
+  field_rank: true
+  field_rating_in_party_list: true
+  field_referral: true
+  field_referral_benefits: true
+  field_referral_url: true
+  field_social_auth_password: true
+  field_tel: true
+  field_twitter_url: true
+  langcode: true
+  masquerade: true
+  member_for: true
+  search_api_excerpt: true
+  user_picture: true
