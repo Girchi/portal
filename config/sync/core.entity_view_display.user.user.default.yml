@@ -24,6 +24,7 @@ dependencies:
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
@@ -204,6 +205,7 @@ hidden:
   field_phone: true
   field_profile_video: true
   field_public_email: true
+  field_referral_date: true
   field_social_auth_password: true
   field_twitter_url: true
   langcode: true

@@ -24,6 +24,7 @@ dependencies:
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
@@ -194,6 +195,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_referral_date:
+    type: datetime_default
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_referral_url:
     weight: 14
     settings:

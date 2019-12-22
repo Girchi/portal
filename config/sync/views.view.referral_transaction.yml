@@ -782,7 +782,7 @@ display:
           relationship: field_donation
           group_type: group
           admin_label: ''
-          label: თანხა
+          label: 'Amount of money'
           exclude: false
           alter:
             alter_text: true
