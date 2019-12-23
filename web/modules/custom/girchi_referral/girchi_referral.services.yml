@@ -9,4 +9,4 @@ services:
     arguments: ['@girchi_referral.create_referral_transaction']
   girchi_referral.create_referral_transaction:
     class: Drupal\girchi_referral\CreateReferralTransactionService
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager','@logger.factory']

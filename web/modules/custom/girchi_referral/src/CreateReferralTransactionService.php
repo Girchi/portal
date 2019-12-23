@@ -3,6 +3,7 @@
 namespace Drupal\girchi_referral;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\girchi_donations\Entity\Donation;
 
 /**
@@ -10,21 +11,30 @@ use Drupal\girchi_donations\Entity\Donation;
  */
 class CreateReferralTransactionService {
   /**
-   * Drupal\Core\Entity\EntityTypeManagerInterface definition.
+   * EntityTypeManagerInterface definition.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
-   * GetUserReferralsService constructor.
+   * Logger Factory.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *
-   *   Entity type manager.
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
-    $this->entityTypeManager = $entityTypeManager;
+  protected $loggerFactory;
+
+  /**
+   * Constructs a new SummaryGedCalculationService object.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   Entity type manager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactory $loggerFactory
+   *   Logger messages.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactory $loggerFactory) {
+    $this->entityTypeManager = $entity_type_manager;
+    $this->loggerFactory = $loggerFactory->get('girchi_referrals');
   }
 
   /**
@@ -44,7 +54,14 @@ class CreateReferralTransactionService {
       'field_amount_of_money' => $ref_benefit,
       'title' => 'Referral transaction',
     ]);
-    $referral_transaction->save();
+    try {
+      $referral_transaction->save();
+      $this->loggerFactory->info('Referral transaction was created');
+
+    }
+    catch (\Exception $exception) {
+      $this->loggerFactory->error($exception);
+    }
 
   }
 
@@ -60,9 +77,20 @@ class CreateReferralTransactionService {
       $sum_of_money = $sum_of_money + $amount_of_money;
     }
 
-    $user = $this->entityTypeManager->getStorage('user')->load($uid);
-    $user->set('field_referral_benefits', $sum_of_money);
-    $user->save();
+    try {
+      $user = $this->entityTypeManager->getStorage('user')->load($uid);
+      $user->set('field_referral_benefits', $sum_of_money);
+      $user->save();
+      $user_first_name = $user->get('field_first_name')->value;
+      $user_last_name = $user->get('field_last_name')->value;
+      $info = $sum_of_money . " ლარი ჩაერიცხა " . $user_first_name . ' ' . $user_last_name . ' -ს';
+      $this->loggerFactory->info($info);
+
+    }
+    catch (\Exception $exception) {
+      $this->loggerFactory->error($exception);
+    }
+
   }
 
 }
