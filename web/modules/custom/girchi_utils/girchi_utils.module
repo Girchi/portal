@@ -614,7 +614,7 @@ function girchi_utils_user_presave(User $account) {
     else {
       $response = new RedirectResponse(\Drupal::request()->getRequestUri());
       $response->send();
-      \Drupal::messenger()->addError(t("You can't change your referral within one year from ") . $referral_date);
+      \Drupal::messenger()->addError(t("You can't change your referral within one year from") . ' ' . $referral_date);
       exit;
     }
 
