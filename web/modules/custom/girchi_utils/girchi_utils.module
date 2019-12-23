@@ -595,3 +595,29 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
   }
 
 }
+
+/**
+ * User form presave.
+ */
+function girchi_utils_user_presave(User $account) {
+  $original_referral = $account->original->get('field_referral')->target_id;
+  $updated_value = $account->get('field_referral')->target_id;
+  if ($original_referral != $updated_value) {
+    $referral_date = $account->get('field_referral_date')->value;
+    $referral_date_unix = strtotime($account->get('field_referral_date')->value);
+    $one_year = strtotime('+1 year', $referral_date_unix);
+    $today = strtotime(date('Y-m-d'));
+
+    if ($today > $one_year) {
+      $account->set('field_referral_date', date('Y-m-d'));
+    }
+    else {
+      $response = new RedirectResponse(\Drupal::request()->getRequestUri());
+      $response->send();
+      \Drupal::messenger()->addError(t("You can't change your referral within one year from ") . $referral_date);
+      exit;
+    }
+
+  }
+
+}
