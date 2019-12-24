@@ -599,7 +599,7 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
 /**
  * User form presave.
  */
-function girchi_utils_user_presave(User $account) {
+function girchi_utils_user_update(User $account) {
   $original_referral = $account->original->get('field_referral')->target_id;
   $updated_value = $account->get('field_referral')->target_id;
   if ($original_referral != $updated_value) {
