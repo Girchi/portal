@@ -310,7 +310,10 @@ class DonationsController extends ControllerBase {
         elseif ($credit_card) {
           $credit_card->setStatus('FAILED');
           $credit_card->save();
-          // @TODO Credit card fail.
+          return [
+            '#type' => 'markup',
+            '#theme' => 'girchi_donations_fail',
+          ];
         }
 
       }
@@ -379,6 +382,8 @@ class DonationsController extends ControllerBase {
     $politicans = $this->donationUtils->getPoliticians();
     $terms = $this->donationUtils->getTerms();
     $language_code = $this->languageManager()->getCurrentLanguage()->getId();
+    $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
+
 
     return [
       '#type' => 'markup',
@@ -389,6 +394,7 @@ class DonationsController extends ControllerBase {
       '#terms' => $terms,
       '#language' => $language_code,
       '#current_user_id' => $this->currentUser->id(),
+      '#cards' => $cards
     ];
   }
 
