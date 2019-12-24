@@ -53,7 +53,7 @@ class DonationSubscriber implements EventSubscriberInterface {
     $user = $event->getUser();
     if ($referral_id = $user->get('field_referral')->target_id) {
       $this->referralTransactionService->createReferralTransaction($user, $referral_id, $event->getDonation());
-      $this->referralTransactionService->countFeferralsMoney($referral_id);
+      $this->referralTransactionService->countReferralsMoney($referral_id);
     }
 
   }

@@ -2,8 +2,11 @@
 
 namespace Drupal\girchi_referral\Plugin\Block;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,86 +27,103 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
   protected $entityTypeManager;
 
   /**
+   * Logger Factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   */
+  protected $loggerFactory;
+
+  /**
    * {@inheritDoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, LoggerChannelFactory $loggerFactory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->loggerFactory = $loggerFactory;
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $user_storage = $this->entityTypeManager->getStorage('user');
-
-    $uids = $user_storage->getQuery()
-      ->condition('field_referral_benefits', 0, '>')
-      ->sort('field_referral_benefits', "DESC")
-      ->execute();
-
-    $users = $user_storage->loadMultiple($uids);
-    $top_referrals = [];
-    foreach ($users as $user) {
-      /** @var \Drupal\user\Entity\User $user */
-      $uid = $user->id();
-      $user_name = $user->get('field_first_name')->value ?? '';
-      $user_surname = $user->get('field_last_name')->value ?? '';
-      $referral_benefits = $user->get('field_referral_benefits')->value;
-      if ($user->get('user_picture')->entity) {
-        $profilePictureEntity = $user->get('user_picture')->entity;
-        $profilePicture = $profilePictureEntity->getFileUri();
-      }
-      else {
-        $profilePicture = NULL;
-      }
-
-      // Get user referral for modal.
-      $referral_id = $user_storage->getQuery()
-        ->condition('field_referral', $uid, '=')
+    try {
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $uids = $user_storage->getQuery()
+        ->condition('field_referral_benefits', 0, '>')
+        ->sort('field_referral_benefits', "DESC")
         ->execute();
-      $referral_count = $user_storage->getQuery()
-        ->condition('field_referral', $uid, '=')
-        ->count()
-        ->execute();
-      $referrals = $user_storage->loadMultiple($referral_id);
-      $refs = [];
-      foreach ($referrals as $referral) {
-        $referral_id = $referral->id();
-        $referral_name = $referral->get('field_first_name')->value ?? '';
-        $referral_surname = $referral->get('field_last_name')->value ?? '';
-        if ($referral->get('user_picture')->entity) {
-          $referralPictureEn = $referral->get('user_picture')->entity;
-          $referralProfilePicture = $referralPictureEn->getFileUri();
+
+      $users = $user_storage->loadMultiple($uids);
+      $top_referrals = [];
+      foreach ($users as $user) {
+        /** @var \Drupal\user\Entity\User $user */
+        $uid = $user->id();
+        $user_name = $user->get('field_first_name')->value ?? '';
+        $user_surname = $user->get('field_last_name')->value ?? '';
+        $referral_benefits = $user->get('field_referral_benefits')->value;
+        if ($user->get('user_picture')->entity) {
+          $profilePictureEntity = $user->get('user_picture')->entity;
+          $profilePicture = $profilePictureEntity->getFileUri();
         }
         else {
-          $referralProfilePicture = NULL;
+          $profilePicture = NULL;
         }
-        $refs[] = [
-          'referral_id' => $referral_id,
-          'referral_name' => $referral_name,
-          'referral_surname' => $referral_surname,
-          'referral_img' => $referralProfilePicture,
+
+        // Get user referral for modal.
+        $referral_id = $user_storage->getQuery()
+          ->condition('field_referral', $uid, '=')
+          ->execute();
+        $referral_count = $user_storage->getQuery()
+          ->condition('field_referral', $uid, '=')
+          ->count()
+          ->execute();
+        $referrals = $user_storage->loadMultiple($referral_id);
+        $refs = [];
+        foreach ($referrals as $referral) {
+          $referral_id = $referral->id();
+          $referral_name = $referral->get('field_first_name')->value ?? '';
+          $referral_surname = $referral->get('field_last_name')->value ?? '';
+          if ($referral->get('user_picture')->entity) {
+            $referralPictureEn = $referral->get('user_picture')->entity;
+            $referralProfilePicture = $referralPictureEn->getFileUri();
+          }
+          else {
+            $referralProfilePicture = NULL;
+          }
+          $refs[] = [
+            'referral_id' => $referral_id,
+            'referral_name' => $referral_name,
+            'referral_surname' => $referral_surname,
+            'referral_img' => $referralProfilePicture,
+          ];
+
+        }
+
+        $top_referrals[] = [
+          'uid' => $uid,
+          'user_name' => $user_name,
+          'user_surname' => $user_surname,
+          'referral_benefits' => $referral_benefits,
+          'img' => $profilePicture,
+          'referrals' => $refs,
+          'referral_count' => $referral_count,
+
         ];
 
       }
-
-      $top_referrals[] = [
-        'uid' => $uid,
-        'user_name' => $user_name,
-        'user_surname' => $user_surname,
-        'referral_benefits' => $referral_benefits,
-        'img' => $profilePicture,
-        'referrals' => $refs,
-        'referral_count' => $referral_count,
-
+      return [
+        '#theme' => 'top_referrals',
+        '#topReferrals' => $top_referrals,
       ];
 
     }
-    return [
-      '#theme' => 'top_referrals',
-      '#topReferrals' => $top_referrals,
-    ];
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+
   }
 
   /**
@@ -126,7 +146,8 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('logger.factory')
     );
   }
 

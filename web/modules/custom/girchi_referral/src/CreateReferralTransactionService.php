@@ -2,6 +2,9 @@
 
 namespace Drupal\girchi_referral;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\girchi_donations\Entity\Donation;
@@ -68,16 +71,15 @@ class CreateReferralTransactionService {
   /**
    * CalculateAndUpdateTotalGeds.
    */
-  public function countFeferralsMoney($uid) {
-    $node_storage = $this->entityTypeManager->getStorage('node');
-    $referral_transactions = $node_storage->loadByProperties(['field_referral' => $uid]);
-    $sum_of_money = 0;
-    foreach ($referral_transactions as $referral_transaction) {
-      $amount_of_money = $referral_transaction->get('field_amount_of_money')->value;
-      $sum_of_money = $sum_of_money + $amount_of_money;
-    }
-
+  public function countReferralsMoney($uid) {
     try {
+      $node_storage = $this->entityTypeManager->getStorage('node');
+      $referral_transactions = $node_storage->loadByProperties(['field_referral' => $uid]);
+      $sum_of_money = 0;
+      foreach ($referral_transactions as $referral_transaction) {
+        $amount_of_money = $referral_transaction->get('field_amount_of_money')->value;
+        $sum_of_money = $sum_of_money + $amount_of_money;
+      }
       $user = $this->entityTypeManager->getStorage('user')->load($uid);
       $user->set('field_referral_benefits', $sum_of_money);
       $user->save();
@@ -87,8 +89,14 @@ class CreateReferralTransactionService {
       $this->loggerFactory->info($info);
 
     }
-    catch (\Exception $exception) {
-      $this->loggerFactory->error($exception);
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+    catch (EntityStorageException $e) {
+      $this->loggerFactory->error($e->getMessage());
     }
 
   }
