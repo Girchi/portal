@@ -75,6 +75,7 @@ hidden:
   field_rating_in_party_list: true
   field_referral: true
   field_referral_benefits: true
+  field_referral_date: true
   field_referral_url: true
   field_social_auth_password: true
   field_tel: true

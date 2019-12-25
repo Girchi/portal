@@ -4,4 +4,4 @@ services:
     tags:
       - { name: drush.command }
     arguments:
-      ['@entity_type.manager']
+      ['@entity_type.manager', '@logger.factory']
