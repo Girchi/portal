@@ -291,6 +291,8 @@ class DonationsController extends ControllerBase {
             $donations->appendItem($donation->id());
             $this->getLogger('girchi_donations')->info("Donation was made.");
             $reg_donation->save();
+            $donationEvent = new DonationEvents($donation);
+            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
             $this->getLogger('girchi_donations')
               ->info('Regular donation was activated.');
             $reg_donation_details = [
