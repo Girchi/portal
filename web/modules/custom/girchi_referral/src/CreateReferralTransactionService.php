@@ -85,7 +85,7 @@ class CreateReferralTransactionService {
       $user->save();
       $user_first_name = $user->get('field_first_name')->value;
       $user_last_name = $user->get('field_last_name')->value;
-      $info = $sum_of_money . " ლარი ჩაერიცხა " . $user_first_name . ' ' . $user_last_name . ' -ს';
+      $info = $amount_of_money . " ლარი ჩაერიცხა " . $user_first_name . ' ' . $user_last_name . ' -ს';
       $this->loggerFactory->info($info);
 
     }
