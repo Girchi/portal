@@ -168,9 +168,6 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
 
             ]);
             $ged_t->save();
-
-            $donationEvent = new DonationEvents($data);
-            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
           }
           else {
             $status = 'FAILED';
@@ -187,6 +184,12 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
               'field_donation_type' => 1,
               'field_ged_transaction' => $ged_t ? $ged_t->id() : NULL,
             ], $target_id);
+
+          if ($status != 'FAILED') {
+            $donationEvent = new DonationEvents($donation);
+            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
+          }
+
           $this->loggerChannelFactory->get('girchi_donations')->info(
             sprintf(
               'Donation status was updated to: %s , user: %s',
