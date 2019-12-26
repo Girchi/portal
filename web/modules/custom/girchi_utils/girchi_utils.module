@@ -391,6 +391,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
     if (!empty($value['field_tel'][0]['full_phone'])) {
       $form['#validate'][] = 'telephone_validation';
     }
+
   }
 }
 
@@ -600,8 +601,9 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
  * User form presave.
  */
 function girchi_utils_user_presave(User $account) {
-  $uid = \Drupal::currentUser()->id();
-  if ($account->get('field_referral')->target_id == $uid) {
+  $current_user = \Drupal::currentUser();
+  $uid = $current_user->id();
+  if ($account->get('field_referral')->target_id == $uid && !$current_user->hasPermission('admin')) {
     $response = new RedirectResponse(\Drupal::request()->getRequestUri());
     $response->send();
     \Drupal::messenger()->addError(t("You can't be your own referral"));
