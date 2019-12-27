@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-12-27 07:46+0000\n"
-"PO-Revision-Date: 2019-12-27 07:46+0000\n"
+"POT-Creation-Date: 2019-12-27 10:04+0000\n"
+"PO-Revision-Date: 2019-12-27 10:04+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4001,9 +4001,7 @@ msgstr ""
 "მიზანი ან პოლიტიკოსი"
 
 msgid "Amount of money"
-msgstr ""
-"ტრანზაქცია უარყოფილია "
-"სადეთ თავიდან"
+msgstr "თანხა"
 
 msgid "Transaction failed ,try again"
 msgstr ""
@@ -4213,4 +4211,7 @@ msgstr ""
 
 msgid "Enter your referral person"
 msgstr "მიუთითე ვისი რეფერალი ხარ"
+
+msgid "Referral transactions"
+msgstr "რეფერალური ტრანზაქციები"
 
