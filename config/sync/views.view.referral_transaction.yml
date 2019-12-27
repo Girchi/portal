@@ -110,7 +110,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Authored on'
+          label: 'Created date'
           exclude: false
           alter:
             alter_text: false

@@ -10,4 +10,6 @@ display:
           label: მომხმარებელი
         field_user:
           label: 'სახელი და გვარი'
+        created:
+          label: 'შექმნის თარიღი'
 label: 'რეფერალური ტრანზაქცია'
