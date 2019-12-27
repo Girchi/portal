@@ -886,7 +886,7 @@ display:
           id: user_picture
           table: user__user_picture
           field: user_picture
-          relationship: field_referral
+          relationship: field_user
           group_type: group
           admin_label: ''
           label: Picture
@@ -1208,11 +1208,6 @@ display:
           id: field_donation
           table: node__field_donation
           field: field_donation
-          plugin_id: standard
-        field_referral:
-          id: field_referral
-          table: node__field_referral
-          field: field_referral
           plugin_id: standard
         field_user:
           id: field_user
