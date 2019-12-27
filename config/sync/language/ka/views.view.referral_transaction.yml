@@ -10,3 +10,4 @@ display:
           label: მომხმარებელი
         field_user:
           label: 'სახელი და გვარი'
+label: 'რეფერალური ტრანზაქცია'
