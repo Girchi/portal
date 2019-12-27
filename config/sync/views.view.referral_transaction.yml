@@ -584,6 +584,7 @@ display:
       defaults:
         access: false
         fields: false
+        relationships: false
       display_description: ''
       fields:
         user_picture:
@@ -630,7 +631,7 @@ display:
           element_wrapper_type: ''
           element_wrapper_class: ''
           element_default_classes: true
-          empty: ''
+          empty: /themes/custom/girchi/images/avatar34x34.png
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -649,10 +650,10 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_referral_1:
-          id: field_referral_1
-          table: node__field_referral
-          field: field_referral
+        field_user_1:
+          id: field_user_1
+          table: node__field_user
+          field: field_user
           relationship: none
           group_type: group
           admin_label: ''
@@ -660,7 +661,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a href ="/profile/{{ field_referral_1__target_id }}"><img src="{{user_picture}}" class="rounded-circle" /></a>'
+            text: '<a href ="/profile/{{ field_user_1__target_id }}"><img src="{{user_picture}}" class="rounded-circle" /></a>'
             make_link: false
             path: ''
             absolute: false
@@ -712,17 +713,17 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_referral:
-          id: field_referral
-          table: node__field_referral
-          field: field_referral
+        field_user:
+          id: field_user
+          table: node__field_user
+          field: field_user
           relationship: none
           group_type: group
           admin_label: ''
-          label: Referral
+          label: 'Full name'
           exclude: false
           alter:
-            alter_text: true
+            alter_text: false
             text: ''
             make_link: false
             path: ''
@@ -907,6 +908,22 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+      relationships:
+        field_donation:
+          id: field_donation
+          table: node__field_donation
+          field: field_donation
+          plugin_id: standard
+        field_referral:
+          id: field_referral
+          table: node__field_referral
+          field: field_referral
+          plugin_id: standard
+        field_user:
+          id: field_user
+          table: node__field_user
+          field: field_user
+          plugin_id: standard
     cache_metadata:
       max-age: -1
       contexts:
@@ -919,5 +936,5 @@ display:
         - user.roles
       tags:
         - 'config:field.storage.node.field_amount_of_money'
-        - 'config:field.storage.node.field_referral'
+        - 'config:field.storage.node.field_user'
         - 'config:field.storage.user.user_picture'
