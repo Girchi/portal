@@ -9,10 +9,13 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\girchi_donations\Event\DonationEvents;
+use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Process RegularDonation tasks.
@@ -62,6 +65,13 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
   private $gedCalculator;
 
   /**
+   * Symfony\Component\EventDispatcher\EventDispatcherInterface definition.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  private $dispatcher;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration,
@@ -71,13 +81,15 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
                               LoggerChannelFactoryInterface $loggerChannelFactory,
                               PaymentService $omediaPayment,
                               DonationUtils $donationUtils,
-                              GedCalculator $gedCalculator) {
+                              GedCalculator $gedCalculator,
+                              EventDispatcherInterface $dispatcher) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerChannelFactory = $loggerChannelFactory;
     $this->omediaPayment = $omediaPayment;
     $this->donationUtils = $donationUtils;
     $this->gedCalculator = $gedCalculator;
+    $this->dispatcher = $dispatcher;
   }
 
   /**
@@ -92,7 +104,8 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
       $container->get('logger.factory'),
       $container->get('om_tbc_payments.payment_service'),
       $container->get('girchi_donations.donation_utils'),
-      $container->get('girchi_donations.ged_calculator')
+      $container->get('girchi_donations.ged_calculator'),
+      $container->get('event_dispatcher')
     );
   }
 
@@ -171,6 +184,12 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
               'field_donation_type' => 1,
               'field_ged_transaction' => $ged_t ? $ged_t->id() : NULL,
             ], $target_id);
+
+          if ($status != 'FAILED') {
+            $donationEvent = new DonationEvents($donation);
+            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
+          }
+
           $this->loggerChannelFactory->get('girchi_donations')->info(
             sprintf(
               'Donation status was updated to: %s , user: %s',

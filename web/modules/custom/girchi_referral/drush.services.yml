@@ -1,0 +1,7 @@
+services:
+  girchi_referral.commands:
+    class: \Drupal\girchi_referral\Commands\GirchiReferralCommands
+    tags:
+      - { name: drush.command }
+    arguments:
+      ['@entity_type.manager', '@logger.factory']

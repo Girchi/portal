@@ -23,6 +23,8 @@ dependencies:
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
+    - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
@@ -236,6 +238,8 @@ hidden:
   contact: true
   field_phone: true
   field_rank: true
+  field_referral_benefits: true
+  field_referral_date: true
   field_social_auth_password: true
   google_analytics: true
   langcode: true
