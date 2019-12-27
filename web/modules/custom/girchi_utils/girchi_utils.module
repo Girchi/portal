@@ -601,9 +601,8 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
  * User form presave.
  */
 function girchi_utils_user_presave(User $account) {
-  $current_user = \Drupal::currentUser();
-  $uid = $current_user->id();
-  if ($account->get('field_referral')->target_id == $uid && !$current_user->hasPermission('admin')) {
+  $uid = $account->id();
+  if ($account->get('field_referral')->target_id == $uid) {
     $response = new RedirectResponse(\Drupal::request()->getRequestUri());
     $response->send();
     \Drupal::messenger()->addError(t("You can't be your own referral"));
