@@ -3,3 +3,5 @@ type: module
 description: 'Girchi referral module'
 core: 8.x
 package: 'Girchi'
+dependencies:
+  - girchi_donations

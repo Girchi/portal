@@ -5,6 +5,7 @@ namespace Drupal\girchi_referral\Plugin\Block;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -119,11 +120,24 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->error($e->getMessage());
+
     }
     catch (PluginNotFoundException $e) {
       $this->loggerFactory->error($e->getMessage());
     }
 
+    return [
+      '#theme' => 'top_referrals',
+      '#topReferrals' => [],
+    ];
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    return Cache::mergeTags(parent::getCacheTags(), ['node_list']);
   }
 
   /**
