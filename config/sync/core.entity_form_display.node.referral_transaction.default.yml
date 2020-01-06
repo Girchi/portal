@@ -1,0 +1,58 @@
+uuid: 50e355f1-291c-476e-8459-d66649e8af01
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.node.referral_transaction.field_amount_of_money
+    - field.field.node.referral_transaction.field_donation
+    - field.field.node.referral_transaction.field_referral
+    - field.field.node.referral_transaction.field_user
+    - node.type.referral_transaction
+id: node.referral_transaction.default
+targetEntityType: node
+bundle: referral_transaction
+mode: default
+content:
+  field_amount_of_money:
+    weight: 3
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_donation:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_referral:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_user:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden:
+  created: true
+  langcode: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  title: true
+  uid: true

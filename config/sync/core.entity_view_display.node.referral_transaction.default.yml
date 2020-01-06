@@ -1,0 +1,65 @@
+uuid: 45160b4c-87dc-4466-9be0-3c6ac23ab369
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.node.referral_transaction.field_amount_of_money
+    - field.field.node.referral_transaction.field_donation
+    - field.field.node.referral_transaction.field_referral
+    - field.field.node.referral_transaction.field_user
+    - node.type.referral_transaction
+  module:
+    - user
+id: node.referral_transaction.default
+targetEntityType: node
+bundle: referral_transaction
+mode: default
+content:
+  field_amount_of_money:
+    weight: 105
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_decimal
+    region: content
+  field_donation:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_referral:
+    weight: 103
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_user:
+    weight: 102
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  share_everywhere:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

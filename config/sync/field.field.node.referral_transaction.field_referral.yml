@@ -1,0 +1,28 @@
+uuid: 9c9f33b6-3b4e-418b-ae0c-1c0de8a341ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_referral
+    - node.type.referral_transaction
+id: node.referral_transaction.field_referral
+field_name: field_referral
+entity_type: node
+bundle: referral_transaction
+label: Referral
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: false
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

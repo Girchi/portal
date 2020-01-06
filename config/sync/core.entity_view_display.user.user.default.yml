@@ -23,6 +23,8 @@ dependencies:
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
+    - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
@@ -151,6 +153,17 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_referral_benefits:
+    weight: 18
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_decimal
+    region: content
   field_referral_url:
     weight: 15
     label: hidden
@@ -192,6 +205,7 @@ hidden:
   field_phone: true
   field_profile_video: true
   field_public_email: true
+  field_referral_date: true
   field_social_auth_password: true
   field_twitter_url: true
   langcode: true
