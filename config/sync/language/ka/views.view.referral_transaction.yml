@@ -1,0 +1,15 @@
+display:
+  page_2:
+    display_options:
+      fields:
+        field_amount_of_money:
+          label: 'რეფერალური სარგებელი'
+        amount:
+          label: თანხა
+        field_user_1:
+          label: მომხმარებელი
+        field_user:
+          label: 'სახელი და გვარი'
+        created:
+          label: 'შექმნის თარიღი'
+label: 'რეფერალური ტრანზაქცია'

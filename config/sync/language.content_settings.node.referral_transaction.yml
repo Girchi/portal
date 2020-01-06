@@ -1,0 +1,11 @@
+uuid: 52aa8eb1-967a-4e2f-8cd4-d7f6b233a648
+langcode: ka
+status: true
+dependencies:
+  config:
+    - node.type.referral_transaction
+id: node.referral_transaction
+target_entity_type_id: node
+target_bundle: referral_transaction
+default_langcode: site_default
+language_alterable: false

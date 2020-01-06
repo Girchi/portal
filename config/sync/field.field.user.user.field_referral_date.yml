@@ -1,0 +1,21 @@
+uuid: e0585788-2c12-4611-8f9e-b20de9b092ff
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_referral_date
+  module:
+    - datetime
+    - user
+id: user.user.field_referral_date
+field_name: field_referral_date
+entity_type: user
+bundle: user
+label: 'Referral date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

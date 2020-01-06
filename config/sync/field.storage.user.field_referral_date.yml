@@ -1,0 +1,20 @@
+uuid: 199561fa-bca2-46ac-ae39-5773ae98b3da
+langcode: ka
+status: true
+dependencies:
+  module:
+    - datetime
+    - user
+id: user.field_referral_date
+field_name: field_referral_date
+entity_type: user
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

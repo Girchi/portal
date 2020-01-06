@@ -1,0 +1,20 @@
+uuid: 053f8d18-e14e-49b7-85db-2afe2a7b45fd
+langcode: ka
+status: false
+dependencies:
+  module:
+    - girchi_referral
+  theme:
+    - girchi
+id: topreferrals
+theme: girchi
+region: content
+weight: 0
+provider: null
+plugin: top_referrals
+settings:
+  id: top_referrals
+  label: 'Top referrals'
+  provider: girchi_referral
+  label_display: '0'
+visibility: {  }

@@ -218,7 +218,6 @@ function girchi_preprocess_page(array &$variables)
 
 
 
-
 //    $ged_formatted = $GEDHelper::getFormattedGed($user->get('field_political_ged')->value);
 
     $variables['user'] = [
@@ -245,6 +244,7 @@ function girchi_preprocess_page(array &$variables)
       'user_info' => $userInfo,
       'thumbnail_url' => $thumbnail_url,
       'is_politician' => $user->get('field_politician')->value,
+      'referral_benefits' => $user->get('field_referral_benefits')->value,
     ];
   }
 

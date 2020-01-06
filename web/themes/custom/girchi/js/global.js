@@ -100,6 +100,11 @@ $(document).ready(function() {
         $(_this).find("iframe").attr("src", video);
     });
 
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has('show_referral_modal') && urlParams.get('show_referral_modal')=='true'){
+        $('#referralModal').modal('show');
+    }
+
 });
 
 function SetCaretAtEnd(elem) {
@@ -181,6 +186,3 @@ $(".investor-parent-checkbox input").on("change",  function () {
         $(".investment-amount").attr('min', 1);
     }
 });
-
-
-

@@ -1,0 +1,18 @@
+uuid: bc9ce08b-3a0d-4b80-8036-6dce216661c5
+langcode: ka
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_referral_benefits
+field_name: field_referral_benefits
+entity_type: user
+type: float
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
