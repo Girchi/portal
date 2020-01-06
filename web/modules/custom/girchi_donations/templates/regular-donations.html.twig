@@ -246,167 +246,83 @@
                     </div>
                     {{ regular_donation_form.currency }}
 
-                    {# Start of modal#}
-                    <div
-                        class="modal fade"
-                        id="chooseCard"
-                        tabindex="-1"
-                        role="dialog"
-                        aria-labelledby="chooseCardTitle"
-                        aria-hidden="true"
-                    >
+                    <hr class="border-dashed border-secondary"/>
+                    <h6 class="text-uppercase pt-2 text-warning font-weight-bold my-3 text-center">
+                        {{'Select card for regular payment'}}</h6>
+                    <div class="cc-selector row">
                         <div
-                            class="modal-dialog modal-dialog-centered"
-                            role="document"
+                            class="align-self-center margin-control"
                         >
-                            <div class="modal-content overflow-hidden">
-                                <div
-                                    class="modal-header align-items-center px-3 px-md-4"
-                                >
-                                    <h5
-                                        class="modal-title font-size-3 text-uppercase font-weight-bold"
-                                        id="addPaymentTitle"
+
+                            {% for card in cards %}
+                                {% if card.Type() == 'VISA' %}
+                                    <input
+                                        id="{{ card.id() }}"
+                                        type="radio"
+                                        name="credit-card"
+                                        value="{{ card.id() }}"
+                                    />
+                                    <label
+                                        class="drinkcard-cc"
+                                        for="{{ card.id() }}"
                                     >
-                                        ავტომატური დაფინანსება
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        class="close ml-2"
-                                        data-dismiss="modal"
-                                        aria-label="Close"
-                                    >
-                                        <i
-                                            aria-hidden="true"
-                                            class="icon-close font-size-3 text-dark-silver"
-                                        ></i>
-                                    </button>
-                                </div>
-                                <div
-                                    class="modal-body pt-0  pl-3 pr-3 pb-3 pl-md-5 pr-md-5 pb-md-5"
-                                >
-                                    <form action="">
-                                        <div class="container py-2">
-                                            <h6
-                                                class="text-uppercase m-0"
+                                        <div
+                                            class="cc-dark-mobile col-md-3 m-2"
+                                        >
+                                                <span
+                                                class="chip-mobile"></span>
+                                            <img
+                                                src="/{{ directory }}/images/visa2.svg"
+                                                class="logo-visa-mobile"
+                                                height="35px"
+                                                width="35px"
+                                                alt=""
+                                            />
+                                            <span
+                                                class="cc-number-mobile"
+                                            >**** **** **** {{ card.Digits() }}</span
                                             >
-                                                მიზანი/პოლიტიკოსი: <b class="text-success"
-                                                                      id="main-holder">ზურაბ
-                                                    ჯაფარიძეს</b>
-
-                                            </h6>
-                                            <h6
-                                                class="text-uppercase m-0"
+                                            <span class="cc-name-mobile"
+                                            >{{ card.Expiry(TRUE) }}</span
                                             >
-                                                თანხა: <b class="text-success"
-                                                          id="amount-holder">15 ლარი</b>
-
-                                            </h6>
-                                            <h6
-                                                class="text-uppercase m-0"
-                                            >
-                                                ყოველთვე ჩაგერიცხებათ: <b
-                                                    class="text-success" id="ged-holder"><i
-                                                        class="icon-ged line-height-1-1"></i>15</b>
-
-                                            </h6>
-                                            <h6
-                                                class="text-uppercase m-0"
-                                            >
-                                                პერიოდულობა: <b class="text-success"
-                                                                id="date-holder">1 თვე</b>
-
-                                            </h6>
                                         </div>
-                                        <hr class="border-dashed border-secondary"/>
-                                        <h6 class="text-uppercase pt-2 text-warning font-weight-bold my-3 text-center">
-                                            აირჩიე ბარათი ავტომატური დაფინანსებისთვის</h6>
-                                        <div class="cc-selector row">
-                                            <div
-                                                class="align-self-center margin-control"
+                                    </label>
+                                {% elseif card.Type() == 'MC' %}
+                                    <input
+                                        id="{{ card.id() }}"
+                                        type="radio"
+                                        name="credit-card"
+                                        value="{{ card.id() }}"
+                                    />
+                                    <label class="drinkcard-cc"
+                                           for="{{ card.id() }}">
+                                        <div
+                                            class="cc-green-mobile col-md-3 m-2"
+                                        >
+                                                <span
+                                                    class="chip-mobile"></span>
+                                            <img
+                                                src="/{{ directory }}/images/mc_symbol.svg"
+                                                height="35px"
+                                                width="35px"
+                                                class="logo-mastercard-mobile"
+                                                alt=""
+                                            />
+                                            <span
+                                                class="cc-number-mobile"
+                                            >**** **** **** {{ card.Digits() }}</span
                                             >
-
-                                                {% for card in cards %}
-                                                    {% if card.Type() == 'VISA' %}
-                                                        <input
-                                                            id="{{ card.id() }}"
-                                                            type="radio"
-                                                            name="credit-card"
-                                                            value="{{ card.id() }}"
-                                                        />
-                                                        <label
-                                                            class="drinkcard-cc"
-                                                            for="{{ card.id() }}"
-                                                        >
-                                                            <div
-                                                                class="cc-dark-mobile col-md-3 m-2"
-                                                            >
-                                                                                                <span
-                                                                                                    class="chip-mobile"></span>
-                                                                <img
-                                                                    src="/{{ directory }}/images/visa2.svg"
-                                                                    class="logo-visa-mobile"
-                                                                    height="35px"
-                                                                    width="35px"
-                                                                    alt=""
-                                                                />
-                                                                <span
-                                                                    class="cc-number-mobile"
-                                                                >**** **** **** {{ card.Digits() }}</span
-                                                                >
-                                                                <span class="cc-name-mobile"
-                                                                >{{ card.Expiry(TRUE) }}</span
-                                                                >
-                                                            </div>
-                                                        </label>
-                                                    {% elseif card.Type() == 'MC' %}
-                                                        <input
-                                                            id="{{ card.id() }}"
-                                                            type="radio"
-                                                            name="credit-card"
-                                                            value="{{ card.id() }}"
-                                                        />
-                                                        <label class="drinkcard-cc"
-                                                               for="{{ card.id() }}">
-                                                            <div
-                                                                class="cc-green-mobile col-md-3 m-2"
-                                                            >
-                                                                                                <span
-                                                                                                    class="chip-mobile"></span>
-                                                                <img
-                                                                    src="/{{ directory }}/images/mc_symbol.svg"
-                                                                    height="35px"
-                                                                    width="35px"
-                                                                    class="logo-mastercard-mobile"
-                                                                    alt=""
-                                                                />
-                                                                <span
-                                                                    class="cc-number-mobile"
-                                                                >**** **** **** {{ card.Digits() }}</span
-                                                                >
-                                                                <span class="cc-name-mobile"
-                                                                >{{ card.Expiry(TRUE) }}</span
-                                                                >
-                                                            </div>
-                                                        </label>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
+                                            <span class="cc-name-mobile"
+                                            >{{ card.Expiry(TRUE) }}</span
+                                            >
                                         </div>
-                                        {{ regular_donation_form.submit }}
-                                    </form>
-                                </div>
-                            </div>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-                    {# End of modal#}
-                    <button
-                        id="cardSelector"
-                        data-toggle="modal"
-                        data-target="#chooseCard"
-                        class="btn btn-lg btn-block btn-warning text-uppercase mt-4"
-                    >
-                        {{ 'Donate'|t }}
-                    </button>
+
+                    {{ regular_donation_form.submit }}
                 </form>
             </div>
         </div>
