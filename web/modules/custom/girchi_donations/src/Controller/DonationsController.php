@@ -124,15 +124,12 @@ class DonationsController extends ControllerBase {
    *   FormBuilder.
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
    *   Donation utils.
-<<<<<<< HEAD
    * @param \Drupal\girchi_banking\Services\BankingUtils $bankingUtils
    *   Banking utils.
    * @param \Drupal\Core\Session\AccountProxy $accountProxy
    *   Account proxy.
-=======
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
    *   EventDispatcher.
->>>>>>> dev
    */
   public function __construct(ConfigFactory $configFactory,
                               PaymentService $omediaPayment,
@@ -143,7 +140,7 @@ class DonationsController extends ControllerBase {
                               FormBuilder $formBuilder,
                               DonationUtils $donationUtils,
                               BankingUtils $bankingUtils,
-                              AccountProxy $accountProxy
+                              AccountProxy $accountProxy,
                               EventDispatcherInterface $dispatcher
   ) {
     $this->configFactory = $configFactory;
@@ -173,7 +170,7 @@ class DonationsController extends ControllerBase {
       $container->get('form_builder'),
       $container->get('girchi_donations.donation_utils'),
       $container->get('girchi_banking.utils'),
-      $container->get('current_user')
+      $container->get('current_user'),
       $container->get('event_dispatcher')
     );
   }
@@ -404,7 +401,6 @@ class DonationsController extends ControllerBase {
     $language_code = $this->languageManager()->getCurrentLanguage()->getId();
     $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
-
     return [
       '#type' => 'markup',
       '#theme' => 'regular_donations',
@@ -414,7 +410,7 @@ class DonationsController extends ControllerBase {
       '#terms' => $terms,
       '#language' => $language_code,
       '#current_user_id' => $this->currentUser->id(),
-      '#cards' => $cards
+      '#cards' => $cards,
     ];
   }
 
