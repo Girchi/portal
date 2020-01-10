@@ -40,7 +40,7 @@
                                         <span class="chip"></span>
                                         <?xml version="1.0" encoding="UTF-8"?>
                                         <img src="/{{ directory }}/images/mc_symbol.svg" height="55px" width="55px"
-                                             id="logo-mastercard" alt="">
+                                             class="logo-mastercard" alt="">
                                         <span class="cc-number">**** **** **** {{ card.Digits() }}</span>
                                         <span class="cc-name">{{ card.Expiry(TRUE) }}</span>
                                     </div>
@@ -63,7 +63,10 @@
                                             class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
                                         >
                                             <button
-                                                class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                                data-toggle="modal"
+                                                data-target="#deleteCard"
+                                                card-id="{{ card.Id() }}"
+                                                class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0 delete-card"
                                             >
                                                 წაშლა
                                             </button>
@@ -80,7 +83,7 @@
                                 <div class="col-lg-4">
                                     <div class="cc-dark col-md-3 m-2">
                                         <span class="chip"></span>
-                                        <img src="/{{ directory }}/images/visa2.svg" id="logo-visa" alt="">
+                                        <img src="/{{ directory }}/images/visa2.svg" class="logo-visa" alt="">
                                         <!-- <img src="./mc_symbol.svg" height="55px" width="55px" id="logo-mastercard" alt="" > -->
                                         <span class="cc-number">**** **** **** {{ card.Digits() }}</span>
                                         <span class="cc-name">{{ card.Expiry(TRUE) }}</span>
@@ -101,18 +104,18 @@
                                             >{{ card.CreatedTime(TRUE) }}</span
                                             >
                                         </div>
-                                        <!-- End left size -->
-                                        <!-- Start right side -->
                                         <div
                                             class="ml-lg-auto mt-3 mt-lg-0 w-100 w-sm-auto"
                                         >
                                             <button
-                                                class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0"
+                                                card-id="{{ card.Id() }}"
+                                                data-toggle="modal"
+                                                data-target="#deleteCard"
+                                                class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0 delete-card"
                                             >
                                                 წაშლა
                                             </button>
                                         </div>
-                                        <!-- End right side -->
                                     </div>
                                 </div>
                             </div>
@@ -141,8 +144,11 @@
                             </td>
                             <td class="text-right text-md-center align-middle">
                                 <button
-                                    class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
-                                    <i class="icon-delete"></i>
+                                    data-toggle="modal"
+                                    data-target="#deleteCard"
+                                    card-id="{{ card.Id() }}"
+                                    class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete delete-card">
+                                    <i class="icon-delete" card-id="{{ card.Id() }}"></i>
                                 </button>
                             </td>
                         </tr>
@@ -162,8 +168,11 @@
                             </td>
                             <td class="text-right text-md-center align-middle">
                                 <button
-                                    class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete">
-                                    <i class="icon-delete"></i>
+                                    data-toggle="modal"
+                                    data-target="#deleteCard"
+                                    card-id="{{ card.Id() }}"
+                                    class="btn font-size-6 p-0 shadow-none text-dark-silver ml-0 ml-md-2 text-hover-danger pl-delete delete-card">
+                                    <i class="icon-delete" card-id="{{ card.Id() }}"></i>
                                 </button>
                             </td>
                         </tr>
@@ -172,7 +181,61 @@
                 </tbody>
             </table>
         </div>
-        <!-- End of desktop -->
+    </div>
+</div>
+
+<!-- delete -->
+<div
+    class="modal fade"
+    id="deleteCard"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="deleteCardTitle"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5
+                    class="modal-title font-size-3 text-uppercase font-weight-bold"
+                    id="addPaymentTitle"
+                >
+                    {{ 'Delete card'|t }}
+                </h5>
+                <button
+                    type="button"
+                    class="close ml-2"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <i
+                        aria-hidden="true"
+                        class="icon-close font-size-3 text-dark-silver"
+                    ></i>
+                </button>
+            </div>
+            <div
+                class="modal-body pt-0  pl-3 pr-3 pb-3 pl-md-5 pr-md-5 pb-md-5"
+            >
+                <form method="POST">
+                    {{ delete_form.form_build_id }}
+                    {{ delete_form.form_token }}
+                    {{ delete_form.form_id }}
+                    <h5 class="font-size-3 font-weight-bold text-danger mt-2">
+                       {{ 'After deleting this card automatic payments attached to this card will be removed'|t }}
+                    </h5>
+                    <div class="row align-items-center justify-content-center">
+                        <button type="button" class="btn btn-lg btn-success text-uppercase mt-2 mr-2" data-dismiss="modal" aria-label="Close">
+                            {{'Cancel'|t}}
+                        </button>
+                        {{ delete_form.user_id }}
+                        {{ delete_form.card_id }}
+                        {{ delete_form.submit }}
+
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

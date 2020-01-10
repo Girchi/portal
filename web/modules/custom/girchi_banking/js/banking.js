@@ -42,3 +42,7 @@ $('#cardSelector').on('click', function (e) {
 $('input[type=radio][name=credit-card]').change(function() {
     $('#card_id').val(this.value);
 });
+
+$(document).on('click', '.delete-card', function (e) {
+    $('#delete-submit').val($(this).attr('card-id'));
+});

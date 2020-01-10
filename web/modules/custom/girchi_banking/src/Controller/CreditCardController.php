@@ -85,6 +85,7 @@ class CreditCardController extends ControllerBase {
   public function myCards() {
     try {
       $save_form = $this->formBuilder()->getForm('Drupal\girchi_banking\Form\SaveCreditCardForm');
+      $delete_form = $this->formBuilder()->getForm('Drupal\girchi_banking\Form\CreditCardDeleteUserForm');
       $card_storage = $this->entityTypeManager->getStorage('credit_card');
       $cards = $card_storage->loadByProperties(['user_id' => $this->accountProxy->id()]);
 
@@ -92,6 +93,7 @@ class CreditCardController extends ControllerBase {
         '#type' => 'markup',
         '#theme' => 'banking',
         '#save_form' => $save_form,
+        '#delete_form' => $delete_form,
         '#cards' => $cards,
       ];
 

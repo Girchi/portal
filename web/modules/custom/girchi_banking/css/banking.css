@@ -78,13 +78,13 @@
   font-size: 15px;
 }
 
-#logo-visa {
+.logo-visa {
   position: relative;
   margin-top: -8px;
   left: 155px;
 }
 
-#logo-mastercard {
+.logo-mastercard {
   position: relative;
   margin-top: -5px;
   left: 155px;
