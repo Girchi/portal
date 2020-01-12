@@ -41,7 +41,7 @@
                                             <span class="chip"></span>
                                             <?xml version="1.0" encoding="UTF-8"?>
                                             <img src="/{{ directory }}/images/mc_symbol.svg" height="55px" width="55px"
-                                                 id="logo-mastercard" alt="">
+                                                 class="logo-mastercard" alt="">
                                             <span class="cc-number">**** **** **** {{ card.Digits() }}</span>
                                             <span class="cc-name">{{ card.Expiry(TRUE) }}</span>
                                         </div>
@@ -49,7 +49,7 @@
                                     {% elseif card.Type() == 'VISA' %}
                                         <div class="cc-dark col-md-3 m-2">
                                             <span class="chip"></span>
-                                            <img src="/{{ directory }}/images/visa2.svg" id="logo-visa" alt="">
+                                            <img src="/{{ directory }}/images/visa2.svg" class="logo-visa" alt="">
                                             <span class="cc-number">**** **** **** {{ card.Digits() }}</span>
                                             <span class="cc-name">{{ card.Expiry(TRUE) }}</span>
                                         </div>
