@@ -356,13 +356,18 @@ function girchi_preprocess_views_view(&$variables)
       $variables['newsAuthor'] = $uid;
     }
   }
+}
 
-  if ($variables['id'] == 'favorite_news') {
+/**
+ * Implements hook_preprocess_views_view_unformatted().
+ */
+function girchi_preprocess_views_view_unformatted(&$variables){
+  if ($variables['view']->id() == 'favorite_news') {
     $user = \Drupal::routeMatch()->getParameter('user');
     if ($user instanceof User) {
       $variables['favorite_news'] = [
-          'first_name' => $user->get('field_first_name')->value,
-          'last_name' => $user->get('field_last_name')->value,
+        'first_name' => $user->get('field_first_name')->value,
+        'last_name' => $user->get('field_last_name')->value,
       ];
     }
   }

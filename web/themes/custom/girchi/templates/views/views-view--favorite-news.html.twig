@@ -35,12 +35,7 @@
 {% set classes = [
     dom_id ? 'js-view-dom-id-' ~ dom_id,
 ] %}
-<div class="card bg-success bg-green-newsfeed mb-3 mb-xl-4">
-    <div
-            class="card-header bg-transparent border-0 text-white font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4"
-    >
-        {{ favorite_news.first_name ~ ' ' ~ favorite_news.last_name }} - {{ 'Favorite news'|t }}
-    </div>
+
     <div{{ attributes.addClass(classes) }}>
         {{ title_prefix }}
         {{ title }}
@@ -54,16 +49,7 @@
 
         {{ exposed }}
         {{ attachment_before }}
-
-        <div class="card-body p-0 pt-3 px-3 px-lg-4">
-            <div class="row">
-                {% if rows -%}
-                    {{ rows }}
-                {% elseif empty -%}
-                    {{ empty }}
-                {% endif %}
-            </div>
-        </div>
+            {{ rows }}
         {{ pager }}
         {{ attachment_after }}
         {{ more }}
@@ -76,4 +62,3 @@
 
         {{ feed_icons }}
     </div>
-</div>
