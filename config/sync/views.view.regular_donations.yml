@@ -657,6 +657,57 @@ display:
           entity_type: regular_donation
           entity_field: status
           plugin_id: string
+        frequency:
+          id: frequency
+          table: regular_donation
+          field: frequency
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: frequency_op
+            label: Frequency
+            description: ''
+            use_operator: false
+            operator: frequency_op
+            identifier: frequency
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            placeholder: ''
+            min_placeholder: ''
+            max_placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: regular_donation
+          entity_field: frequency
+          plugin_id: numeric
       sorts:
         changed:
           id: changed
