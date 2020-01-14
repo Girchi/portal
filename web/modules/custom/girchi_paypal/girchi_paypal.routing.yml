@@ -1,0 +1,9 @@
+girchi_paypal.paypal_controller:
+  path: '/donate/finish/paypal'
+  defaults:
+    _controller: '\Drupal\girchi_paypal\Controller\PaypalController::finishDonation'
+    _title: 'Donate finish'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: 'TRUE'

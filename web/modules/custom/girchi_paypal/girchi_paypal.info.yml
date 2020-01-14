@@ -1,0 +1,5 @@
+name: 'Girchi paypal'
+type: module
+description: 'Module for integrating Paypal'
+core: 8.x
+package: 'girchi'
