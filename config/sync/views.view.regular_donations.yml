@@ -693,18 +693,39 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
-          is_grouped: false
+          is_grouped: true
           group_info:
-            label: ''
+            label: Frequency
             description: ''
-            identifier: ''
+            identifier: frequency
             optional: true
             widget: select
             multiple: false
             remember: false
             default_group: All
             default_group_multiple: {  }
-            group_items: {  }
+            group_items:
+              1:
+                title: '1 თვე'
+                operator: '='
+                value:
+                  value: '1'
+                  min: ''
+                  max: ''
+              2:
+                title: '3 თვე'
+                operator: '='
+                value:
+                  value: '3'
+                  min: ''
+                  max: ''
+              3:
+                title: '6 თვე'
+                operator: '='
+                value:
+                  value: '6'
+                  min: ''
+                  max: ''
           entity_type: regular_donation
           entity_field: frequency
           plugin_id: numeric
