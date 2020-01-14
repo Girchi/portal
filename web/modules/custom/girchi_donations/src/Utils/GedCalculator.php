@@ -64,7 +64,7 @@ class GedCalculator {
       $currency = $this->getCurrency();
       $ged_amount = $amount / $currency * 100;
 
-      return (int) ceil($ged_amount);
+      return (int) floor($ged_amount);
     }
     catch (InvalidCurrencyException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
