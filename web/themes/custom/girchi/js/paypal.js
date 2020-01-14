@@ -46,7 +46,6 @@ $("document").ready(function () {
             return actions.order.capture().then(function (details) {
                 console.log(data);
                 // Call server to save the transaction
-                window.location.replace("/donate/finish");
                 return fetch('/donate/finish/paypal', {
                     method: 'post',
                     headers: {
