@@ -5,27 +5,31 @@ namespace Drupal\girchi_donations\Utils;
 use Drupal\Core\Entity\EntityTypeManager;
 
 /**
- *
+ * Service to create gedtransaction.
  */
 class CreateGedTransaction {
-  /**
-   *
-   *
-   *
-   */
 
+  /**
+   * EntityTypeManager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManager
+   */
   protected $entityTypeManager;
 
   /**
+   * GedCalculator.
    *
-   *
-   *
+   * @var GedCalculator
    */
-
   protected $gedCalculator;
 
   /**
+   * CreateGedTransaction constructor.
    *
+   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   *   EntityTypeManager.
+   * @param GedCalculator $gedCalculator
+   *   GedCalculator.
    */
   public function __construct(EntityTypeManager $entityTypeManager, GedCalculator $gedCalculator) {
     $this->entityTypeManager = $entityTypeManager;
@@ -33,9 +37,12 @@ class CreateGedTransaction {
   }
 
   /**
+   * CreateGedtransaciton.
+   *
    * @param \Drupal\girchi_donations\Entity\Donation $donation
+   *   Donation.
    */
-  public function createGedTransaction($donation) {
+  public function createGedTransaction(Donation $donation) {
     $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
     $ged_manager = $this->entityTypeManager->getStorage('ged_transaction');
 
