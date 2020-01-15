@@ -35,7 +35,6 @@
 {% set classes = [
     dom_id ? 'js-view-dom-id-' ~ dom_id,
 ] %}
-
     <div{{ attributes.addClass(classes) }}>
         {{ title_prefix }}
         {{ title }}
@@ -49,8 +48,10 @@
 
         {{ exposed }}
         {{ attachment_before }}
+        <div class="card bg-success bg-green-newsfeed mb-3 mb-xl-4">
             {{ rows }}
-        {{ pager }}
+            {{ pager }}
+        </div>
         {{ attachment_after }}
         {{ more }}
 
