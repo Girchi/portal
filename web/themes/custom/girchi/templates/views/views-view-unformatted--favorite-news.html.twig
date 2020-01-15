@@ -1,0 +1,21 @@
+{#
+/**
+ * CLEAN template for views - unformatted list.
+ * Views rows get wrapper div's only if rows should have default classes.
+ * So if your custom class is not applied, turn on Show default classess on views rows.
+ *
+ */
+#}
+<div
+    class="card-header bg-transparent border-0 text-white font-size-3 text-uppercase font-weight-bold d-flex px-3 px-lg-4"
+>
+    {{ favorite_news.first_name ~ ' ' ~ favorite_news.last_name }} - {{ 'Favorite news'|t }}
+</div>
+<div class="card-body p-0 pt-3 px-3 px-lg-4">
+    <div class="row">
+        {% for row in rows %}
+                   {{ row.content }}
+        {% endfor %}
+    </div>
+</div>
+
