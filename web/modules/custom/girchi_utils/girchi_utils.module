@@ -568,15 +568,6 @@ function girchi_utils_webform_element_alter(array &$element, FormStateInterface 
 }
 
 /**
- * Implements hook_user_login().
- */
-function girchi_utils_user_login(UserInterface $account) {
-  $uid = $account->id();
-  $response = new RedirectResponse("/user/$uid/edit");
-  $response->send();
-}
-
-/**
  * Validate phone field.
  *
  * @param array $form

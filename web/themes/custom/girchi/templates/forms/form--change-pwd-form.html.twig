@@ -35,10 +35,12 @@
                     {{ element.form_id }}
 
                     <input type="hidden" value="{{ uid }}" name="uid" id="userid">
+                    {% if element.account.current_pass['#access'] %}
                     <div class="form-group">
                         <label class="form-label" for="password">{{ 'Current password'|t }}</label>
                         {{ element.account.current_pass }}
                     </div>
+                    {% endif %}
                     <div class="form-group">
                         <label class="form-label" for="pass1">{{ 'Password'|t }}</label>
                         {{ element.account.pass.pass1 }}
