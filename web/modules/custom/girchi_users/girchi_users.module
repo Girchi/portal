@@ -7,6 +7,8 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_help().
@@ -66,6 +68,7 @@ function girchi_users_form_alter(&$form, FormStateInterface $form_state, $form_i
   if ($form_id == 'user_pass_reset') {
     $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
     $form['#after_build'][] = 'girchi_users_after_build';
+    $form['#submit'][] = 'girchi_users_pass_reset_custom_submit';
 
   }
 
@@ -134,5 +137,17 @@ function girchi_users_theme_suggestions_input_alter(array &$suggestions, array $
   if (!empty($variables['element']['#name']) && $variables['element']['#name'] == 'files[field_cover_photo_0]') {
     $suggestions[] = 'input__button__cover__photo';
   }
+
+}
+
+/**
+ * Custom submit handler.
+ */
+function girchi_users_pass_reset_custom_submit(array $form, FormStateInterface $form_state) {
+  user_logout();
+  $url = Url::fromRoute('user.login')->toString();
+  $url .= '?pass-reset=success';
+  $response = new RedirectResponse($url);
+  $response->send();
 
 }
