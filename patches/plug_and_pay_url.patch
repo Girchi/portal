@@ -38,7 +38,7 @@ index df6828e..8c14740 100644
 +    public function save_card()
 +    {
 +        $post_fields = array(
-+            'command'            => 'z', // identifies a request for transaction registration
++            'command'            => 'p', // identifies a request for transaction registration
 +            'amount'             => $this->amount,
 +            'currency'           => $this->currency,
 +            'client_ip_addr'     => $this->client_ip_addr,
@@ -46,7 +46,7 @@ index df6828e..8c14740 100644
 +            'language'           => $this->language,
 +            'biller'             => $this->biller,
 +            'biller_client_id'   => $this->biller_id,
-+            'perspayee_expi ry'  => '08/30',
++            'perspayee_expiry'  => '08/30',
 +            'msg_type'           => 'SMS',
 +            'perspayee_gen'      => '1'
 +        );

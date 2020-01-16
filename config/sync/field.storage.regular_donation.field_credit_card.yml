@@ -1,0 +1,20 @@
+uuid: 2b93759b-8006-4ae7-a001-c54c01a3afea
+langcode: ka
+status: true
+dependencies:
+  module:
+    - girchi_banking
+    - girchi_donations
+id: regular_donation.field_credit_card
+field_name: field_credit_card
+entity_type: regular_donation
+type: entity_reference
+settings:
+  target_type: credit_card
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

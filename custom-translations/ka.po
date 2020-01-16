@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2020-01-15 17:24+0000\n"
-"PO-Revision-Date: 2020-01-15 17:24+0000\n"
+"PO-Revision-Date: 2020-01-15 17:24+0000\n
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4218,6 +4218,12 @@ msgstr "რეფერალური სარგებელი"
 msgid "Referral transactions"
 msgstr "რეფერალური ტრანზაქციები"
 
+msgid "My credit cards"
+msgstr "ჩემი ბარათები"
+
+msgid "Execution date"
+msgstr "ჩამოჭრის თარიღი"
+
 msgid ""
 "Your password has been successfully changed. Please log in into your "
 "account with new password"
@@ -4235,4 +4241,42 @@ msgstr ""
 "შეიცვალა. გთხოვთ გაიაროთ "
 "ავტორიზაცია ახალი "
 "პაროლით."
+
+msgid "Delete card"
+msgstr "ბარათის წაშლა"
+
+msgid "Regular donation was successfully updated"
+msgstr ""
+"ავტომატური დაფინანსების "
+"რედაქტირება წარმატებით "
+"დასრულდა "
+
+msgid "Add new card"
+msgstr "ახალი ბარათის დამატება"
+
+msgid ""
+"After deleting selected card regular payments attached to this card "
+"will be removed"
+msgstr ""
+"არჩეული ბარათის წაშლის "
+"შედეგად წაიშლება ყველა "
+"ავტომატური დაფინანსება "
+"რომელიც მოცემულ ბარათზეა "
+"მიბმული"
+
+msgid "My cards"
+msgstr "ჩემი ბარათები"
+
+msgid "Credit car was successfully saved"
+msgstr ""
+"ბარათი წარმატებით "
+"დაემატა"
+
+msgid "Card %s %s was deleted"
+msgstr "ბარათი %s %s წაიშალა"
+
+msgid "Regular donation was created"
+msgstr ""
+"ავტომატური დაფინანსების "
+"წარმატებით დაემატა
 

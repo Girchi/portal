@@ -177,7 +177,7 @@ class SingleDonationForm extends FormBase {
       // TYPE 2 - Politician.
       $type = $donation_aim ? 1 : 2;
       $transaction_id = $this->omediaPayment->generateTransactionId($amount, "test");
-      $this->donationUtils->addDonationRecord(
+      $valid = $this->donationUtils->addDonationRecord(
         $type,
         [
           'trans_id' => $transaction_id,
@@ -185,8 +185,13 @@ class SingleDonationForm extends FormBase {
           'user_id' => $this->currentUser->id(),
         ],
         $description);
-
-      return $this->omediaPayment->makePayment($transaction_id);
+      if ($valid) {
+        return $this->omediaPayment->makePayment($transaction_id);
+      }
+      else {
+        $this->messenger->addError($this->t('Error'));
+        $form_state->setRebuild();
+      }
     }
   }
 

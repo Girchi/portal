@@ -2,12 +2,19 @@
 
 namespace Drupal\girchi_donations\Controller;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityFormBuilder;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilder;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxy;
+use Drupal\Core\TypedData\Exception\MissingDataException;
+use Drupal\girchi_banking\Services\BankingUtils;
+use Drupal\girchi_donations\Entity\RegularDonation;
 use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
@@ -91,6 +98,27 @@ class DonationsController extends ControllerBase {
   protected $dispatcher;
 
   /**
+   * Banking utils definition.
+   *
+   * @var \Drupal\girchi_banking\Services\BankingUtils
+   */
+  protected $bankingUtils;
+
+  /**
+   * Drupal\Core\Session\AccountProxy definition.
+   *
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $accountProxy;
+
+  /**
+   * Drupal\Core\Entity\EntityFormBuilder definition.
+   *
+   * @var \Drupal\Core\Entity\EntityFormBuilder
+   */
+  protected $entityFormBuilder;
+
+  /**
    * Construct.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
@@ -109,8 +137,14 @@ class DonationsController extends ControllerBase {
    *   FormBuilder.
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
    *   Donation utils.
+   * @param \Drupal\girchi_banking\Services\BankingUtils $bankingUtils
+   *   Banking utils.
+   * @param \Drupal\Core\Session\AccountProxy $accountProxy
+   *   Account proxy.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
    *   EventDispatcher.
+   * @param \Drupal\Core\Entity\EntityFormBuilder $entityFormBuilder
+   *   Entity form builder.
    */
   public function __construct(ConfigFactory $configFactory,
                               PaymentService $omediaPayment,
@@ -120,7 +154,10 @@ class DonationsController extends ControllerBase {
                               AccountProxy $currentUser,
                               FormBuilder $formBuilder,
                               DonationUtils $donationUtils,
-                              EventDispatcherInterface $dispatcher
+                              BankingUtils $bankingUtils,
+                              AccountProxy $accountProxy,
+                              EventDispatcherInterface $dispatcher,
+                              EntityFormBuilder $entityFormBuilder
   ) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
@@ -130,7 +167,10 @@ class DonationsController extends ControllerBase {
     $this->currentUser = $currentUser;
     $this->formBuilder = $formBuilder;
     $this->donationUtils = $donationUtils;
+    $this->bankingUtils = $bankingUtils;
+    $this->accountProxy = $accountProxy;
     $this->dispatcher = $dispatcher;
+    $this->entityFormBuilder = $entityFormBuilder;
   }
 
   /**
@@ -146,7 +186,10 @@ class DonationsController extends ControllerBase {
       $container->get('current_user'),
       $container->get('form_builder'),
       $container->get('girchi_donations.donation_utils'),
-      $container->get('event_dispatcher')
+      $container->get('girchi_banking.utils'),
+      $container->get('current_user'),
+      $container->get('event_dispatcher'),
+      $container->get('entity.form_builder')
     );
   }
 
@@ -163,6 +206,9 @@ class DonationsController extends ControllerBase {
       ->getForm("Drupal\girchi_donations\Form\SingleDonationForm");
     $form_multiple = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\MultipleDonationForm");
+    $card_save_form = $this->formBuilder()->getForm('Drupal\girchi_banking\Form\SaveCreditCardForm');
+    $has_active_card = $this->bankingUtils->hasAvailableCards($this->accountProxy->id());
+    $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
     return [
       '#type' => 'markup',
@@ -170,6 +216,9 @@ class DonationsController extends ControllerBase {
       '#form_single' => $form_single,
       '#form_multiple' => $form_multiple,
       '#right_block' => $right_block,
+      '#has_active_card' => $has_active_card,
+      '#card_save_form' => $card_save_form,
+      '#cards' => $cards,
     ];
   }
 
@@ -187,9 +236,8 @@ class DonationsController extends ControllerBase {
       $params = $request->request;
       $trans_id = $params->get('trans_id');
       $storage = $this->entityTypeManager()->getStorage('donation');
-      $reg_donation_storage = $this->entityTypeManager()
-        ->getStorage('regular_donation');
-
+      $card_storage = $this->entityTypeManager()
+        ->getStorage('credit_card');
       $ged_manager = $this->entityTypeManager()->getStorage('ged_transaction');
 
       if (!$trans_id) {
@@ -197,9 +245,8 @@ class DonationsController extends ControllerBase {
         return new JsonResponse('Transaction ID is missing', Response::HTTP_BAD_REQUEST);
       }
       $donations = $storage->loadByProperties(['trans_id' => $trans_id]);
-      $reg_donations = $reg_donation_storage->loadByProperties(['trans_id' => $trans_id]);
-
-      if (empty($donations) && empty($reg_donations)) {
+      $credit_cards = $card_storage->loadByProperties(['trans_id' => $trans_id]);
+      if (empty($donations) && empty($credit_cards)) {
         $this->getLogger('girchi_donations')
           ->error('Donation or Regular Donation entity not found.');
         return new JsonResponse('Donation or Regular Donation entity not found.', Response::HTTP_BAD_REQUEST);
@@ -207,9 +254,11 @@ class DonationsController extends ControllerBase {
       /** @var \Drupal\girchi_donations\Entity\Donation $donation */
       $donation = reset($donations);
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
-      $reg_donation = reset($reg_donations);
+      $credit_card = reset($credit_cards);
 
-      $transaction_type_id = $this->entityTypeManager()->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
+      $transaction_type_id = $this->entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->load(1369) ? '1369' : NULL;
 
       $result = $this->omediaPayment->getPaymentResult($trans_id);
       if ($result['RESULT_CODE'] === "000") {
@@ -258,54 +307,22 @@ class DonationsController extends ControllerBase {
             return $this->redirect('user.page');
           }
         }
-        elseif ($reg_donation) {
-          if ($reg_donation->getStatus() !== 'ACTIVE') {
-            /** @var \Drupal\user\Entity\User $user */
-            $reg_donation->setStatus('ACTIVE');
-            $ged_amount = $this->gedCalculator->calculate($reg_donation->get('amount')->value);
-            $transaction = $ged_manager->create([
-              'user_id' => "1",
-              'user' => $reg_donation->getOwnerId(),
-              'ged_amount' => $ged_amount,
-              'title' => 'Donation',
-              'name' => 'Donation',
-              'status' => TRUE,
-              'Description' => 'Transaction was created by donation',
-              'transaction_type' => $transaction_type_id,
-            ]);
-            $transaction->save();
-            $this->getLogger('girchi_donations')
-              ->info("Ged transaction was made.");
-            $type = $reg_donation->get('type')->value;
-            $entity_id = $reg_donation->get('aim_id')->target_id ? $reg_donation->get('aim_id')->target_id : $reg_donation->get('politician_id')->target_id;
-            $donation = $this->donationUtils->addDonationRecord($type, [
-              'trans_id' => $reg_donation->get('trans_id')->value,
-              'amount' => (int) $reg_donation->get('amount')->value,
-              'user_id' => $reg_donation->getOwnerId(),
-              'field_donation_type' => 1,
-              'field_ged_transaction' => $transaction->id(),
-              'status' => 'OK',
-            ], $entity_id);
-            /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $donations */
-            $donations = $reg_donation->get('field_donations');
-            $donations->appendItem($donation->id());
-            $this->getLogger('girchi_donations')->info("Donation was made.");
-            $reg_donation->save();
-            $donationEvent = new DonationEvents($donation);
-            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
-            $this->getLogger('girchi_donations')
-              ->info('Regular donation was activated.');
-            $reg_donation_details = [
-              'frequency' => $reg_donation->get('frequency')->value,
-              'day' => $reg_donation->get('payment_day')->value,
-              'date' => $reg_donation->get('next_payment_date')->value,
-            ];
-            return [
-              '#type' => 'markup',
-              '#theme' => 'girchi_donations_success',
-              '#regular_donation' => TRUE,
-              '#reg_data' => $reg_donation_details,
-            ];
+        elseif ($credit_card) {
+          if ($credit_card->getStatus() !== 'ACTIVE') {
+            $active_card = $this->bankingUtils->parseAndMerge($credit_card, $result);
+            if (!$active_card) {
+              return [
+                '#type' => 'markup',
+                '#theme' => 'girchi_donations_fail',
+              ];
+            }
+            else {
+              return [
+                '#type' => 'markup',
+                '#theme' => 'girchi_donations_success',
+                '#card' => $active_card,
+              ];
+            }
           }
           else {
             return $this->redirect('user.page');
@@ -325,15 +342,12 @@ class DonationsController extends ControllerBase {
             '#theme' => 'girchi_donations_fail',
           ];
         }
-        elseif ($reg_donation) {
-          $reg_donation->setStatus('FAILED');
-          $reg_donation->save();
-          $this->getLogger('girchi_donations')
-            ->error("Regular Donation failed code:$code, ID:$trans_id.");
+        elseif ($credit_card) {
+          $credit_card->setStatus('FAILED');
+          $credit_card->save();
           return [
             '#type' => 'markup',
             '#theme' => 'girchi_donations_fail',
-            '#regular_donation' => TRUE,
           ];
         }
 
@@ -400,19 +414,17 @@ class DonationsController extends ControllerBase {
       ->execute();
     $regular_donations = $regular_donation_storage->loadMultiple($regular_donations);
     $regular_donation_form = $this->formBuilder->getForm('Drupal\girchi_donations\Form\MultipleDonationForm');
-    $politicans = $this->donationUtils->getPoliticians();
-    $terms = $this->donationUtils->getTerms();
     $language_code = $this->languageManager()->getCurrentLanguage()->getId();
+    $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
     return [
       '#type' => 'markup',
       '#theme' => 'regular_donations',
       '#regular_donations' => $regular_donations,
       '#regular_donation_form' => $regular_donation_form,
-      '#politicians' => $politicans,
-      '#terms' => $terms,
       '#language' => $language_code,
       '#current_user_id' => $this->currentUser->id(),
+      '#cards' => $cards,
     ];
   }
 
@@ -469,71 +481,48 @@ class DonationsController extends ControllerBase {
   }
 
   /**
-   * Route for editing donation.
+   * Route for regular donation edit.
    *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   Symfony request.
+   * @param \Drupal\Core\Session\AccountInterface $user
+   *   User.
+   * @param \Drupal\girchi_donations\Entity\RegularDonation $regular
+   *   Regular.
    *
-   * @return \Symfony\Component\HttpFoundation\RedirectResponse
-   *   Redirect response.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+   *   Response.
    */
-  public function editDonation(Request $request) {
+  public function editRegularDonationAction(AccountInterface $user, RegularDonation $regular) {
     try {
-      $user_id = $request->request->get('user-id');
-      if ($user_id == $this->currentUser->id()) {
-        $donation_id = $request->request->get('donation-id');
-        $amount = $request->request->get('amount');
-        $period = $request->request->get('period');
-        $aim = $request->request->get('aim') ? $request->request->get('aim') : "";
-        $politician = $request->request->get('politician') ? $request->request->get('politician') : "";
-        $date = $request->request->get('date');
-
-        if (!empty($donation_id) &&
-          !empty($amount) &&
-          !empty($period) &&
-          !empty($date)) {
-          if (in_array($period, [1, 3, 6])
-            && in_array($date, range(1, 28))
-          ) {
-            /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
-            $donation_storage = $this->entityTypeManager()
-              ->getStorage('regular_donation');
-            /** @var \Drupal\girchi_donations\Entity\RegularDonation $regular_donation */
-            $regular_donation = $donation_storage->loadByProperties(['id' => $donation_id]);
-            $regular_donation[$donation_id]->set('amount', $amount);
-            $regular_donation[$donation_id]->set('frequency', $period);
-            $regular_donation[$donation_id]->set('payment_day', $date);
-
-            if (!empty($aim)) {
-              $regular_donation[$donation_id]->set('aim_id', $aim);
-            }
-            elseif (!empty($politician)) {
-              $regular_donation[$donation_id]->set('politician_id', $politician);
-            }
-            $regular_donation[$donation_id]->save();
-            $this->messenger()
-              ->addMessage($this->t('Donation has been changed.'));
-          }
-          else {
-            $this->messenger()
-              ->addError($this->t('Failed to change Donation.'));
-          }
-        }
+      if ($this->currentUser()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
+        $entity_form = $this->entityFormBuilder->getForm($regular);
+        $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
+        $card_helper = [];
+        $card_helper['has_card'] = $regular->get('field_credit_card')->first() ? TRUE : FALSE;
+        $card_helper['card_id'] = $card_helper['has_card'] ? $regular->get('field_credit_card')->first()->target_id : NULL;
+        $card_helper['ged_amount'] = $this->donationUtils->gedCalculator->calculate($regular->get('amount')->value);
+        return [
+          '#type' => 'markup',
+          '#theme' => 'girchi_donations_regular_edit',
+          '#entity' => $regular,
+          '#entity_form' => $entity_form,
+          '#cards' => $cards,
+          '#card_helper' => $card_helper,
+        ];
       }
-      else {
-        $this->messenger()
-          ->addError($this->t('You are not authorized to change donation.'));
-      }
-      return $this->redirect('girchi_donations.regular_donations');
 
     }
-    catch (\Exception $e) {
+    catch (InvalidPluginDefinitionException $e) {
+      $this->getLogger('girchi_donations')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->getLogger('girchi_donations')->error($e->getMessage());
+    }
+    catch (MissingDataException $e) {
       $this->getLogger('girchi_donations')->error($e->getMessage());
     }
 
+    $this->messenger()->addError($this->t('Access denied'));
+    return $this->redirect('user.page');
   }
 
 }
