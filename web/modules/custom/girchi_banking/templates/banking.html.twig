@@ -4,7 +4,7 @@
         data-target="#addPayment"
         class="btn btn-success btn-block text-uppercase"
     >
-        ახალი ბარათის დამატება
+        {{ 'Add new card'|t }}
     </button>
 </div>
 
@@ -13,7 +13,7 @@
         class="d-flex border-bottom flex-column flex-md-row px-3 px-md-4 py-3 align-items-md-center"
     >
         <h6 class="text-uppercase font-weight-bold m-0">
-            ჩემი ბარათები
+            {{ 'My cards'|t }}
         </h6>
         <div class="ml-auto my-n1 d-none d-sm-block">
             <button
@@ -21,7 +21,7 @@
                 data-target="#addPayment"
                 class="btn btn-success text-uppercase desktop"
             >
-                ახალი ბარათის დამატება
+                {{ 'Add new card'|t }}
             </button>
         </div>
     </div>
@@ -68,7 +68,7 @@
                                                 card-id="{{ card.Id() }}"
                                                 class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0 delete-card"
                                             >
-                                                წაშლა
+                                                {{ 'Delete'|t }}
                                             </button>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                                 data-target="#deleteCard"
                                                 class="btn btn-warning mr-sm-2 text-uppercase px-3 d-block d-sm-inline-block mx-0 w-100 w-sm-auto mt-1 mt-sm-0 delete-card"
                                             >
-                                                წაშლა
+                                                {{ 'Delete'|t }}
                                             </button>
                                         </div>
                                     </div>
@@ -158,7 +158,7 @@
                                 <div class="d-flex w-100 align-items-center my-2">
                                     <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3">
                                         <span
-                                            class="text-grey font-size-4 font-weight-bold d-block">**** **** **** {{card.Digits()}}</span>
+                                            class="text-grey font-size-4 font-weight-bold d-block">**** **** **** {{ card.Digits() }}</span>
                                     </h6>
                                 </div>
                             </td>
@@ -222,11 +222,12 @@
                     {{ delete_form.form_token }}
                     {{ delete_form.form_id }}
                     <h5 class="font-size-3 font-weight-bold text-danger mt-2">
-                       {{ 'After deleting this card automatic payments attached to this card will be removed'|t }}
+                        {{ 'After deleting selected card regular payments attached to this card will be removed'|t }}
                     </h5>
                     <div class="row align-items-center justify-content-center">
-                        <button type="button" class="btn btn-lg btn-success text-uppercase mt-2 mr-2" data-dismiss="modal" aria-label="Close">
-                            {{'Cancel'|t}}
+                        <button type="button" class="btn btn-lg btn-success text-uppercase mt-2 mr-2"
+                                data-dismiss="modal" aria-label="Close">
+                            {{ 'Cancel'|t }}
                         </button>
                         {{ delete_form.user_id }}
                         {{ delete_form.card_id }}

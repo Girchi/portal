@@ -164,7 +164,7 @@ class RegularDonationForm extends ContentEntityForm {
         '6' => $this->t('Once in every 6 months'),
       ],
       '#required' => TRUE,
-      '#value' => $this->entity->get('frequency')->value,
+      '#default_value' => $this->entity->get('frequency')->value,
     ];
     $form['date'] = [
       '#default_value' => $this->entity->get('payment_day')->value,
@@ -248,7 +248,7 @@ class RegularDonationForm extends ContentEntityForm {
         $this->entity->set('politician_id', $politician);
       }
       $this->entity->save();
-      $this->messenger()->addMessage($this->t('Success'));
+      $this->messenger()->addMessage($this->t('Regular donation was successfully updated'));
       $form_state->setRedirect('girchi_donations.regular_donations');
     }
     catch (\Exception $e) {
