@@ -2,11 +2,17 @@
 
 namespace Drupal\girchi_donations\Commands;
 
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drush\Commands\DrushCommands;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * A Drush commandfile.
@@ -107,6 +113,82 @@ class GirchiDonationsCommands extends DrushCommands {
     catch (PluginNotFoundException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
     }
+  }
+
+  /**
+   * Main command.
+   *
+   * @command girchi_donations:restore-dates
+   * @aliases restore-dates
+   */
+  public function restoreDates(InputInterface $input, OutputInterface $output) {
+    try {
+      $regd_storage = $this->entityTypeManager->getStorage('regular_donation');
+      $group = $regd_storage->getQuery()
+        ->orConditionGroup()
+        ->condition('status', 'ACTIVE', '=')
+        ->condition('status', 'PAUSED', '=');
+      $regd_ids = $regd_storage->getQuery()
+        ->condition($group)
+        ->condition('next_payment_date', $this->getMothDays(), 'IN')
+        ->execute();
+      $regds = $regd_storage->loadMultiple($regd_ids);
+      $progressBar = new ProgressBar($output, count($regd_ids));
+
+      // Starts and displays the progress bar.
+      $progressBar->start();
+      $output->writeln("\n");
+      /** @var \Drupal\girchi_donations\Entity\RegularDonation $regd */
+      foreach ($regds as $regd) {
+        $output->writeln(sprintf('Fixing date for %s', $regd->getOwner()
+          ->get('name')->value));
+
+        if ($regd->getStatus() == 'ACTIVE') {
+          $regd->set('next_payment_date', $this->generateNextPaymentDate());
+        }
+        else {
+          $carbon_date = Carbon::createFromFormat(DateTimeItemInterface::DATE_STORAGE_FORMAT, $regd->get('next_payment_date')->value);
+          $next_payment_date = $carbon_date->addMonths($regd->get('frequency')->value)
+            ->toDateTime()
+            ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
+            ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+          $regd->set('next_payment_date', $next_payment_date);
+        }
+        $regd->save();
+        $progressBar->advance();
+      }
+      $progressBar->finish();
+
+    }
+    catch (\Exception $e) {
+
+    }
+
+  }
+
+  /**
+   * Helper.
+   */
+  public function getMothDays() {
+    $response = [];
+    $period = CarbonPeriod::create(Carbon::createFromDate(2019, 12, 25), Carbon::today());
+
+    /** @var \Carbon\Carbon $day */
+    foreach ($period as $day) {
+      $response[] = $day->toDateTime()
+        ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+    }
+
+    return $response;
+  }
+
+  /**
+   * Helper.
+   */
+  public function generateNextPaymentDate() {
+    return Carbon::today()->toDateTime()
+      ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
+      ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
   }
 
 }

@@ -1,0 +1,153 @@
+<div class="card mb-4 mb-sm-8">
+    <div class="card-header">
+        <h6 class="text-uppercase font-weight-bold m-0">
+            {{ 'Regular donation settings'|t }}
+        </h6>
+    </div>
+    <div class="card-body bg-green-newsfeed">
+        <div class="row">
+
+            <div class="col-md-7">
+                <h5 class="font-size-3 font-weight-bold text-warning">
+                    {{ 'The edited verison of Periodicity and date will be valid after the next payment.' |t }}
+                </h5>
+                <hr class="border-dashed border-secondary"/>
+
+                <div class="row">
+                    <form method="POST">
+                        {{ entity_form.form_build_id }}
+                        {{ entity_form.form_token }}
+                        {{ entity_form.form_id }}
+                        {{ entity_form.currency }}
+                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                            <div
+                                class="form-group form-group pr-sm-2"
+                            >
+                                <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
+                                {{ entity_form.amount }}
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">{{ 'You will get'|t }}</label>
+                                <div
+                                    class="text-success font-size-5 d-flex pl-3 pt-2"
+                                >
+                                    <i class="icon-ged"></i>
+                                    <span class="ml-1" id="ged-place-2">{{ card_helper['ged_amount'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                            <div class="form-group w-100 w-md-50 pr-sm-2">
+                                <label class="form-label" for="period"
+                                >{{ 'Periodicity'|t }}</label
+                                >
+                                <div class="form-control form-control-lg">
+                                    {{ entity_form.frequency }}
+                                </div>
+                            </div>
+                            <div class="form-group w-100 w-md-50  pl-sm-2">
+                                <label class="form-label" id="date"
+                                >{{ 'Donation date'|t }}</label
+                                >
+                                <div class="form-control form-control-lg">
+                                    {{ entity_form.date }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="description"
+                            >
+                                {% if entity_form.donation_aim is not null %}
+                                    {{ 'Donation aim'|t }}
+                                {% elseif  entity_form.politicians is not null %}
+                                    {{ 'Donation to politician'|t }}
+                                {% endif %}
+                            </label
+                            >
+                            <div class="form-control form-control-lg">
+                                {% if entity_form.donation_aim is not null %}
+                                    {{ entity_form.donation_aim }}
+                                {% elseif  entity_form.politicians is not null %}
+                                    {{ entity_form.politicians }}
+                                {% endif %}
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% set card = cards[card_helper['card_id']] %}
+                {% if card is not null %}
+                    <div class="cc-selector row">
+                    <div
+                        class="align-self-center margin-control"
+                    >
+
+                    <p class="form-label">მიბმული ბარათი</p>
+                    {% if card.Type() == 'VISA' %}
+                        <div
+                            class="cc-dark-mobile col-md-3 m-2"
+                        >
+                                    <span
+                                        class="chip-mobile"></span>
+                            <img
+                                src="/{{ directory }}/images/visa2.svg"
+                                class="logo-visa-mobile"
+                                height="35px"
+                                width="35px"
+                                alt=""
+                            />
+                            <span
+                                class="cc-number-mobile"
+                            >**** **** **** {{ card.Digits() }}</span
+                            >
+                            <span class="cc-name-mobile"
+                            >{{ card.Expiry(TRUE) }}</span
+                            >
+                        </div>
+                    {% elseif card.Type() == 'MC' %}
+                        <div
+                            class="cc-green-mobile col-md-3 m-2"
+                        >
+                                    <span
+                                        class="chip-mobile"></span>
+                            <img
+                                src="/{{ directory }}/images/mc_symbol.svg"
+                                height="35px"
+                                width="35px"
+                                class="logo-mastercard-mobile"
+                                alt=""
+                            />
+                            <span
+                                class="cc-number-mobile"
+                            >**** **** **** {{ card.Digits() }}</span
+                            >
+                            <span class="cc-name-mobile"
+                            >{{ card.Expiry(TRUE) }}</span
+                            >
+                        </div>
+                        <hr class="border-dashed border-secondary"/>
+                        </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                <p class="form-label">{{ 'Status'|t }}:
+                    {% if entity.status.value == 'ACTIVE' %}
+                        <span class="text-success font-size-3 ml-1">{{ entity.status.value|t }}</span>
+                    {% else %}
+                        <span class="text-warning font-size-3 ml-1">{{ entity.status.value|t }}</span>
+                    {% endif %}
+                </p>
+                {% if entity.status.value == 'ACTIVE' %}
+                    <p class="form-label">{{ 'Execution date' | t }}:
+                    <span class="text-success font-size-3 ml-1">{{ regular_donation.next_payment_date.value | date("m/d/Y")}}</span>
+                {% endif %}
+
+            </div>
+        </div>
+        {{ entity_form.actions.submit }}
+        </form>
+    </div>
+</div>
+{{ attach_library('girchi/donation') }}
+{{ attach_library('girchi_banking/girchi_banking') }}
