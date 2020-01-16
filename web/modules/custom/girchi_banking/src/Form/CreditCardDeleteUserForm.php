@@ -147,7 +147,7 @@ class CreditCardDeleteUserForm extends FormBase {
       $card_entity = $card_storage->load($card_id);
       $card_entity->delete();
 
-      $this->messenger()->addMessage(sprintf('Card %s %s was deleted', $card_entity->getType(), $card_entity->getExpiry(TRUE)));
+      $this->messenger()->addMessage(sprintf($this->t('Card %s %s was deleted'), $card_entity->getType(), $card_entity->getExpiry(TRUE)));
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->get('girchi_banking')->error($e->getMessage());

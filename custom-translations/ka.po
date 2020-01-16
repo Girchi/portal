@@ -4263,3 +4263,5 @@ msgstr ""
 "ბარათი წარმატებით "
 "დაემატა"
 
+msgid "Card %s %s was deleted"
+msgstr "ბარათი %s %s წაიშალა"
