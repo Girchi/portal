@@ -4265,3 +4265,8 @@ msgstr ""
 
 msgid "Card %s %s was deleted"
 msgstr "ბარათი %s %s წაიშალა"
+
+msgid "Regular donation was created"
+msgstr ""
+"ავტომატური დაფინანსების "
+"წარმატებით დაემატა
