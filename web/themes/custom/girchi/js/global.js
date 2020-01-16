@@ -106,7 +106,6 @@ $(document).ready(function() {
     }
 
     if(window.location.search == '?pass-reset=success'){
-        console.log(jQuery("form"));
         $("#user-login-form").prepend(`<div class="alert alert-success">${Drupal.t("Your password has been successfully changed. Please log in into your account with new password.")} </div>`);
 
     };
