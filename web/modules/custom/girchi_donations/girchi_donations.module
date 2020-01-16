@@ -41,6 +41,9 @@ function girchi_donations_theme() {
         'right_block' => NULL,
         'form_single' => NULL,
         'form_multiple' => NULL,
+        'has_active_card' => NULL,
+        'card_save_form' => NULL,
+        'cards' => NULL,
       ],
     ],
     'girchi_donations_success' => [
@@ -50,6 +53,7 @@ function girchi_donations_theme() {
         'auth' => NULL,
         'regular_donation' => NULL,
         'reg_data' => NULL,
+        'card' => NULL,
       ],
     ],
     'girchi_donations_fail' => [
@@ -60,10 +64,18 @@ function girchi_donations_theme() {
       'variables' => [
         'regular_donations' => NULL,
         'regular_donation_form' => NULL,
-        'politicians' => NULL,
-        'terms' => NULL,
         'language' => NULL,
         'current_user_id' => NULL,
+        'cards' => NULL,
+      ],
+    ],
+    'girchi_donations_regular_edit' => [
+      'render element' => 'children',
+      'variables' => [
+        'entity_form' => NULL,
+        'cards' => NULL,
+        'card_helper' => NULL,
+        'entity' => NULL,
       ],
     ],
   ];
@@ -123,43 +135,47 @@ function girchi_donations_cron() {
     }
   }
   if ($hour > 18) {
-    try {
-      $today = Carbon::now()
-        ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
-      $logger_factory->info(
-        sprintf('Start filling regular donation queue execution date: %s',
-          Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
-      );
-      /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
-      $queue_factory = \Drupal::service('queue');
-      /** @var \Drupal\Core\Entity\EntityStorageBase $reg_donations_storage */
-      $reg_donations_storage = \Drupal::entityTypeManager()
-        ->getStorage('regular_donation');
-      $reg_donations_ids = $reg_donations_storage->getQuery()
-        ->condition('status', 'FAILED', '!=')
-        ->condition('status', 'INITIAL', '!=')
-        ->condition('next_payment_date', $today)
-        ->execute();
-      if (!empty($reg_donations_ids)) {
-        $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
-        $queue = $queue_factory->get('regular_donation_processor');
-        /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
-        foreach ($reg_donations as $reg_donation) {
-          $queue->createItem($reg_donation);
+    if ($day != $key_value->get('execution_day')) {
+      try {
+        $today = Carbon::now()
+          ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+        $logger_factory->info(
+          sprintf('Start filling regular donation queue execution date: %s',
+            Carbon::now()
+              ->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+        );
+        /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
+        $queue_factory = \Drupal::service('queue');
+        /** @var \Drupal\Core\Entity\EntityStorageBase $reg_donations_storage */
+        $reg_donations_storage = \Drupal::entityTypeManager()
+          ->getStorage('regular_donation');
+        $reg_donations_ids = $reg_donations_storage->getQuery()
+          ->condition('status', 'FAILED', '!=')
+          ->condition('status', 'INITIAL', '!=')
+          ->condition('next_payment_date', $today)
+          ->execute();
+        if (!empty($reg_donations_ids)) {
+          $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+          $queue = $queue_factory->get('regular_donation_processor');
+          /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
+          foreach ($reg_donations as $reg_donation) {
+            $queue->createItem($reg_donation);
+          }
         }
+        $logger_factory->info(
+          sprintf('Regular payment queue is ready. date: %s',
+            Carbon::now()
+              ->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+        );
+        $key_value->set('execution_day', $day);
       }
-      $logger_factory->info(
-        sprintf('Regular payment queue is ready. date: %s',
-          Carbon::now()->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
-      );
+      catch (InvalidPluginDefinitionException $e) {
+        $logger_factory->error($e->getMessage());
+      }
+      catch (PluginNotFoundException $e) {
+        $logger_factory->error($e->getMessage());
+      }
     }
-    catch (InvalidPluginDefinitionException $e) {
-      $logger_factory->error($e->getMessage());
-    }
-    catch (PluginNotFoundException $e) {
-      $logger_factory->error($e->getMessage());
-    }
-
   }
 }
 

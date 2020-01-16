@@ -1,0 +1,9 @@
+
+girchi_banking.credit_card_controller_cards:
+  path: '/user/banking'
+  defaults:
+    _controller: '\Drupal\girchi_banking\Controller\CreditCardController::myCards'
+    _title: 'My cards'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

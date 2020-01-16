@@ -1,0 +1,21 @@
+# Credit card routing definition
+credit_card.settings_tab:
+  route_name: credit_card.settings
+  title: 'Settings'
+  base_route: credit_card.settings
+
+entity.credit_card.canonical:
+  route_name: entity.credit_card.canonical
+  base_route: entity.credit_card.canonical
+  title: 'View'
+
+entity.credit_card.edit_form:
+  route_name: entity.credit_card.edit_form
+  base_route: entity.credit_card.canonical
+  title: 'Edit'
+
+entity.credit_card.delete_form:
+  route_name:  entity.credit_card.delete_form
+  base_route:  entity.credit_card.canonical
+  title: Delete
+  weight: 10
