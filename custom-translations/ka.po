@@ -127,8 +127,9 @@ msgstr "მომხმარებელი"
 
 msgid "Email address"
 msgstr "ელ.ფოსტის მისამართი"
+msgid "
 
-msgid "Development"
+elopment"
 msgstr "დეველოპმენტი"
 
 msgid "Groups"
@@ -4259,6 +4260,18 @@ msgstr ""
 msgid "Execution date"
 msgstr "ჩამოჭრის თარიღი"
 
+msgid ""
+"Your password has been successfully changed. Please log in into your "
+"account with new password."
+msgstr ""
+"თქვენი პაროლი წარმატებით "
+"შეიცვალა. გთხოვთ გაიაროთ "
+"ავტორიზაცია ახალი "
+"პაროლით."
+
+msgid "Delete card"
+msgstr "ბარათის წაშლა"
+
 msgid "Regular donation was successfully updated"
 msgstr ""
 "ავტომატური დაფინანსების "
@@ -4289,4 +4302,14 @@ msgstr ""
 "შეიცვალა. გთხოვთ გაიაროთ "
 "ავტორიზაცია ახალი "
 "პაროლით."
+
+
+msgid "Card %s %s was deleted"
+msgstr "ბარათი %s %s წაიშალა"
+
+msgid "Regular donation was created"
+msgstr ""
+"ავტომატური დაფინანსების "
+"წარმატებით დაემატა
+
 
