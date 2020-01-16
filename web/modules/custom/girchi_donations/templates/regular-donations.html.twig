@@ -102,7 +102,7 @@
                                         >
                                        <span class="mr-3">
                                                 <span
-                                                    class="text-grey">{{ 'Next payment date' | t }}: </span>{{ regular_donation.next_payment_date.value | date("m/d/Y") }}
+                                                    class="text-grey">{{ 'Next payment date' | t }}: </span>{{ regular_donation.next_payment_date.value | date('U') |format_date('omedia_short') }}
                                             </span>
                                         </div>
                                     </div>
