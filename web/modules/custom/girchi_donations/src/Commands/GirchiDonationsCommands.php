@@ -140,20 +140,16 @@ class GirchiDonationsCommands extends DrushCommands {
       $output->writeln("\n");
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $regd */
       foreach ($regds as $regd) {
-        $output->writeln(sprintf('Fixing date for %s', $regd->getOwner()
+        $output->writeln(sprintf("\n Fixing date for %s \n", $regd->getOwner()
           ->get('name')->value));
 
-        if ($regd->getStatus() == 'ACTIVE') {
-          $regd->set('next_payment_date', $this->generateNextPaymentDate());
-        }
-        else {
-          $carbon_date = Carbon::createFromFormat(DateTimeItemInterface::DATE_STORAGE_FORMAT, $regd->get('next_payment_date')->value);
-          $next_payment_date = $carbon_date->addMonths($regd->get('frequency')->value)
-            ->toDateTime()
-            ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
-            ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
-          $regd->set('next_payment_date', $next_payment_date);
-        }
+        $carbon_date = Carbon::createFromFormat(DateTimeItemInterface::DATE_STORAGE_FORMAT, $regd->get('next_payment_date')->value);
+        $next_payment_date = $carbon_date->addMonths($regd->get('frequency')->value)
+          ->toDateTime()
+          ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
+          ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+        $regd->set('next_payment_date', $next_payment_date);
+
         $regd->save();
         $progressBar->advance();
       }
@@ -180,15 +176,6 @@ class GirchiDonationsCommands extends DrushCommands {
     }
 
     return $response;
-  }
-
-  /**
-   * Helper.
-   */
-  public function generateNextPaymentDate() {
-    return Carbon::today()->toDateTime()
-      ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
-      ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
   }
 
 }
