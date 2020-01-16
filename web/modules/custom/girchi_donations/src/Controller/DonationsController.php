@@ -414,8 +414,6 @@ class DonationsController extends ControllerBase {
       ->execute();
     $regular_donations = $regular_donation_storage->loadMultiple($regular_donations);
     $regular_donation_form = $this->formBuilder->getForm('Drupal\girchi_donations\Form\MultipleDonationForm');
-    $politicans = $this->donationUtils->getPoliticians();
-    $terms = $this->donationUtils->getTerms();
     $language_code = $this->languageManager()->getCurrentLanguage()->getId();
     $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
@@ -424,8 +422,6 @@ class DonationsController extends ControllerBase {
       '#theme' => 'regular_donations',
       '#regular_donations' => $regular_donations,
       '#regular_donation_form' => $regular_donation_form,
-      '#politicians' => $politicans,
-      '#terms' => $terms,
       '#language' => $language_code,
       '#current_user_id' => $this->currentUser->id(),
       '#cards' => $cards,
@@ -497,7 +493,7 @@ class DonationsController extends ControllerBase {
    */
   public function editRegularDonationAction(AccountInterface $user, RegularDonation $regular) {
     try {
-      if ($this->currentUser()->id() == $user->id()) {
+      if ($this->currentUser()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
         $entity_form = $this->entityFormBuilder->getForm($regular);
         $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
         $card_helper = [];
