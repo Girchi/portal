@@ -75,10 +75,6 @@ function girchi_page_attachments_alter(array &$page) {
  */
 function girchi_preprocess_page(array &$variables)
 {
-  $queryPassReset = \Drupal::request()->query->get('pass-reset');
-  if ($queryPassReset == 'success') {
-    \Drupal::messenger()->addMessage(t("Your password has been successfully changed. Please log in into your account with new password."));
-  }
   $GEDHelper = \Drupal::service('girchi_users.ged_helper');
 
   // Get config from site settings.

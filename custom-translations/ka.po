@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-01-16 11:53+0000\n"
-"PO-Revision-Date: 2020-01-16 11:53+0000\n"
+"POT-Creation-Date: 2020-01-15 17:24+0000\n"
+"PO-Revision-Date: 2020-01-15 17:24+0000\n
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4233,6 +4233,15 @@ msgstr ""
 "ავტორიზაცია ახალი "
 "პაროლით."
 
+msgid ""
+"Your password has been successfully changed. Please log in into your "
+"account with new password."
+msgstr ""
+"თქვენი პაროლი წარმატებით "
+"შეიცვალა. გთხოვთ გაიაროთ "
+"ავტორიზაცია ახალი "
+"პაროლით."
+
 msgid "Delete card"
 msgstr "ბარათის წაშლა"
 
@@ -4270,3 +4279,4 @@ msgid "Regular donation was created"
 msgstr ""
 "ავტომატური დაფინანსების "
 "წარმატებით დაემატა
+
