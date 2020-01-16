@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @QueueWorker(
  *   id = "regular_donation_processor",
  *   title = @Translation("Process regular donation"),
- *   cron = {"time" = 25}
+ *   cron = {"time" = 60}
  * )
  */
 class RegularDonationProcessor extends QueueWorkerBase implements ContainerFactoryPluginInterface {
