@@ -4,6 +4,7 @@ namespace Drupal\girchi_paypal\Controller;
 
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use Symfony\Component\Dotenv\Dotenv;
 
 // Or error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
@@ -26,6 +27,10 @@ class PayPalClient {
    * Setting PayPal SDK environment.
    */
   public static function environment() {
+    // Load certificate path and pass.
+
+    $dotEnv = new Dotenv();
+    $dotEnv->load($modulePath . '/cert/.cert.env');
     $clientId = getenv("CLIENT_ID") ?: "AUCemHy3DQN_XhP9dqNahbnOwM2kawkNr-shr7KIED1F3cGDObPi2Iw2UhTUPMSKmnT6e_1i7C9HhyJ4";
     $clientSecret = getenv("CLIENT_SECRET") ?: "EIZhdPEehTXNMpNBT7r2ZTeF-LhWBSapuJ8Zg4ynN3xkRa8M15_h2GLWX6iVuXKnzLDIJwb7V6hYoV5e";
     return new SandboxEnvironment($clientId, $clientSecret);
