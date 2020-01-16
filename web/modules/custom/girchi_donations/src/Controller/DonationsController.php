@@ -499,10 +499,9 @@ class DonationsController extends ControllerBase {
     try {
       if ($this->currentUser()->id() == $user->id()) {
         $entity_form = $this->entityFormBuilder->getForm($regular);
-        $card_storage = $this->entityTypeManager->getStorage('credit_card');
-        $cards = $card_storage->loadByProperties(['user_id' => $this->accountProxy->id()]);
+        $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
         $card_helper = [];
-        $card_helper['has_card'] = $regular->get('field_credit_card')->value ? TRUE : FALSE;
+        $card_helper['has_card'] = $regular->get('field_credit_card')->first() ? TRUE : FALSE;
         $card_helper['card_id'] = $card_helper['has_card'] ? $regular->get('field_credit_card')->first()->target_id : NULL;
         $card_helper['ged_amount'] = $this->donationUtils->gedCalculator->calculate($regular->get('amount')->value);
         return [

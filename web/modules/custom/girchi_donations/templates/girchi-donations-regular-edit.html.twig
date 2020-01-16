@@ -140,7 +140,7 @@
                 </p>
                 {% if entity.status.value == 'ACTIVE' %}
                     <p class="form-label">{{ 'Execution date' | t }}:
-                    <span class="text-success font-size-3 ml-1">{{ regular_donation.next_payment_date.value | date("m/d/Y")}}</span>
+                    <span class="text-success font-size-3 ml-1">{{ entity.next_payment_date.value | date("m/d/Y")}}</span>
                 {% endif %}
 
             </div>
