@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-01-06 13:01+0000\n"
-"PO-Revision-Date: 2020-01-06 13:01+0000\n"
+"POT-Creation-Date: 2020-01-16 08:31+0000\n"
+"PO-Revision-Date: 2020-01-16 08:31+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4239,4 +4239,32 @@ msgstr "რეფერალური სარგებელი"
 
 msgid "Referral transactions"
 msgstr "რეფერალური ტრანზაქციები"
+
+msgid "My credit cards"
+msgstr "ჩემი ბარათები"
+
+msgid "Delete card"
+msgstr "ბარათის წაშლა"
+
+msgid "Execution date"
+msgstr "ჩამოჭრის თარიღი"
+
+msgid "Regular donation was successfully updated"
+msgstr ""
+"ავტომატური დაფინანსების "
+"რედაქტირება წარმატებით "
+"დასრულდა "
+
+msgid "Add new card"
+msgstr "ახალი ბარათის დამატება"
+
+msgid ""
+"After deleting selected card regular payments attached to this card "
+"will be removed"
+msgstr ""
+"არჩეული ბარათის წაშლის "
+"შედეგად წაიშლება ყველა "
+"ავტომატური დაფინანსება "
+"რომელიც მოცემულ ბარათზეა "
+"მიბმული"
 
