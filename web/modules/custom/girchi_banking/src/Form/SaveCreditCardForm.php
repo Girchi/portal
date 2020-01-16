@@ -115,8 +115,13 @@ class SaveCreditCardForm extends FormBase {
     if ($tbc_response) {
       $trans_id = $tbc_response['transaction_id'];
       $card_id = $tbc_response['card_id'];
-      $this->bankingUtils->prepareCard($trans_id, $card_id);
-      $this->omediaPayment->makePayment($trans_id);
+      if ($this->bankingUtils->prepareCard($trans_id, $card_id)) {
+        $this->omediaPayment->makePayment($trans_id);
+      }
+      else {
+        $this->messenger->addError($this->t('Error while saving card'));
+        $form_state->setRebuild();
+      }
     }
     else {
       $this->messenger->addError($this->t('Error while saving card'));
