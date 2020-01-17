@@ -1,0 +1,5 @@
+services:
+  paypal_client:
+    class: Drupal\girchi_paypal\Utils\PayPalClient;
+    arguments:
+      - '@module_handler'

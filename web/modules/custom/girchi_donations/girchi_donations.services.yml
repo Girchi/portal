@@ -13,3 +13,9 @@ services:
       - '@entity_type.manager'
       - '@logger.factory'
       - '@keyvalue'
+  girchi_donations.create_ged_transaction:
+    class: Drupal\girchi_donations\Utils\CreateGedTransaction
+    arguments:
+      - '@entity_type.manager'
+      - '@girchi_donations.ged_calculator'
+      - '@keyvalue'
