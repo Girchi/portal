@@ -128,7 +128,6 @@ class PaypalController extends ControllerBase {
     if (!empty($order_id)) {
       $aim_id = $data['aim'];
       $politician_id = $data['politician'];
-      $currency = $data['currency'];
       $response = $client->execute(new OrdersGetRequest($order_id));
       $values = [
         'type' => 'donation',
@@ -150,15 +149,8 @@ class PaypalController extends ControllerBase {
         // $first_name = $response->result->payer->name->given_name;
         // $last_name = $response->result->payer->name->surname;
         $amount = $response->result->purchase_units[0]->amount->value;
-        if ($currency == 'usd') {
-          $usd = $this->keyValue->get('usd');
-          $amount = $amount * $usd;
-        }
-        elseif ($currency == 'eur') {
-          $eur = $this->keyValue->get('eur');
-          $amount = $amount * $eur;
-        }
-
+        $usd = $this->keyValue->get('usd');
+        $amount = $amount * $usd;
         $values['status'] = 'OK';
         $values['trans_id'] = $transaction_id;
         $values['amount'] = $amount;
