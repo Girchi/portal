@@ -9,11 +9,8 @@
                 {{ 'Fund the GIRCHI, get the relevant GeDs and hit the leaderboard'|t }}
             </p>
         </div>
-        <div class="card mb-4 mb-sm-8" >
-            <div class="spinner-wrapper">
-            </div>
-            <div class="card-body donation-card">
-                <div id="message-container"></div>
+        <div class="card mb-4 mb-sm-8">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 col-lg-6">
                         <div
@@ -62,178 +59,64 @@
                                     role="tabpanel"
                                     aria-labelledby="single-donation-tab"
                                 >
-                                    <ul
-                                        class="nav nav-tabs nav-justified mx-4"
-                                        id="sourceTab"
-                                        role="tablist"
-                                    >
-                                        <li class="nav-item">
-                                            <a
-                                                class="nav-link active nav-inner text-uppercase pt-3 pb-2"
-                                                id="tbc-tab"
-                                                data-toggle="tab"
-                                                href="#tbc-donation"
-                                                role="tab"
-                                                aria-controls="tbc-donation"
-                                                aria-selected="true"
-                                            >
-                                                <p
-                                                    class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center"
+                                    <form method="POST">
+                                        {{ form_single.form_build_id }}
+                                        {{ form_single.form_token }}
+                                        {{ form_single.form_id }}
+                                        <p class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center justify-content-md-between my-2 my-sm-4">
+                                            <img src="/{{ directory }}/dist/css/images/tbc-logo-ka-ge.svg" alt=""
+                                                 class="mt-2 mt-sm-0 mr-3 mr-sm-0" height="17">
+                                            <img src="/{{ directory }}/dist/css/images/bog-geo-horizontal.png" alt=""
+                                                 class="mt-2 mt-sm-0 mr-3 mr-sm-0" height="17">
+                                            <img src="/{{ directory }}/dist/css/images/liberty-geo.svg" alt=""
+                                                 class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                 height="12">
+                                            <img src="/{{ directory }}/dist/css/images/visa.png" alt=""
+                                                 class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                 height="12">
+                                            <img src="/{{ directory }}/dist/css/images/mc.svg" alt=""
+                                                 class="mt-2 mt-sm-0 mr-3 mr-sm-0"
+                                                 height="17">
+                                        </p>
+                                        <hr class="border-dashed border-secondary"/>
+                                        <div class="d-flex flex-wrap flex-sm-nowrap">
+                                            <div class="form-group w-100 w-md-50 pr-sm-2">
+                                                <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
+                                                {{ form_single.amount }}
+                                            </div>
+                                            <div class="form-group w-100 w-md-50">
+                                                <label class="form-label">
+                                                    {{ 'You will get'|t }}
+                                                </label>
+                                                <div
+                                                    class="text-success font-size-5 d-flex pl-3 pt-2"
                                                 >
-                                                    <img
-                                                        src="/themes/custom/girchi/dist/css/images/visa.png"
-                                                        alt=""
-                                                        class="mt-2 mt-sm-0 mr-5 mr-sm-3"
-                                                        height="12"
-                                                    />
-                                                    <img
-                                                        src="/themes/custom/girchi/dist/css/images/mc.svg"
-                                                        alt=""
-                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                        height="12"
-                                                    />
-                                                </p></a
-                                            >
-                                        </li>
-                                        <li class="nav-item">
-                                            <a
-                                                class="nav-link text-uppercase nav-inner pt-3 pb-2"
-                                                id="paypal-tab"
-                                                data-toggle="tab"
-                                                href="#paypal-donation"
-                                                role="tab"
-                                                aria-controls="paypal-donation"
-                                                aria-selected="false"
-                                            ><p
-                                                    class="d-flex flex-wrap flex-sm-nowrap align-items-center justify-content-center"
-                                                >
-                                                    <img
-                                                        src="/themes/custom/girchi/images/paypal-logo.png"
-                                                        alt=""
-                                                        class="mt-2 mt-sm-0 mr-3 mr-sm-0"
-                                                        height="12"
-                                                    />
-
-                                                </p></a
-                                            >
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="sourceTabContent">
-                                        <div
-                                            class="tab-pane fade show active"
-                                            id="tbc-donation"
-                                            role="tabpanel"
-                                            aria-labelledby="tbc-donation"
-                                            aria-selected="true"
-                                        >
-                                            <form method="POST">
-                                                {{ form_single.form_build_id }}
-                                                {{ form_single.form_token }}
-                                                {{ form_single.form_id }}
-                                                <hr class="border-dashed border-secondary"/>
-                                                <div class="d-flex flex-wrap flex-sm-nowrap">
-                                                    <div class="form-group w-100 w-md-50 pr-sm-2">
-                                                        <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
-                                                        {{ form_single.amount }}
-                                                    </div>
-                                                    <div class="form-group w-100 w-md-50">
-                                                        <label class="form-label">
-                                                            {{ 'GeD' }}
-                                                        </label>
-                                                        <div
-                                                            class="text-success font-size-5 d-flex pl-3 pt-2"
-                                                        >
-                                                            <i class="icon-ged"></i>
-                                                            <span class="ml-1" id="ged-place1">0</span>
-                                                        </div>
-                                                    </div>
+                                                    <i class="icon-ged"></i>
+                                                    <span class="ml-1" id="ged-place1">0</span>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="description"
-                                                    >{{ 'Donation aim'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ form_single.donation_aim }}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="politicians"
-                                                    >{{ 'Donation to politician'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ form_single.politicians }}
-                                                    </div>
-                                                </div>
-                                                {{ form_single.currency }}
-                                                {{ form_single.submit }}
-                                            </form>
+                                            </div>
                                         </div>
-                                        <div
-                                            class="tab-pane fade"
-                                            id="paypal-donation"
-                                            role="tabpanel"
-                                            aria-labelledby="paypal-donation"
-                                        >
-                                            {% if show_paypal %}
-
-                                            <form method="POST">
-                                                {{ paypal_form.form_build_id }}
-                                                {{ paypal_form.form_token }}
-                                                {{ paypal_form.form_id }}
-                                                <hr class="border-dashed border-secondary"/>
-                                                <div class="d-flex flex-wrap flex-sm-nowrap">
-                                                    <div class="form-group w-50 w-md-50 pr-sm-2">
-                                                        <label class="form-label" for="amount">{{ 'Amount'|t }}</label>
-                                                        {{ paypal_form.amount }}
-                                                    </div>
-                                                    <div class="form-group w-50 w-md-30 px-sm-1 ">
-                                                        <label class="form-label" for="amount">{{'Currency' | t}}</label>
-                                                        <div
-                                                            class="form-control form-control-lg border-0 font-weight-bold">
-                                                            {{ paypal_form.currencies }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group w-100 w-md-50">
-                                                        <label class="form-label">
-                                                            {{ 'GeD' }}
-                                                        </label>
-                                                        <div
-                                                            class="text-success font-size-5 d-flex pl-3 pt-2"
-                                                        >
-                                                            <i class="icon-ged"></i>
-                                                            <span class="ml-1" id="ged-place-3">0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="description"
-                                                    >{{ 'Donation aim'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ paypal_form.donation_aim }}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="politicians"
-                                                    >{{ 'Donation to politician'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ paypal_form.politicians }}
-                                                    </div>
-                                                </div>
-                                                {{ paypal_form.currency_eur }}
-                                                {{ paypal_form.currency_usd }}
-                                                {{ paypal_form.donation_id }}
-                                                {{ paypal_form.submit }}
-                                                <div id="paypal-button-container"></div>
-                                            </form>
-                                            {% else %}
-                                                    <p class="text-center py-3 text-success font-size-6">Coming soon</p>
-                                            {% endif %}
+                                        <div class="form-group">
+                                            <label class="form-label" for="description"
+                                            >{{ 'Donation aim'|t }}</label
+                                            >
+                                            <div class="form-control form-control-lg">
+                                                {{ form_single.donation_aim }}
+                                            </div>
                                         </div>
-                                    </div>
-
+                                        <div class="form-group">
+                                            <label class="form-label" for="politicians"
+                                            >{{ 'Donation to politician'|t }}</label
+                                            >
+                                            <div class="form-control form-control-lg">
+                                                {{ form_single.politicians }}
+                                            </div>
+                                        </div>
+                                        {{ form_single.currency }}
+                                        {{ form_single.submit }}
+                                    </form>
                                 </div>
+
                                 {% if logged_in %}
                                     <div
                                         class="tab-pane fade"

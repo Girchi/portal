@@ -42,13 +42,11 @@ module:
   field_ui: 0
   file: 0
   filter: 0
-  form_options_attributes: 0
   girchi_banking: 0
   girchi_contact: 0
   girchi_donations: 0
   girchi_ged_transactions: 0
   girchi_my_party_list: 0
-  girchi_paypal: 0
   girchi_referral: 0
   girchi_users: 0
   girchi_utils: 0
@@ -86,7 +84,6 @@ module:
   panels: 0
   panels_ipe: 0
   path: 0
-  path_alias: 0
   prlp: 0
   reference_value_pair: 0
   rest: 0
