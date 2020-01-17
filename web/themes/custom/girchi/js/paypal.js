@@ -3,7 +3,7 @@ $("document").ready(function () {
         style: {
             layout: 'vertical',
             color: 'gold',
-            shape: 'rect',
+            shape: 'pill',
             label: 'paypal',
         },
         onInit: function (data, actions) {
