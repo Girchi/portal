@@ -132,7 +132,7 @@ class PaypalDonationForm extends FormBase {
         'class' => [
           'form-control form-control-lg',
         ],
-        'placeholder' => $this->t('Enter amount of GEL'),
+        'placeholder' => $this->t('Amount'),
       ],
       '#required' => TRUE,
       '#weight' => '0',
