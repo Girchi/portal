@@ -163,12 +163,15 @@ class DonationsController extends ControllerBase {
       ->getForm("Drupal\girchi_donations\Form\SingleDonationForm");
     $form_multiple = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\MultipleDonationForm");
+    $paypal_form = $this->formBuilder()
+      ->getForm("Drupal\girchi_donations\Form\PaypalDonationForm");
 
     return [
       '#type' => 'markup',
       '#theme' => 'girchi_donations',
       '#form_single' => $form_single,
       '#form_multiple' => $form_multiple,
+      '#paypal_form' => $paypal_form,
       '#right_block' => $right_block,
     ];
   }
