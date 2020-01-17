@@ -103,3 +103,11 @@ input[type=number]::-webkit-outer-spin-button {
 .top-block-arrow {
   padding-top: 10px;
 }
+
+.nav-tabs .nav-link.nav-inner.active {
+    box-shadow: inset 0 -4px #fc9800;
+}
+
+#edit-currencies--2:not(.selected) {
+    color: black;
+}

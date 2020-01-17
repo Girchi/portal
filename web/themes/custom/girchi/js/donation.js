@@ -15,6 +15,25 @@ $("#edit-amount").on("keyup", e => {
     $("#ged-place-2").html(value);
 });
 
+$("#edit-amount--3").on('keyup', e => {
+    let amount = e.target.value;
+    let currency = $('#edit-currencies--2 option:selected').val();
+    let ged = calculateGed(amount, currency);
+    if ( currency != '' && amount != '') {
+        let ged = calculateGed(amount, currency);
+        $("#ged-place-3").html(ged);
+    }
+});
+
+$("#edit-currencies--2").on('change', e => {
+    let currency = e.target.value;
+    let amount = $('#edit-amount--3').val();
+    if ( currency != '' && amount != '') {
+        let ged = calculateGed(amount, currency);
+        $("#ged-place-3").html(ged);
+    }
+})
+
 $(".amount").on("keyup", e => {
     let amount = e.target.value;
     let value = Math.floor((amount / currency) * 100);
@@ -58,6 +77,22 @@ $("#edit-donation-aim--2").on("change", e => {
         $("#edit-politicians--2").attr("disabled", "disabled");
     } else {
         $("#edit-politicians--2").removeAttr("disabled");
+    }
+});
+
+$("#edit-politicians--3").on("change", e => {
+    if (e.target.value) {
+        $("#edit-donation-aim--3").attr("disabled", "disabled");
+    } else {
+        $("#edit-donation-aim--3").removeAttr("disabled");
+    }
+});
+
+$("#edit-donation-aim--3").on("change", e => {
+    if (e.target.value) {
+        $("#edit-politicians--3").attr("disabled", "disabled");
+    } else {
+        $("#edit-politicians--3").removeAttr("disabled");
     }
 });
 
@@ -107,3 +142,20 @@ $('body').on('click', '.resumeDonation', e => {
 
 
 });
+
+
+function calculateGed(amount, currency) {
+    let eur = $('#currency_girchi_eur').val();
+    let usd = $('#currency_girchi_usd').val();
+    let value;
+    if (currency === 'eur') {
+        value = Math.floor(((amount * eur) / usd) * 100);
+    }
+    else if (currency === 'usd') {
+        value = Math.floor(amount * 100);
+    }
+    else {
+        value = Math.floor((amount / currency) * 100);
+    }
+    return value;
+}
