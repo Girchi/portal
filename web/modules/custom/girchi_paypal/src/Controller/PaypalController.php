@@ -12,6 +12,7 @@ use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\CreateGedTransaction;
 use Drupal\girchi_paypal\Utils\PayPalClient;
+use mysql_xdevapi\Exception;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -121,68 +122,74 @@ class PaypalController extends ControllerBase {
    */
   public function finishDonation(Request $request) {
     $data = Json::decode($request->getContent());
-    $node_storage = $this->entityTypeManager->getStorage('donation');
+    try {
+      $node_storage = $this->entityTypeManager->getStorage('donation');
 
-    $client = PayPalClient::client();
-    $order_id = $data['order_id'];
-    if (!empty($order_id)) {
-      $aim_id = $data['aim'];
-      $politician_id = $data['politician'];
-      $response = $client->execute(new OrdersGetRequest($order_id));
-      $values = [
-        'type' => 'donation',
-        'title' => "Donation",
-        'user_id' => $this->currentUser->id(),
-      ];
+      $client = PayPalClient::client();
+      $order_id = $data['order_id'];
+      if (!empty($order_id)) {
+        $aim_id = $data['aim'];
+        $politician_id = $data['politician'];
+        $response = $client->execute(new OrdersGetRequest($order_id));
+        $values = [
+          'type' => 'donation',
+          'title' => "Donation",
+          'user_id' => $this->currentUser->id(),
+        ];
 
-      if ($aim_id != NULL) {
-        $values['aim_donation'] = TRUE;
-        $values['aim_id'] = $aim_id;
-      }
-      elseif ($politician_id != NULL) {
-        $values['politician_donation'] = TRUE;
-        $values['politician_id'] = $politician_id;
-      }
+        if ($aim_id != NULL) {
+          $values['aim_donation'] = TRUE;
+          $values['aim_id'] = $aim_id;
+        }
+        elseif ($politician_id != NULL) {
+          $values['politician_donation'] = TRUE;
+          $values['politician_id'] = $politician_id;
+        }
 
-      if ($response->statusCode === 200) {
-        $transaction_id = $response->result->id;
-        // $first_name = $response->result->payer->name->given_name;
-        // $last_name = $response->result->payer->name->surname;
-        $amount = $response->result->purchase_units[0]->amount->value;
-        $usd = $this->keyValue->get('usd');
-        $amount = $amount * $usd;
-        $values['status'] = 'OK';
-        $values['trans_id'] = $transaction_id;
-        $values['amount'] = $amount;
-        /** @var \Drupal\girchi_donations\Entity\Donation $donation */
-        $donation = $node_storage->create($values);
+        if ($response->statusCode === 200) {
+          $transaction_id = $response->result->id;
+          // $first_name = $response->result->payer->name->given_name;
+          // $last_name = $response->result->payer->name->surname;
+          $amount = $response->result->purchase_units[0]->amount->value;
+          $usd = $this->keyValue->get('usd');
+          $amount = $amount * $usd;
+          $values['status'] = 'OK';
+          $values['trans_id'] = $transaction_id;
+          $values['amount'] = $amount;
 
-        if ($this->currentUser->id() !== '0') {
-          $ged_trans_id = $this->createGedTransaction->createGedTransaction($donation);
-          $donationEvent = new DonationEvents($donation);
-          $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
-          $donation->set('field_ged_transaction', $ged_trans_id);
+          /** @var \Drupal\girchi_donations\Entity\Donation $donation */
+          $donation = $node_storage->create($values);
+
+          if ($this->currentUser->id() !== '0') {
+            $ged_trans_id = $this->createGedTransaction->createGedTransaction($donation);
+            $donationEvent = new DonationEvents($donation);
+            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
+            $donation->set('field_ged_transaction', $ged_trans_id);
+          }
+        }
+        else {
+          $values['status'] = 'FAILED';
+          $donation = $node_storage->create($values);
+        }
+
+        try {
+          $donation->save();
+          $this->loggerChannelFactory->info('Donation from paypal was created with trans_id: ' . $donation->get('trans_id')->value);
+          return JsonResponse::create("Successfully created donation from paypal.");
+        }
+        catch (\Exception $e) {
+
+          $this->loggerChannelFactory->error($e->getMessage());
+          return JsonResponse::create('Failed to create donation from paypal.');
         }
       }
       else {
-        $values['status'] = 'FAILED';
-        $donation = $node_storage->create($values);
-      }
-
-      try {
-        $donation->save();
-        $this->loggerChannelFactory->info('Donation from paypal was created with trans_id: ' . $donation->get('trans_id')->value);
-        return JsonResponse::create("Successfully created donation from paypal.");
-      }
-      catch (\Exception $exception) {
-
-        $this->loggerChannelFactory->error($exception);
-        return JsonResponse::create('Failed to create donation from paypal.');
+        $this->loggerChannelFactory->error("Invalid transaction ID");
+        return JsonResponse::create('Invalid transaction ID');
       }
     }
-    else {
-      $this->loggerChannelFactory->error("Invalid transaction ID");
-      return JsonResponse::create('Invalid transaction ID');
+    catch (Exception $e) {
+      $this->loggerChannelFactory->error($e->getMessage());
     }
   }
 
