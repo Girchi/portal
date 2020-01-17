@@ -23,6 +23,9 @@ $("#edit-amount--3").on('keyup', e => {
         let ged = calculateGed(amount, currency);
         $("#ged-place-3").html(ged);
     }
+    if (amount == '') {
+        $("#ged-place-3").html(0);
+    }
 });
 
 $("#edit-currencies").on('change', e => {
