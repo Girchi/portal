@@ -172,6 +172,7 @@
                                             role="tabpanel"
                                             aria-labelledby="paypal-donation"
                                         >
+                                            {% if show_paypal %}
 
                                             <form method="POST">
                                                 {{ paypal_form.form_build_id }}
@@ -224,6 +225,9 @@
                                                 {{ paypal_form.submit }}
                                                 <div id="paypal-button-container"></div>
                                             </form>
+                                            {% else %}
+                                                    <p class="text-center py-3 text-success font-size-6">Coming soon</p>
+                                            {% endif %}
                                         </div>
                                     </div>
 
