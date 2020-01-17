@@ -61,10 +61,6 @@ $("document").ready(function () {
             var currency = $("#edit-currencies option:selected").val();
 
             return actions.order.capture().then(function (details) {
-                console.log(data.orderID);
-                console.log(aim);
-                console.log(politician);
-                console.log(currency);
                 // Call server to save the transaction
                 return fetch('/donate/finish/paypal', {
                     method: 'post',
