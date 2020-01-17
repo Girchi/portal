@@ -268,7 +268,6 @@
     "drupal/social_api": "^2.0",
     "drupal/social_auth": "2.0.0-beta6",
     "drupal/social_auth_facebook": "2.0.0-beta4",
-    "drupal/stage_file_proxy": "^1.0@RC",
     "drupal/static_server": "^1.2",
     "drupal/statistics_counter": "1.x-dev",
     "drupal/straw": "^1.2",
