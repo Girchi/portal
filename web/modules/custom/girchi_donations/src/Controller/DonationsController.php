@@ -489,7 +489,7 @@ class DonationsController extends ControllerBase {
    */
   public function editRegularDonationAction(AccountInterface $user, RegularDonation $regular) {
     try {
-      if ($this->accountProxy()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
+      if ($this->accountProxy->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
         $entity_form = $this->entityFormBuilder->getForm($regular);
         $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
         $card_helper = [];
