@@ -19,7 +19,6 @@ donation:
   js:
     js/donation.js: {}
     js/paypal.js: {}
-    https://www.paypal.com/sdk/js?client-id=AUCemHy3DQN_XhP9dqNahbnOwM2kawkNr-shr7KIED1F3cGDObPi2Iw2UhTUPMSKmnT6e_1i7C9HhyJ4&disable-funding=credit,card: { type: external, minified: true }
   dependencies:
     - core/jquery
 
