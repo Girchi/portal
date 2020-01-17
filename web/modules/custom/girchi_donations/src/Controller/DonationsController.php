@@ -67,6 +67,13 @@ class DonationsController extends ControllerBase {
 
   protected $keyValue;
 
+  /**
+   * Drupal\Core\Session\AccountProxy definition.
+   *
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $currentUser;
+
 
   /**
    * Drupal\Core\Form\FormBuilder definition.
@@ -124,6 +131,8 @@ class DonationsController extends ControllerBase {
    *   GedCalculator.
    * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
    *   KeyValue storage.
+   * @param \Drupal\Core\Session\AccountProxy $currentUser
+   *   AccountProxy for current user.
    * @param \Drupal\Core\Form\FormBuilder $formBuilder
    *   FormBuilder.
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
@@ -142,6 +151,7 @@ class DonationsController extends ControllerBase {
                               EntityTypeManager $entityTypeManager,
                               GedCalculator $gedCalculator,
                               KeyValueFactory $keyValue,
+                              AccountProxy $currentUser,
                               FormBuilder $formBuilder,
                               DonationUtils $donationUtils,
                               BankingUtils $bankingUtils,
@@ -154,6 +164,7 @@ class DonationsController extends ControllerBase {
     $this->entityTypeManager = $entityTypeManager;
     $this->gedCalculator = $gedCalculator;
     $this->keyValue = $keyValue;
+    $this->currentUser = $currentUser;
     $this->formBuilder = $formBuilder;
     $this->donationUtils = $donationUtils;
     $this->bankingUtils = $bankingUtils;
@@ -172,6 +183,7 @@ class DonationsController extends ControllerBase {
       $container->get('entity_type.manager'),
       $container->get('girchi_donations.ged_calculator'),
       $container->get('keyvalue'),
+      $container->get('current_user'),
       $container->get('form_builder'),
       $container->get('girchi_donations.donation_utils'),
       $container->get('girchi_banking.utils'),
@@ -194,27 +206,19 @@ class DonationsController extends ControllerBase {
       ->getForm("Drupal\girchi_donations\Form\SingleDonationForm");
     $form_multiple = $this->formBuilder()
       ->getForm("Drupal\girchi_donations\Form\MultipleDonationForm");
-    $paypal_form = $this->formBuilder()
-      ->getForm("Drupal\girchi_donations\Form\PaypalDonationForm");
     $card_save_form = $this->formBuilder()->getForm('Drupal\girchi_banking\Form\SaveCreditCardForm');
     $has_active_card = $this->bankingUtils->hasAvailableCards($this->accountProxy->id());
     $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
-    $show_paypal = FALSE;
-    $paypal_users = [1826, 1, 82, 14, 29, 19, 7, 1223, 81, 19, 76];
-    if (in_array($this->accountProxy->id(), $paypal_users)) {
-      $show_paypal = TRUE;
-    }
+
     return [
       '#type' => 'markup',
       '#theme' => 'girchi_donations',
       '#form_single' => $form_single,
       '#form_multiple' => $form_multiple,
-      '#paypal_form' => $paypal_form,
       '#right_block' => $right_block,
       '#has_active_card' => $has_active_card,
       '#card_save_form' => $card_save_form,
       '#cards' => $cards,
-      '#show_paypal' => $show_paypal,
     ];
   }
 
@@ -404,7 +408,7 @@ class DonationsController extends ControllerBase {
   public function regularDonations() {
     $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
     $regular_donations = $regular_donation_storage->getQuery()
-      ->condition('user_id', $this->accountProxy->id(), '=')
+      ->condition('user_id', $this->currentUser->id(), '=')
       ->condition('status', ['ACTIVE', 'PAUSED'], 'IN')
       ->sort('created', 'DESC')
       ->execute();
@@ -419,7 +423,7 @@ class DonationsController extends ControllerBase {
       '#regular_donations' => $regular_donations,
       '#regular_donation_form' => $regular_donation_form,
       '#language' => $language_code,
-      '#current_user_id' => $this->accountProxy->id(),
+      '#current_user_id' => $this->currentUser->id(),
       '#cards' => $cards,
     ];
   }
@@ -439,7 +443,7 @@ class DonationsController extends ControllerBase {
   public function updateDonationStatus(Request $request) {
     try {
       $user_id = $request->request->get('user_id');
-      if ($user_id == $this->accountProxy->id()) {
+      if ($user_id == $this->currentUser->id()) {
         $action = $request->request->get('action');
         $donation_id = $request->request->get('id');
         /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
@@ -489,7 +493,7 @@ class DonationsController extends ControllerBase {
    */
   public function editRegularDonationAction(AccountInterface $user, RegularDonation $regular) {
     try {
-      if ($this->accountProxy()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
+      if ($this->currentUser()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
         $entity_form = $this->entityFormBuilder->getForm($regular);
         $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
         $card_helper = [];
