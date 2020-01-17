@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * @file
+ * Girchi paypal module.
+ */
 
-function girchi_paypal_theme()
-{
+/**
+ * Theme.
+ *
+ * @inheritDoc
+ */
+function girchi_paypal_theme() {
   return [
     'girchi_donations_paypal' => [
       'render element' => 'children',
@@ -13,7 +21,7 @@ function girchi_paypal_theme()
       ],
     ],
     'girchi_donations_denied' => [
-      'render element' => 'children'
-    ]
+      'render element' => 'children',
+    ],
   ];
 }
