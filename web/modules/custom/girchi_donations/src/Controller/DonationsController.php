@@ -404,7 +404,7 @@ class DonationsController extends ControllerBase {
   public function regularDonations() {
     $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
     $regular_donations = $regular_donation_storage->getQuery()
-      ->condition('user_id', $this->currentUser->id(), '=')
+      ->condition('user_id', $this->accountProxy->id(), '=')
       ->condition('status', ['ACTIVE', 'PAUSED'], 'IN')
       ->sort('created', 'DESC')
       ->execute();
@@ -419,7 +419,7 @@ class DonationsController extends ControllerBase {
       '#regular_donations' => $regular_donations,
       '#regular_donation_form' => $regular_donation_form,
       '#language' => $language_code,
-      '#current_user_id' => $this->currentUser->id(),
+      '#current_user_id' => $this->accountProxy->id(),
       '#cards' => $cards,
     ];
   }
@@ -439,7 +439,7 @@ class DonationsController extends ControllerBase {
   public function updateDonationStatus(Request $request) {
     try {
       $user_id = $request->request->get('user_id');
-      if ($user_id == $this->currentUser->id()) {
+      if ($user_id == $this->accountProxy->id()) {
         $action = $request->request->get('action');
         $donation_id = $request->request->get('id');
         /** @var \Drupal\Core\Entity\EntityStorageBase $donation_storage */
@@ -489,7 +489,7 @@ class DonationsController extends ControllerBase {
    */
   public function editRegularDonationAction(AccountInterface $user, RegularDonation $regular) {
     try {
-      if ($this->currentUser()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
+      if ($this->accountProxy()->id() == $user->id() && $regular->getOwnerId() == $user->id()) {
         $entity_form = $this->entityFormBuilder->getForm($regular);
         $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
         $card_helper = [];
