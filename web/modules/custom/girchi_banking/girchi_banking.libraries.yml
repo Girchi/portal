@@ -1,0 +1,9 @@
+girchi_banking:
+  version: 1.x
+  js:
+    js/banking.js: {}
+  css:
+    theme:
+      css/banking.css: {}
+  dependencies:
+    - core/jquery

@@ -5,6 +5,8 @@ namespace Drupal\girchi_donations\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Session\AccountProxy;
+use Drupal\girchi_banking\Services\BankingUtils;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -57,6 +59,20 @@ class MultipleDonationForm extends FormBase {
   protected $currency;
 
   /**
+   * Drupal\Core\Session\AccountProxy definition.
+   *
+   * @var \Drupal\Core\Session\AccountProxy
+   */
+  protected $accountProxy;
+
+  /**
+   * Banking utils definition.
+   *
+   * @var \Drupal\girchi_banking\Services\BankingUtils
+   */
+  protected $bankingUtils;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
@@ -65,11 +81,21 @@ class MultipleDonationForm extends FormBase {
    *   Messenger.
    * @param \Drupal\om_tbc_payments\Services\PaymentService $omediaPayment
    *   Omedia Payment.
+   * @param \Drupal\Core\Session\AccountProxy $accountProxy
+   *   Current user.
+   * @param \Drupal\girchi_banking\Services\BankingUtils $bankingUtils
+   *   Banking utils.
    */
-  public function __construct(DonationUtils $donationUtils, MessengerInterface $messenger, PaymentService $omediaPayment) {
+  public function __construct(DonationUtils $donationUtils,
+                              MessengerInterface $messenger,
+                              PaymentService $omediaPayment,
+                              AccountProxy $accountProxy,
+                              BankingUtils $bankingUtils) {
     $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
     $this->omediaPayment = $omediaPayment;
+    $this->accountProxy = $accountProxy;
+    $this->bankingUtils = $bankingUtils;
     $this->politicians = $donationUtils->getPoliticians();
     $this->options = $donationUtils->getTerms();
     $this->currency = $donationUtils->gedCalculator->getCurrency();
@@ -82,7 +108,9 @@ class MultipleDonationForm extends FormBase {
     return new static(
         $container->get('girchi_donations.donation_utils'),
         $container->get('messenger'),
-        $container->get('om_tbc_payments.payment_service')
+        $container->get('om_tbc_payments.payment_service'),
+        $container->get('current_user'),
+        $container->get('girchi_banking.utils')
     );
   }
 
@@ -175,11 +203,20 @@ class MultipleDonationForm extends FormBase {
       ],
       '#value' => $this->currency,
     ];
+    $form['card_id'] = [
+      '#title' => 'card_id',
+      '#type' => 'hidden',
+      '#attributes' => [
+        'id' => [
+          'card_id',
+        ],
+      ],
+    ];
     $form['submit'] = [
       '#type' => 'submit',
       '#attributes' => [
         'class' => [
-          'btn btn-lg btn-block btn-warning text-uppercase mt-4',
+          'btn btn-lg btn-block btn-success text-uppercase mt-4',
         ],
       ],
       '#value' => $this->t('Donate'),
@@ -191,42 +228,51 @@ class MultipleDonationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    $card_id = $form_state->getValue('card_id');
+    if (!$card_id) {
+      $form_state->setErrorByName('card_id', $this->t('Please select credit card for regular donation.'));
+    }
+    else {
+      if (!$this->bankingUtils->validateCardAttachment($card_id, $this->accountProxy->id())) {
+        $form_state->setErrorByName('card_id', $this->t('Please select  valid credit card for regular donation.'));
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $donation_aim = $form_state->getValue('donation_aim');
     $politician = $form_state->getValue('politicians');
     $amount = $form_state->getValue('amount');
     $frequency = $form_state->getValue('frequency');
     $day = $form_state->getValue('date');
-
+    $card_id = $form_state->getValue('card_id');
     $description = $donation_aim ? $donation_aim : $politician;
     if (empty($donation_aim) && empty($politician)) {
-      $this->messenger->addError('Please choose Donation aim OR Donation to politician');
-      $form_state->setRebuild();
+      $form_state->setErrorByName('donation_aim', $this->t('Please choose Donation aim OR Donation to politician'));
     }
     else {
       // TYPE 1 - AIM
       // TYPE 2 - Politician.
       $type = $donation_aim ? 1 : 2;
-      $response = $this->omediaPayment->saveCard($amount, $description);
-      if ($response !== NULL) {
-        $this->getLogger('girchi_donations')->info('Card was saved.');
-        $transaction_id = $response['transaction_id'];
-        $card_id = $response['card_id'];
-        $this->donationUtils->addRegularDonationRecord([
-          'trans_id'      => $transaction_id,
-          'card_id'       => $card_id,
-          'user_id'       => $this->currentUser()->id(),
-          'type'          => $type,
-          'frequency'     => (int) $frequency,
-          'payment_day'   => (int) $day,
-          'amount'        => (int) $amount,
-          'status'        => 'INITIAL',
-        ], $description);
-        $this->omediaPayment->makePayment($transaction_id);
-      }
-      else {
-        $this->getLogger('girchi_donations')->error('Error saving  while saving card.');
-      }
+      $card_entity = $this->bankingUtils->getCardById($card_id);
+      $this->donationUtils->addRegularDonationRecord([
+        'trans_id'      => $card_entity->getTransactionId(),
+        'card_id'       => $card_entity->getTbcId(),
+        'user_id'       => $this->currentUser()->id(),
+        'type'          => $type,
+        'frequency'     => (int) $frequency,
+        'payment_day'   => (int) $day,
+        'amount'        => (int) $amount,
+        'status'        => 'ACTIVE',
+        'field_credit_card' => $card_id,
+      ], $description);
+
+      $this->messenger->addMessage($this->t('Regular donation was created'));
+      $form_state->setRedirect('girchi_donations.regular_donations');
     }
   }
 

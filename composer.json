@@ -204,7 +204,7 @@
     "drupal/config_default_image": "^1.0",
     "drupal/config_installer": "^1.8",
     "drupal/config_split": "^1.4",
-    "drupal/console": "1.8",
+    "drupal/console": "v1.9.4",
     "drupal/contact_storage": "^1.0@beta",
     "drupal/context": "^4.0@beta",
     "drupal/context_groups": "^1.0",

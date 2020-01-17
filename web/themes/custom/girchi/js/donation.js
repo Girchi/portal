@@ -17,7 +17,7 @@ $("#edit-amount").on("keyup", e => {
 
 $("#edit-amount--3").on('keyup', e => {
     let amount = e.target.value;
-    let currency = $('#edit-currencies--2 option:selected').val();
+    let currency = $('#edit-currencies option:selected').val();
     let ged = calculateGed(amount, currency);
     if ( currency != '' && amount != '') {
         let ged = calculateGed(amount, currency);
@@ -25,7 +25,7 @@ $("#edit-amount--3").on('keyup', e => {
     }
 });
 
-$("#edit-currencies--2").on('change', e => {
+$("#edit-currencies").on('change', e => {
     let currency = e.target.value;
     let amount = $('#edit-amount--3').val();
     if ( currency != '' && amount != '') {

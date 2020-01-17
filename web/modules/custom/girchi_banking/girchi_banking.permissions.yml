@@ -1,0 +1,16 @@
+add credit card entities:
+  title: 'Create new Credit card entities'
+
+administer credit card entities:
+  title: 'Administer Credit card entities'
+  description: 'Allow to access the administration form to configure Credit card entities.'
+  restrict access: true
+
+delete credit card entities:
+  title: 'Delete Credit card entities'
+
+edit credit card entities:
+  title: 'Edit Credit card entities'
+
+view credit card entities:
+  title: 'View Credit card entities'

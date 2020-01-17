@@ -1,0 +1,7 @@
+name: 'Girchi Banking'
+type: module
+description: 'Drupal 8 module for ''Girchi.com'' banking.'
+core: 8.x
+package: 'girchi'
+dependencies:
+  - girchi_donations:girchi_donations

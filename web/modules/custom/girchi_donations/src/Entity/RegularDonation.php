@@ -270,6 +270,8 @@ class RegularDonation extends ContentEntityBase implements RegularDonationInterf
       ->setDisplayConfigurable('view', TRUE);
 
     // Type.
+    // TYPE 1 - AIM
+    // TYPE 2 - Politician.
     $fields['type'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Type of regular donation'))
       ->setDescription(t('Type of regular donation'));

@@ -3,6 +3,7 @@
 namespace Drupal\girchi_donations\Utils;
 
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\girchi_donations\Entity\Donation;
 
 /**
  * Service to create gedtransaction.

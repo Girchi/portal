@@ -162,7 +162,7 @@ class PaypalController extends ControllerBase {
         $values['status'] = 'OK';
         $values['trans_id'] = $transaction_id;
         $values['amount'] = $amount;
-
+        /** @var \Drupal\girchi_donations\Entity\Donation $donation */
         $donation = $node_storage->create($values);
 
         if ($this->currentUser->id() !== '0') {
@@ -205,25 +205,34 @@ class PaypalController extends ControllerBase {
       /** @var \Drupal\girchi_donations\Entity\Donation $donation */
       $donation = $donation_storage->loadByProperties(['trans_id' => $trans_id]);
       $donation = reset($donation);
-      $user_id = $donation->getUser()->id();
-      if ($user_id == $this->currentUser->id()) {
-        $status = $donation->getStatus();
-        /** @var \Drupal\girchi_ged_transactions\Entity\GedTransaction $gedTransaction */
-        $gedTransaction = $donation->get('field_ged_transaction');
-        $amount = $gedTransaction->entity->get('ged_amount')->value;
-        if ($user_id == 0) {
-          $auth = FALSE;
+
+      if ($donation) {
+        $user_id = $donation->getUser()->id();
+        if ($user_id == $this->currentUser->id()) {
+          $status = $donation->getStatus();
+          /** @var \Drupal\girchi_ged_transactions\Entity\GedTransaction $gedTransaction */
+          $gedTransaction = $donation->get('field_ged_transaction');
+          $amount = $gedTransaction->entity->get('ged_amount')->value;
+          if ($user_id == 0) {
+            $auth = FALSE;
+          }
+          else {
+            $auth = TRUE;
+          }
+          $this->keyValue->set($trans_id, $trans_id);
+          return [
+            '#type' => 'markup',
+            '#theme' => 'girchi_donations_paypal',
+            '#status' => $status,
+            '#amount' => $amount,
+            '#auth' => $auth,
+          ];
         }
-        else {
-          $auth = TRUE;
-        }
-        $this->keyValue->set($trans_id, $trans_id);
+      }
+      else {
         return [
           '#type' => 'markup',
-          '#theme' => 'girchi_donations_paypal',
-          '#status' => $status,
-          '#amount' => $amount,
-          '#auth' => $auth,
+          '#theme' => 'girchi_donations_denied',
         ];
       }
     }

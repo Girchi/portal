@@ -1,0 +1,15 @@
+
+# Credit card menu items definition
+credit_card.admin.structure.settings:
+  title: 'Credit card settings'
+  description: 'Configure Credit card entities'
+  route_name: credit_card.settings
+  parent: system.admin_structure
+
+banking.account:
+  title: 'My credit cards'
+  description: ''
+  route_name: girchi_banking.credit_card_controller_cards
+  menu_name: account
+  parent: account
+  weight: -45

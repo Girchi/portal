@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_banking.module.
+ */
+
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Database\Driver\mysql\Schema;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_banking_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_banking module.
+    case 'help.page.girchi_banking':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Drupal 8 module for &#039;&#039;Girchi.com&#039;&#039; banking.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_banking_theme() {
+  return [
+    'banking' => [
+      'render element' => 'children',
+      'variables' => [
+        'save_form' => NULL,
+        'delete_form' => NULL,
+        'cards' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Installing CreditCard entity.
+ */
+function girchi_banking_update_8702() {
+  try {
+
+    $schema = new Schema(\Drupal::service('database'));
+    if (!$schema->tableExists('credit_card')) {
+      \Drupal::entityTypeManager()->clearCachedDefinitions();
+      \Drupal::entityDefinitionUpdateManager()
+        ->installEntityType(\Drupal::entityTypeManager()
+          ->getDefinition('credit_card'));
+    }
+
+  }
+  catch (PluginNotFoundException $e) {
+
+    \Drupal::logger('girchi_banking')->error($e->getMessage());
+  }
+
+}

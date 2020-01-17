@@ -1,0 +1,8 @@
+services:
+  girchi_banking.utils:
+    class: Drupal\girchi_banking\Services\BankingUtils
+    arguments: [
+      '@entity_type.manager',
+      '@logger.factory',
+      '@om_tbc_payments.payment_service',
+      '@current_user']

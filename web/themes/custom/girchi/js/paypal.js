@@ -51,8 +51,6 @@ $("document").ready(function () {
                 purchase_units: [{
                     amount: {
                         value: amount,
-                        currency_code: 'EUR'
-
                     }
                 }]
             });
@@ -60,9 +58,13 @@ $("document").ready(function () {
         onApprove: function (data, actions) {
             var aim = $("#edit-donation-aim--3 option:selected").val();
             var politician = $("#edit-politicians--3 option:selected").val();
-            var currency = $("#edit-currencies--2 option:selected").val();
+            var currency = $("#edit-currencies option:selected").val();
 
             return actions.order.capture().then(function (details) {
+                console.log(data.orderID);
+                console.log(aim);
+                console.log(politician);
+                console.log(currency);
                 // Call server to save the transaction
                 return fetch('/donate/finish/paypal', {
                     method: 'post',

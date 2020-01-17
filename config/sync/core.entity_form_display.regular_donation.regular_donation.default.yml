@@ -3,55 +3,19 @@ langcode: ka
 status: true
 dependencies:
   config:
+    - field.field.regular_donation.regular_donation.field_credit_card
     - field.field.regular_donation.regular_donation.field_donations
   module:
-    - datetime
     - girchi_donations
 id: regular_donation.regular_donation.default
 targetEntityType: regular_donation
 bundle: regular_donation
 mode: default
-content:
-  aim_id:
-    type: entity_reference_autocomplete
-    weight: 5
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
-  field_donations:
-    weight: 15
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
-  next_payment_date:
-    type: datetime_default
-    weight: 14
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  politician_id:
-    type: entity_reference_autocomplete
-    weight: 5
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
-  user_id:
-    type: entity_reference_autocomplete
-    weight: 5
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    region: content
-    third_party_settings: {  }
-hidden: {  }
+content: {  }
+hidden:
+  aim_id: true
+  field_credit_card: true
+  field_donations: true
+  next_payment_date: true
+  politician_id: true
+  user_id: true

@@ -105,6 +105,11 @@ $(document).ready(function() {
         $('#referralModal').modal('show');
     }
 
+    if(window.location.search == '?pass-reset=success'){
+        $("#user-login-form").prepend(`<div class="alert alert-success">${Drupal.t("Your password has been successfully changed. Please log in into your account with new password.")} </div>`);
+
+    };
+
 });
 
 function SetCaretAtEnd(elem) {
