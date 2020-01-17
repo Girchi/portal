@@ -34,6 +34,9 @@ $("document").ready(function () {
                 if ($("#edit-politicians--3 option:selected").val() != ''
                     || $("#edit-donation-aim--3 option:selected").val() != '') {
                     $("#message-container").html('');
+                    $('.spinner-wrapper').html('<div class="spinner"></div>');
+                    $('.donation-card').css({"background-color" : "rgba(0,0,0, 0.1)", "filter": "blur(8px)",
+                        "-webkit-filter": "blur(8px)"});
                 }
                 else {
                     $("#message-container").html(`<div class="alert alert-danger">${Drupal.t("Please select politician or aim")} </div>`);
