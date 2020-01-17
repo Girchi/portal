@@ -7,3 +7,12 @@ girchi_paypal.paypal_controller:
     _permission: 'access content'
   options:
     no_cache: 'TRUE'
+
+girchi_paypal.finish_page:
+  path: '/finish/paypal'
+  defaults:
+    _controller: '\Drupal\girchi_paypal\Controller\PaypalController::donationPage'
+    _title: 'Donate page'
+  requirements:
+    _permission: 'access content'
+
