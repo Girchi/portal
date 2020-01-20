@@ -9,7 +9,6 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\BubbleableMetadata;
-use Drupal\user\UserInterface;
 use Drupal\webform\WebformSubmissionInterface;
 use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -591,7 +590,7 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
 /**
  * User form presave.
  */
-function girchi_utils_user_presave(User $account) {
+function girchi_utils_user_update(User $account) {
   $uid = $account->id();
   if ($account->get('field_referral')->target_id == $uid) {
     $response = new RedirectResponse(\Drupal::request()->getRequestUri());
