@@ -1,0 +1,7 @@
+services:
+  girchi_paypal.commands:
+    class: \Drupal\girchi_paypal\Commands\GirchiPaypalCommands
+    tags:
+      - { name: drush.command }
+    arguments:
+      ['@entity_type.manager']
