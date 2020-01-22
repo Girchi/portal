@@ -116,7 +116,7 @@ input[type=number]::-webkit-outer-spin-button {
 .spinner {
     position: absolute;
     left: 47%;
-    top: 50%;
+    top: 45%;
     height:60px;
     width:60px;
     margin:0px auto;
@@ -146,4 +146,10 @@ input[type=number]::-webkit-outer-spin-button {
 @keyframes rotation {
     from {transform: rotate(0deg);}
     to {transform: rotate(359deg);}
+}
+
+.blur-background {
+    background-color: rgba(0,0,0, 0.1);
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
 }
