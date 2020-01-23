@@ -1,0 +1,2 @@
+girchi_paypal:
+  environment: "production"
