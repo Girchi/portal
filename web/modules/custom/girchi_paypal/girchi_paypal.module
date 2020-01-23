@@ -36,7 +36,6 @@ function girchi_paypal_library_info_alter(&$libraries, $extension) {
     $paypal_config = \Drupal::config('girchi_paypal.paypalsettings');
     $client_id = $paypal_config->get('client_id');
     $paypal_library = sprintf('https://www.paypal.com/sdk/js?client-id=%s&disable-funding=credit,card', $client_id);
-    dump($paypal_library);
     $attributes = ["type" => "external", "minified" => TRUE];
     $libraries['donation']['js'][$paypal_library] = $attributes;
   }
