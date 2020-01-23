@@ -62,3 +62,6 @@ web/themes/custom/girchi/dist
 
 console/
 mariadb-init/
+
+# custom ignore
+config/sync/girchi_paypal.paypalsettings.yml
