@@ -35,7 +35,7 @@
                     </h6>
                     <span
                         class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
-                    >{{ user.referral_benefits }} ₾</span
+                    >{{ user.referral_benefits | ged_long_format }} ₾</span
                     >
                 </div>
             </li>
@@ -200,7 +200,7 @@
                             <td class="text-right text-md-center align-middle font-weight-bold">
                                  <span
                                      class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
-                                 >{{ user.referral_benefits }} ₾</span
+                                 >{{ user.referral_benefits > 1 ? user.referral_benefits|ged_long_format  : user.referral_benefits}} ₾</span
                                  >
                             </td>
                         </tr>
