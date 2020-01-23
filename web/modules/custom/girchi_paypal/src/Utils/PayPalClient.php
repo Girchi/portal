@@ -27,11 +27,13 @@ class PayPalClient {
     $modulePath = $moduleHandler->getModule('girchi_paypal')->getPath();
 
     // Load Paypal clinet id and secret pass.
+    $paypal_config = \Drupal::config('girchi_paypal.paypalsettings');
     $dotEnv = new Dotenv();
     $dotEnv->load($modulePath . '/credentials/.credentials.env');
-    $clientId = getenv("CLIENT_ID") ?: $_ENV['CLIENT_ID'];
-    $clientSecret = getenv("CLIENT_SECRET") ?: $_ENV['CLIENT_SECRET'];
-    if ($_ENV['ENV'] == 'production') {
+    $clientId = $paypal_config->get('client_id');
+    $clientSecret = $paypal_config->get('client_secret');
+    $paypalEnv = $paypal_config->get('environment');
+    if ($paypalEnv == 'production') {
       return new ProductionEnvironment($clientId, $clientSecret);
     }
     else {

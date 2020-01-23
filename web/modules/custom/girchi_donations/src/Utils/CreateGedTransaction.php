@@ -3,8 +3,7 @@
 namespace Drupal\girchi_donations\Utils;
 
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Driver\Exception\Exception;
-use Drupal\girchi_donations\Entity\Donation;
+use Drupal\Core\Logger\LoggerChannelFactory;
 
 /**
  * Service to create gedtransaction.
@@ -26,36 +25,49 @@ class CreateGedTransaction {
   protected $gedCalculator;
 
   /**
+   * Logger factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   */
+  protected $loggerChannelFactory;
+
+  /**
    * CreateGedTransaction constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    *   EntityTypeManager.
    * @param GedCalculator $gedCalculator
    *   GedCalculator.
+   * @param \Drupal\Core\Logger\LoggerChannelFactory $loggerChannelFactory
+   *   Logger factory.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, GedCalculator $gedCalculator) {
+  public function __construct(EntityTypeManager $entityTypeManager, GedCalculator $gedCalculator, LoggerChannelFactory $loggerChannelFactory) {
     $this->entityTypeManager = $entityTypeManager;
     $this->gedCalculator = $gedCalculator;
+    $this->loggerChannelFactory = $loggerChannelFactory->get('girchi_donation');
   }
 
   /**
    * CreateGedtransaciton.
    *
-   * @param \Drupal\girchi_donations\Entity\Donation $donation
-   *   Donation.
+   * @param mixed $currentUserId
+   *   Current user id.
+   * @param mixed $amount
+   *   Amount of money.
+   *
+   * @return mixed
+   *   Ged transaction id
    */
-  public function createGedTransaction(Donation $donation) {
+  public function createGedTransaction($currentUserId, $amount) {
     try {
       $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
       $ged_manager = $this->entityTypeManager->getStorage('ged_transaction');
 
-      $user = $donation->getUser();
-      $gel_amount = $donation->getAmount();
-      $ged_amount = $this->gedCalculator->calculate($gel_amount);
+      $ged_amount = $this->gedCalculator->calculate($amount);
       /** @var \Drupal\girchi_ged_transactions\Entity\GedTransaction $transaction */
       $transaction = $ged_manager->create([
         'user_id' => "1",
-        'user' => $user->id(),
+        'user' => $currentUserId,
         'ged_amount' => $ged_amount,
         'title' => 'Donation',
         'name' => 'Donation',
@@ -65,10 +77,10 @@ class CreateGedTransaction {
       ]);
 
       $transaction->save();
-
+      $this->loggerChannelFactory->info('GedTransaction was created for user : ' . $currentUserId);
       return $transaction->id();
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       $this->loggerChannelFactory->error($e->getMessage());
     }
   }
