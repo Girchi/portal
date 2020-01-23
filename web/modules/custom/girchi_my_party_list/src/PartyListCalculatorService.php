@@ -146,6 +146,8 @@ class PartyListCalculatorService {
       ->getQuery()
       ->condition('field_ged', '0', '>')
       ->condition('field_my_party_list', $politician_ids, 'IN')
+      ->condition('field_first_name', NULL, 'IS NOT NULL')
+      ->condition('field_last_name', NULL, 'IS NOT NULL')
       ->execute();
 
     /** @var User $users */

@@ -51,6 +51,8 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
       $user_storage = $this->entityTypeManager->getStorage('user');
       $uids = $user_storage->getQuery()
         ->condition('field_referral_benefits', 0, '>')
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
         ->sort('field_referral_benefits', "DESC")
         ->execute();
 
@@ -73,11 +75,10 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
         // Get user referral for modal.
         $referral_id = $user_storage->getQuery()
           ->condition('field_referral', $uid, '=')
+          ->condition('field_first_name', NULL, 'IS NOT NULL')
+          ->condition('field_last_name', NULL, 'IS NOT NULL')
           ->execute();
-        $referral_count = $user_storage->getQuery()
-          ->condition('field_referral', $uid, '=')
-          ->count()
-          ->execute();
+        $referral_count = count($referral_id);
         $referrals = $user_storage->loadMultiple($referral_id);
         $refs = [];
         foreach ($referrals as $referral) {
