@@ -1,0 +1,21 @@
+uuid: 012c9644-d70a-4800-9ae3-b8673d71c44f
+langcode: en
+status: true
+dependencies:
+  module:
+    - girchi_donations
+id: donation.field_source
+field_name: field_source
+entity_type: donation
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
