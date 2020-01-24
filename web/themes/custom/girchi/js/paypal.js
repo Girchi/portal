@@ -67,7 +67,6 @@ $("document").ready(function () {
             var aim = $("#edit-donation-aim--3 option:selected").val();
             var politician = $("#edit-politicians--3 option:selected").val();
             var currency = $("#edit-currencies option:selected").val();
-            console.log(data.orderID);
             return actions.order.capture().then(function (details) {
                 // Call server to save the transaction
                 return fetch('/donate/finish/paypal', {
