@@ -45,10 +45,8 @@ class GirchiPaypalCommands extends DrushCommands {
   public function setDonationSource() {
     $donation_storage = $this->entityTypeManager->getStorage('donation');
     $donations = $donation_storage->loadByProperties(['status' => 'OK']);
-
     foreach ($donations as $donation) {
       if ($donation->field_source->value == NULL) {
-        print $donation->field_source->value;
         $donation->set('field_source', 'tbc');
         $donation->save();
       }
