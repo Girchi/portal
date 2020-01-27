@@ -47,13 +47,13 @@ class PaypalUtils {
   public function checkPolitcian($politicianId) {
     try {
       $user_storage = $this->entityTypeManager->getStorage('user');
-      $user = $user_storage->load($politicianId);
-      if ($user && $user->field_politician->value == TRUE) {
-        return TRUE;
-      }
-      else {
-        return FALSE;
-      }
+      $user = $user_storage->getQuery()
+        ->condition('uid', $politicianId, '=')
+        ->condition('field_politician', TRUE, '=')
+        ->count()
+        ->execute();
+
+      return $user ? TRUE : FALSE;
     }
     catch (\Exception $e) {
       $this->loggerChannelFactory->info($e->getMessage());
@@ -73,13 +73,11 @@ class PaypalUtils {
   public function checkDonationAim($donationAimId) {
     try {
       $taxonomy_storage = $this->entityTypeManager->getStorage('taxonomy_term');
-      $taxonomy = $taxonomy_storage->load($donationAimId);
-      if ($taxonomy) {
-        return TRUE;
-      }
-      else {
-        return FALSE;
-      }
+      $taxonomy = $taxonomy_storage->getQuery()
+        ->condition('tid', $donationAimId, '=')
+        ->count()
+        ->execute();
+      return $taxonomy ? TRUE : FALSE;
     }
     catch (\Exception $e) {
       $this->loggerChannelFactory->info($e->getMessage());

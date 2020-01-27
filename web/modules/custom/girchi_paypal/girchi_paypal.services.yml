@@ -1,4 +1,8 @@
 services:
+  girchi_paypal.paypal_client:
+    class: Drupal\girchi_paypal\Utils\PayPalClient
+    arguments:
+      - '@config.factory'
   girchi_paypal.paypal_utils:
     class: Drupal\girchi_paypal\Utils\PaypalUtils
     arguments:

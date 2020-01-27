@@ -2,6 +2,7 @@
 
 namespace Drupal\girchi_paypal\Utils;
 
+use Drupal\Core\Config\ConfigFactory;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
@@ -12,21 +13,36 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 class PayPalClient {
 
   /**
+   * Config factory.
+   *
+   * @var configFactory*/
+  protected $configFactory;
+
+  /**
+   * PayPalClient constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   ConfigFactory.
+   */
+  public function __construct(ConfigFactory $configFactory) {
+    $this->configFactory = $configFactory->get("girchi_paypal.paypalsettings");
+  }
+
+  /**
    * Client for paypal api.
    */
-  public static function client() {
-    return new PayPalHttpClient(self::environment());
+  public function client() {
+    return new PayPalHttpClient($this->environment());
   }
 
   /**
    * Setting PayPal SDK environment.
    */
-  public static function environment() {
+  public function environment() {
     // Load Paypal clinet id and secret pass.
-    $paypal_config = \Drupal::config('girchi_paypal.paypalsettings');
-    $clientId = $paypal_config->get('client_id');
-    $clientSecret = $paypal_config->get('client_secret');
-    $paypalEnv = $paypal_config->get('environment');
+    $clientId = $this->configFactory->get('client_id');
+    $clientSecret = $this->configFactory->get('client_secret');
+    $paypalEnv = $this->configFactory->get('environment');
     if ($paypalEnv == 'production') {
       return new ProductionEnvironment($clientId, $clientSecret);
     }

@@ -68,6 +68,12 @@ class PaypalController extends ControllerBase {
    * @var \Drupal\girchi_paypal\Utils\PaypalUtils
    */
   private $paypalUtils;
+  /**
+   * Paypal Client.
+   *
+   * @var \Drupal\girchi_paypal\Utils\PayPalClient
+   */
+  private $payPalClient;
 
   /**
    * PaypalController constructor.
@@ -86,6 +92,8 @@ class PaypalController extends ControllerBase {
    *   KeyValue.
    * @param \Drupal\girchi_paypal\Utils\PaypalUtils $paypalUtils
    *   PaypalUtils.
+   * @param \Drupal\girchi_paypal\Utils\PayPalClient $payPalClient
+   *   PaypalClient.
    */
   public function __construct(EntityTypeManager $entityTypeManager,
                               LoggerChannelFactory $loggerChannelFactory,
@@ -93,7 +101,8 @@ class PaypalController extends ControllerBase {
                               CreateGedTransaction $createGedTransaction,
                               EventDispatcherInterface $dispatcher,
                               KeyValueFactory $keyValue,
-                              PaypalUtils $paypalUtils
+                              PaypalUtils $paypalUtils,
+                              PayPalClient $payPalClient
   ) {
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerChannelFactory = $loggerChannelFactory->get('girchi_paypal');
@@ -102,6 +111,7 @@ class PaypalController extends ControllerBase {
     $this->dispatcher = $dispatcher;
     $this->keyValue = $keyValue->get('girchi_donations');
     $this->paypalUtils = $paypalUtils;
+    $this->payPalClient = $payPalClient;
   }
 
   /**
@@ -115,7 +125,8 @@ class PaypalController extends ControllerBase {
       $container->get('girchi_donations.create_ged_transaction'),
       $container->get('event_dispatcher'),
       $container->get('keyvalue'),
-      $container->get('girchi_paypal.paypal_utils')
+      $container->get('girchi_paypal.paypal_utils'),
+      $container->get('girchi_paypal.paypal_client')
     );
   }
 
@@ -134,13 +145,13 @@ class PaypalController extends ControllerBase {
     $data = Json::decode($request->getContent());
     try {
       $node_storage = $this->entityTypeManager->getStorage('donation');
-
-      $client = PayPalClient::client();
+      /** @var \PayPalCheckoutSdk\Core\PayPalEnvironment $client */
+      $client = $this->payPalClient->client();
       $order_id = $data['order_id'];
       if (!empty($order_id)) {
         $values = [
           'type' => 'donation',
-          'title' => "Donation",
+          'title' => 'Donation',
           'user_id' => $this->currentUser->id(),
           'field_source' => 'paypal',
         ];
@@ -231,9 +242,9 @@ class PaypalController extends ControllerBase {
         if ($user_id == $this->currentUser->id()) {
           $status = $donation->getStatus();
           /** @var \Drupal\girchi_ged_transactions\Entity\GedTransaction $gedTransaction */
-          $gedTransaction = $donation->get('field_ged_transaction');
-          if ($gedTransaction && $gedTransaction->entity) {
-            $amount = $gedTransaction->entity->get('ged_amount')->value;
+          $ged_transaction = $donation->get('field_ged_transaction');
+          if ($ged_transaction && $ged_transaction->entity) {
+            $amount = $ged_transaction->entity->get('ged_amount')->value;
           }
           if ($user_id == 0) {
             $auth = FALSE;
