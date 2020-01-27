@@ -31,18 +31,17 @@ class GetUserReferralsService {
    * GetUserReferrals.
    */
   public function getUserReferrals($uid) {
-    // Count number of referrals.
-    $user_storage = $this->entityTypeManager->getStorage('user');
-    $countReferrals = $user_storage->getQuery()
-      ->condition('field_referral', $uid)
-      ->count()
-      ->execute();
-
     // Get referrals.
+    $user_storage = $this->entityTypeManager->getStorage('user');
     $referralsId = $user_storage->getQuery()
       ->condition('field_referral', $uid)
+      ->condition('field_first_name', NULL, 'IS NOT NULL')
+      ->condition('field_last_name', NULL, 'IS NOT NULL')
       ->sort('field_ged', 'DESC')
       ->execute();
+
+    // Count number of referrals.
+    $countReferrals = count($referralsId);
 
     $referralsArray = $user_storage->loadMultiple($referralsId);
 
