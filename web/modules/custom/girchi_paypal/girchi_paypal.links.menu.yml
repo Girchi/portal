@@ -1,0 +1,6 @@
+girchi_paypal.paypal_settings_form:
+  title: 'PaypalSettingsForm'
+  route_name: girchi_paypal.paypal_settings_form
+  description: 'Settings for paypal module'
+  parent: system.admin_config_system
+  weight: 99

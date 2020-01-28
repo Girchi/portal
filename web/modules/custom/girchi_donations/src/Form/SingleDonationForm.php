@@ -183,6 +183,7 @@ class SingleDonationForm extends FormBase {
           'trans_id' => $transaction_id,
           'amount' => (int) $amount,
           'user_id' => $this->currentUser->id(),
+          'field_source' => 'tbc',
         ],
         $description);
       if ($valid) {

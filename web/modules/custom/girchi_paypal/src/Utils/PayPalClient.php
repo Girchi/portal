@@ -2,10 +2,10 @@
 
 namespace Drupal\girchi_paypal\Utils;
 
+use Drupal\Core\Config\ConfigFactory;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
-use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Client for paypal api.
@@ -13,25 +13,37 @@ use Symfony\Component\Dotenv\Dotenv;
 class PayPalClient {
 
   /**
+   * Config factory.
+   *
+   * @var configFactory*/
+  protected $configFactory;
+
+  /**
+   * PayPalClient constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   ConfigFactory.
+   */
+  public function __construct(ConfigFactory $configFactory) {
+    $this->configFactory = $configFactory->get("girchi_paypal.paypalsettings");
+  }
+
+  /**
    * Client for paypal api.
    */
-  public static function client() {
-    return new PayPalHttpClient(self::environment());
+  public function client() {
+    return new PayPalHttpClient($this->environment());
   }
 
   /**
    * Setting PayPal SDK environment.
    */
-  public static function environment() {
-    $moduleHandler = \Drupal::service('module_handler');
-    $modulePath = $moduleHandler->getModule('girchi_paypal')->getPath();
-
+  public function environment() {
     // Load Paypal clinet id and secret pass.
-    $dotEnv = new Dotenv();
-    $dotEnv->load($modulePath . '/credentials/.credentials.env');
-    $clientId = getenv("CLIENT_ID") ?: $_ENV['CLIENT_ID'];
-    $clientSecret = getenv("CLIENT_SECRET") ?: $_ENV['CLIENT_SECRET'];
-    if ($_ENV['ENV'] == 'production') {
+    $clientId = $this->configFactory->get('client_id');
+    $clientSecret = $this->configFactory->get('client_secret');
+    $paypalEnv = $this->configFactory->get('environment');
+    if ($paypalEnv == 'production') {
       return new ProductionEnvironment($clientId, $clientSecret);
     }
     else {

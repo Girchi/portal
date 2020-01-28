@@ -18,4 +18,4 @@ services:
     arguments:
       - '@entity_type.manager'
       - '@girchi_donations.ged_calculator'
-      - '@keyvalue'
+      - '@logger.factory'

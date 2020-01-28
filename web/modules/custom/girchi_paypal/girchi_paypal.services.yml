@@ -1,5 +1,11 @@
 services:
-  paypal_client:
-    class: Drupal\girchi_paypal\Utils\PayPalClient;
+  girchi_paypal.paypal_client:
+    class: Drupal\girchi_paypal\Utils\PayPalClient
     arguments:
-      - '@module_handler'
+      - '@config.factory'
+  girchi_paypal.paypal_utils:
+    class: Drupal\girchi_paypal\Utils\PaypalUtils
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
+

@@ -1,0 +1,20 @@
+uuid: 41fccb05-7da8-42cc-ab1f-68edb07d9729
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.donation.field_source
+  module:
+    - girchi_donations
+id: donation.donation.field_source
+field_name: field_source
+entity_type: donation
+bundle: donation
+label: Source
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
