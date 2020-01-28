@@ -199,11 +199,7 @@ class DonationsController extends ControllerBase {
     $card_save_form = $this->formBuilder()->getForm('Drupal\girchi_banking\Form\SaveCreditCardForm');
     $has_active_card = $this->bankingUtils->hasAvailableCards($this->accountProxy->id());
     $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
-    $show_paypal = FALSE;
-    $paypal_users = [1826, 1, 82, 14, 29, 19, 7, 1223, 81, 19, 76];
-    if (in_array($this->accountProxy->id(), $paypal_users)) {
-      $show_paypal = TRUE;
-    }
+
     return [
       '#type' => 'markup',
       '#theme' => 'girchi_donations',
@@ -214,7 +210,6 @@ class DonationsController extends ControllerBase {
       '#has_active_card' => $has_active_card,
       '#card_save_form' => $card_save_form,
       '#cards' => $cards,
-      '#show_paypal' => $show_paypal,
     ];
   }
 
