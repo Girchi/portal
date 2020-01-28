@@ -45,7 +45,6 @@ function girchi_donations_theme() {
         'has_active_card' => NULL,
         'card_save_form' => NULL,
         'cards' => NULL,
-        'show_paypal' => NULL
       ],
     ],
     'girchi_donations_success' => [
