@@ -175,13 +175,6 @@ function girchi_utils_theme($existing, $type, $theme, $path) {
         ],
       'template' => 'front-page-articles',
     ],
-    'lead_partners' => [
-      'variables' =>
-        [
-          'leadPartner' => NULL,
-        ],
-      'template' => 'lead-partners',
-    ],
     'my_party_list_block' => [
       'variables' =>
         [
