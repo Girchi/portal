@@ -1,0 +1,7 @@
+girchi_leaderboard.leaderboard_form:
+  path: '/admin/leaderboard'
+  defaults:
+    _form: '\Drupal\girchi_leaderboard\Form\LeaderboardForm'
+    _title: 'LeaderboardForm'
+  requirements:
+    _access: 'TRUE'
