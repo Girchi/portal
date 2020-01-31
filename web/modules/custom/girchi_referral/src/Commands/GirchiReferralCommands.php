@@ -92,6 +92,7 @@ class GirchiReferralCommands extends DrushCommands {
         ->condition('field_referral', NULL, 'IS NOT NULL')
         ->execute();
       $users = $user_storage->loadMultiple($users);
+
       foreach ($users as $user) {
         if ($user->id() == $user->field_referral->target_id) {
           unset($user->field_referral);
@@ -99,7 +100,7 @@ class GirchiReferralCommands extends DrushCommands {
         }
         else {
           if ($user->field_referral->target_id) {
-            $referral_user = $user_storage->load($user->field_referral->target_id);
+            $referral_user = $users[$user->field_referral->target_id];
             if ($referral_user->field_referral) {
               if ($user->id() == $referral_user->field_referral->target_id) {
                 unset($user->field_referral->target_id);
