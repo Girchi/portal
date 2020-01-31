@@ -79,4 +79,42 @@ class GirchiReferralCommands extends DrushCommands {
 
   }
 
+  /**
+   * Command to clean referrals.
+   *
+   * @command girchi_referral:clean-referrals
+   * @aliases clean-referrals
+   */
+  public function cleanReferrals() {
+    try {
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $users = $user_storage->getQuery()
+        ->condition('field_referral', NULL, 'IS NOT NULL')
+        ->execute();
+      $users = $user_storage->loadMultiple($users);
+      foreach ($users as $user) {
+        if ($user->id() == $user->field_referral->target_id) {
+          unset($user->field_referral);
+          $user->save();
+        }
+        else {
+          if ($user->field_referral->target_id) {
+            $referral_user = $user_storage->load($user->field_referral->target_id);
+            if ($referral_user->field_referral) {
+              if ($user->id() == $referral_user->field_referral->target_id) {
+                unset($user->field_referral->target_id);
+                $user->save();
+                unset($referral_user->field_referral->target_id);
+                $referral_user->save();
+              }
+            }
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+  }
+
 }
