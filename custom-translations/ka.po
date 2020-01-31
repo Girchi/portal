@@ -4215,6 +4215,11 @@ msgstr ""
 "თქვენ ვერ გახდებით თქვენი "
 "თავის რეფერალი"
 
+msgid "You can't be your own referral"
+msgstr ""
+"თქვენ ვერ გახდებით თქვენი "
+"თავის რეფერალი"
+
 msgid "Enter your referral person"
 msgstr "მიუთითე ვისი რეფერალი ხარ"
 
