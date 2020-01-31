@@ -168,7 +168,7 @@ class GirchiDonationsCommands extends DrushCommands {
    */
   public function getMothDays() {
     $response = [];
-    $period = CarbonPeriod::create(Carbon::createFromDate(2020, 1, 16), Carbon::today());
+    $period = CarbonPeriod::create(Carbon::createFromDate(2020, 1, 16), Carbon::yesterday());
 
     /** @var \Carbon\Carbon $day */
     foreach ($period as $day) {
