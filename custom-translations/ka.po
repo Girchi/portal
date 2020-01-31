@@ -4319,3 +4319,7 @@ msgstr ""
 msgid "Currency"
 msgstr "ვალუტა"
 
+msgid "You can't be your referral's referral."
+msgstr ""
+"თქვენ ვერ გახდებით თქვენი "
+"რეფერალის რეფერალი"
