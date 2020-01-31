@@ -3,7 +3,6 @@
 namespace Drupal\girchi_leaderboard\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,7 +20,6 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
   private const DONATION_DAILY = 1;
   private const DONATION_WEEKLY = 2;
   private const DONATION_MONTHLY = 3;
-
   /**
    * Entity type manager.
    *
@@ -69,7 +67,6 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
     $daily_donations = $this->getDonations(self::DONATION_DAILY);
     $weekly_donations = $this->getDonations(self::DONATION_WEEKLY);
     $monthly_donations = $this->getDonations(self::DONATION_MONTHLY);
-
     return [
       '#theme' => 'lead_partners',
       '#leadPartner' => $all_donations,
@@ -85,19 +82,41 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
   private function getDonations($mode = self::DONATION_ALL) {
     $user_storage = $this->entityTypeManager->getStorage('user');
     $donation_storage = $this->entityTypeManager->getStorage('donation');
-
-    // dump(strtotime(date('Y-m-d')));die;.
-    $donation_entity_ids = $donation_storage->getQuery()
+    $donation_entity_ids_query = $donation_storage->getQuery()
       ->condition('status', 'OK')
       ->condition('user_id', '0', '!=')
-      ->sort('amount', 'DESC')
-      ->execute();
-
+      ->sort('amount', 'DESC');
+    if ($mode === self::DONATION_DAILY) {
+      $group = $donation_entity_ids_query
+        ->andConditionGroup()
+        ->condition('created', strtotime("now"), '<')
+        ->condition('created', strtotime("-1 days"), '>');
+      $donation_entity_ids_query->condition($group);
+      $donation_entity_ids = $donation_entity_ids_query->execute();
+    }
+    elseif ($mode === self::DONATION_WEEKLY) {
+      $group = $donation_entity_ids_query
+        ->andConditionGroup()
+        ->condition('created', strtotime("now"), '<')
+        ->condition('created', strtotime("-1 week"), '>');
+      $donation_entity_ids_query->condition($group);
+      $donation_entity_ids = $donation_entity_ids_query->execute();
+    }
+    elseif ($mode === self::DONATION_MONTHLY) {
+      $group = $donation_entity_ids_query
+        ->andConditionGroup()
+        ->condition('created', strtotime("now"), '<')
+        ->condition('created', strtotime("-1 month"), '>');
+      $donation_entity_ids_query->condition($group);
+      $donation_entity_ids = $donation_entity_ids_query->execute();
+    }
+    else {
+      $donation_entity_ids = $donation_entity_ids_query->execute();
+    }
     $top_partners = $donation_storage->loadMultiple($donation_entity_ids);
-
     $final_partners = [];
+    /** @var \Drupal\girchi_donations\Entity\Donation $top_partner */
     foreach ($top_partners as $top_partner) {
-      // dump($top_partner);die;
       $donation_amount = $top_partner->getAmount();
       $uid = $top_partner->getUser()->id();
       $user = $user_storage->load($uid);
@@ -110,11 +129,9 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
       else {
         $profilePicture = NULL;
       }
-
       if (empty($user_name) || empty($user_surname)) {
         continue;
       }
-
       if (array_key_exists($uid, $final_partners)) {
         $final_partners[$uid]['donation'] += $donation_amount;
       }
@@ -131,15 +148,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
     usort($final_partners, function ($a, $b) {
       return $b['donation'] - $a['donation'];
     });
-
     return $final_partners;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getCacheTags() {
-    return Cache::mergeTags(parent::getCacheTags(), ['taxonomy_term_list:lead_partner']);
   }
 
 }

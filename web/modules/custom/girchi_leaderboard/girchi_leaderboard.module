@@ -32,6 +32,9 @@ function girchi_leaderboard_theme() {
       'variables' =>
         [
           'leadPartner' => NULL,
+          'leadPartnerDaily' => NULL,
+          'leadPartnerWeekly' => NULL,
+          'leadPartnerMonthly' => NULL,
         ],
       'template' => 'lead-partners',
     ],
