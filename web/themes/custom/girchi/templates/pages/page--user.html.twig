@@ -51,7 +51,7 @@
                 <div class="text-center text-lg-left d-flex flex-column mx-lg-3 w-50 w-lg-auto px-3 px-md-4 px-lg-0">
                     <label class="m-0 font-size-1 font-size-md-2 text-uppercase text-grey line-height-1-2 line-height-md-1-8">{{ 'Referral benefits' | t }}</label>
                     <span class="text-warning font-weight-bold font-size-4 font-size-md-5 line-height-1-5 line-height-md-0-9">
-                        <i class="line-height-1-1 font-size-md-4 font-size-3"></i>₾{{ user.referral_benefits ? user.referral_benefits : 0}}
+                        <i class="line-height-1-1 font-size-md-4 font-size-3"></i>₾{{ user.referral_benefits ? user.referral_benefits|ged_long_format : 0}}
                     </span>
                 </div>
 
