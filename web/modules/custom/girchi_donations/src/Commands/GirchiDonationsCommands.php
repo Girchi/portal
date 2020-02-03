@@ -153,6 +153,7 @@ class GirchiDonationsCommands extends DrushCommands {
         $regd->save();
         $progressBar->advance();
       }
+      $output->writeln("\n");
       $progressBar->finish();
 
     }
@@ -167,7 +168,7 @@ class GirchiDonationsCommands extends DrushCommands {
    */
   public function getMothDays() {
     $response = [];
-    $period = CarbonPeriod::create(Carbon::createFromDate(2019, 12, 25), Carbon::today());
+    $period = CarbonPeriod::create(Carbon::createFromDate(2020, 1, 16), Carbon::yesterday());
 
     /** @var \Carbon\Carbon $day */
     foreach ($period as $day) {
