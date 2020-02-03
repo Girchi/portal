@@ -4,4 +4,6 @@ girchi_leaderboard.leaderboard_form:
     _form: '\Drupal\girchi_leaderboard\Form\LeaderboardForm'
     _title: 'LeaderboardForm'
   requirements:
-    _access: 'TRUE'
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
