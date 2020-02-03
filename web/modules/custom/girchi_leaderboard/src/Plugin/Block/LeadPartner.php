@@ -151,4 +151,11 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
     return $final_partners;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheMaxAge() {
+    return 0;
+  }
+
 }
