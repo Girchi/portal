@@ -590,14 +590,27 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
 /**
  * User form presave.
  */
-function girchi_utils_user_update(User $account) {
-  $uid = $account->id();
-  if ($account->get('field_referral')->target_id == $uid) {
-    $response = new RedirectResponse(\Drupal::request()->getRequestUri());
-    $response->send();
-    \Drupal::messenger()->addError(t("You can't be your own referral"));
-    exit;
-  }
+function girchi_utils_user_presave(User $account) {
+    if ($account->original) {
+      $uid = $account->id();
+      $referral_id = $account->get('field_referral')->target_id;
+      if ($referral_id == $uid) {
+        $response = new RedirectResponse(\Drupal::request()->getRequestUri());
+        $response->send();
+        \Drupal::messenger()->addError(t("You can't be your own referral"));
+        exit;
+      }
+      if ($referral_id) {
+        $referral_user = User::load($referral_id);
+        if ($referral_user->get('field_referral')->target_id == $uid) {
+          $response = new RedirectResponse(\Drupal::request()->getRequestUri());
+          $response->send();
+          \Drupal::messenger()->addError(t("You can't be your referral's referral."));
+          exit;
+        }
+      }
+    }
+
 
   // TODO:: Uncomment if statement.
   //  if ($account->original != NULL) {
