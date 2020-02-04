@@ -1,0 +1,418 @@
+<div
+    class="card mt-3 mt-sm-4 mt-md-0 mt-lg-4 font-size-3"
+>
+    <div class="p-0 py-md-0 px-xl-4 row font-size-1">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item col-6" >
+                <a
+                    class="nav-link font-weight-bold text-uppercase active"
+                    id="daily-tab"
+                    data-toggle="tab"
+                    href="#lead"
+                    role="tab"
+                    aria-controls="lead"
+                    aria-selected="true"
+                >{{ "Top partners" |t }}</a
+                >
+            </li>
+            <li class="nav-item col-6">
+                <a
+                    class="nav-link font-weight-bold text-uppercase"
+                    id="weekly-tab"
+                    data-toggle="tab"
+                    href="#ref"
+                    role="tab"
+                    aria-controls="ref"
+                    aria-selected="false"
+                >{{ "Top referrals" |t}}</a
+                >
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body pb-3 pt-0 px-xl-4">
+
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="lead" role="tabpanel" aria-labelledby="lead">
+                <ul class="nav nav-pills" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a
+                            class="nav-link font-weight-bold text-uppercase {{leadPartnerDaily is not empty ? "active" : '' }}"
+                            id="daily-tab"
+                            data-toggle="tab"
+                            href="#daily"
+                            role="tab"
+                            aria-controls="daily"
+                            aria-selected="{{leadPartnerDaily is not empty ? "true" : 'false' }}"
+                        >დღის</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link font-weight-bold text-uppercase"
+                            id="weekly-tab"
+                            data-toggle="tab"
+                            href="#weekly"
+                            role="tab"
+                            aria-controls="weekly"
+                            aria-selected="false"
+                        >კვირის</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link font-weight-bold text-uppercase {{leadPartnerDaily is empty ? "active" : '' }}"
+                            id="monthly-tab"
+                            data-toggle="tab"
+                            href="#monthly"
+                            role="tab"
+                            aria-controls="monthly"
+                            aria-selected="{{leadPartnerDaily is empty ? "true" : 'false' }}"
+                        >თვის</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link font-weight-bold text-uppercase"
+                            id="total-tab"
+                            data-toggle="tab"
+                            href="#total"
+                            role="tab"
+                            aria-controls="total"
+                            aria-selected="false"
+                        >სულ</a
+                        >
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div
+                        class="tab-pane fade {{leadPartnerDaily is not empty ? "show active" : '' }}"
+                        id="daily"
+                        role="tabpanel"
+                        aria-labelledby="daily-tab"
+                    >
+                        <ul class="list-group list-group-flush mt-2">
+                            {% set i=0 %}
+                            {% if leadPartnerDaily %}
+                                {% for partner in leadPartnerDaily  | slice(0, 5)%}
+                                    {% set i=i+1 %}
+                                    <li
+                                        class="list-group-item d-flex align-items-center px-0"
+                                    >
+                                <span
+                                    class="font-size-6 font-size-xl-7 text-dark-silver mr-2 mr-xl-3"
+                                >{{ i }}</span
+                                >
+                                        <div class="d-flex w-100 align-items-center">
+                                            <a
+                                                href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                class="rounded-circle overflow-hidden d-inline-block"
+                                            >
+                                                <img
+                                                    src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                                                    class="rounded"
+                                                    alt="..."
+                                                />
+
+                                            </a>
+                                            <h6
+                                                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3"
+                                            >
+                                                <a
+                                                    href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                    class="text-decoration-none d-inline-block text-hover-success"
+                                                >
+                                                    {{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}
+                                                    <span class="d-block font-weight-bold"
+                                                    >{{ partner.uid ? partner.user_surname : 'User'|t }}</span
+                                                    >
+                                                </a>
+                                            </h6>
+                                            <span
+                                                class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+                                            >{{ partner.donation }} ₾</span
+                                            >
+                                        </div>
+                                    </li>
+
+
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div
+                        class="tab-pane fade"
+                        id="weekly"
+                        role="tabpanel"
+                        aria-labelledby="weekly-tab"
+                    >
+                        <ul class="list-group list-group-flush mt-2">
+                            {% set i=0 %}
+                            {% if leadPartnerWeekly %}
+                                {% for partner in leadPartnerWeekly  | slice(0, 5)%}
+                                    {% set i=i+1 %}
+                                    <li
+                                        class="list-group-item d-flex align-items-center px-0"
+                                    >
+                                <span
+                                    class="font-size-6 font-size-xl-7 text-dark-silver mr-2 mr-xl-3"
+                                >{{ i }}</span
+                                >
+                                        <div class="d-flex w-100 align-items-center">
+                                            <a
+                                                href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                class="rounded-circle overflow-hidden d-inline-block"
+                                            >
+                                                <img
+                                                    src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                                                    class="rounded"
+                                                    alt="..."
+                                                />
+
+                                            </a>
+                                            <h6
+                                                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3"
+                                            >
+                                                <a
+                                                    href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                    class="text-decoration-none d-inline-block text-hover-success"
+                                                >
+                                                    {{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}
+                                                    <span class="d-block font-weight-bold"
+                                                    >{{ partner.uid ? partner.user_surname : 'User'|t }}</span
+                                                    >
+                                                </a>
+                                            </h6>
+                                            <span
+                                                class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+                                            >{{ partner.donation }} ₾</span
+                                            >
+                                        </div>
+                                    </li>
+
+
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div
+                        class="tab-pane fade {{leadPartnerDaily is empty ? "show active" : '' }}"
+                        id="monthly"
+                        role="tabpanel"
+                        aria-labelledby="monthly-tab"
+                    >
+                        <ul class="list-group list-group-flush mt-2">
+                            {% set i=0 %}
+                            {% if leadPartnerMonthly %}
+                                {% for partner in leadPartnerMonthly  | slice(0, 5)%}
+                                    {% set i=i+1 %}
+                                    <li
+                                        class="list-group-item d-flex align-items-center px-0"
+                                    >
+                                <span
+                                    class="font-size-6 font-size-xl-7 text-dark-silver mr-2 mr-xl-3"
+                                >{{ i }}</span
+                                >
+                                        <div class="d-flex w-100 align-items-center">
+                                            <a
+                                                href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                class="rounded-circle overflow-hidden d-inline-block"
+                                            >
+                                                <img
+                                                    src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                                                    class="rounded"
+                                                    alt="..."
+                                                />
+
+                                            </a>
+                                            <h6
+                                                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3"
+                                            >
+                                                <a
+                                                    href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                    class="text-decoration-none d-inline-block text-hover-success"
+                                                >
+                                                    {{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}
+                                                    <span class="d-block font-weight-bold"
+                                                    >{{ partner.uid ? partner.user_surname : 'User'|t }}</span
+                                                    >
+                                                </a>
+                                            </h6>
+                                            <span
+                                                class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+                                            >{{ partner.donation }} ₾</span
+                                            >
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div
+                        class="tab-pane fade"
+                        id="total"
+                        role="tabpanel"
+                        aria-labelledby="total-tab"
+                    >
+                        <ul class="list-group list-group-flush mt-2">
+                            {% set i=0 %}
+                            {% if leadPartner %}
+                                {% for partner in leadPartner | slice(0, 4) %}
+                                    {% set i=i+1 %}
+                                    <li
+                                        class="list-group-item d-flex align-items-center px-0"
+                                    >
+                                        <span
+                                            class="font-size-6 font-size-xl-7 text-dark-silver mr-2 mr-xl-3"
+                                        >{{ i }}</span
+                                        >
+                                        <div class="d-flex w-100 align-items-center">
+                                            <a
+                                                href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                class="rounded-circle overflow-hidden d-inline-block"
+                                            >
+                                                <img
+                                                    src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                                                    class="rounded"
+                                                    alt="..."
+                                                />
+
+                                            </a>
+                                            <h6
+                                                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3"
+                                            >
+                                                <a
+                                                    href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                                    class="text-decoration-none d-inline-block text-hover-success"
+                                                >
+                                                    {{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}
+                                                    <span class="d-block font-weight-bold"
+                                                    >{{ partner.uid ? partner.user_surname : 'User'|t }}</span
+                                                    >
+                                                </a>
+                                            </h6>
+                                            <span
+                                                class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+                                            >{{ partner.donation }} ₾</span
+                                            >
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                                <button href="#" class="card-view-allfont-weight-normal text-white text-decoration-none btn btn-block btn-success mt-3 py-2" data-toggle="modal" data-target="#leadPartnerFullList">
+                                    {{ 'Full list'|t }}
+                                </button>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start of Top referrals block -->
+            <div class="tab-pane fade " id="ref" role="tabpanel" aria-labelledby="ref">
+                {{print_block('topreferrals')}}
+            </div>
+            <!-- End of Top referrals block -->
+        </div>
+    </div>
+</div>
+
+{#Lead partner modal#}
+
+<div
+    class="modal fade"
+    id="leadPartnerFullList"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="fullListTitle"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content overflow-hidden">
+            <div class="modal-header align-items-center px-3 px-md-4">
+                <h5
+                    class="modal-title font-size-3 text-uppercase font-weight-bold"
+                    id="supportersTitle"
+                >
+                    {{ 'Last month Top partners' | t }}
+                </h5>
+                <button
+                    type="button"
+                    class="close ml-2"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <i
+                        aria-hidden="true"
+                        class="icon-close font-size-3 text-dark-silver"
+                    ></i>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <table class="table m-0 table-hover">
+                    <thead>
+                    <tr class="bg-dark-white">
+                        <th
+                            scope="col"
+                            class="align-middle w-auto w-md-80-px text-center text-dark-silver font-size-2 border-0"
+                        >
+                            #
+                        </th>
+                        <th
+                            scope="col"
+                            class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0"
+                        >
+                            {{ "Name" |t }}
+                        </th>
+                        <th
+                            scope="col"
+                            class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0 text-center line-height-1-2"
+                        >
+                            {{ "Donated amount" |t  }}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for partner in leadPartner %}
+                        <tr>
+                            <th scope="row" class="pl-3 w-auto w-md-80-px text-center align-middle">
+                                <span class="font-size-4 font-size-xl-5 text-dark-silver font-weight-normal">{{ loop.index }}</span>
+                            </th>
+                            <td class="align-middle">
+                                <div class="d-flex w-100 align-items-center">
+                                    <a
+                                        href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                                        class="rounded-circle overflow-hidden d-none d-md-block">
+                                        <img
+                                            src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                                            class="rounded"
+                                            alt="..."
+                                        />
+                                    </a>
+                                    <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
+                                        <a href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}" class="d-inline-block text-hover-success">
+                              <span class="text-decoration-none d-inline-block">
+                                <span>{{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}</span>
+                                <span class="font-weight-bold">{{ partner.uid ? partner.user_surname : 'User'|t }}</span>
+                              </span>
+                                        </a>
+                                    </h6>
+                                </div>
+                            </td>
+                            <td class="text-right text-md-center align-middle font-weight-bold">
+                                 <span
+                                     class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+                                 >{{ partner.donation }} ₾</span
+                                 >
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

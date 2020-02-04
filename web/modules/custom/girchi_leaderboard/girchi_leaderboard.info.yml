@@ -1,0 +1,5 @@
+name: 'girchi_leaderboard'
+type: module
+description: 'Girchi leaderboard'
+core: 8.x
+package: 'Custom'

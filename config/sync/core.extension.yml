@@ -47,6 +47,7 @@ module:
   girchi_contact: 0
   girchi_donations: 0
   girchi_ged_transactions: 0
+  girchi_leaderboard: 0
   girchi_my_party_list: 0
   girchi_paypal: 0
   girchi_referral: 0
