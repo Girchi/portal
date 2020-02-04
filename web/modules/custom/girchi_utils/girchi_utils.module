@@ -440,7 +440,7 @@ function user_form_validate($form, FormStateInterface &$form_state) {
   $uid = \Drupal::currentUser()->id();
   if ($referral_id) {
     if ($referral_id == $uid) {
-      $form_state->setErrorByName('title', t("You can't be your own referral."));
+      $form_state->setErrorByName('title', t("You can't be your own referral"));
 
     }
     else {
