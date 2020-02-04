@@ -191,6 +191,7 @@ class LeaderboardForm extends FormBase {
             'user_id' => $user,
             'field_source' => 'manual',
             'status' => 'OK',
+            'field_ged_transaction' => $ged_trans_id,
           ],
           $description);
         if (!$valid) {
@@ -199,6 +200,8 @@ class LeaderboardForm extends FormBase {
         }
         else {
           $this->messenger->addMessage($this->t('Donation was successfully created!'));
+          $this->getLogger('girchi_leaderboard')->info('Saved to donations with Status: OK');
+
         }
       }
       else {

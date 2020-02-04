@@ -38,13 +38,13 @@
                 <ul class="nav nav-pills" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a
-                            class="nav-link font-weight-bold text-uppercase active"
+                            class="nav-link font-weight-bold text-uppercase {{leadPartnerDaily is not empty ? "active" : '' }}"
                             id="daily-tab"
                             data-toggle="tab"
                             href="#daily"
                             role="tab"
                             aria-controls="daily"
-                            aria-selected="true"
+                            aria-selected="{{leadPartnerDaily is not empty ? "true" : 'false' }}"
                         >დღის</a
                         >
                     </li>
@@ -62,13 +62,13 @@
                     </li>
                     <li class="nav-item">
                         <a
-                            class="nav-link font-weight-bold text-uppercase"
+                            class="nav-link font-weight-bold text-uppercase {{leadPartnerDaily is empty ? "active" : '' }}"
                             id="monthly-tab"
                             data-toggle="tab"
                             href="#monthly"
                             role="tab"
                             aria-controls="monthly"
-                            aria-selected="false"
+                            aria-selected="{{leadPartnerDaily is empty ? "true" : 'false' }}"
                         >თვის</a
                         >
                     </li>
@@ -87,7 +87,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div
-                        class="tab-pane fade show active"
+                        class="tab-pane fade {{leadPartnerDaily is not empty ? "show active" : '' }}"
                         id="daily"
                         role="tabpanel"
                         aria-labelledby="daily-tab"
@@ -197,7 +197,7 @@
                         </ul>
                     </div>
                     <div
-                        class="tab-pane fade"
+                        class="tab-pane fade {{leadPartnerDaily is empty ? "show active" : '' }}"
                         id="monthly"
                         role="tabpanel"
                         aria-labelledby="monthly-tab"
@@ -258,15 +258,15 @@
                         <ul class="list-group list-group-flush mt-2">
                             {% set i=0 %}
                             {% if leadPartner %}
-                                {% for partner in leadPartner | slice(0, 5) %}
+                                {% for partner in leadPartner | slice(0, 4) %}
                                     {% set i=i+1 %}
                                     <li
                                         class="list-group-item d-flex align-items-center px-0"
                                     >
-                                <span
-                                    class="font-size-6 font-size-xl-7 text-dark-silver mr-2 mr-xl-3"
-                                >{{ i }}</span
-                                >
+                                        <span
+                                            class="font-size-6 font-size-xl-7 text-dark-silver mr-2 mr-xl-3"
+                                        >{{ i }}</span
+                                        >
                                         <div class="d-flex w-100 align-items-center">
                                             <a
                                                 href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
@@ -298,17 +298,10 @@
                                             >
                                         </div>
                                     </li>
-
-
                                 {% endfor %}
-                                <a
-                                    href="#"
-                                    class="ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap top-block-arrow"
-                                    data-toggle="modal"
-                                    data-target="#leadPartnerFullList"
-                                >{{ 'Full list'|t }}
-                                    <i class="icon-arrow-right2 text-dark-silver "></i>
-                                </a>
+                                <button href="#" class="card-view-allfont-weight-normal text-white text-decoration-none btn btn-block btn-success mt-3 py-2" data-toggle="modal" data-target="#leadPartnerFullList">
+                                    {{ 'Full list'|t }}
+                                </button>
                             {% endif %}
                         </ul>
                     </div>
