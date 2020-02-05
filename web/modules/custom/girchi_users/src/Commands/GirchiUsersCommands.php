@@ -53,4 +53,18 @@ class GirchiUsersCommands extends DrushCommands {
     }
   }
 
+  /**
+   * Main command.
+   *
+   * @command girchi_users:publicity
+   * @aliases publicity
+   */
+  public function publicity() {
+    $users = $this->entityTypeManager->getStorage('user')->loadMultiple();
+    foreach ($users as $user) {
+      $user->set('field_publicity', TRUE);
+      $user->save();
+    }
+  }
+
 }
