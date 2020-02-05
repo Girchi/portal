@@ -1,4 +1,5 @@
 {% set politican_checked = element.field_politician.widget.value['#checked'] %}
+{% set publicity_checked = element.field_publicity.widget.value['#checked'] %}
 {% set avatar = element.user_picture.widget.0.preview['#uri'] %}
 {#Modal#}
 {#End Of Modal#}
@@ -106,13 +107,23 @@
                     <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
 
                         <div class="form-group mb-0">
-            <span class="form-checkbox">
-              <span class="form-checkbox-input {% if politican_checked %} checked {% endif %}">
-                {{ element.field_politician }}
-              </span>
-              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto"
-                     for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
-            </span>
+                            <span class="form-checkbox">
+                              <span class="form-checkbox-input form-checkbox-politician {% if politican_checked %} checked {% endif %}">
+                                {{ element.field_politician }}
+                              </span>
+                              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto"
+                                     for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
+                            </span>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <span class="form-checkbox">
+                              <span class="form-checkbox-input form-checkbox-publicity {% if publicity_checked %} checked {% endif %}">
+                                {{ element.field_publicity }}
+                              </span>
+                              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto"
+                                     for="edit-field-publicity-value">{{ "I agree on publicity" | t }}</label>
+                            </span>
                         </div>
                         <hr class="border-secondary my-2 my-sm-3"/>
                         {{ element.politician_text }}

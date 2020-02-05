@@ -137,6 +137,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
         $user = $user_storage->load($uid);
         $user_name = $user->get('field_first_name')->value;
         $user_surname = $user->get('field_last_name')->value;
+        $publicity = $user->get('field_publicity')->value;
         if ($user->get('user_picture')->entity) {
           $profilePictureEntity = $user->get('user_picture')->entity;
           $profilePicture = $profilePictureEntity->getFileUri();
@@ -145,6 +146,9 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
           $profilePicture = NULL;
         }
         if (empty($user_name) || empty($user_surname)) {
+          continue;
+        }
+        elseif ($publicity != 1) {
           continue;
         }
         if (array_key_exists($uid, $final_partners)) {

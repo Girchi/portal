@@ -1,9 +1,17 @@
 $(document).ready(function() {
     $("#edit-field-politician-value").on("change", e => {
         if (e.target.checked) {
-            $(".form-checkbox-input").addClass("checked");
+            $(".form-checkbox-politician").addClass("checked");
         } else {
-            $(".form-checkbox-input").removeClass("checked");
+            $(".form-checkbox-politician").removeClass("checked");
+        }
+    });
+
+    $("#edit-field-publicity-value").on("change", e => {
+        if (e.target.checked) {
+            $(".form-checkbox-publicity").addClass("checked");
+        } else {
+            $(".form-checkbox-publicity").removeClass("checked");
         }
     });
 
