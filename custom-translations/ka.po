@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-01-17 13:51+0000\n"
-"PO-Revision-Date: 2020-01-17 13:51+0000\n"
+"POT-Creation-Date: 2020-02-05 14:54+0000\n"
+"PO-Revision-Date: 2020-02-05 14:54+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -4215,11 +4215,6 @@ msgstr ""
 "თქვენ ვერ გახდებით თქვენი "
 "თავის რეფერალი"
 
-msgid "You can't be your own referral"
-msgstr ""
-"თქვენ ვერ გახდებით თქვენი "
-"თავის რეფერალი"
-
 msgid "Enter your referral person"
 msgstr "მიუთითე ვისი რეფერალი ხარ"
 
@@ -4237,6 +4232,15 @@ msgstr "- აირჩიეთ პოლიტიკოსი - "
 
 msgid ""
 "Your password has been successfully changed. Please log in into your "
+"account with new password"
+msgstr ""
+"თქვენი პაროლი წარმატებით "
+"შეიცვალა. გთხოვთ გაიაროთ "
+"ავტორიზაცია ახალი "
+"პაროლით."
+
+msgid ""
+"Your password has been successfully changed. Please log in into your "
 "account with new password."
 msgstr ""
 "თქვენი პაროლი წარმატებით "
@@ -4244,46 +4248,14 @@ msgstr ""
 "ავტორიზაცია ახალი "
 "პაროლით."
 
-msgid "Please select politician or aim"
-msgstr ""
-"გთხოვთ აირჩიოთ მიზანი ან "
-"პოლიტიკოსი"
-
-msgid "Please enter amount"
-msgstr "გთხოვთ შეიყვანოთ თანხა"
-
 msgid "My credit cards"
 msgstr "ჩემი ბარათები"
 
-msgid "Add lowercase letters"
-msgid_plural "@count new"
-msgstr[0] "1 ახალი"
-msgstr[1] "@count ახალი"
-
-msgid "My cards"
-msgstr "ჩემი ბარათები"
-
-msgid "Aim/Politician"
-msgstr "მიზანი/პოლიტიკოსი"
-
-msgid "Select card for regular payment"
-msgstr ""
-"აირჩეთ ბარათი ავტომატური "
-"დაფინანსებისთვის"
+msgid "Execution date"
+msgstr "ჩამოჭრის თარიღი"
 
 msgid "Delete card"
 msgstr "ბარათის წაშლა"
-
-msgid "Credit car was successfully saved"
-msgstr ""
-"ბარათი წარმატებით "
-"დაემატა"
-
-msgid "Regular donation was created"
-msgstr "ავტომატური დაფინანსების "
-
-msgid "Execution date"
-msgstr "ჩამოჭრის თარიღი"
 
 msgid "Regular donation was successfully updated"
 msgstr ""
@@ -4304,22 +4276,44 @@ msgstr ""
 "რომელიც მოცემულ ბარათზეა "
 "მიბმული"
 
+msgid "My cards"
+msgstr "ჩემი ბარათები"
+
+msgid "Credit car was successfully saved"
+msgstr ""
+"ბარათი წარმატებით "
+"დაემატა"
+
 msgid "Card %s %s was deleted"
 msgstr "ბარათი %s %s წაიშალა"
 
-msgid ""
-"Your password has been successfully changed. Please log in into your "
-"account with new password"
+msgid "Aim/Politician"
+msgstr "მიზანი/პოლიტიკოსი"
+
+msgid "Select card for regular payment"
 msgstr ""
-"თქვენი პაროლი წარმატებით "
-"შეიცვალა. გთხოვთ გაიაროთ "
-"ავტორიზაცია ახალი "
-"პაროლით."
+"აირჩეთ ბარათი ავტომატური "
+"დაფინანსებისთვის"
+
+msgid "Regular donation was created"
+msgstr "ავტომატური დაფინანსების "
+
+msgid "Add lowercase letters"
+msgid_plural "@count new"
+msgstr[0] "1 ახალი"
+msgstr[1] "@count ახალი"
+
+msgid "Please select politician or aim"
+msgstr ""
+"გთხოვთ აირჩიოთ მიზანი ან "
+"პოლიტიკოსი"
+
+msgid "Please enter amount"
+msgstr "გთხოვთ შეიყვანოთ თანხა"
 
 msgid "Currency"
 msgstr "ვალუტა"
 
-msgid "You can't be your referral's referral."
-msgstr ""
-"თქვენ ვერ გახდებით თქვენი "
-"რეფერალის რეფერალი"
+msgid "I agree on publicity"
+msgstr "თანახმა ვარ საჯაროობაზე"
+
