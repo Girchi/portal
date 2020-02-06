@@ -80,16 +80,19 @@ class PartyListCalculatorService {
       $query->leftJoin('user__field_ged', 'ged', 'pr.entity_id = ged.entity_id');
       $query->leftJoin('user__field_first_name', 'fn', 'pr.entity_id = fn.entity_id');
       $query->leftJoin('user__field_last_name', 'ln', 'pr.entity_id = ln.entity_id');
+      $query->leftJoin('user__field_publicity', 'pb', 'pr.entity_id = pb.entity_id');
       $query
         ->fields('pr', ['entity_id',
           'field_my_party_list_target_id',
           'field_my_party_list_value',
         ])
         ->fields('ged', ['field_ged_value'])
+        ->fields('pb', ['field_publicity_value'])
         ->condition('pr.field_my_party_list_target_id', NULL, 'IS NOT NULL')
         ->condition('pr.field_my_party_list_value', NULL, 'IS NOT NULL')
         ->condition('fn.field_first_name_value', NULL, 'IS NOT NULL')
-        ->condition('ln.field_last_name_value', NULL, 'IS NOT NULL');
+        ->condition('ln.field_last_name_value', NULL, 'IS NOT NULL')
+        ->condition('pb.field_publicity_value', '1', '=');
       $results = $query->execute()->fetchAll();
       foreach ($results as $result) {
         $id = $result->field_my_party_list_target_id;
@@ -150,6 +153,7 @@ class PartyListCalculatorService {
       ->condition('field_my_party_list', $politician_ids, 'IN')
       ->condition('field_first_name', NULL, 'IS NOT NULL')
       ->condition('field_last_name', NULL, 'IS NOT NULL')
+      ->condition('field_publicity', '1', '=')
       ->execute();
 
     /** @var User $users */
