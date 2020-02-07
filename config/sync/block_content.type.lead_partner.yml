@@ -1,0 +1,8 @@
+uuid: 2d024fc1-1b02-4ece-bc24-65bd77c7c0e3
+langcode: ka
+status: true
+dependencies: {  }
+id: lead_partner
+label: 'Lead partner'
+revision: null
+description: lead_partner

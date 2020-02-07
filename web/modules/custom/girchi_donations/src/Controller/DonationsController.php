@@ -264,7 +264,7 @@ class DonationsController extends ControllerBase {
             $ged_amount = $this->gedCalculator->calculate($gel_amount);
             if ($user->id() !== '0') {
               $transaction = $ged_manager->create([
-                'user_id' => "1",
+                'user_id' => '1',
                 'user' => $user->id(),
                 'ged_amount' => $ged_amount,
                 'title' => 'Donation',
@@ -275,12 +275,12 @@ class DonationsController extends ControllerBase {
               ]);
               $transaction->save();
               $donation->set('field_ged_transaction', $transaction->id());
-              $donation->save();
               $auth = TRUE;
             }
             else {
               $auth = FALSE;
             }
+            $donation->save();
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
             $this->getLogger('girchi_donations')

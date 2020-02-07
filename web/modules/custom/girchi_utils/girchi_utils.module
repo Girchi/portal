@@ -11,7 +11,6 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\webform\WebformSubmissionInterface;
 use Drupal\taxonomy\Entity\Term;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
 
 /**
@@ -174,13 +173,6 @@ function girchi_utils_theme($existing, $type, $theme, $path) {
           'category' => NULL,
         ],
       'template' => 'front-page-articles',
-    ],
-    'lead_partners' => [
-      'variables' =>
-        [
-          'leadPartner' => NULL,
-        ],
-      'template' => 'lead-partners',
     ],
     'my_party_list_block' => [
       'variables' =>
@@ -381,6 +373,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
 
           $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
+          $form['#validate'][] = 'user_form_validate';
           $form['#after_build'][] = 'girchi_utils_after_build';
         }
       }
@@ -433,6 +426,29 @@ function terms_and_conditions_validate($form, &$form_state) {
 }
 
 /**
+ *
+ */
+function user_form_validate($form, FormStateInterface &$form_state) {
+  $referral_id = $form_state->getValue('field_referral')[0]['target_id'];
+  $uid = \Drupal::currentUser()->id();
+  if ($referral_id) {
+    if ($referral_id == $uid) {
+      $form_state->setErrorByName('title', t("You can't be your own referral"));
+
+    }
+    else {
+      $referral_user = \Drupal::entityTypeManager()->getStorage('user')->load($referral_id);
+      if ($referral_user) {
+        if ($referral_user->get('field_referral')->target_id == $uid) {
+          $form_state->setErrorByName('title', t("You can't be your referral's referral."));
+          $form_state->unsetValue('field_referral');
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_block().
  */
 function girchi_utils_preprocess_block(&$variables) {
@@ -446,6 +462,7 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state) {
   // Save full phone into users field.
   if ($form['#form_id'] == 'user_form') {
     $value = $form_state->getUserInput();
+
     /** @var \Drupal\Core\Logger\LoggerChannelFactory $logger */
     $logger = \Drupal::service('logger.factory');
     if (isset($value['field_tel'][0]['full_phone'])) {
@@ -590,15 +607,7 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
 /**
  * User form presave.
  */
-function girchi_utils_user_update(User $account) {
-  $uid = $account->id();
-  if ($account->get('field_referral')->target_id == $uid) {
-    $response = new RedirectResponse(\Drupal::request()->getRequestUri());
-    $response->send();
-    \Drupal::messenger()->addError(t("You can't be your own referral"));
-    exit;
-  }
-
+function girchi_utils_user_presave(User $account) {
   // TODO:: Uncomment if statement.
   //  if ($account->original != NULL) {
   //    $original_referral = $account->original->get('field_referral')->target_id;
