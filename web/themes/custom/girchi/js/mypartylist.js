@@ -1,4 +1,18 @@
 $(document).ready(function () {
+
+    // Initial sum.
+    const listGroupEl = $('.pl-group-item');
+    let sum = 0;
+    $.each(listGroupEl,(i,item)=>{
+        sum += parseInt($(item).find('input[type="number"]').val());
+        if(sum === 100){
+            const selectEl = $('.select[id="politician"]');
+            selectEl.prop('disabled', true);
+            $('input[id="percent"]').prop('disabled', true);
+            selectEl.selectpicker('refresh');
+        }
+    });
+
     $('.bs-searchbox :input').on('keyup', (e) => {
         let keyword = e.target.value;
         $.ajax({
