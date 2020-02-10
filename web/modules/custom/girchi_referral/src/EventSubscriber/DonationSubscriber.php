@@ -2,7 +2,6 @@
 
 namespace Drupal\girchi_referral\EventSubscriber;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_referral\CreateReferralTransactionService;
@@ -13,17 +12,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DonationSubscriber implements EventSubscriberInterface {
   /**
-   * Entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-  /**
    * Referral transaction service.
    *
    * @var \Drupal\girchi_referral\CreateReferralTransactionService
    */
-
   private $referralTransactionService;
 
   /**
@@ -31,12 +23,9 @@ class DonationSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\girchi_referral\CreateReferralTransactionService $referralTransactionService
    *   Referral transaction service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   Entity type manager.
    */
-  public function __construct(CreateReferralTransactionService $referralTransactionService, EntityTypeManagerInterface $entityTypeManager) {
+  public function __construct(CreateReferralTransactionService $referralTransactionService) {
     $this->referralTransactionService = $referralTransactionService;
-    $this->entityTypeManager = $entityTypeManager;
   }
 
   /**
