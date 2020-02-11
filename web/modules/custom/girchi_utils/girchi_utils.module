@@ -608,9 +608,24 @@ function telephone_validation(array $form, FormStateInterface $form_state) {
  * User form presave.
  */
 function girchi_utils_user_presave(User $account) {
-  // TODO:: Uncomment if statement.
-  //  if ($account->original != NULL) {
-  //    $original_referral = $account->original->get('field_referral')->target_id;
+  $first_name = $account->get('field_first_name')->value ?? '';
+  $last_name = $account->get('field_last_name')->value ?? '';
+  $original_first_name = $account->original ? $account->original->get('field_first_name')->value : '';
+  $original_last_name = $account->original ? $account->original->get('field_last_name')->value : '';
+  $full_name = $first_name . ' ' . $last_name;
+
+  if ($account->isNew()) {
+    if (!empty($first_name) && !empty($last_name)) {
+      $account->set('field_full_name', $full_name);
+    }
+  }
+  elseif ($first_name!=$original_first_name || $last_name!=$original_last_name) {
+    $account->set('field_full_name', $full_name);
+  }
+
+  // TODO:: Logic to prevent referral change for one year.
+  //    if ($account->original != NULL) {
+  //      $original_referral = $account->original->get('field_referral')->target_id;
   //    $updated_value = $account->get('field_referral')->target_id;
   //    if ($original_referral != $updated_value) {
   //      $referral_date = $account->get('field_referral_date')->value;
