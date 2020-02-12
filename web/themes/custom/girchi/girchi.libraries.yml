@@ -30,3 +30,7 @@ createpass:
     - core/jquery
     - core/drupal
 
+facebook:
+  version: 1.x
+  js:
+    js/fb-widgets.js: {}
