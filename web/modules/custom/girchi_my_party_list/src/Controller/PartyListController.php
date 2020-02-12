@@ -3,15 +3,12 @@
 namespace Drupal\girchi_my_party_list\Controller;
 
 use Drupal\Core\Render\Renderer;
-use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
-use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\girchi_my_party_list\PartyListCalculatorService;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,15 +92,12 @@ class PartyListController extends ControllerBase {
       $myPartyList[] = $userInfo[0];
     }
 
-    $chosenPoliticians = $this->getChosenPoliticians($currentUserId);
-
     $userStorage = $this->entityTypeManager->getStorage('user');
     $users = $userStorage->getQuery()
       ->condition('field_politician', 1)
-      ->range(0, 10);
-    if (!empty($chosenPoliticians)) {
-      $users->condition('uid', $chosenPoliticians, 'NOT IN');
-    }
+      ->condition('field_first_name', NULL, 'IS NOT NULL')
+      ->condition('field_last_name', NULL, 'IS NOT NULL');
+
     $users = $users->execute();
     $topPoliticians = $this->getUsersInfo($users);
     return [
@@ -113,66 +107,6 @@ class PartyListController extends ControllerBase {
       '#max_percentage' => $maxPercentage,
       '#top_politicians' => $topPoliticians,
     ];
-  }
-
-  /**
-   * Get Users.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *
-   *   Request.
-   *
-   * @return \Drupal\Component\Serialization\JsonResponse
-   *
-   *   Json Response
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   */
-  public function getUsers(Request $request) {
-    $currentUserId = $this->currentUser()->id();
-    $politicanUids = $this->getChosenPoliticians($currentUserId);
-    $userArray = [];
-
-    $user = $request->get('user');
-    $firstName = $lastName = $user;
-    $queryOperator = 'CONTAINS';
-
-    if (strpos($user, ' ')) {
-      $queryOperator = '=';
-      $fulName = explode(' ', $user);
-      $firstName = $fulName[0];
-      $lastName = $fulName[1];
-    }
-
-    try {
-      /** @var \Drupal\user\Entity\UserStorage $userStorage */
-      $userStorage = $this->entityTypeManager->getStorage('user');
-    }
-    catch (InvalidPluginDefinitionException $e) {
-      throw $e;
-    }
-    catch (PluginNotFoundException $e) {
-      throw $e;
-    }
-
-    if (!empty($user)) {
-      $nameConditions = $userStorage->getQuery()->orConditionGroup()
-        ->condition('field_first_name', $firstName, $queryOperator)
-        ->condition('field_last_name', $lastName, 'CONTAINS');
-
-      $users = $userStorage->getQuery()
-        ->condition($nameConditions)
-        ->condition('field_politician', 1, '=')
-        ->range(0, 10);
-      if (!empty($politicanUids)) {
-        $users->condition('uid', $politicanUids, 'NOT IN');
-      }
-      $users = $users->execute();
-
-      $userArray = $this->getUsersInfo($users);
-    }
-    return new JsonResponse($userArray);
   }
 
   /**
@@ -288,31 +222,6 @@ class PartyListController extends ControllerBase {
   }
 
   /**
-   * Get user chosen politician by uid.
-   *
-   * @param string $userId
-   *
-   *   UserId.
-   *
-   * @return array
-   *
-   *   $uids
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   */
-  public function getChosenPoliticians($userId) {
-    $politicianUids = [];
-    $currentUser = $this->entityTypeManager->getStorage('user')->load($userId);
-    $chosenPoliticians = $currentUser->get('field_my_party_list')->referencedEntities();
-    foreach ($chosenPoliticians as $politician) {
-      $politicianUids[] = $politician->id();
-    }
-    return $politicianUids;
-  }
-
-  /**
    * Get Users.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
@@ -322,8 +231,12 @@ class PartyListController extends ControllerBase {
    * @return \Symfony\Component\HttpFoundation\Response
    *
    *   Response
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getPoliticianSupporters(Request $request) {
+
     $userId = $request->request->get('userId');
 
     $supporters = $this->partyListCalculator->getPoliticiansSupporters([$userId]);
