@@ -133,14 +133,13 @@ class GirchiDonationsCommands extends DrushCommands {
         ->condition('next_payment_date', $this->getMothDays(), 'IN')
         ->execute();
       $regds = $regd_storage->loadMultiple($regd_ids);
-      $progressBar = new ProgressBar($output, count($regd_ids));
+      $progress_bar = new ProgressBar($output, count($regd_ids));
 
       // Starts and displays the progress bar.
-      $progressBar->start();
-      $output->writeln("\n");
+      $progress_bar->start();
       /** @var \Drupal\girchi_donations\Entity\RegularDonation $regd */
       foreach ($regds as $regd) {
-        $output->writeln(sprintf("\n Fixing date for %s \n", $regd->getOwner()
+        $progress_bar->setMessage(sprintf("\n Fixing date for %s \n", $regd->getOwner()
           ->get('name')->value));
 
         $carbon_date = Carbon::createFromFormat(DateTimeItemInterface::DATE_STORAGE_FORMAT, $regd->get('next_payment_date')->value);
@@ -151,16 +150,63 @@ class GirchiDonationsCommands extends DrushCommands {
         $regd->set('next_payment_date', $next_payment_date);
 
         $regd->save();
-        $progressBar->advance();
+        $progress_bar->advance();
       }
-      $output->writeln("\n");
-      $progressBar->finish();
+
+      $progress_bar->finish();
 
     }
     catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
 
     }
 
+  }
+
+  /**
+   * Main command.
+   *
+   * @command girchi_donations:delete-regs
+   * @aliases delete-regs
+   */
+  public function forceDelete(InputInterface $input, OutputInterface $output, $ids, $options = ['show' => FALSE]) {
+    try {
+
+      $ids = explode(',', $ids);
+      if (!empty($ids)) {
+        if ($options['show']) {
+          $user_storage = $this->entityTypeManager->getStorage('user');
+          $users = $user_storage->loadMultiple($ids);
+
+          /** @var \Drupal\user\Entity\User $user */
+          foreach ($users as $user) {
+            $output->writeln(sprintf("Deleting regular donations for %s", $user->getAccountName()));
+          }
+        }
+
+        $regd_storage = $this->entityTypeManager->getStorage('regular_donation');
+        $regd_ids = $regd_storage->getQuery()
+          ->condition('user_id', $ids, 'IN')
+          ->execute();
+
+        if (!empty($regd_ids)) {
+          $progress_bar = new ProgressBar($output, count($regd_ids));
+          $regd_entities = $regd_storage->loadMultiple($regd_ids);
+          $progress_bar->start();
+          /** @var \Drupal\girchi_donations\Entity\RegularDonation $regd_entity */
+          foreach ($regd_entities as $regd_entity) {
+            $regd_entity->delete();
+            $progress_bar->advance();
+          }
+          $progress_bar->finish();
+        }
+      }
+
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+
+    }
   }
 
   /**
@@ -168,7 +214,7 @@ class GirchiDonationsCommands extends DrushCommands {
    */
   public function getMothDays() {
     $response = [];
-    $period = CarbonPeriod::create(Carbon::createFromDate(2020, 1, 16), Carbon::yesterday());
+    $period = CarbonPeriod::create(Carbon::createFromDate(2020, 2, 1), Carbon::yesterday());
 
     /** @var \Carbon\Carbon $day */
     foreach ($period as $day) {
