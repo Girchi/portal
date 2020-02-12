@@ -7,15 +7,6 @@ girchi_my_party_list.party_list_controller_partyList:
     _permission: 'access content'
     _role: 'authenticated'
 
-girchi_my_party_list.party_list_controller_getUsers:
-  path: '/api/party-list/my-supported-members'
-  defaults:
-    _controller: '\Drupal\girchi_my_party_list\Controller\PartyListController::getUsers'
-    _title: 'Get users'
-  requirements:
-    _permission: 'access content'
-    _role: 'authenticated'
-
 girchi_my_party_list.party_list_controller_updateUser:
   path: '/api/party-list/submit'
   defaults:
@@ -24,6 +15,7 @@ girchi_my_party_list.party_list_controller_updateUser:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
 girchi_my_party_list.party_list_controller_getPoliticianSupporters:
   path: '/api/party-list/getPoliticianSupporters'
   defaults:
