@@ -5,10 +5,12 @@ namespace Drupal\girchi_leaderboard\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Session\AccountProxy;
+use Drupal\girchi_donations\Event\DonationEvents;
+use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\CreateGedTransaction;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class LeaderboardForm.
@@ -28,13 +30,6 @@ class LeaderboardForm extends FormBase {
    * @var \Drupal\Core\Messenger\MessengerInterface
    */
   protected $messenger;
-
-  /**
-   * Current User.
-   *
-   * @var \Drupal\Core\Session\AccountProxy
-   */
-  protected $currentUser;
 
   /**
    * Politicians.
@@ -65,25 +60,35 @@ class LeaderboardForm extends FormBase {
   protected $createGedTransaction;
 
   /**
+   * Dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $dispatcher;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
    *   Donation Utils.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   Messenger.
-   * @param \Drupal\Core\Session\AccountProxy $currentUser
-   *   CurrentUser.
    * @param \Drupal\girchi_donations\Utils\CreateGedTransaction $createGedTransaction
    *   CreateGedTransaction.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   *   Dispatcher.
    */
-  public function __construct(DonationUtils $donationUtils, MessengerInterface $messenger, AccountProxy $currentUser, CreateGedTransaction $createGedTransaction) {
+  public function __construct(DonationUtils $donationUtils,
+                              MessengerInterface $messenger,
+                              CreateGedTransaction $createGedTransaction,
+                              EventDispatcherInterface $dispatcher) {
     $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
-    $this->currentUser = $currentUser;
     $this->politicians = $donationUtils->getPoliticians();
     $this->options = $donationUtils->getTerms();
     $this->currency = $donationUtils->gedCalculator->getCurrency();
     $this->createGedTransaction = $createGedTransaction;
+    $this->dispatcher = $dispatcher;
   }
 
   /**
@@ -93,8 +98,8 @@ class LeaderboardForm extends FormBase {
     return new static(
       $container->get('girchi_donations.donation_utils'),
       $container->get('messenger'),
-      $container->get('current_user'),
-      $container->get('girchi_donations.create_ged_transaction')
+      $container->get('girchi_donations.create_ged_transaction'),
+      $container->get('event_dispatcher')
     );
   }
 
@@ -201,7 +206,8 @@ class LeaderboardForm extends FormBase {
         else {
           $this->messenger->addMessage($this->t('Donation was successfully created!'));
           $this->getLogger('girchi_leaderboard')->info('Saved to donations with Status: OK');
-
+          $event = new DonationEvents($valid);
+          $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $event);
         }
       }
       else {

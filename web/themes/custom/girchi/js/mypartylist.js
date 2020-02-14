@@ -1,56 +1,20 @@
 $(document).ready(function () {
-    $('.bs-searchbox :input').on('keyup', (e) => {
-        let keyword = e.target.value;
-        $.ajax({
-            type: "GET",
-            url: "/api/party-list/my-supported-members?user=" + keyword,
-        })
-            .done((data) => {
-                $('#politician').html('');
-                $.each( data, function( i, user ) {
-                    $(`<option
-                value="${user.id}"
-                data-content='
-            <div class="d-flex w-100 align-items-center p-1">
-            <span
-                class="rounded-circle overflow-hidden d-inline-block"
-            >
-                <img
-                src="${user.imgUrl}"
-                width="35"
-                class="rounded pl-politician-avatar"
-                alt="..."
-                />
-            </span>
-            <h6
-                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
-            >
-                <span
-                class="text-decoration-none d-inline-block text-hover-success"
-                >
-                <span class="pl-politician-first-name">${user.firstName}</span>
-                <span class="font-weight-bold pl-politician-last-name">${user.lastName}</span>
-                </span>
-                <span class="d-flex font-size-1 text-grey pl-politician-position">
-                პოლიტიკოსი
-                </span>
-            </h6>
-            '
-            ></option>`).appendTo('#politician');
-                });
-                $("#politician").selectpicker("refresh");
-            });
+    const listGroupEl = $('.pl-group-item');
+    const selectEl = $('.select[id="politician"]');
+    let sum = 0;
+    $(selectEl).selectpicker('refresh');
+    $.each(listGroupEl,(i,item)=>{
+        sum += parseInt($(item).find('input[type="number"]').val());
+        const id = $(item).attr('data-id');
+        const selectedOption = $(selectEl).find(`option[value="${id}"]`).get(0);
+        $(selectEl).selectpicker('refresh');
+        $(selectedOption).attr('disabled', 'disabled');
+        $(selectEl).selectpicker('val', '');
+        $(selectEl).selectpicker('refresh');
+        if(sum === 100){
+            selectEl.prop('disabled', true);
+            $('input[id="percent"]').prop('disabled', true);
+            $(selectEl).selectpicker('refresh');
+        }
     });
-
-   let  urlParams = new URLSearchParams(window.location.search);
-   if(urlParams.has('error')){
-        $('.partyListMessages').html(`
-             <div class="alert alert-danger" role="alert">
-                <h2 class="visually-hidden">Error message</h2>
-                მითითებული პროცენტული რაოდენობა არასწორია
-            </div>
-        `)
-   }
 });
-
-

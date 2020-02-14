@@ -16,14 +16,12 @@ class DonationSubscriber implements EventSubscriberInterface {
    *
    * @var \Drupal\girchi_referral\CreateReferralTransactionService
    */
-
   private $referralTransactionService;
 
   /**
    * DonationSubscriber constructon.
    *
    * @param \Drupal\girchi_referral\CreateReferralTransactionService $referralTransactionService
-   *
    *   Referral transaction service.
    */
   public function __construct(CreateReferralTransactionService $referralTransactionService) {
@@ -46,12 +44,17 @@ class DonationSubscriber implements EventSubscriberInterface {
    * On donation creation.
    *
    * @param \Drupal\girchi_donations\Event\DonationEvents $event
-   *
    *   Event.
    */
   public function onDonationCreation(DonationEvents $event) {
     $user = $event->getUser();
-    if ($referral_id = $user->get('field_referral')->target_id) {
+    $donation = $event->getDonation();
+    $referral_id = $user->get('field_referral')->target_id ?? '';
+    $politician_id = $donation->get('politician_id')->target_id ?? '';
+
+    // If politician and user referral is the same person
+    // referral transaction should not be created.
+    if (!empty($referral_id) && $referral_id != $politician_id) {
       $this->referralTransactionService->createReferralTransaction($user, $referral_id, $event->getDonation());
       $this->referralTransactionService->countReferralsMoney($referral_id);
     }

@@ -1,20 +1,17 @@
-<div class="container">
-    <div class="py-5">
-        {% block page_main %}
+<div class="py-5">
+    {% block page_main %}
 
-            {% if content.content_top %}
-                {{ content.content_top }}
-            {% endif %}
+        {% if content.content_top %}
+            {{ content.content_top }}
+        {% endif %}
 
-            {% if content.content %}
-                {{ content.content }}
-            {% endif %}
+        {% if content.content %}
+            {{ content.content }}
+        {% endif %}
 
-            {% if content.content_bottom %}
-                {{ content.content_bottom }}
-            {% endif %}
+        {% if content.content_bottom %}
+            {{ content.content_bottom }}
+        {% endif %}
 
-        {% endblock %}
-    </div>
+    {% endblock %}
 </div>
-

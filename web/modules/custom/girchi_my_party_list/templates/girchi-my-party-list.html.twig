@@ -25,7 +25,7 @@
                 >{{ max_percentage }}%</span
                 >
                 <span
-                        class="text-uppercase text-grey font-size-1 text-nowrap"
+                        class="text-uppercase text-grey font-size-dat1 text-nowrap"
                 >out of
                       <span class="text-success font-size-2">100%</span></span
                 >
@@ -35,7 +35,7 @@
         <form action="{{ path('girchi_my_party_list.party_list_controller_updateUser') }}" method="post" id="partyListForm">
             <ul class="list-group my-3 my-md-4 pl-group">
                 {% for partyMember in my_party_list  %}
-                    <li class="list-group-item pl-group-item">
+                    <li class="list-group-item pl-group-item" data-id="{{ partyMember.id }}">
                         <div class="d-flex w-100 align-items-center py-0 py-sm-3 px-0 flex-wrap flex-md-nowrap">
                             <div class="rounded-circle overflow-hidden d-inline-block mx-auto mx-sm-0 mb-3 mb-sm-0">
                               <a
@@ -101,7 +101,7 @@
                             <option
                                 value="{{ politician.id }}"
                                 data-content='
-                                <div class="d-flex w-100 align-items-center p-1">
+                                <div class="d-flex w-100 align-items-center p-1 politician-{{ politician.id }}">
                                   <span
                                     class="rounded-circle overflow-hidden d-inline-block"
                                   >
@@ -120,6 +120,7 @@
                                     >
                                       <span class="pl-politician-first-name">{{ politician.firstName }}</span>
                                       <span class="font-weight-bold pl-politician-last-name">{{ politician.lastName }}</span>
+                                      <span class="font-weight-bold d-none">{{ politician.firstName }} {{ politician.lastName }}</span>
                                     </span>
                                     <span class="d-flex font-size-1 text-grey pl-politician-position">
                                       {{ 'Politician' | t}}
