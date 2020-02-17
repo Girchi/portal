@@ -23,8 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("My party list block"),
  * )
  */
-class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface
-{
+class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Session\AccountProxyInterface.
@@ -143,6 +142,12 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
       $currentUser = $this->router
         ->getParameter('user');
       if ($currentUser) {
+        if ($currentUser->field_publicity->value) {
+          $is_user_public = TRUE;
+        }
+        else {
+          $is_user_public = FALSE;
+        }
         $currentUserGed = $currentUser->get('field_ged')->value ? $currentUser->get('field_ged')->value : 0;
         $membersData = $currentUser->get('field_my_party_list');
         /** @var \Drupal\reference_value_pair\Plugin\Field\FieldType\ReferenceValuePair $member */
@@ -196,6 +201,7 @@ class MyPartyListBlock extends BlockBase implements ContainerFactoryPluginInterf
         '#theme' => 'my_party_list_block',
         '#members_short' => $members_short,
         '#members' => $members,
+        '#is_user_public' => $is_user_public,
       ];
 
     }

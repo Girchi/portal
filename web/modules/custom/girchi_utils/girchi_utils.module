@@ -179,6 +179,7 @@ function girchi_utils_theme($existing, $type, $theme, $path) {
         [
           'members' => NULL,
           'members_short' => NULL,
+          'is_user_public' => NULL
         ],
       'template' => 'my-party-list-block',
     ],

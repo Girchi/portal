@@ -28,7 +28,7 @@
  */
 #}
 <div
-  class="card overflow-hidden my-3 my-md-0 my-xl-4 w-auto w-md-50 w-lg-auto ml-md-2 m-lg-0"
+  class=" {{ is_user_public ? "" : "frozen" }} card overflow-hidden my-3 my-md-0 my-xl-4 w-auto w-md-50 w-lg-auto ml-md-2 m-lg-0"
 >
   <div
     class="card-header font-size-2 text-uppercase d-flex px-3 px-xl-3 font-weight-bold text-grey"
