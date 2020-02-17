@@ -147,20 +147,27 @@ class PaypalDonationForm extends FormBase {
     ];
 
     $form['donation_aim'] = [
-      '#type' => 'select',
-      '#options' => $this->options,
+      '#type' => 'hidden',
       '#required' => FALSE,
       '#empty_value' => '',
-      '#empty_option' => $this->t('- Select aim -'),
+      '#attributes' => [
+        'class' => [
+          'hidden-aim',
+        ],
+      ],
+    ];
 
-    ];
     $form['politicians'] = [
-      '#type' => 'select',
-      '#options' => $this->politicians,
+      '#type' => 'hidden',
       '#required' => FALSE,
       '#empty_value' => '',
-      '#empty_option' => $this->t('- Select politician -'),
+      '#attributes' => [
+        'class' => [
+          'hidden-politician',
+        ],
+      ],
     ];
+
     $form['currency_usd'] = [
       '#title' => 'currency',
       '#type' => 'hidden',
