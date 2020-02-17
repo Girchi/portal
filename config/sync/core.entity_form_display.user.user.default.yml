@@ -20,6 +20,7 @@ dependencies:
     - field.field.user.user.field_politician
     - field.field.user.user.field_profile_video
     - field.field.user.user.field_public_email
+    - field.field.user.user.field_publicity
     - field.field.user.user.field_rank
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
@@ -178,6 +179,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_publicity:
+    weight: 24
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_rating_in_party_list:
     weight: 13

@@ -3,7 +3,11 @@
 namespace Drupal\girchi_users\Commands;
 
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drush\Commands\DrushCommands;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * A Drush commandfile.
@@ -25,13 +29,24 @@ class GirchiUsersCommands extends DrushCommands {
   protected $entityTypeManager;
 
   /**
+   * LoggerChannelFactoryInterface definition.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  private $loggerFactory;
+
+  /**
    * EntityTypeManager.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   *   EntityManager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerChannelFactory
+   *   Logger.
    */
-  public function __construct(EntityTypeManager $entityTypeManager) {
+  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerChannelFactory) {
     parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
+    $this->loggerFactory = $loggerChannelFactory;
   }
 
   /**
@@ -50,6 +65,34 @@ class GirchiUsersCommands extends DrushCommands {
       $old_value = $user->get('field_phone')->value;
       $user->get('field_tel')->value = NULL == $user->get('field_tel')->value ? $old_value : $user->get('field_tel')->value;
       $user->save();
+    }
+  }
+
+  /**
+   * Main command.
+   *
+   * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   Input.
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
+   *   Output.
+   *
+   * @command girchi_users:publicity
+   * @aliases publicity
+   */
+  public function publicity(InputInterface $input, OutputInterface $output) {
+    try {
+      $users = $this->entityTypeManager->getStorage('user')->loadMultiple();
+      $progress_bar = new ProgressBar($output, count($users));
+      $progress_bar->start();
+      foreach ($users as $user) {
+        $user->set('field_publicity', TRUE);
+        $user->save();
+        $progress_bar->advance();
+      }
+      $progress_bar->finish();
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
     }
   }
 

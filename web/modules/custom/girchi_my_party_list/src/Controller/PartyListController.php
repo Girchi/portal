@@ -153,6 +153,11 @@ class PartyListController extends ControllerBase {
     }, $userList);
     $currentUser->get('field_my_party_list')->setValue($userInfo);
     $currentUser->save();
+
+    // If user has not checked publicity checkbox add this message.
+    if ($currentUser->get('field_publicity')->value != 1) {
+      $this->messenger()->addWarning($this->t('If you want your activities to appear in party list, you need to check "I agree on publicity" on your profile.'));
+    }
     return new RedirectResponse($redirectUrl);
   }
 

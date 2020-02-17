@@ -1,8 +1,0 @@
-uuid: 480435de-f2ab-48c9-8a2a-de56a26a5f67
-langcode: ka
-status: true
-dependencies: {  }
-name: 'Lead Partner'
-vid: lead_partner
-description: ''
-weight: 0

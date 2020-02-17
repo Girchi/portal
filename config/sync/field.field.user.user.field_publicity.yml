@@ -1,0 +1,24 @@
+uuid: ea422a3f-f08a-49ba-8549-c5c2a404b769
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_publicity
+  module:
+    - user
+id: user.user.field_publicity
+field_name: field_publicity
+entity_type: user
+bundle: user
+label: Publicity
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: ჩართვა
+  off_label: გამორთვა
+field_type: boolean
