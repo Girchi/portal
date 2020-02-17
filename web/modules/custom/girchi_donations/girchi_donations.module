@@ -45,6 +45,7 @@ function girchi_donations_theme() {
         'has_active_card' => NULL,
         'card_save_form' => NULL,
         'cards' => NULL,
+        'aim_or_politicians' => NULL,
       ],
     ],
     'girchi_donations_success' => [

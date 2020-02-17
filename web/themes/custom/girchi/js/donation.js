@@ -4,7 +4,54 @@ $("document").ready(function () {
         let value = Math.floor((amount / currency) * 100);
         $(input).closest('.d-flex').find('.ged-output-add').html(value);
     });
+
+    let politician_id = location.search.substring(location.search.lastIndexOf("=") + 1);
+    const selectEl = $('.select[id="select-politician"]');
+    if (politician_id) {
+        const selectedOption = $(selectEl).find(`option[value="2:${politician_id}"]`).get(0);
+        $(selectedOption).attr('selected','selected');
+        $(selectEl).selectpicker('refresh');
+    }
+
+    selectEl.on('change', function(e){
+        $('.hidden-politician').val('');
+        $('.hidden-aim').val('');
+
+        let selectedElValue = e.currentTarget.value;
+        let splitValue = selectedElValue.split(':');
+        let value = splitValue[0];
+        let id = splitValue[1];
+
+        if(value == 1) {
+            $('.hidden-aim').val(id);
+        }
+        else if(value == 2) {
+            $('.hidden-politician').val(id);
+        }
+        else{
+            $(".donation-card").prepend(`<div class="alert alert-success">${Drupal.t("An illegal choice has been detected. Please contact the site administrator..")} </div>`);
+
+        }
+
+    })
+
+    //Add delete button for choosen politician
+    let delete_button = `
+    <span id='delete-politician' class="font-size-4 p-0 shadow-none text-dark-silver text-hover-danger float-right ml-auto" >
+    <i class="icon-delete"></i>
+    </span>`;
+    $('[data-id="select-politician"]').append(delete_button);
+
+    $('#delete-politician').on('click', e =>{
+        $(selectEl).selectpicker('val', '');
+        $('.hidden-politician').val('');
+        $('.hidden-aim').val('');
+        $(selectEl).selectpicker('refresh');
+    })
+
 });
+
+
 // GED Count
 let currency = $("#currency_girchi").val();
 

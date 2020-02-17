@@ -84,7 +84,13 @@ class DonationUtils {
     try {
       /** @var \Drupal\user\UserStorage $user_storage */
       $user_storage = $this->entityTypeManager->getStorage('user');
-      $politicians = $user_storage->loadByProperties(['field_politician' => TRUE]);
+      $politician_ids = $user_storage->getQuery()
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
+        ->condition('field_politician', TRUE)
+        ->execute();
+
+      $politicians = $user_storage->loadMultiple($politician_ids);
 
       if ($politicians) {
         /** @var \Drupal\user\Entity\User $politician */

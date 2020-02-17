@@ -200,6 +200,13 @@ class DonationsController extends ControllerBase {
     $has_active_card = $this->bankingUtils->hasAvailableCards($this->accountProxy->id());
     $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
+    // Get politicians.
+    $politicians = $this->getPoliticians();
+    // Get donation aim.
+    $donation_aim = $this->getDonationAim();
+
+    $aim_or_politicians = array_merge($politicians, $donation_aim);
+
     return [
       '#type' => 'markup',
       '#theme' => 'girchi_donations',
@@ -210,6 +217,7 @@ class DonationsController extends ControllerBase {
       '#has_active_card' => $has_active_card,
       '#card_save_form' => $card_save_form,
       '#cards' => $cards,
+      '#aim_or_politicians' => $aim_or_politicians,
     ];
   }
 
@@ -514,6 +522,94 @@ class DonationsController extends ControllerBase {
 
     $this->messenger()->addError($this->t('Access denied'));
     return $this->redirect('user.page');
+  }
+
+  /**
+   * Function to get politicians.
+   *
+   * @return array
+   *   Array.
+   */
+  public function getPoliticians() {
+    try {
+      $politicians = [];
+      $politician_storage = $this->entityTypeManager->getStorage('user');
+      $politician_ids = $politician_storage->getQuery()
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
+        ->condition('field_politician', TRUE)
+        ->execute();
+      $politicians_entity = $politician_storage->loadMultiple($politician_ids);
+      foreach ($politicians_entity as $politician) {
+        if ($politician->get('user_picture')->entity) {
+          $profilePictureEntity = $politician->get('user_picture')->entity;
+          $profilePicture = $profilePictureEntity->getFileUri();
+        }
+        else {
+          $profilePicture = NULL;
+        }
+        $politicians[] = [
+          'first_name' => $politician->get('field_first_name')->value,
+          'last_name' => $politician->get('field_last_name')->value,
+          'img' => $profilePicture,
+          'id' => $politician->id(),
+          'data_type' => 2,
+        ];
+      }
+      return $politicians;
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->getLogger($e->getMessage());
+
+    }
+    catch (PluginNotFoundException $e) {
+      $this->getLogger($e->getMessage());
+    }
+
+    return [];
+
+  }
+
+  /**
+   * Function to get donation aim.
+   */
+  public function getDonationAim() {
+    try {
+      $taxonomy_storage = $this->entityTypeManager->getStorage('taxonomy_term');
+      $tids = $taxonomy_storage->getQuery()
+        ->condition('vid', 'donation_issues')
+        ->execute();
+
+      $terms = $taxonomy_storage->loadMultiple($tids);
+      $donation_aim = [];
+      foreach ($terms as $term) {
+        $aim_id = $term->id();
+        $aim = $term->get('name')->value;
+        if ($term->get('field_image')->entity) {
+          $profilePictureEntity = $term->get('field_image')->entity;
+          $profilePicture = $profilePictureEntity->getFileUri();
+        }
+        else {
+          $profilePicture = NULL;
+        }
+        $donation_aim[] = [
+          'data_type' => 1,
+          'aim' => $aim,
+          'id' => $aim_id,
+          'img' => $profilePicture,
+        ];
+
+      }
+      return $donation_aim;
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->getLogger($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->getLogger($e->getMessage());
+    }
+    return [];
+
   }
 
 }
