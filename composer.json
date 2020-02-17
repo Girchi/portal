@@ -246,6 +246,7 @@
     "drupal/menu_export": "^1.2",
     "drupal/menu_trail_by_path": "^1.1",
     "drupal/metatag": "^1.0",
+    "drupal/metatag_routes": "^1.0",
     "drupal/migrate_tools": "^2.0",
     "drupal/node_revision_delete": "^1.0@alpha",
     "drupal/noreqnewpass": "^1.1",
