@@ -173,7 +173,6 @@ class SingleDonationForm extends FormBase {
     $politician = $form_state->getValue('politicians');
     $amount = $form_state->getValue('amount');
     $description = $donation_aim ? $donation_aim : $politician;
-
     if (empty($donation_aim) && empty($politician)) {
       $this->messenger->addError($this->t('Please choose Donation aim OR Donation to politician'));
       $form_state->setRebuild();
@@ -182,11 +181,11 @@ class SingleDonationForm extends FormBase {
       $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
     }
     // Check if aim ID exists.
-    elseif (!empty($donation_aim) && array_key_exists($donation_aim, $this->options)) {
+    elseif (!empty($donation_aim) && !array_key_exists($donation_aim, $this->options)) {
       $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
     }
     // Check if politician ID exists.
-    elseif (!empty($politician) && array_key_exists($politician, $this->politicians)) {
+    elseif (!empty($politician) && !array_key_exists($politician, $this->politicians)) {
       $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
     }
     else {

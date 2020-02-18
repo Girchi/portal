@@ -171,7 +171,11 @@
                                                                     class="rounded-circle overflow-hidden d-inline-block"
                                                                   >
                                                                     <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
                                                                       src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
                                                                       width="35"
                                                                       class="rounded pl-politician-avatar"
                                                                       alt="..."
@@ -268,7 +272,11 @@
                                                                     class="rounded-circle overflow-hidden d-inline-block"
                                                                   >
                                                                     <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
                                                                       src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
                                                                       width="35"
                                                                       class="rounded pl-politician-avatar"
                                                                       alt="..."
@@ -406,7 +414,11 @@
                                                                     class="rounded-circle overflow-hidden d-inline-block"
                                                                   >
                                                                     <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
                                                                       src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
                                                                       width="35"
                                                                       class="rounded pl-politician-avatar"
                                                                       alt="..."
