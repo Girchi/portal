@@ -1,0 +1,10 @@
+uuid: 327556e6-ed8f-4d9d-b465-90057656a312
+langcode: ka
+status: true
+dependencies: {  }
+id: girchi_paypal.paypal_controller
+label: /donate/finish/paypal
+tags:
+  og_image: '[customtoken:base-url]/themes/custom/girchi/images/donate.jpeg'
+  og_image_secure_url: '[customtoken:base-url]/themes/custom/girchi/images/donate.jpeg'
+  og_image_url: '[customtoken:base-url]/themes/custom/girchi/images/donate.jpeg'
