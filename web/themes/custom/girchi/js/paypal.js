@@ -64,8 +64,8 @@ $("document").ready(function () {
             });
         },
         onApprove: function (data, actions) {
-            var aim = $(".hidden-aim").val();
-            var politician = $(".hidden-politician").val();
+            var aim = $(".paypal-hidden-aim").val();
+            var politician = $(".paypal-hidden-politician").val();
             var currency = $("#edit-currencies option:selected").val();
             return actions.order.capture().then(function (details) {
                 // Call server to save the transaction
