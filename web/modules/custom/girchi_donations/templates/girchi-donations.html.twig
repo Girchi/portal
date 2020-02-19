@@ -150,12 +150,13 @@
                                                 </div>
 
 
-                                                <div class="form-group">
+                                                <div class="form-group width-control">
                                                     <label class="form-label" for="description">
                                                         {{ 'Aim or politician'|t }}
                                                     </label>
                                                     <select
-                                                        id="select-politician"
+                                                        id="selected-option-tbc-single"
+                                                        source-type="tbc-single"
                                                         class="select w-100"
                                                         data-live-search="true"
                                                         data-style="btn-white border btn-lg bg-hover-white rounded-oval"
@@ -186,7 +187,7 @@
                                                                     class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
                                                                   >
                                                                     {% if aim_or_politician.data_type == '2' %}
-                                                                    <span class="text-decoration-none d-inline-block text-hover-success">
+                                                                    <span class="text-decoration-none d-inline-block text-success">
                                                                           <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
                                                                           <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
                                                                           <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>
@@ -206,6 +207,7 @@
                                                                 </div>
                                                                 '
                                                         ></option>
+
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -251,12 +253,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group" >
+                                                <div class="form-group width-control" >
                                                     <label class="form-label" for="description">
                                                         {{ 'Aim or politician'|t }}
                                                     </label>
                                                     <select
-                                                        id="select-politician"
+                                                        id="selected-option-paypal"
+                                                        source-type="paypal"
                                                         class="select w-100"
                                                         data-live-search="true"
                                                         data-style="btn-white border btn-lg bg-hover-white rounded-oval"
@@ -287,7 +290,7 @@
                                                                     class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
                                                                   >
                                                                     {% if aim_or_politician.data_type == '2' %}
-                                                                    <span class="text-decoration-none d-inline-block text-hover-success">
+                                                                    <span class="text-decoration-none d-inline-block text-success">
                                                                           <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
                                                                           <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
                                                                           <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>
@@ -393,12 +396,13 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
+                                                <div class="form-group width-control">
                                                     <label class="form-label" for="description">
                                                         {{ 'Aim or politician'|t }}
                                                     </label>
                                                     <select
-                                                        id="select-politician"
+                                                        id="selected-option-tbc-multiple"
+                                                        source-type="tbc-multiple"
                                                         class="select w-100"
                                                         data-live-search="true"
                                                         data-style="btn-white border btn-lg bg-hover-white rounded-oval"
@@ -429,7 +433,7 @@
                                                                     class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
                                                                   >
                                                                     {% if aim_or_politician.data_type == '2' %}
-                                                                    <span class="text-decoration-none d-inline-block text-hover-success">
+                                                                    <span class="text-decoration-none d-inline-block text-success">
                                                                           <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
                                                                           <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
                                                                           <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>

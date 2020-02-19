@@ -5,50 +5,55 @@ $("document").ready(function () {
         $(input).closest('.d-flex').find('.ged-output-add').html(value);
     });
 
-    let politician_id = location.search.substring(location.search.lastIndexOf("=") + 1);
-    const selectEl = $('.select[id="select-politician"]');
-    if (politician_id) {
-        const selectedOption = $(selectEl).find(`option[value="2:${politician_id}"]`).get(0);
-        $(selectedOption).attr('selected','selected');
-        $(selectEl).selectpicker('refresh');
-    }
+    const selects =$('[id^=selected-option]');
+    $.each(selects,function(key,value){
+        const sourceAttr = $(value).attr('source-type');
+        const selectEl = $(value);
 
-    selectEl.on('change', function(e){
-        $('.hidden-politician').val('');
-        $('.hidden-aim').val('');
+        //Add delete button for selected option (Aim or Politician)
+        let delete_button = `
+        <span id='del-sel-option-${sourceAttr}' class="font-size-4 p-0 shadow-none text-dark-silver text-hover-danger float-right ml-auto d-none" >
+        <i class="icon-delete"></i>
+        </span>`;
+        $(`[data-id="selected-option-${sourceAttr}"]`).append(delete_button);
 
-        let selectedElValue = e.currentTarget.value;
-        let splitValue = selectedElValue.split(':');
-        let value = splitValue[0];
-        let id = splitValue[1];
+        //Delete selected option (Aim or Politician)
+        $(`#del-sel-option-${sourceAttr}`).on('click', e =>{
+            $(selectEl).selectpicker('val', '');
+            $(`.${sourceAttr}-hidden-politician`).val('');
+            $(`.${sourceAttr}-hidden-aim`).val('');
+            $(selectEl).selectpicker('refresh');
+            $(`#del-sel-option-${sourceAttr}`).addClass('d-none');
+        })
 
-        if(value == 1) {
-            $('.hidden-aim').val(id);
+        //Load politician from query string
+        let politician_id = location.search.substring(location.search.lastIndexOf("=") + 1);
+        if (politician_id) {
+            const selectedOption = $(selectEl).find(`option[value="2:${politician_id}"]`).get(0);
+            $(selectedOption).attr('selected','selected');
+            $(selectEl).selectpicker('refresh');
+            $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
         }
-        else if(value == 2) {
-            $('.hidden-politician').val(id);
-        }
-        else{
-            $(".donation-card").prepend(`<div class="alert alert-success">${Drupal.t("An illegal choice has been detected. Please contact the site administrator..")} </div>`);
 
-        }
-
-    })
-
-    //Add delete button for choosen politician
-    let delete_button = `
-    <span id='delete-politician' class="font-size-4 p-0 shadow-none text-dark-silver text-hover-danger float-right ml-auto" >
-    <i class="icon-delete"></i>
-    </span>`;
-    $('[data-id="select-politician"]').append(delete_button);
-
-    $('#delete-politician').on('click', e =>{
-        $(selectEl).selectpicker('val', '');
-        $('.hidden-politician').val('');
-        $('.hidden-aim').val('');
-        $(selectEl).selectpicker('refresh');
-    })
-
+        selectEl.on('changed.bs.select',function(e){
+            $(`.${sourceAttr}-hidden-politician`).val('');
+            $(`.${sourceAttr}-hidden-aim`).val('');
+            let selectedElValue = e.currentTarget.value;
+            let splitValue = selectedElValue.split(':');
+            let value = splitValue[0];
+            let id = splitValue[1];
+            if(value === '1') {
+                $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
+                $(`.${sourceAttr}-hidden-politician`).val('');
+                $(`.${sourceAttr}-hidden-aim`).val(id);
+            }
+            else if(value === '2') {
+                $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
+                $(`.${sourceAttr}-hidden-aim`).val('');
+                $(`.${sourceAttr}-hidden-politician`).val(id);
+            }
+        })
+    });
 });
 
 

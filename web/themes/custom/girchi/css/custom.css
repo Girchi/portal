@@ -153,3 +153,11 @@ input[type=number]::-webkit-outer-spin-button {
     filter: blur(8px);
     -webkit-filter: blur(8px);
 }
+
+.width-control .dropdown-menu {
+    min-width: 100% !important;
+}
+
+.width-control .dropdown-menu ul{
+    height: 9.5rem;
+}

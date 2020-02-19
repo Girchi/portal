@@ -185,7 +185,7 @@ class MultipleDonationForm extends FormBase {
       '#empty_value' => '',
       '#attributes' => [
         'class' => [
-          'hidden-aim',
+          'tbc-multiple-hidden-aim',
         ],
       ],
     ];
@@ -195,7 +195,7 @@ class MultipleDonationForm extends FormBase {
       '#empty_value' => '',
       '#attributes' => [
         'class' => [
-          'hidden-politician',
+          'tbc-multiple-hidden-politician',
         ],
       ],
     ];

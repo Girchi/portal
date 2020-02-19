@@ -152,7 +152,7 @@ class PaypalDonationForm extends FormBase {
       '#empty_value' => '',
       '#attributes' => [
         'class' => [
-          'hidden-aim',
+          'paypal-hidden-aim',
         ],
       ],
     ];
@@ -163,7 +163,7 @@ class PaypalDonationForm extends FormBase {
       '#empty_value' => '',
       '#attributes' => [
         'class' => [
-          'hidden-politician',
+          'paypal-hidden-politician',
         ],
       ],
     ];

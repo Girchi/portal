@@ -126,7 +126,7 @@ class SingleDonationForm extends FormBase {
       '#empty_value' => '',
       '#attributes' => [
         'class' => [
-          'hidden-aim',
+          'tbc-single-hidden-aim',
         ],
       ],
     ];
@@ -136,7 +136,7 @@ class SingleDonationForm extends FormBase {
       '#empty_value' => '',
       '#attributes' => [
         'class' => [
-          'hidden-politician',
+          'tbc-single-hidden-politician',
         ],
       ],
     ];
