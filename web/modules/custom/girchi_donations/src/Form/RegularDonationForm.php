@@ -190,31 +190,29 @@ class RegularDonationForm extends ContentEntityForm {
 
     if ($this->entity->get('type')->value == 1) {
       $form['donation_aim'] = [
-        '#type' => 'select',
+        '#type' => 'hidden',
+        '#required' => FALSE,
+        '#empty_value' => '',
         '#attributes' => [
           'class' => [
+            'tbc-multiple-hidden-aim',
             'selected',
           ],
         ],
-        '#options' => $this->options,
-        '#required' => FALSE,
-        '#empty_value' => '',
-        '#empty_option' => $this->t('- Select aim -'),
         '#default_value' => $this->entity->get('aim_id')->entity->id(),
       ];
     }
     else {
       $form['politicians'] = [
-        '#type' => 'select',
+        '#type' => 'hidden',
+        '#required' => FALSE,
+        '#empty_value' => '',
         '#attributes' => [
           'class' => [
+            'tbc-multiple-hidden-politician',
             'selected',
           ],
         ],
-        '#options' => $this->politicians,
-        '#required' => FALSE,
-        '#empty_value' => '',
-        '#empty_option' => $this->t('- Select politician -'),
         '#default_value' => $this->entity->get('politician_id')->entity->id(),
       ];
     }

@@ -69,6 +69,7 @@ function girchi_donations_theme() {
         'language' => NULL,
         'current_user_id' => NULL,
         'cards' => NULL,
+        'aim_or_politicians' => NULL,
       ],
     ],
     'girchi_donations_regular_edit' => [
@@ -78,6 +79,8 @@ function girchi_donations_theme() {
         'cards' => NULL,
         'card_helper' => NULL,
         'entity' => NULL,
+        'donation_aim' => NULL,
+        'politicians' => NULL,
       ],
     ],
   ];

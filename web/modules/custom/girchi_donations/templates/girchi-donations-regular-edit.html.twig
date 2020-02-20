@@ -1,3 +1,4 @@
+{% set aim_or_politicians = [] %}
 <div class="card mb-4 mb-sm-8">
     <div class="card-header">
         <h6 class="text-uppercase font-weight-bold m-0">
@@ -54,24 +55,81 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label" for="description"
-                            >
+
+
+                        <div class="form-group width-control">
+                            <label class="form-label" for="description">
                                 {% if entity_form.donation_aim is not null %}
                                     {{ 'Donation aim'|t }}
                                 {% elseif  entity_form.politicians is not null %}
                                     {{ 'Donation to politician'|t }}
                                 {% endif %}
-                            </label
+                            </label>
+                            <select
+                                id="selected-option-tbc-multiple"
+                                source-type="tbc-multiple"
+                                class="select w-100"
+                                data-live-search="true"
+                                data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                title="რას აფინანსებ"
+                                data-none-results-text="არაფერი მოიძებნა"
                             >
-                            <div class="form-control form-control-lg">
-                                {% if entity_form.donation_aim is not null %}
-                                    {{ entity_form.donation_aim }}
+                                {% if entity_form.donation_aim is not null %}}
+                                    {% set aim_or_politicians =  donation_aim %}
                                 {% elseif  entity_form.politicians is not null %}
-                                    {{ entity_form.politicians }}
+                                    {% set aim_or_politicians =  politicians %}
                                 {% endif %}
-                            </div>
+                                {% for aim_or_politician in aim_or_politicians %}
+                                    <option
+                                        value="{{ aim_or_politician.data_type }}:{{ aim_or_politician.id }}"
+                                        data-content='
+                                                                <div class="d-flex align-items-center p-1 ">
+                                                                  <span
+                                                                    class="rounded-circle overflow-hidden d-inline-block"
+                                                                  >
+                                                                    <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
+                                                                      width="35"
+                                                                      class="rounded pl-politician-avatar"
+                                                                      alt="..."
+                                                                    />
+
+                                                                  </span>
+                                                                  <h6
+                                                                    class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                                                  >
+                                                                    {% if aim_or_politician.data_type == '2' %}
+                                                                    <span class="text-decoration-none d-inline-block text-success">
+                                                                          <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
+                                                                          <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
+                                                                          <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                      {{ 'Politician' |t}}
+                                                                    </span>
+                                                                    {% else  %}
+                                                                    <span class="text-decoration-none d-inline-block text-warning  text-hover-success">
+                                                                          <span class="pl-politician-first-name">{{ 'გირჩი ზოგადად' |t}}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                        {{aim_or_politician.aim}}
+                                                                    </span>
+                                                                    {% endif %}
+                                                                  </h6>
+                                                                </div>
+                                                                '
+                                    ></option>
+                                {% endfor %}
+                            </select>
                         </div>
+
+                        {{ entity_form.donation_aim }}
+                        {{ entity_form.politicians }}
+
                 </div>
             </div>
             <div class="col-md-4">

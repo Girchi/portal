@@ -416,6 +416,13 @@ class DonationsController extends ControllerBase {
     $language_code = $this->languageManager()->getCurrentLanguage()->getId();
     $cards = $this->bankingUtils->getActiveCards($this->accountProxy->id());
 
+    // Get politicians.
+    $politicians = $this->getPoliticians();
+    // Get donation aim.
+    $donation_aim = $this->getDonationAim();
+
+    $aim_or_politicians = array_merge($politicians, $donation_aim);
+
     return [
       '#type' => 'markup',
       '#theme' => 'regular_donations',
@@ -424,6 +431,7 @@ class DonationsController extends ControllerBase {
       '#language' => $language_code,
       '#current_user_id' => $this->accountProxy->id(),
       '#cards' => $cards,
+      '#aim_or_politicians' => $aim_or_politicians,
     ];
   }
 
@@ -499,6 +507,12 @@ class DonationsController extends ControllerBase {
         $card_helper['has_card'] = $regular->get('field_credit_card')->first() ? TRUE : FALSE;
         $card_helper['card_id'] = $card_helper['has_card'] ? $regular->get('field_credit_card')->first()->target_id : NULL;
         $card_helper['ged_amount'] = $this->donationUtils->gedCalculator->calculate($regular->get('amount')->value);
+
+        // Get politicians.
+        $politicians = $this->getPoliticians();
+        // Get donation aim.
+        $donation_aim = $this->getDonationAim();
+
         return [
           '#type' => 'markup',
           '#theme' => 'girchi_donations_regular_edit',
@@ -506,6 +520,8 @@ class DonationsController extends ControllerBase {
           '#entity_form' => $entity_form,
           '#cards' => $cards,
           '#card_helper' => $card_helper,
+          '#politicians' => $politicians,
+          '#donation_aim' => $donation_aim,
         ];
       }
 
