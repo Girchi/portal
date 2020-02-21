@@ -81,6 +81,8 @@ function girchi_donations_theme() {
         'entity' => NULL,
         'donation_aim' => NULL,
         'politicians' => NULL,
+        'current_politician_id' => NULL,
+        'current_aim_id' => NULL,
       ],
     ],
   ];

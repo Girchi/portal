@@ -46,7 +46,7 @@
                                     {{ entity_form.frequency }}
                                 </div>
                             </div>
-                            <div class="form-group w-100 w-md-50  pl-sm-2">
+                            <div class="form-group w-100 w-md-50 pl-sm-2">
                                 <label class="form-label" id="date"
                                 >{{ 'Donation date'|t }}</label
                                 >
@@ -70,7 +70,7 @@
                                 source-type="tbc-multiple"
                                 class="select w-100"
                                 data-live-search="true"
-                                data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                data-style="btn-white border btn-lg bg-hover-white rounded-oval btn-fix"
                                 title="რას აფინანსებ"
                                 data-none-results-text="არაფერი მოიძებნა"
                             >
@@ -82,6 +82,9 @@
                                 {% for aim_or_politician in aim_or_politicians %}
                                     <option
                                         value="{{ aim_or_politician.data_type }}:{{ aim_or_politician.id }}"
+                                        {% if  (aim_or_politician.id == current_politician_id) or (aim_or_politician.id == current_aim_id) %}
+                                            selected
+                                        {% endif %}
                                         data-content='
                                                                 <div class="d-flex align-items-center p-1 ">
                                                                   <span

@@ -196,7 +196,6 @@ class RegularDonationForm extends ContentEntityForm {
         '#attributes' => [
           'class' => [
             'tbc-multiple-hidden-aim',
-            'selected',
           ],
         ],
         '#default_value' => $this->entity->get('aim_id')->entity->id(),
@@ -210,7 +209,6 @@ class RegularDonationForm extends ContentEntityForm {
         '#attributes' => [
           'class' => [
             'tbc-multiple-hidden-politician',
-            'selected',
           ],
         ],
         '#default_value' => $this->entity->get('politician_id')->entity->id(),
@@ -239,15 +237,27 @@ class RegularDonationForm extends ContentEntityForm {
       $this->entity->set('amount', $amount);
       $this->entity->set('frequency', $frequency);
       $this->entity->set('payment_day', $day);
-      if ($this->entity->get('type')->value == '1') {
+      $data_type = $this->entity->get('type')->value;
+
+      if ($data_type == '1') {
         $this->entity->set('aim_id', $donation_aim);
       }
       else {
         $this->entity->set('politician_id', $politician);
       }
-      $this->entity->save();
-      $this->messenger()->addMessage($this->t('Regular donation was successfully updated'));
-      $form_state->setRedirect('girchi_donations.regular_donations');
+
+      if ($data_type == '1' && empty($donation_aim)) {
+        $this->messenger()->addError($this->t('Please choose Donation aim'));
+      }
+      elseif ($data_type == '2' && empty($politician)) {
+        $this->messenger()->addError($this->t('Please choose the Politician'));
+      }
+      else {
+        $this->entity->save();
+        $this->messenger()->addMessage($this->t('Regular donation was successfully updated'));
+        $form_state->setRedirect('girchi_donations.regular_donations');
+      }
+
     }
     catch (\Exception $e) {
       $this->messenger()->addError($this->t('Error'));

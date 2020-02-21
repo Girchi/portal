@@ -128,7 +128,13 @@
                                             </button>
                                         {% endif %}
                                         <a
-                                            href="/user/donations/regular/{{current_user_id}}/{{regular_donation.id.value}}"
+                                            {% if regular_donation.politician_id.target_id %}
+                                                href="/user/donations/regular/{{current_user_id}}/{{regular_donation.id.value}}?politician={{ regular_donation.politician_id.target_id }}"
+                                            {% elseif regular_donation.aim_id.target_id %}
+                                                href="/user/donations/regular/{{current_user_id}}/{{regular_donation.id.value}}?politician={{ regular_donation.aim_id.target_id }}"
+                                            {% else %}
+                                                href="/user/donations/regular/{{current_user_id}}/{{regular_donation.id.value}}"
+                                            {% endif %}
                                             class="btn btn-outline-light-silver text-grey text-uppercase px- d-block d-sm-inline-block w-100 w-sm-auto mt-2 mt-sm-0"
                                         >
                                             {{ 'Edit' |t }}

@@ -158,6 +158,10 @@ input[type=number]::-webkit-outer-spin-button {
     min-width: 100% !important;
 }
 
+.btn-fix{
+    min-width: 381px !important;
+}
+
 .width-control .dropdown-menu ul{
     height: 9.5rem;
 }

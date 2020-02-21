@@ -507,6 +507,8 @@ class DonationsController extends ControllerBase {
         $card_helper['has_card'] = $regular->get('field_credit_card')->first() ? TRUE : FALSE;
         $card_helper['card_id'] = $card_helper['has_card'] ? $regular->get('field_credit_card')->first()->target_id : NULL;
         $card_helper['ged_amount'] = $this->donationUtils->gedCalculator->calculate($regular->get('amount')->value);
+        $current_politician_id = $regular->get('politician_id')->target_id;
+        $current_aim_id = $regular->get('aim_id')->target_id;
 
         // Get politicians.
         $politicians = $this->getPoliticians();
@@ -522,6 +524,8 @@ class DonationsController extends ControllerBase {
           '#card_helper' => $card_helper,
           '#politicians' => $politicians,
           '#donation_aim' => $donation_aim,
+          '#current_politician_id' => $current_politician_id,
+          '#current_aim_id' => $current_aim_id,
         ];
       }
 
