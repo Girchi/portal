@@ -488,16 +488,15 @@ function girchi_preprocess_paragraph(&$variables) {
   /**
    * For 'team member' paragraph
    */
-
   if ($paragraph->getParagraphType()->id() == 'team_member') {
     $img_uri = $paragraph->field_image && $paragraph->field_image->first() ? $paragraph->field_image->first()->entity->getFileUri() : '';
     $full_name = $paragraph->field_name->first()->value;
     $full_name = explode(' ', $full_name);
     $first_name = $full_name[0];
     $last_name = $full_name[1];
-    $facebook_link = $paragraph->field_facebook_link->first()->value;
-    $twitter_link = $paragraph->field_twitter_link->first()->value;
-    $email = $paragraph->field_email->first()->value;
+    $facebook_link = $paragraph->field_facebook_link->first()->value ?? '';
+    $twitter_link = $paragraph->field_twitter_link->first()->value ?? '';
+    $email = $paragraph->field_email->first()->value ?? '';
     $variables['data'] = [
       'img_uri' => $img_uri,
       'first_name' => $first_name,

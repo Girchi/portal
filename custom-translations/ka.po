@@ -4316,6 +4316,22 @@ msgstr "გთხოვთ შეიყვანოთ თანხა"
 msgid "Currency"
 msgstr "ვალუტა"
 
+msgid "I agree on publicity"
+msgstr "თანახმა ვარ საჯაროობაზე"
+
+msgid ""
+"If you want your activities to appear in party list, you need to check "
+"\"I agree on publicity\" on your profile."
+msgstr ""
+"თქვენი ქმედება რომ "
+"აისახოს პარტიულ სიაში, "
+"ამისთვის თქვენს პროფილზე "
+"მონიშნული უნდა გქონდეთ "
+"\"თანახმა ვარ საჯაროობაზე\"."
+
+msgid "Join Group"
+msgstr "გაწევრიანდი ჯგუფში"
+
 msgid "You can't be your referral's referral."
 msgstr ""
 "თქვენ ვერ გახდებით თქვენი "

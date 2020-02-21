@@ -179,6 +179,7 @@ function girchi_utils_theme($existing, $type, $theme, $path) {
         [
           'members' => NULL,
           'members_short' => NULL,
+          'is_user_public' => NULL
         ],
       'template' => 'my-party-list-block',
     ],
@@ -273,6 +274,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 
   if ($form_id == "user_form") {
 
+
     if (!Drupal::currentUser()->hasPermission('admin')) {
       $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
       // Unset titles.
@@ -284,6 +286,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       unset($form['field_personal_id']['widget']['0']['value']['#title']);
       unset($form['field_address']['widget']['0']['value']['#title']);
       unset($form['field_politician']['widget']['value']['#title']);
+      unset($form['field_publicity']['widget']['value']['#title']);
       unset($form['account']['current_pass']['#title']);
 
       // Unset descriptions.
@@ -303,9 +306,12 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_politician']['#attributes']['class'][] = 'form-control';
       $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
+      $form['field_publicity']['#attributes']['class'][] = 'form-control';
+      $form['field_publicity']['widget']['value']['#attributes']['class'][] = 'form-control';
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
 
       $form['field_politician']['#theme_wrappers'] = [];
+      $form['field_publicity']['#theme_wrappers'] = [];
 
       // Get politician text from settings.
       $form['politician_text'] = [
@@ -329,6 +335,7 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           unset($form['field_personal_id']['widget']['0']['value']['#title']);
           unset($form['field_address']['widget']['0']['value']['#title']);
           unset($form['field_politician']['widget']['value']['#title']);
+          unset($form['field_publicity']['widget']['value']['#title']);
           unset($form['account']['current_pass']['#title']);
 
           // Unset descriptions.
@@ -347,9 +354,12 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
           $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
           $form['field_politician']['#attributes']['class'][] = 'form-control';
           $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
+          $form['field_publicity']['#attributes']['class'][] = 'form-control';
+          $form['field_publicity']['widget']['value']['#attributes']['class'][] = 'form-control';
           $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
 
           $form['field_politician']['#theme_wrappers'] = [];
+          $form['field_publicity']['#theme_wrappers'] = [];
 
           // Get politician text from settings.
           $form['politician_text'] = [
