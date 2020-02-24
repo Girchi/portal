@@ -649,7 +649,7 @@ function girchi_utils_preprocess_page(&$variables) {
     $user = \Drupal::routeMatch()->getParameter('user');
     if($user instanceof User) {
       $cache_tag = $user->getCacheTags();
-      $variables['page']['#cache']['tags'][] = $cache_tag[0];
+      $variables['#cache']['tags'][] = $cache_tag[0];
     }
   }
 }
