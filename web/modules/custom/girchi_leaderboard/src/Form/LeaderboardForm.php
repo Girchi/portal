@@ -84,8 +84,8 @@ class LeaderboardForm extends FormBase {
                               EventDispatcherInterface $dispatcher) {
     $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
-    $this->politicians = $donationUtils->getPoliticians();
-    $this->options = $donationUtils->getTerms();
+    $this->politicians = $donationUtils->getPoliticians(FALSE);
+    $this->options = $donationUtils->getTerms(FALSE);
     $this->currency = $donationUtils->gedCalculator->getCurrency();
     $this->createGedTransaction = $createGedTransaction;
     $this->dispatcher = $dispatcher;

@@ -77,9 +77,14 @@ class DonationUtils {
 
   /**
    * Function for getting politicians.
+   *
+   * @param bool $full
+   *   Get politician data.
+   *
+   * @return array
+   *   Options.
    */
-  public function getPoliticians() {
-
+  public function getPoliticians($full = TRUE) {
     $options = [];
     try {
       /** @var \Drupal\user\UserStorage $user_storage */
@@ -95,9 +100,28 @@ class DonationUtils {
       if ($politicians) {
         /** @var \Drupal\user\Entity\User $politician */
         foreach ($politicians as $politician) {
-          $options[$politician->id()] = sprintf('%s %s',
-              $politician->get('field_first_name')->value,
-              $politician->get('field_last_name')->value);
+          $first_name = $politician->get('field_first_name')->value;
+          $last_name = $politician->get('field_last_name')->value;
+          if ($politician->get('user_picture')->entity) {
+            $profilePictureEntity = $politician->get('user_picture')->entity;
+            $profilePicture = $profilePictureEntity->getFileUri();
+          }
+          else {
+            $profilePicture = NULL;
+          }
+          if ($full) {
+            $options[$politician->id()] = [
+              'first_name' => $first_name,
+              'last_name' => $last_name,
+              'img' => $profilePicture,
+              'id' => $politician->id(),
+              'data_type' => 2,
+            ];
+          }
+          else {
+            $options[$politician->id()] = sprintf('%s %s', $first_name, $last_name);
+          }
+
         }
       }
 
@@ -115,8 +139,14 @@ class DonationUtils {
 
   /**
    * Function for getting terms of donation_issues.
+   *
+   * @param bool $full
+   *   Get term data.
+   *
+   * @return array
+   *   Options.
    */
-  public function getTerms() {
+  public function getTerms($full = TRUE) {
     $options = [];
     try {
       /** @var \Drupal\taxonomy\TermStorage  $term_storage */
@@ -126,7 +156,22 @@ class DonationUtils {
         /** @var \Drupal\taxonomy\Entity\Term $term */
         foreach ($terms as $term) {
           $language = $this->languageManager->getCurrentLanguage()->getId();
-          if ($language === 'ka' && $term->hasTranslation('ka')) {
+          if ($full) {
+            if ($term->get('field_image')->entity) {
+              $profilePictureEntity = $term->get('field_image')->entity;
+              $profilePicture = $profilePictureEntity->getFileUri();
+            }
+            else {
+              $profilePicture = NULL;
+            }
+            $options[$term->id()] = [
+              'data_type' => 1,
+              'aim' => $term->getName(),
+              'id' => $term->id(),
+              'img' => $profilePicture,
+            ];
+          }
+          elseif (!$full && $language === 'ka' && $term->hasTranslation('ka')) {
             $options[$term->id()] = $term->getTranslation('ka')->getName();
           }
           else {

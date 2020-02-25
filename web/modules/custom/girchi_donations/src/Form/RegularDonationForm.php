@@ -252,6 +252,14 @@ class RegularDonationForm extends ContentEntityForm {
       elseif ($data_type == '2' && empty($politician)) {
         $this->messenger()->addError($this->t('Please choose the Politician'));
       }
+      // Check if aim ID exists.
+      elseif (!empty($donation_aim) && !array_key_exists($donation_aim, $this->options)) {
+        $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
+      }
+      // Check if politician ID exists.
+      elseif (!empty($politician) && !array_key_exists($politician, $this->politicians)) {
+        $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
+      }
       else {
         $this->entity->save();
         $this->messenger()->addMessage($this->t('Regular donation was successfully updated'));
