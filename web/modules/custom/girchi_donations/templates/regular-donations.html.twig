@@ -88,7 +88,12 @@
                                         >
                                 <span class="mr-3">
                                   <span
-                                      class="text-grey">{{ 'Periodicity' | t }}: </span>{{ regular_donation.frequency.value }} {{ 'Month' | t }}
+                                      class="text-grey">{{ 'Periodicity' | t }}: </span>
+                                    {% if regular_donation.frequency.value == 1 %}
+                                        {{ 'Every month' | t }}
+                                    {% else %}
+                                        {{ regular_donation.frequency.value }} {{ 'Month' | t }}
+                                    {% endif %}
                                 </span>
                                             <span class="mr-3">
                                   <span class="text-grey"
@@ -246,7 +251,7 @@
                             class="select w-100"
                             data-live-search="true"
                             data-style="btn-white border btn-lg bg-hover-white rounded-oval"
-                            title="რას აფინანსებ"
+                            title="რას/ვის აფინანსებ"
                             data-none-results-text="არაფერი მოიძებნა"
                         >
                             {% for aim_or_politician in aim_or_politicians %}
