@@ -89,6 +89,8 @@ class DonationUtils {
     try {
       /** @var \Drupal\user\UserStorage $user_storage */
       $user_storage = $this->entityTypeManager->getStorage('user');
+
+      // Get politicians who's rating in party list is not equal to 0.
       $politician_ids = $user_storage->getQuery()
         ->condition('field_first_name', NULL, 'IS NOT NULL')
         ->condition('field_last_name', NULL, 'IS NOT NULL')
@@ -96,7 +98,20 @@ class DonationUtils {
         ->condition('field_rating_in_party_list', NULL, 'IS NOT NULL')
         ->sort('field_rating_in_party_list')
         ->execute();
-      $politicians = $user_storage->loadMultiple($politician_ids);
+
+      // Get politicians who's rating in party list is equal to 0.
+      $pol_ids = $user_storage->getQuery()
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
+        ->condition('field_politician', TRUE)
+        ->condition('field_rating_in_party_list', NULL)
+        ->execute();
+
+      // Merge politicians array with zero rating
+      // And rating that is more than zero,
+      // To avoid custom sorting.
+      $all_politicians = array_merge($politician_ids, $pol_ids);
+      $politicians = $user_storage->loadMultiple($all_politicians);
 
       if ($politicians) {
         /** @var \Drupal\user\Entity\User $politician */
