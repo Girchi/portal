@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ece47889be17a10f7d87399f948379e4",
+    "content-hash": "56d67e41b33e4c6e609de4c80c621d1c",
     "packages": [
         {
             "name": "abgeo/nbg-currency",
@@ -7340,6 +7340,54 @@
             }
         },
         {
+            "name": "drupal/metatag_routes",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/metatag_routes.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/metatag_routes-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "7c9bc4c4801f129b329f52b8a32f00e83b7c600b"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/metatag": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1539315181",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "waldomero",
+                    "homepage": "https://www.drupal.org/user/3460385"
+                }
+            ],
+            "description": "Enables metatags for custom routes.",
+            "homepage": "https://www.drupal.org/project/metatag_routes",
+            "support": {
+                "source": "https://git.drupalcode.org/project/metatag_routes"
+            }
+        },
+        {
             "name": "drupal/migrate_plus",
             "version": "4.2.0",
             "source": {
@@ -9762,7 +9810,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.0-beta3",
-                    "datestamp": "1569365482",
+                    "datestamp": "1580333468",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
