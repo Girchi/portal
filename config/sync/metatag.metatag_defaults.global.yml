@@ -7,8 +7,8 @@ _core:
 id: global
 label: Global
 tags:
-  title: '[current-page:title] | [site:name]'
   canonical_url: '[current-page:url]'
-  og_image_secure_url: 'https://girchi.com/sites/default/files/girchi.png'
-  og_image_url: 'https://girchi.com/sites/default/files/girchi.png'
-  og_image: 'https://girchi.com/sites/default/files/girchi.png'
+  title: '[current-page:title] | [site:name]'
+  og_image: '[customtoken:base-url]/themes/custom/girchi/images/girchi.jpeg'
+  og_image_secure_url: '[customtoken:base-url]/themes/custom/girchi/images/girchi.jpeg'
+  og_image_url: '[customtoken:base-url]/themes/custom/girchi/images/girchi.jpeg'

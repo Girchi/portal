@@ -1,0 +1,8 @@
+uuid: 4a6fab76-f150-4152-9fad-47846b1c6a5a
+langcode: ka
+status: true
+dependencies: {  }
+id: girchi_donations.donations_controller_index
+label: /donate
+tags:
+  og_image: '[customtoken:base-url]/themes/custom/girchi/images/donate.jpeg'
