@@ -93,8 +93,9 @@ class DonationUtils {
         ->condition('field_first_name', NULL, 'IS NOT NULL')
         ->condition('field_last_name', NULL, 'IS NOT NULL')
         ->condition('field_politician', TRUE)
+        ->condition('field_rating_in_party_list', NULL, 'IS NOT NULL')
+        ->sort('field_rating_in_party_list')
         ->execute();
-
       $politicians = $user_storage->loadMultiple($politician_ids);
 
       if ($politicians) {
