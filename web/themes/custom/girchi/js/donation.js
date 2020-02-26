@@ -4,7 +4,59 @@ $("document").ready(function () {
         let value = Math.floor((amount / currency) * 100);
         $(input).closest('.d-flex').find('.ged-output-add').html(value);
     });
+
+    const selects =$('[id^=selected-option]');
+    $.each(selects,function(key,value){
+        const sourceAttr = $(value).attr('source-type');
+        const selectEl = $(value);
+
+        //Add delete button for selected option (Aim or Politician)
+        let delete_button = `
+        <span id='del-sel-option-${sourceAttr}' class="font-size-4 p-0 shadow-none text-dark-silver text-hover-danger float-right ml-auto d-none" >
+        <i class="icon-delete"></i>
+        </span>`;
+        $(`[data-id="selected-option-${sourceAttr}"]`).append(delete_button);
+
+        //Delete selected option (Aim or Politician)
+        $(`#del-sel-option-${sourceAttr}`).on('click', e =>{
+            $(selectEl).selectpicker('val', '');
+            $(`.${sourceAttr}-hidden-politician`).val('');
+            $(`.${sourceAttr}-hidden-aim`).val('');
+            $(selectEl).selectpicker('refresh');
+            $(`#del-sel-option-${sourceAttr}`).addClass('d-none');
+        })
+
+        //Load politician from query string
+        let politician_id = location.search.substring(location.search.lastIndexOf("=") + 1);
+        if (politician_id) {
+            const selectedOption = $(selectEl).find(`option[value="2:${politician_id}"]`).get(0);
+            $(selectedOption).attr('selected','selected');
+            $(selectEl).selectpicker('refresh');
+            $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
+        }
+
+        selectEl.on('changed.bs.select',function(e){
+            $(`.${sourceAttr}-hidden-politician`).val('');
+            $(`.${sourceAttr}-hidden-aim`).val('');
+            let selectedElValue = e.currentTarget.value;
+            let splitValue = selectedElValue.split(':');
+            let value = splitValue[0];
+            let id = splitValue[1];
+            if(value === '1') {
+                $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
+                $(`.${sourceAttr}-hidden-politician`).val('');
+                $(`.${sourceAttr}-hidden-aim`).val(id);
+            }
+            else if(value === '2') {
+                $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
+                $(`.${sourceAttr}-hidden-aim`).val('');
+                $(`.${sourceAttr}-hidden-politician`).val(id);
+            }
+        })
+    });
 });
+
+
 // GED Count
 let currency = $("#currency_girchi").val();
 

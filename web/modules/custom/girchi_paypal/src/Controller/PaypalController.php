@@ -176,7 +176,7 @@ class PaypalController extends ControllerBase {
               }
             }
             elseif ($politician_id != NULL) {
-              if ($this->paypalUtils->checkPolitcian($aim_id)) {
+              if ($this->paypalUtils->checkPolitcian($politician_id)) {
                 $values['politician_donation'] = TRUE;
                 $values['politician_id'] = $politician_id;
                 $values['status'] = 'OK';

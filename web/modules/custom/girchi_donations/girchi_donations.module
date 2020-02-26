@@ -45,6 +45,7 @@ function girchi_donations_theme() {
         'has_active_card' => NULL,
         'card_save_form' => NULL,
         'cards' => NULL,
+        'aim_or_politicians' => NULL,
       ],
     ],
     'girchi_donations_success' => [
@@ -68,6 +69,7 @@ function girchi_donations_theme() {
         'language' => NULL,
         'current_user_id' => NULL,
         'cards' => NULL,
+        'aim_or_politicians' => NULL,
       ],
     ],
     'girchi_donations_regular_edit' => [
@@ -77,6 +79,10 @@ function girchi_donations_theme() {
         'cards' => NULL,
         'card_helper' => NULL,
         'entity' => NULL,
+        'donation_aim' => NULL,
+        'politicians' => NULL,
+        'current_politician_id' => NULL,
+        'current_aim_id' => NULL,
       ],
     ],
   ];
@@ -92,16 +98,6 @@ function girchi_donations_form_alter(&$form, FormStateInterface $form_state, $fo
       if (array_key_exists('max', $created_filter)) {
         $form['created']['max']['#title'] = 'დასასრული';
       }
-    }
-  }
-
-  if ($form_id === 'single_donation_form') {
-    $politician_id = \Drupal::request()->get('politician');
-    if ($politician_id) {
-      $form['politicians']['#default_value'] = $politician_id;
-      $form['politicians']['#attributes']['disabled'] = 'disabled';
-      $form['donation_aim']['#attributes']['disabled'] = 'disabled';
-      $form['#cache'] = ['max-age' => 0];
     }
   }
 }

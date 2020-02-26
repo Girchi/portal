@@ -8,11 +8,9 @@ $('#cardSelector').on('click', function (e) {
         const dateHolder = $('#date-holder');
         const gedHolder = $('#ged-holder');
         const mainHolder = $('#main-holder');
-        const politician = $('#edit-politicians--2').find('option:selected');
-        const aim = $('#edit-donation-aim--2').find('option:selected');
-
-
+        const option = $('#selected-option-tbc-multiple').find('option:selected');
         gedHolder.html(`<i class="icon-ged line-height-1-1"></i> ${gedAmount}`);
+
         if (frequency) {
             dateHolder.html(`${frequency} თვე`);
         }
@@ -27,11 +25,8 @@ $('#cardSelector').on('click', function (e) {
             amountHolder.html('აირჩიეთ თანხა');
         }
 
-        if(politician.val() || aim.val()){
-            if(politician.text()){
-                mainHolder.html(politician.text());
-            }
-            mainHolder.html(aim.text());
+        if(option.val()){
+            mainHolder.html(option.attr('data-content'));
         }else{
             mainHolder.html('აირჩიეთ მიზანი ან პოლიტიკოსი');
         }

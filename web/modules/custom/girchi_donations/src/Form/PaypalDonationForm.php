@@ -7,7 +7,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactory;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Session\AccountProxy;
-use Drupal\girchi_donations\Utils\DonationUtils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -15,14 +14,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * Class SingleDonationForm.
  */
 class PaypalDonationForm extends FormBase {
-
-  /**
-   * Utils service.
-   *
-   * @var \Drupal\girchi_donations\Utils\DonationUtils
-   */
-  private $donationUtils;
-
   /**
    * The Messenger service.
    *
@@ -36,20 +27,6 @@ class PaypalDonationForm extends FormBase {
    * @var \Drupal\Core\Session\AccountProxy
    */
   protected $currentUser;
-
-  /**
-   * Politicians.
-   *
-   * @var array
-   */
-  protected $politicians;
-
-  /**
-   * Options.
-   *
-   * @var array
-   */
-  protected $options;
 
   /**
    * Current usd currency.
@@ -79,8 +56,6 @@ class PaypalDonationForm extends FormBase {
   /**
    * Constructs a new UserController object.
    *
-   * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
-   *   Donation Utils.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   Messenger.
    * @param \Drupal\Core\Session\AccountProxy $currentUser
@@ -88,16 +63,11 @@ class PaypalDonationForm extends FormBase {
    * @param \Drupal\Core\KeyValueStore\KeyValueFactory $keyValue
    *   keyValue.
    */
-  public function __construct(DonationUtils $donationUtils,
-                              MessengerInterface $messenger,
+  public function __construct(MessengerInterface $messenger,
                               AccountProxy $currentUser,
                               KeyValueFactory $keyValue) {
-
-    $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
     $this->currentUser = $currentUser;
-    $this->politicians = $donationUtils->getPoliticians();
-    $this->options = $donationUtils->getTerms();
     $this->usd = $keyValue->get('girchi_donations')->get('usd');
     $this->eur = $keyValue->get('girchi_donations')->get('eur');
     $this->currencies = ['usd' => 'USD', 'eur' => 'EUR', 'gel' => 'GEL'];
@@ -108,7 +78,6 @@ class PaypalDonationForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('girchi_donations.donation_utils'),
       $container->get('messenger'),
       $container->get('current_user'),
       $container->get('keyvalue')
@@ -147,20 +116,27 @@ class PaypalDonationForm extends FormBase {
     ];
 
     $form['donation_aim'] = [
-      '#type' => 'select',
-      '#options' => $this->options,
+      '#type' => 'hidden',
       '#required' => FALSE,
       '#empty_value' => '',
-      '#empty_option' => $this->t('- Select aim -'),
+      '#attributes' => [
+        'class' => [
+          'paypal-hidden-aim',
+        ],
+      ],
+    ];
 
-    ];
     $form['politicians'] = [
-      '#type' => 'select',
-      '#options' => $this->politicians,
+      '#type' => 'hidden',
       '#required' => FALSE,
       '#empty_value' => '',
-      '#empty_option' => $this->t('- Select politician -'),
+      '#attributes' => [
+        'class' => [
+          'paypal-hidden-politician',
+        ],
+      ],
     ];
+
     $form['currency_usd'] = [
       '#title' => 'currency',
       '#type' => 'hidden',
