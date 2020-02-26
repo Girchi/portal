@@ -42,6 +42,7 @@ function girchi_referral_form_alter(&$form, FormStateInterface $form_state, $for
     if ($user) {
       // Adding default value to field_referral.
       $form['field_referral']['widget'][0]['target_id']['#default_value'] = $user;
+      $form['#cache']['contexts'][] = 'user';
     }
   }
   if ($form_id == "user_form") {
