@@ -79,6 +79,9 @@ function girchi_donations_theme() {
         'entity' => NULL,
       ],
     ],
+    'girchi_donations_export' => [
+      'render element' => 'children',
+    ],
   ];
 }
 

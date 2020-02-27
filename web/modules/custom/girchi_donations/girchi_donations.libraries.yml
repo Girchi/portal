@@ -1,0 +1,7 @@
+react-export:
+  version: 1.x
+  js:
+    js/dist/export-page.bundle.js: {}
+  css:
+    theme:
+      js/dist/export-page.bundle.css: { weight: -999 }
