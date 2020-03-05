@@ -127,10 +127,10 @@ class ExportController extends ControllerBase {
             ->fromArray($donation_record['donation'], NULL, "B${cell_value}");
           $spreadsheet->getActiveSheet();
 
-          $json_format[$donation_record['full_name']] = $donation_record['donation'];
         }
+        $json_format[] = ["firstName" => $donation_record['full_name'], "donations" => $donation_record['donation']];
         $cell_value++;
-      };
+      }
       $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(TRUE);
 
       if ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' === $request->headers->get('accept')) {
