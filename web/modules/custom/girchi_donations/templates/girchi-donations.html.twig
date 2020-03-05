@@ -148,22 +148,72 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="description"
-                                                    >{{ 'Donation aim'|t }}</label
+
+
+                                                <div class="form-group width-control">
+                                                    <label class="form-label" for="description">
+                                                        {{ 'Aim or politician'|t }}
+                                                    </label>
+                                                    <select
+                                                        id="selected-option-tbc-single"
+                                                        source-type="tbc-single"
+                                                        class="select w-100"
+                                                        data-live-search="true"
+                                                        data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                                        title="რას/ვის აფინანსებ"
+                                                        data-none-results-text="არაფერი მოიძებნა"
                                                     >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ form_single.donation_aim }}
-                                                    </div>
+                                                        {% for aim_or_politician in aim_or_politicians %}
+                                                        <option
+                                                            value="{{ aim_or_politician.data_type }}:{{ aim_or_politician.id }}"
+                                                            data-content='
+                                                                <div class="d-flex align-items-center p-1 ">
+                                                                  <span
+                                                                    class="rounded-circle overflow-hidden d-inline-block"
+                                                                  >
+                                                                    <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
+                                                                      width="35"
+                                                                      class="rounded pl-politician-avatar"
+                                                                      alt="..."
+                                                                    />
+
+                                                                  </span>
+                                                                  <h6
+                                                                    class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                                                  >
+                                                                    {% if aim_or_politician.data_type == '2' %}
+                                                                    <span class="text-decoration-none d-inline-block text-success">
+                                                                          <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
+                                                                          <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
+                                                                          <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                      {{ 'Politician' |t}}
+                                                                    </span>
+                                                                    {% else  %}
+                                                                    <span class="text-decoration-none d-inline-block text-warning  text-hover-success">
+                                                                          <span class="pl-politician-first-name">{{ 'გირჩი ზოგადად' |t}}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                        {{aim_or_politician.aim}}
+                                                                    </span>
+                                                                    {% endif %}
+                                                                  </h6>
+                                                                </div>
+                                                                '
+                                                        ></option>
+
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="politicians"
-                                                    >{{ 'Donation to politician'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ form_single.politicians }}
-                                                    </div>
-                                                </div>
+
+                                                {{ form_single.politicians }}
+                                                {{ form_single.donation_aim }}
                                                 {{ form_single.currency }}
                                                 {{ form_single.submit }}
                                             </form>
@@ -203,22 +253,70 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="description"
-                                                    >{{ 'Donation aim'|t }}</label
+                                                <div class="form-group width-control" >
+                                                    <label class="form-label" for="description">
+                                                        {{ 'Aim or politician'|t }}
+                                                    </label>
+                                                    <select
+                                                        id="selected-option-paypal"
+                                                        source-type="paypal"
+                                                        class="select w-100"
+                                                        data-live-search="true"
+                                                        data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                                        title="რას/ვის აფინანსებ"
+                                                        data-none-results-text="არაფერი მოიძებნა"
                                                     >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ paypal_form.donation_aim }}
-                                                    </div>
+                                                        {% for aim_or_politician in aim_or_politicians %}
+                                                            <option
+                                                                value="{{ aim_or_politician.data_type }}:{{ aim_or_politician.id }}"
+                                                                data-content='
+                                                                <div class="d-flex align-items-center p-1 ">
+                                                                  <span
+                                                                    class="rounded-circle overflow-hidden d-inline-block"
+                                                                  >
+                                                                    <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
+                                                                      width="35"
+                                                                      class="rounded pl-politician-avatar"
+                                                                      alt="..."
+                                                                    />
+
+                                                                  </span>
+                                                                  <h6
+                                                                    class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                                                  >
+                                                                    {% if aim_or_politician.data_type == '2' %}
+                                                                    <span class="text-decoration-none d-inline-block text-success">
+                                                                          <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
+                                                                          <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
+                                                                          <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                      {{ 'Politician' |t}}
+                                                                    </span>
+                                                                    {% else  %}
+                                                                    <span class="text-decoration-none d-inline-block text-warning  text-hover-success">
+                                                                          <span class="pl-politician-first-name">{{ 'გირჩი ზოგადად' |t}}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                        {{aim_or_politician.aim}}
+                                                                    </span>
+                                                                    {% endif %}
+                                                                  </h6>
+                                                                </div>
+                                                                '
+                                                            ></option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="politicians"
-                                                    >{{ 'Donation to politician'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ paypal_form.politicians }}
-                                                    </div>
-                                                </div>
+
+                                                {{ paypal_form.donation_aim }}
+                                                {{ paypal_form.politicians }}
+
                                                 {{ paypal_form.currency_eur }}
                                                 {{ paypal_form.currency_usd }}
                                                 {{ paypal_form.donation_id }}
@@ -297,22 +395,69 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="description"
-                                                    >{{ 'Donation aim'|t }}</label
+
+                                                <div class="form-group width-control">
+                                                    <label class="form-label" for="description">
+                                                        {{ 'Aim or politician'|t }}
+                                                    </label>
+                                                    <select
+                                                        id="selected-option-tbc-multiple"
+                                                        source-type="tbc-multiple"
+                                                        class="select w-100"
+                                                        data-live-search="true"
+                                                        data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                                        title="რას/ვის აფინანსებ"
+                                                        data-none-results-text="არაფერი მოიძებნა"
                                                     >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ form_multiple.donation_aim }}
-                                                    </div>
+                                                        {% for aim_or_politician in aim_or_politicians %}
+                                                            <option
+                                                                value="{{ aim_or_politician.data_type }}:{{ aim_or_politician.id }}"
+                                                                data-content='
+                                                                <div class="d-flex align-items-center p-1 ">
+                                                                  <span
+                                                                    class="rounded-circle overflow-hidden d-inline-block"
+                                                                  >
+                                                                    <img
+                                                                      {% if aim_or_politician.data_type == 1 %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/girchiLogo34x34.png" }}"
+                                                                      {% else %}
+                                                                      src="{{ aim_or_politician.img is defined and aim_or_politician.img is not null ? image_style_url(aim_or_politician.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                                      {% endif %}
+                                                                      width="35"
+                                                                      class="rounded pl-politician-avatar"
+                                                                      alt="..."
+                                                                    />
+
+                                                                  </span>
+                                                                  <h6
+                                                                    class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                                                  >
+                                                                    {% if aim_or_politician.data_type == '2' %}
+                                                                    <span class="text-decoration-none d-inline-block text-success">
+                                                                          <span class="pl-politician-first-name">{{aim_or_politician.first_name}}</span>
+                                                                          <span class="font-weight-bold pl-politician-last-name">{{aim_or_politician.last_name}}</span>
+                                                                          <span class="font-weight-bold d-none">{{ aim_or_politician.first_name }} {{ aim_or_politician.last_name }}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                      {{ 'Politician' |t}}
+                                                                    </span>
+                                                                    {% else  %}
+                                                                    <span class="text-decoration-none d-inline-block text-warning  text-hover-success">
+                                                                          <span class="pl-politician-first-name">{{ 'გირჩი ზოგადად' |t}}</span>
+                                                                    </span>
+                                                                    <span class="d-flex font-size-1 text-grey pl-politician-position">
+                                                                        {{aim_or_politician.aim}}
+                                                                    </span>
+                                                                    {% endif %}
+                                                                  </h6>
+                                                                </div>
+                                                                '
+                                                            ></option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="politicians"
-                                                    >{{ 'Donation to politician'|t }}</label
-                                                    >
-                                                    <div class="form-control form-control-lg">
-                                                        {{ form_multiple.politicians }}
-                                                    </div>
-                                                </div>
+                                                {{ form_multiple.donation_aim }}
+                                                {{ form_multiple.politicians }}
 
                                                 {# Start of modal#}
                                                 <div
@@ -355,11 +500,9 @@
                                                                 <form action="">
                                                                     <div class="container py-2">
                                                                         <h6
-                                                                            class="text-uppercase m-0"
+                                                                            class="text-uppercase my-2"
                                                                         >
-                                                                            {{ 'Aim/Politician'|t }}: <b
-                                                                                class="text-success"
-                                                                                id="main-holder"></b>
+                                                                             <span id="main-holder"></span>
 
                                                                         </h6>
                                                                         <h6

@@ -1,0 +1,34 @@
+uuid: 62b4702e-737b-4944-9dc6-09f365c50985
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.donation_issues.field_image
+    - taxonomy.vocabulary.donation_issues
+  module:
+    - image
+    - text
+id: taxonomy_term.donation_issues.default
+targetEntityType: taxonomy_term
+bundle: donation_issues
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_image:
+    weight: 1
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

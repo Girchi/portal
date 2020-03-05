@@ -121,19 +121,24 @@ class SingleDonationForm extends FormBase {
       '#weight' => '0',
     ];
     $form['donation_aim'] = [
-      '#type' => 'select',
-      '#options' => $this->options,
+      '#type' => 'hidden',
       '#required' => FALSE,
       '#empty_value' => '',
-      '#empty_option' => $this->t('- Select aim -'),
-
+      '#attributes' => [
+        'class' => [
+          'tbc-single-hidden-aim',
+        ],
+      ],
     ];
     $form['politicians'] = [
-      '#type' => 'select',
-      '#options' => $this->politicians,
+      '#type' => 'hidden',
       '#required' => FALSE,
       '#empty_value' => '',
-      '#empty_option' => $this->t('- Select politician -'),
+      '#attributes' => [
+        'class' => [
+          'tbc-single-hidden-politician',
+        ],
+      ],
     ];
     $form['currency'] = [
       '#title' => 'currency',
@@ -171,6 +176,17 @@ class SingleDonationForm extends FormBase {
     if (empty($donation_aim) && empty($politician)) {
       $this->messenger->addError($this->t('Please choose Donation aim OR Donation to politician'));
       $form_state->setRebuild();
+    }
+    elseif (!empty($donation_aim) && !empty($politician)) {
+      $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
+    }
+    // Check if aim ID exists.
+    elseif (!empty($donation_aim) && !array_key_exists($donation_aim, $this->options)) {
+      $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
+    }
+    // Check if politician ID exists.
+    elseif (!empty($politician) && !array_key_exists($politician, $this->politicians)) {
+      $this->messenger->addError($this->t('An illegal choice has been detected. Please contact the site administrator.'));
     }
     else {
       // TYPE 1 - AIM

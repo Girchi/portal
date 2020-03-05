@@ -64,8 +64,8 @@ $("document").ready(function () {
             });
         },
         onApprove: function (data, actions) {
-            var aim = $("#edit-donation-aim--3 option:selected").val();
-            var politician = $("#edit-politicians--3 option:selected").val();
+            var aim = $(".paypal-hidden-aim").val();
+            var politician = $(".paypal-hidden-politician").val();
             var currency = $("#edit-currencies option:selected").val();
             return actions.order.capture().then(function (details) {
                 // Call server to save the transaction
@@ -78,7 +78,7 @@ $("document").ready(function () {
                         order_id: data.orderID,
                         currency: currency,
                         aim: aim,
-                        politician: politician
+                        politician: politician,
                     })
                 }).then(function() {
                     var orderId = data.orderID;
