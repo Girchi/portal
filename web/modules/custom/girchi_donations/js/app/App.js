@@ -1,33 +1,21 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
+import Filters from "./Filters/Filters";
+import ResultTable from "./ResultTable/ResultTable";
+import TableContext from "./TableContext";
 const App = () => {
-    const [startDate, setStartDate] = useState(new Date("2020/01/01"));
-    const [endDate, setEndDate] = useState(startDate);
+    const currentMonth = new Date().getMonth();
+    const tableHook = useState({
+        startMonth: currentMonth,
+        endMonth: currentMonth,
+        donations: []
+    });
     return (
-        <div>
-            <DatePicker
-                selected={startDate}
-                onChange={date => setStartDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                dateFormat="MMMM"
-                showMonthYearPicker
-            />
-            <DatePicker
-                selected={endDate}
-                onChange={date => setEndDate(date)}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                maxDate={new Date(startDate.getFullYear(), 11, 31)}
-                dateFormat="MMMM"
-                showMonthYearPicker
-            />
-        </div>
+        <TableContext.Provider value={tableHook}>
+            <div>
+                <Filters />
+                <ResultTable />
+            </div>
+        </TableContext.Provider>
     );
 };
 
