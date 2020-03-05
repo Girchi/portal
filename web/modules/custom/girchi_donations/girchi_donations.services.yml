@@ -19,3 +19,8 @@ services:
       - '@entity_type.manager'
       - '@girchi_donations.ged_calculator'
       - '@logger.factory'
+  girchi_donations.export_donation:
+    class: Drupal\girchi_donations\ExportDonationService
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
