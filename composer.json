@@ -300,6 +300,7 @@
     "nesbot/carbon": "^2.24",
     "nicolab/php-ftp-client": "^1.4",
     "paypal/paypal-checkout-sdk": "^1.0",
+    "phpoffice/phpspreadsheet": "^1.10",
     "symfony/dotenv": "^4.3",
     "wearede/tbcpay-php": "^0.9.3",
     "webflo/drupal-finder": "1.1.0",

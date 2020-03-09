@@ -85,6 +85,9 @@ function girchi_donations_theme() {
         'current_aim_id' => NULL,
       ],
     ],
+    'girchi_donations_export' => [
+      'render element' => 'children',
+    ],
   ];
 }
 

@@ -62,3 +62,27 @@ girchi_donations.edit_regular:
         type: entity:user
       regular:
         type: entity:regular_donation
+
+girchi_donations.export_controller_page:
+  path: '/donations/export/page'
+  defaults:
+    _controller: '\Drupal\girchi_donations\Controller\ExportController::exportPage'
+    _title: 'Export page'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+  options:
+    _admin_route: 'TRUE'
+    no_cache: 'TRUE'
+
+girchi_donations.export_controller_data:
+  path: '/donations/export/resource'
+  defaults:
+    _controller: '\Drupal\girchi_donations\Controller\ExportController::getResource'
+    _title: 'Donation export'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
+  options:
+    _admin_route: 'TRUE'
+    no_cache: 'TRUE'
