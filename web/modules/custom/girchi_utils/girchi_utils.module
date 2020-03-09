@@ -664,3 +664,15 @@ function girchi_utils_user_presave(User $account)
   //    }
   //  }.
 }
+
+function girchi_utils_preprocess_page(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if(\Drupal::currentUser()->id() == 0 && $route_name == "entity.user.canonical") {
+    /** @var User $user */
+    $user = \Drupal::routeMatch()->getParameter('user');
+    if($user instanceof User) {
+      $cache_tag = $user->getCacheTags();
+      $variables['#cache']['tags'][] = $cache_tag[0];
+    }
+  }
+}
