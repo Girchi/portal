@@ -93,18 +93,19 @@ class AuthenticationSubscriber implements EventSubscriberInterface {
    *   Event.
    */
   public function onResponse(FilterResponseEvent $event) {
+    $host = $this->request->getCurrentRequest()->getHost();
     if (!empty($this->request->getCurrentRequest()->getSession()->get('g-u-at'))) {
       $jwt = $this->request->getCurrentRequest()->getSession()->get('g-u-at');
       $refresh_token = $this->request->getCurrentRequest()->getSession()->get('g-u-rt');
-      $jwt_cookie = new Cookie('g-u-at', $jwt, time() + 18000);
-      $refresh_token_cookie = new Cookie('g-u-rt', $refresh_token, time() + 18000);
+      $jwt_cookie = new Cookie('g-u-at', $jwt, time() + 18000, '', $host, FALSE, FALSE);
+      $refresh_token_cookie = new Cookie('g-u-rt', $refresh_token, time() + 18000, '', $host, FALSE, FALSE);
       $event->getResponse()->headers->setCookie($jwt_cookie);
       $event->getResponse()->headers->setCookie($refresh_token_cookie);
     }
 
     if ($this->accountProxy->isAnonymous() && !empty($this->request->getCurrentRequest()->getSession()->get('g-u-at'))) {
-      $event->getResponse()->headers->clearCookie('g-u-at');
-      $event->getResponse()->headers->clearCookie('g-u-rt');
+      $event->getResponse()->headers->clearCookie('g-u-at', '', $host);
+      $event->getResponse()->headers->clearCookie('g-u-rt', '', $host);
     }
 
   }
