@@ -2,7 +2,15 @@ services:
   girchi_users.event_subscriber:
     class: Drupal\girchi_users\EventSubscriber\SocialAuthSubscriber
     tags:
-      - { name: 'event_subscriber' }  
+      - { name: 'event_subscriber' }
+  girchi_users.on_login:
+    class: Drupal\girchi_users\EventSubscriber\AuthenticationSubscriber
+    tags:
+      - { name: 'event_subscriber' }
+    arguments: ['@logger.factory', '@request_stack', '@current_user', '@girchi_users.generate_jwt']
   girchi_users.ged_helper:
     class: Drupal\girchi_users\GEDHelperService
     arguments: []
+  girchi_users.generate_jwt:
+    class: Drupal\girchi_users\GenerateJWT
+    arguments: ['@logger.factory', '@request_stack', '@current_user', '@entity_type.manager']
