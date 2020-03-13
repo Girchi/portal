@@ -8,7 +8,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\girchi_users\GenerateJWT;
+use Drupal\girchi_users\GenerateJwtService;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -61,7 +61,7 @@ class UserController extends ControllerBase {
   /**
    * Generate jwt.
    *
-   * @var \Drupal\girchi_users\GenerateJWT
+   * @var \Drupal\girchi_users\GenerateJwtService
    */
   protected $generateJWT;
 
@@ -76,14 +76,14 @@ class UserController extends ControllerBase {
    *   LoggerFactory.
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   ConfigFactory.
-   * @param \Drupal\girchi_users\GenerateJWT $generateJWT
-   *   GenerateJWT.
+   * @param \Drupal\girchi_users\GenerateJwtService $generateJWT
+   *   GenerateJwtService.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
-  SocialAuthDataHandler $socialAuthDataHandler,
-                                LoggerChannelFactoryInterface $loggerFactory,
-  ConfigFactory $configFactory,
-                                GenerateJWT $generateJWT) {
+                              SocialAuthDataHandler $socialAuthDataHandler,
+                              LoggerChannelFactoryInterface $loggerFactory,
+                              ConfigFactory $configFactory,
+                              GenerateJwtService $generateJWT) {
 
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;

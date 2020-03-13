@@ -5,7 +5,7 @@ namespace Drupal\girchi_users\EventSubscriber;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Session\AccountProxy;
 use Drupal\girchi_users\Event\UserLoginEvent;
-use Drupal\girchi_users\GenerateJWT;
+use Drupal\girchi_users\GenerateJwtService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,7 +40,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface {
   /**
    * Generate jwt.
    *
-   * @var \Drupal\girchi_users\GenerateJWT
+   * @var \Drupal\girchi_users\GenerateJwtService
    */
   protected $generateJWT;
 
@@ -53,10 +53,10 @@ class AuthenticationSubscriber implements EventSubscriberInterface {
    *   Request.
    * @param \Drupal\Core\Session\AccountProxy $accountProxy
    *   Account proxy.
-   * @param \Drupal\girchi_users\GenerateJWT $generateJWT
+   * @param \Drupal\girchi_users\GenerateJwtService $generateJWT
    *   Generate jwt token.
    */
-  public function __construct(LoggerChannelFactory $loggerFactory, RequestStack $requestStack, AccountProxy $accountProxy, GenerateJWT $generateJWT) {
+  public function __construct(LoggerChannelFactory $loggerFactory, RequestStack $requestStack, AccountProxy $accountProxy, GenerateJwtService $generateJWT) {
     $this->generateJWT = $generateJWT;
     $this->loggerFactory = $loggerFactory->get('girchi_users');
     $this->request = $requestStack;

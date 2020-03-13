@@ -12,5 +12,5 @@ services:
     class: Drupal\girchi_users\GEDHelperService
     arguments: []
   girchi_users.generate_jwt:
-    class: Drupal\girchi_users\GenerateJWT
+    class: Drupal\girchi_users\GenerateJwtService
     arguments: ['@logger.factory', '@request_stack', '@current_user', '@entity_type.manager']

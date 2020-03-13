@@ -10,9 +10,9 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class GenerateJWT.
+ * Class GenerateJwtService.
  */
-class GenerateJWT {
+class GenerateJwtService {
   /**
    * Logger Factory.
    *
