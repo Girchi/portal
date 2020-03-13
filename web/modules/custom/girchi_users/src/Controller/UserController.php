@@ -8,6 +8,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\girchi_users\GenerateJWT;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -58,6 +59,13 @@ class UserController extends ControllerBase {
   protected $user;
 
   /**
+   * Generate jwt.
+   *
+   * @var \Drupal\girchi_users\GenerateJWT
+   */
+  protected $generateJWT;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -68,16 +76,20 @@ class UserController extends ControllerBase {
    *   LoggerFactory.
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   ConfigFactory.
+   * @param \Drupal\girchi_users\GenerateJWT $generateJWT
+   *   GenerateJWT.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
   SocialAuthDataHandler $socialAuthDataHandler,
                                 LoggerChannelFactoryInterface $loggerFactory,
-  ConfigFactory $configFactory) {
+  ConfigFactory $configFactory,
+                                GenerateJWT $generateJWT) {
 
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;
     $this->loggerFactory = $loggerFactory;
     $this->configFactory = $configFactory;
+    $this->generateJWT = $generateJWT;
 
     try {
       $userStorage = $this->entityTypeManager->getStorage('user');
@@ -102,7 +114,8 @@ class UserController extends ControllerBase {
       $container->get('entity_type.manager'),
       $container->get('social_auth.data_handler'),
       $container->get('logger.factory'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('girchi_users.generate_jwt')
     );
   }
 
@@ -244,6 +257,26 @@ class UserController extends ControllerBase {
     }
 
     return new JsonResponse("success");
+  }
+
+  /**
+   * Generate jwt refresh token.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   Request.
+   *
+   * @return \Zend\Diactoros\Response\JsonResponse
+   *   Json.
+   */
+  public function jwtRefreshToken(Request $request) {
+    $current_refresh_token = $request->cookies->get('g-u-rt');
+    $user_refresh_token = $this->user->get('field_refresh_token')->value;
+
+    if ($current_refresh_token == $user_refresh_token) {
+      $this->generateJWT->generateJwt();
+    }
+    return new JsonResponse("success");
+
   }
 
 }
