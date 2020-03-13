@@ -295,6 +295,7 @@
     "drush/drush": "~9.5",
     "enyo/dropzone": "4.2.0",
     "eyecon/colorpicker": "^1.0",
+    "firebase/php-jwt": "^5.1",
     "google/apiclient": "^2.0",
     "harvesthq/chosen": "1.8.7",
     "nesbot/carbon": "^2.24",
