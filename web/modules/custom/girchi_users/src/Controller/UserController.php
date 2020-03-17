@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Zend\Diactoros\Response\JsonResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class UserController.
@@ -167,7 +167,7 @@ class UserController extends ControllerBase {
    *
    *   Request.
    *
-   * @return \Zend\Diactoros\Response\JsonResponse
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
    *
    *   JsonResponse
    */
@@ -212,7 +212,7 @@ class UserController extends ControllerBase {
    * @param int $nid
    *   Node id.
    *
-   * @return \Zend\Diactoros\Response\JsonResponse
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Json.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
@@ -240,7 +240,7 @@ class UserController extends ControllerBase {
    * @param int $nid
    *   Node id.
    *
-   * @return \Zend\Diactoros\Response\JsonResponse
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Json.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
@@ -265,7 +265,7 @@ class UserController extends ControllerBase {
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   Request.
    *
-   * @return \Zend\Diactoros\Response\JsonResponse
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
    *   Json.
    */
   public function jwtRefreshToken(Request $request) {
@@ -275,7 +275,7 @@ class UserController extends ControllerBase {
     if ($current_refresh_token == $user_refresh_token) {
       $this->generateJWT->generateJwt();
     }
-    return new JsonResponse("success");
+    return new JsonResponse('success');
 
   }
 
