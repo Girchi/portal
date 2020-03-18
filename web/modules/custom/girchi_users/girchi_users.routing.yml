@@ -32,3 +32,12 @@ girchi_users.user_controller_removeFavoriteNews:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
+girchi_users.user_controller_jwtRefreshToken:
+  path: '/api/jwt/token_refresh'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::jwtRefreshToken'
+    _title: 'Generate jwt refresh token'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

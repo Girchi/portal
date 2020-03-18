@@ -8,6 +8,8 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
+use Drupal\girchi_users\Event\UserLoginEvent;
+use Drupal\user\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -149,5 +151,14 @@ function girchi_users_pass_reset_custom_submit(array $form, FormStateInterface $
   $url .= '?pass-reset=success';
   $response = new RedirectResponse($url);
   $response->send();
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function girchi_users_user_login(UserInterface $account) {
+  $event = new UserLoginEvent($account);
+  $event_dispatcher = \Drupal::service('event_dispatcher');
+  $event_dispatcher->dispatch(UserLoginEvent::USER_LOGIN, $event);
 
 }

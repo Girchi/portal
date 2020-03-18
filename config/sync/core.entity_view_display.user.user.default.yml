@@ -27,6 +27,7 @@ dependencies:
     - field.field.user.user.field_referral_benefits
     - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
+    - field.field.user.user.field_refresh_token
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
@@ -217,6 +218,7 @@ hidden:
   field_profile_video: true
   field_public_email: true
   field_referral_date: true
+  field_refresh_token: true
   field_social_auth_password: true
   field_twitter_url: true
   langcode: true
