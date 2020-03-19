@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_notifications.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_notifications_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_notifications module.
+    case 'help.page.girchi_notifications':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for notifications') . '</p>';
+      return $output;
+
+    default:
+  }
+}
