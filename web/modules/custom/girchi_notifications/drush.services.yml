@@ -1,0 +1,7 @@
+services:
+  girchi_notifications.commands:
+    class: Drupal\girchi_notifications\Commands\GirchiNotificationsCommands
+    tags:
+      - { name: drush.command }
+    arguments:
+      ['@entity_type.manager', '@config.factory', '@logger.factory']
