@@ -70,12 +70,12 @@ class NotifyDonationService {
    *   Invoker is person who caused notification.
    * @param int $amount
    *   Amount.
-   * @param int $user
-   *   User.
-   * @param int $donation_aim
+   * @param int $user_id
+   *   User id.
+   * @param string $donation_aim
    *   Donation aim.
    */
-  public function notifyDonation($type, array $invoker, $amount, $user, $donation_aim) {
+  public function notifyDonation($type, array $invoker, $amount, $user_id, $donation_aim) {
     try {
       if ($type == 1) {
         $taxonomy_storage = $this->entityTypeManager->getStorage('taxonomy_term')->load($donation_aim);
@@ -87,7 +87,7 @@ class NotifyDonationService {
       }
       else {
         $text = $this->stringTranslation->translate("${invoker['full_name']} donated you ${amount} GEL");
-        $this->notifyUserService->notifyUser($user, $invoker, 'donation', $text);
+        $this->notifyUserService->notifyUser($user_id, $invoker, 'donation', $text);
       }
 
     }
