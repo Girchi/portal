@@ -11,7 +11,7 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drush\Commands\DrushCommands;
 
 /**
- *
+ * Class GirchiNotificationsCommands.
  */
 class GirchiNotificationsCommands extends DrushCommands {
   /**
@@ -59,7 +59,7 @@ class GirchiNotificationsCommands extends DrushCommands {
    * @command girchi_donations:default-aim
    * @aliases default-aim
    */
-  public function default_aim_user() {
+  public function defaultAimUser() {
     try {
       $user = $this->configFactory->get('om_site_settings.site_settings')->get('default_receiver');
       $taxonomy_storage = $this->entityTypeManager->getStorage('taxonomy_term');
@@ -79,7 +79,8 @@ class GirchiNotificationsCommands extends DrushCommands {
     catch (PluginNotFoundException $e) {
       $this->loggerFactory->error($e->getMessage());
 
-    } catch (EntityStorageException $e) {
+    }
+    catch (EntityStorageException $e) {
       $this->loggerFactory->error($e->getMessage());
 
     }

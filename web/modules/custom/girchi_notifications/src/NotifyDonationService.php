@@ -79,9 +79,10 @@ class NotifyDonationService {
     try {
       if ($type == 1) {
         $taxonomy_storage = $this->entityTypeManager->getStorage('taxonomy_term')->load($donation_aim);
+        $aim_name = $taxonomy_storage->get('name')->value;
         foreach ($taxonomy_storage->get('field_user') as $assigned_user) {
-          $text = $this->stringTranslation->translate("${invoker['full_name']} donated ${amount} GEL to ${$donation_aim}");
-          $this->notifyUserService->notifyUser($assigned_user, $invoker, 'donation', $text);
+          $text = "${invoker['full_name']} donated ${amount} GEL to ${aim_name}";
+          $this->notifyUserService->notifyUser($assigned_user->target_id, $invoker, 'donation', $text);
         }
       }
       else {
