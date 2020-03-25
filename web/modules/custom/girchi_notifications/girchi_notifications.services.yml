@@ -8,4 +8,4 @@ services:
   girchi_notifications.get_assigned_aim_user:
     class: Drupal\girchi_notifications\NotifyDonationService
     arguments: ['@entity_type.manager', '@logger.factory',
-                '@girchi_notifications.notify_user', '@string_translation']
+                '@girchi_notifications.notify_user']

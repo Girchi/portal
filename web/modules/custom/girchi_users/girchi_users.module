@@ -199,7 +199,7 @@ function girchi_users_user_presave(EntityInterface $user) {
 
       // Inform user that someone removed them from referrals.
       if (!empty($original_referral_id)) {
-        $text = "${getUserInfo['full_name']} ამოგშალათ რეფერალებიდან.";
+        $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
         $text_en = "${getUserInfo['full_name']} removed you from referral.";
         $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
       }
