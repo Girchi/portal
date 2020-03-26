@@ -19,7 +19,6 @@ use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
-use Drupal\girchi_notifications\GetUserInfoService;
 use Drupal\girchi_notifications\NotifyDonationService;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -114,13 +113,6 @@ class DonationsController extends ControllerBase {
   protected $entityFormBuilder;
 
   /**
-   * GetUserInfoService.
-   *
-   * @var \Drupal\girchi_notifications\GetUserInfoService
-   */
-  protected $getUserInfoService;
-
-  /**
    * NotifyDonationService.
    *
    * @var \Drupal\girchi_notifications\NotifyDonationService
@@ -152,8 +144,6 @@ class DonationsController extends ControllerBase {
    *   EventDispatcher.
    * @param \Drupal\Core\Entity\EntityFormBuilder $entityFormBuilder
    *   Entity form builder.
-   * @param \Drupal\girchi_notifications\GetUserInfoService $getUserInfoService
-   *   GetUserInfoService.
    * @param \Drupal\girchi_notifications\NotifyDonationService $notifyDonationService
    *   NotifyDonationService.
    */
@@ -168,7 +158,6 @@ class DonationsController extends ControllerBase {
                               AccountProxy $accountProxy,
                               EventDispatcherInterface $dispatcher,
                               EntityFormBuilder $entityFormBuilder,
-                              GetUserInfoService $getUserInfoService,
                               NotifyDonationService $notifyDonationService
   ) {
     $this->configFactory = $configFactory;
@@ -182,7 +171,6 @@ class DonationsController extends ControllerBase {
     $this->accountProxy = $accountProxy;
     $this->dispatcher = $dispatcher;
     $this->entityFormBuilder = $entityFormBuilder;
-    $this->getUserInfoService = $getUserInfoService;
     $this->notifyDonationService = $notifyDonationService;
   }
 
@@ -202,7 +190,6 @@ class DonationsController extends ControllerBase {
       $container->get('current_user'),
       $container->get('event_dispatcher'),
       $container->get('entity.form_builder'),
-      $container->get('girchi_notifications.get_user_info'),
       $container->get('girchi_notifications.get_assigned_aim_user')
     );
   }
@@ -317,12 +304,7 @@ class DonationsController extends ControllerBase {
             $donation->save();
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
-            $aim = $donationEvent->getDonation()->getAim();
-            $type = !empty($aim) ? 1 : 2;
-            $donation_aim = !empty($aim) ? $aim->id() : '';
-            // $invoker is person who caused notification.
-            $invoker = $this->getUserInfoService->getUserInfo($user->id());
-            $this->notifyDonationService->notifyDonation($type, $invoker, $ged_amount, $user->id(), $donation_aim);
+            $this->notifyDonationService->notifyDonation($donation);
             $this->getLogger('girchi_donations')
               ->info("Ged transaction was made.");
             $this->getLogger('girchi_donations')

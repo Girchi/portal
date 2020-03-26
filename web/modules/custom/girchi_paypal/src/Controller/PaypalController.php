@@ -11,6 +11,7 @@ use Drupal\Core\Session\AccountProxy;
 use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\CreateGedTransaction;
+use Drupal\girchi_notifications\NotifyDonationService;
 use Drupal\girchi_paypal\Utils\PayPalClient;
 use Drupal\girchi_paypal\Utils\PaypalUtils;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
@@ -76,6 +77,13 @@ class PaypalController extends ControllerBase {
   private $payPalClient;
 
   /**
+   * NotifyDonationService.
+   *
+   * @var \Drupal\girchi_notifications\NotifyDonationService
+   */
+  protected $notifyDonationService;
+
+  /**
    * PaypalController constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
@@ -94,6 +102,8 @@ class PaypalController extends ControllerBase {
    *   PaypalUtils.
    * @param \Drupal\girchi_paypal\Utils\PayPalClient $payPalClient
    *   PaypalClient.
+   * @param \Drupal\girchi_notifications\NotifyDonationService $notifyDonationService
+   *   NotifyDonationService.
    */
   public function __construct(EntityTypeManager $entityTypeManager,
                               LoggerChannelFactory $loggerChannelFactory,
@@ -102,7 +112,8 @@ class PaypalController extends ControllerBase {
                               EventDispatcherInterface $dispatcher,
                               KeyValueFactory $keyValue,
                               PaypalUtils $paypalUtils,
-                              PayPalClient $payPalClient
+                              PayPalClient $payPalClient,
+                              NotifyDonationService $notifyDonationService
   ) {
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerChannelFactory = $loggerChannelFactory->get('girchi_paypal');
@@ -112,6 +123,7 @@ class PaypalController extends ControllerBase {
     $this->keyValue = $keyValue->get('girchi_donations');
     $this->paypalUtils = $paypalUtils;
     $this->payPalClient = $payPalClient;
+    $this->notifyDonationService = $notifyDonationService;
   }
 
   /**
@@ -126,7 +138,8 @@ class PaypalController extends ControllerBase {
       $container->get('event_dispatcher'),
       $container->get('keyvalue'),
       $container->get('girchi_paypal.paypal_utils'),
-      $container->get('girchi_paypal.paypal_client')
+      $container->get('girchi_paypal.paypal_client'),
+      $container->get('girchi_notifications.get_assigned_aim_user')
     );
   }
 
@@ -208,6 +221,7 @@ class PaypalController extends ControllerBase {
             /** @var \Drupal\girchi_donations\Entity\Donation $donation */
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
+            $this->notifyDonationService->notifyDonation($donation);
           }
           $this->loggerChannelFactory->info('Donation from paypal was created with status: ' . $donation->getStatus());
         }

@@ -13,7 +13,6 @@ use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
-use Drupal\girchi_notifications\GetUserInfoService;
 use Drupal\girchi_notifications\NotifyDonationService;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -74,13 +73,6 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
   private $dispatcher;
 
   /**
-   * GetUserInfoService.
-   *
-   * @var \Drupal\girchi_notifications\GetUserInfoService
-   */
-  protected $getUserInfoService;
-
-  /**
    * NotifyDonationService.
    *
    * @var \Drupal\girchi_notifications\NotifyDonationService
@@ -99,7 +91,6 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
                               DonationUtils $donationUtils,
                               GedCalculator $gedCalculator,
                               EventDispatcherInterface $dispatcher,
-                              GetUserInfoService $getUserInfoService,
                               NotifyDonationService $notifyDonationService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entityTypeManager;
@@ -108,7 +99,6 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
     $this->donationUtils = $donationUtils;
     $this->gedCalculator = $gedCalculator;
     $this->dispatcher = $dispatcher;
-    $this->getUserInfoService = $getUserInfoService;
     $this->notifyDonationService = $notifyDonationService;
   }
 
@@ -126,7 +116,6 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
       $container->get('girchi_donations.donation_utils'),
       $container->get('girchi_donations.ged_calculator'),
       $container->get('event_dispatcher'),
-      $container->get('girchi_notifications.get_user_info'),
       $container->get('girchi_notifications.get_assigned_aim_user')
     );
   }
@@ -211,12 +200,7 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
           if ($status != 'FAILED') {
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
-            $aim = $donationEvent->getDonation()->getAim();
-            $type = !empty($aim) ? 1 : 2;
-            $donation_aim = !empty($aim) ? $aim->id() : '';
-            // $invoker is person who caused notification.
-            $invoker = $this->getUserInfoService->getUserInfo($data->getOwnerId());
-            $this->notifyDonationService->notifyDonation($type, $invoker, $data->get('amount')->value, $data->getOwnerId(), $donation_aim);
+            $this->notifyDonationService->notifyDonation($donation);
           }
 
           $this->loggerChannelFactory->get('girchi_donations')->info(

@@ -9,7 +9,6 @@ use Drupal\girchi_donations\Event\DonationEvents;
 use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\CreateGedTransaction;
 use Drupal\girchi_donations\Utils\DonationUtils;
-use Drupal\girchi_notifications\GetUserInfoService;
 use Drupal\girchi_notifications\NotifyDonationService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -69,14 +68,6 @@ class LeaderboardForm extends FormBase {
   protected $dispatcher;
 
   /**
-   * GetUserInfoService.
-   *
-   * @var \Drupal\girchi_notifications\GetUserInfoService
-   */
-  protected $getUserInfoService;
-
-
-  /**
    * NotifyDonationService.
    *
    * @var \Drupal\girchi_notifications\NotifyDonationService
@@ -94,8 +85,6 @@ class LeaderboardForm extends FormBase {
    *   CreateGedTransaction.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
    *   Dispatcher.
-   * @param \Drupal\girchi_notifications\GetUserInfoService $getUserInfoService
-   *   Get user info.
    * @param \Drupal\girchi_notifications\NotifyDonationService $notifyDonationService
    *   NotifyDonationService.
    */
@@ -103,7 +92,6 @@ class LeaderboardForm extends FormBase {
                               MessengerInterface $messenger,
                               CreateGedTransaction $createGedTransaction,
                               EventDispatcherInterface $dispatcher,
-                              GetUserInfoService $getUserInfoService,
                               NotifyDonationService $notifyDonationService) {
 
     $this->donationUtils = $donationUtils;
@@ -113,7 +101,6 @@ class LeaderboardForm extends FormBase {
     $this->currency = $donationUtils->gedCalculator->getCurrency();
     $this->createGedTransaction = $createGedTransaction;
     $this->dispatcher = $dispatcher;
-    $this->getUserInfoService = $getUserInfoService;
     $this->notifyDonationService = $notifyDonationService;
 
   }
@@ -127,7 +114,6 @@ class LeaderboardForm extends FormBase {
       $container->get('messenger'),
       $container->get('girchi_donations.create_ged_transaction'),
       $container->get('event_dispatcher'),
-      $container->get('girchi_notifications.get_user_info'),
       $container->get('girchi_notifications.get_assigned_aim_user')
     );
   }
@@ -237,9 +223,7 @@ class LeaderboardForm extends FormBase {
           $this->getLogger('girchi_leaderboard')->info('Saved to donations with Status: OK');
           $event = new DonationEvents($valid);
           $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $event);
-          // $invoker is person who caused notification.
-          $invoker = $this->getUserInfoService->getUserInfo($user);
-          $this->notifyDonationService->notifyDonation($type, $invoker, $amount, $user, $donation_aim);
+          $this->notifyDonationService->notifyDonation($valid);
         }
       }
       else {
