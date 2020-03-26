@@ -4,6 +4,9 @@ namespace Drupal\girchi_notifications;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\girchi_notifications\Constants\NotificationConstants;
+use GuzzleHttp\Client;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -26,16 +29,26 @@ class NotifyUserService {
   protected $request;
 
   /**
+   * HttpClient.
+   *
+   * @var \GuzzleHttp\Client
+   */
+  protected $httpClient;
+
+  /**
    * Constructs a new SummaryGedCalculationService object.
    *
    * @param \Drupal\Core\Logger\LoggerChannelFactory $loggerFactory
    *   Logger messages.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request
    *   Request.
+   * @param \GuzzleHttp\Client $httpClient
+   *   HttpClient.
    */
-  public function __construct(LoggerChannelFactory $loggerFactory, RequestStack $request) {
+  public function __construct(LoggerChannelFactory $loggerFactory, RequestStack $request, Client $httpClient) {
     $this->loggerFactory = $loggerFactory->get('girchi_notifications');
     $this->request = $request;
+    $this->httpClient = $httpClient;
   }
 
   /**
@@ -47,40 +60,51 @@ class NotifyUserService {
    *   Invoker is person who caused notification.
    * @param string $type
    *   Type.
+   * @param string $type_en
+   *   Type.
    * @param string $text
    *   Text.
+   * @param string $text_en
+   *   Text.
+   *
+   * @return bool|void
+   *   Response.
    */
-  public function notifyUser($user_id, array $invoker, $type, $text) {
+  public function notifyUser($user_id, array $invoker, $type, $type_en, $text, $text_en) {
     $host = $this->request->getCurrentRequest()->getHost();
     $link = '';
 
-    if ($type == 'donation') {
+    if ($type_en == NotificationConstants::DONATION_EN) {
       $link = $host . '/user/' . $invoker['uid'];
     }
-    elseif ($type == 'referral') {
+    elseif ($type_en == NotificationConstants::REFERRAL_EN) {
       $link = $host . '/user/' . $user_id . '?show_referral_modal=true';
     }
-    elseif ($type == 'party_list') {
+    elseif ($type_en == NotificationConstants::PARTY_LIST_EN) {
       $link = $host . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
     }
 
     $notification = [
-      'text' => $text,
+      'title' => $type,
+      'title_en' => $type_en,
+      'desc' => $text,
+      'desc_en' => $text_en,
+      'type' => $type_en,
       'user' => $user_id,
       'link' => $link,
       'photoUrl' => $invoker['image'],
-      'type' => $type,
     ];
     $encoded_notification = json::encode($notification);
-
     $options = [
       'method' => 'POST',
-      'data' => $encoded_notification,
+      'body' => $encoded_notification,
       'headers' => ['Content-Type' => 'application/json'],
     ];
 
-    // TODO::Dependency injection!!
-    $result = \Drupal::httpClient()->post('notifications.girchi.docker.localhost/notifications/', $options);
+    $dotEnv = new Dotenv();
+    $dotEnv->load('modules/custom/girchi_notifications/Credentials/.cred.env');
+    $host = $_ENV['HOST'];
+    $result = $this->httpClient->post($host, $options);
 
     if ($result->getStatusCode() == 200) {
       return TRUE;

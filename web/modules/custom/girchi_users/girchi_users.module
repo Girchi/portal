@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
+use Drupal\girchi_notifications\Constants\NotificationConstants;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -193,8 +194,8 @@ function girchi_users_user_presave(EntityInterface $user) {
       // Notify user that someone chose them as their referral.
       $text = "${getUserInfo['full_name']}-მ მოგნიშნათ თავის რეფერალად.";
       $text_en = "${getUserInfo['full_name']} tagged you as referral";
-      $type = 'რეფერალი';
-      $type_en = 'referral';
+      $type = NotificationConstants::REFERRAL;
+      $type_en = NotificationConstants::REFERRAL_EN;
       $notifyUserService->notifyUser($referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
 
       // Inform user that someone removed them from referrals.
