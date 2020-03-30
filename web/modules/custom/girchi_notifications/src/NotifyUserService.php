@@ -71,46 +71,54 @@ class NotifyUserService {
    *   Response.
    */
   public function notifyUser($user_id, array $invoker, $type, $type_en, $text, $text_en) {
-    $host = $this->request->getCurrentRequest()->getHost();
-    $link = '';
+    try {
+      $host = $this->request->getCurrentRequest()->getHost();
+      $link = '';
 
-    if ($type_en == NotificationConstants::DONATION_EN) {
-      $link = $host . '/user/' . $invoker['uid'];
-    }
-    elseif ($type_en == NotificationConstants::REFERRAL_EN) {
-      $link = $host . '/user/' . $user_id . '?show_referral_modal=true';
-    }
-    elseif ($type_en == NotificationConstants::PARTY_LIST_EN) {
-      $link = $host . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
-    }
+      if ($type_en == NotificationConstants::DONATION_EN) {
+        $link = $host . '/user/' . $invoker['uid'];
+      }
+      elseif ($type_en == NotificationConstants::REFERRAL_EN) {
+        $link = $host . '/user/' . $user_id . '?show_referral_modal=true';
+      }
+      elseif ($type_en == NotificationConstants::PARTY_LIST_EN) {
+        $link = $host . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
+      }
 
-    $notification = [
-      'title' => $type,
-      'title_en' => $type_en,
-      'desc' => $text,
-      'desc_en' => $text_en,
-      'type' => $type_en,
-      'user' => $user_id,
-      'link' => $link,
-      'photoUrl' => $invoker['image'],
-    ];
-    $encoded_notification = json::encode($notification);
-    $options = [
-      'method' => 'POST',
-      'body' => $encoded_notification,
-      'headers' => ['Content-Type' => 'application/json'],
-    ];
+      $notification = [
+        'title' => $type,
+        'title_en' => $type_en,
+        'desc' => $text,
+        'desc_en' => $text_en,
+        'type' => $type_en,
+        'user' => $user_id,
+        'link' => $link,
+        'photoUrl' => $invoker['image'],
+      ];
+      $encoded_notification = json::encode($notification);
+      $options = [
+        'method' => 'POST',
+        'body' => $encoded_notification,
+        'headers' => ['Content-Type' => 'application/json'],
+      ];
 
-    $dotEnv = new Dotenv();
-    $dotEnv->load('modules/custom/girchi_notifications/Credentials/.cred.env');
-    $host = $_ENV['HOST'];
-    $result = $this->httpClient->post($host, $options);
+      $dotEnv = new Dotenv();
+      $dotEnv->load('modules/custom/girchi_notifications/Credentials/.cred.env');
+      $host = $_ENV['HOST'];
+      $result = $this->httpClient->post($host, $options);
 
-    if ($result->getStatusCode() == 200) {
-      return TRUE;
+      if ($result->getStatusCode() == 200) {
+        return TRUE;
+      }
+      else {
+        $this->loggerFactory->error($result->getStatusCode());
+      }
+      return FALSE;
+
     }
-    else {
-      return $this->loggerFactory->error($result->getStatusCode());
+    catch (\Exception $e) {
+      $this->loggerFactory->error($e->getMessage());
+
     }
 
   }
