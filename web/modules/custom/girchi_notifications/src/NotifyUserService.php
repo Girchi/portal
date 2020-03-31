@@ -107,11 +107,8 @@ class NotifyUserService {
       $host = $_ENV['HOST'];
       $result = $this->httpClient->post($host, $options);
 
-      if ($result->getStatusCode() == 200) {
+      if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
         return TRUE;
-      }
-      else {
-        $this->loggerFactory->error($result->getStatusCode());
       }
       return FALSE;
 

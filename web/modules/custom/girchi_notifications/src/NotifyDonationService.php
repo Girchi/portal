@@ -80,17 +80,19 @@ class NotifyDonationService {
       if ($type == 1) {
         $donation_aim = $donation->getAim()->id();
         $taxonomy_storage = $this->entityTypeManager->getStorage('taxonomy_term')->load($donation_aim);
-        $aim_name = $taxonomy_storage->get('name')->value;
-        foreach ($taxonomy_storage->get('field_user') as $assigned_user) {
-          if ($user_id == 0) {
-            $text = "ანონიმურმა მომხმარებელმა დააფინანსა ${aim_name} ${amount} ლარით.";
-            $text_en = "Anonymous user has donated ${amount} GEL to ${aim_name}.";
+        if (!empty($taxonomy_storage)) {
+          $aim_name = $taxonomy_storage->get('name')->value;
+          foreach ($taxonomy_storage->get('field_user') as $assigned_user) {
+            if ($user_id == 0) {
+              $text = "ანონიმურმა მომხმარებელმა დააფინანსა ${aim_name} ${amount} ლარით.";
+              $text_en = "Anonymous user has donated ${amount} GEL to ${aim_name}.";
+            }
+            else {
+              $text = "${invoker['full_name']}-მ დააფინანსა ${aim_name} ${amount} ლარით.";
+              $text_en = "${invoker['full_name']} donated ${amount} GEL to ${aim_name}.";
+            }
+            $this->notifyUserService->notifyUser($assigned_user->target_id, $invoker, $notification_type, $notification_type_en, $text, $text_en);
           }
-          else {
-            $text = "${invoker['full_name']}-მ დააფინანსა ${aim_name} ${amount} ლარით.";
-            $text_en = "${invoker['full_name']} donated ${amount} GEL to ${aim_name}.";
-          }
-          $this->notifyUserService->notifyUser($assigned_user->target_id, $invoker, $notification_type, $notification_type_en, $text, $text_en);
         }
       }
       else {

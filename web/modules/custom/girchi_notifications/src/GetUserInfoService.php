@@ -25,7 +25,7 @@ class GetUserInfoService {
   protected $loggerFactory;
 
   /**
-   * Constructs a new SummaryGedCalculationService object.
+   * Constructs a new GetUserInfoService object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Entity type manager.
@@ -46,25 +46,24 @@ class GetUserInfoService {
   public function getUserInfo($uid) {
     try {
       $user = $this->entityTypeManager->getStorage('user')->load($uid);
-      $user_name = $user->get('field_first_name')->value;
-      $user_surname = $user->get('field_last_name')->value;
-      $full_name = $user_name ? $user_name . ' ' . $user_surname : '';
-      if ($user->get('user_picture')->entity) {
-        $style = $user->get('user_picture')->entity->getFileUri();
-        $user_picture = file_create_url($style);
+      if (!empty($user)) {
+        $user_name = $user->get('field_first_name')->value;
+        $user_surname = $user->get('field_last_name')->value;
+        $full_name = $user_name ? $user_name . ' ' . $user_surname : '';
+        if ($user->get('user_picture')->entity) {
+          $style = $user->get('user_picture')->entity->getFileUri();
+          $user_picture = file_create_url($style);
+        }
+        else {
+          $user_picture = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
+        }
+
+        return [
+          'uid' => $user->id(),
+          'full_name' => $full_name,
+          'image' => $user_picture,
+        ];
       }
-      else {
-        $user_picture = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar.png');
-      }
-
-      $user_info = [
-        'uid' => $user->id(),
-        'full_name' => $full_name,
-        'image' => $user_picture,
-      ];
-
-      return $user_info;
-
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->error($e->getMessage());
