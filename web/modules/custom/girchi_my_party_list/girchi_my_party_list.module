@@ -8,7 +8,6 @@
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\girchi_notifications\Constants\NotificationConstants;
 
 /**
  * Implements hook_help().
@@ -101,89 +100,9 @@ function girchi_my_party_list_user_presave(EntityInterface $user) {
   }
 
   if (!$user->isNew()) {
-    $supporters = $user->get('field_my_party_list')->value ? $user->get('field_my_party_list') : NULL;
-    $user_id = $user->id();
-    /** @var \Drupal\girchi_notifications\GetUserInfoService $getUserInfoService */
-    $getUserInfoService = \Drupal::service('girchi_notifications.get_user_info');
-    /** @var \Drupal\girchi_notifications\NotifyUserService $notifyUserService */
-    $notifyUserService = \Drupal::service('girchi_notifications.notify_user');
-    $type = NotificationConstants::PARTY_LIST;
-    $type_en = NotificationConstants::PARTY_LIST_EN;
-    $getUserInfo = $getUserInfoService->getUserInfo($user_id);
-    if (!empty($supporters)) {
-      $supporter_id_array = [];
-      $original_supporter_id_array = [];
-      foreach ($supporters as $supporter) {
-        $supporter_id = $supporter->target_id;
-        $supporter_id_array[] = $supporter_id;
-        $ged_percentage = $supporter->value;
-        $user_ged_amount = $user->get('field_ged')->value ? $user->get('field_ged')->value : 0;
-        $supporter_ged_amount = round($user_ged_amount * $ged_percentage / 100);
-        $longFormattedGed = number_format($supporter_ged_amount, 0, ',', ' ');
-        // If party list wasn't empty:
-        if (!empty($user->original->get('field_my_party_list')->value)) {
-          $original_supporters = $user->original->get('field_my_party_list');
-          foreach ($original_supporters as $original_supporter) {
-            $original_user_id = $original_supporter->target_id;
-            $original_supporter_id_array[] = $original_user_id;
-            $original_value = $original_supporter->value;
-            // Notify supporter that user decreased amount of ged percentage.
-            if ($original_user_id == $supporter_id && $original_value > $ged_percentage) {
-              $text = "${getUserInfo['full_name']}-მ შეგიმცირათ პოლიტიკური ჯედები ${original_value}%-დან ${ged_percentage}%-მდე - ${longFormattedGed}G.";
-              $text_en = "${getUserInfo['full_name']} has decreased the amount of your political GED-s from ${original_value}% to ${ged_percentage}% - ${longFormattedGed}G.";
-              $notifyUserService->notifyUser($supporter_id, $getUserInfo, $type, $type_en, $text, $text_en);
-            }
-            // Notify supporter that user increased amount of ged percentage.
-            elseif ($original_user_id == $supporter_id && $original_value < $ged_percentage) {
-              $text = "${getUserInfo['full_name']}-მ გაგიზარდათ პოლიტიკური ჯედები ${original_value}%-დან ${ged_percentage}%-მდე - ${longFormattedGed}G.";
-              $text_en = "${getUserInfo['full_name']} has increased the amount of your political GED-s from ${original_value}% to ${ged_percentage}% - ${longFormattedGed}G.";
-              $notifyUserService->notifyUser($supporter_id, $getUserInfo, $type, $type_en, $text, $text_en);
-            }
-          }
-          // Notify if users party list wasn't empty
-          // and supporter was added in it.
-          if (!in_array($supporter_id, $original_supporter_id_array)) {
-            $text = "${getUserInfo['full_name']}-მ დაგამატათ პირად პარტიულ სიაში.";
-            $text_en = "${getUserInfo['full_name']} has added you to the private party list.";
-            $notifyUserService->notifyUser($supporter_id, $getUserInfo, $type, $type_en, $text, $text_en);
-          }
-
-        }
-        // Notify if current state of party list was empty
-        // and supporter was added in it.
-        else {
-          $text = "${getUserInfo['full_name']}-მ დაგამატათ პირად პარტიულ სიაში.";
-          $text_en = "${getUserInfo['full_name']} has added you to the private party list.";
-          $notifyUserService->notifyUser($supporter_id, $getUserInfo, $type, $type_en, $text, $text_en);
-        }
-      }
-      // Notify if current state of party list wasn't empty
-      // and supporter was removed from it.
-      if (!empty($user->original->get('field_my_party_list')->value)) {
-        foreach ($user->original->get('field_my_party_list') as $origin_supporter) {
-          $original_supporter_id = $origin_supporter->target_id;
-          if (!in_array($original_supporter_id, $supporter_id_array)) {
-            $text = "${getUserInfo['full_name']}-მ წაგშალათ პირადი პარტიული სიიდან.";
-            $text_en = "${getUserInfo['full_name']} has removed you from private party list.";
-            $notifyUserService->notifyUser($original_supporter_id, $getUserInfo, $type, $type_en, $text, $text_en);
-          }
-        }
-      }
-
-    }
-    // Notify if current state of party list was empty
-    // and supporter was removed from it.
-    elseif (empty($supporters) && !empty($user->original->get('field_my_party_list')->value)) {
-      $supporters = $user->original->get('field_my_party_list');
-      foreach ($supporters as $supporter) {
-        $supporter_id = $supporter->target_id;
-        $text = "${getUserInfo['full_name']}-მ წაგშალათ პირადი პარტიული სიიდან.";
-        $text_en = "${getUserInfo['full_name']} has removed you from private party list.";
-        $notifyUserService->notifyUser($supporter_id, $getUserInfo, $type, $type_en, $text, $text_en);
-
-      }
-    }
-
+    /** @var Drupal\girchi_my_party_list\PartyListChangeDetectionService $partyListChangeDetectionService */
+    $partyListChangeDetectionService = \Drupal::service('girchi_my_party_list.party_list_change_detection_service');
+    $partyListChangeDetectionService->partyListChangeDetection($user);
   }
 
 }
