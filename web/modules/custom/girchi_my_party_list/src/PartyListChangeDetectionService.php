@@ -42,7 +42,7 @@ class PartyListChangeDetectionService {
    * PartyListChangeDetection.
    *
    * @param \Drupal\Core\Entity\EntityInterface $user
-   *  User.
+   *   User.
    */
   public function partyListChangeDetection(EntityInterface $user) {
     /** @var \Drupal\Core\Field\FieldItemList $supporters */
