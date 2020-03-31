@@ -68,7 +68,12 @@
                 <span class="icon-user auth-toggler-icon"></span>
                 {% endif %}
             </button>
-
+            {% if logged_in %}
+            <!-- notifications -->
+                <nav class="notifications" id="notifications-header">
+                </nav>
+            <!-- notifications -->
+            {% endif %}
             <div class="collapse navbar-collapse" id="navbarAuth">
                     {% if logged_in %}
                         <div class="d-flex align-items-center ml-auto py-3 py-lg-0 border-top-1 border-top-lg-0">
@@ -82,7 +87,7 @@
                                         class="rounded" alt="..." width="50"
                                         height="50">
                             </a>
-                            <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 mx-2 mx-xl-3">
+                            <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 ml-2 ml-xl-3 header-user-name">
                                 <a href="/user/{{ user_header.uid }}/edit"
                                    class="text-decoration-none d-inline-block text-hover-success">
                                     {% if user_header.first_name %}
