@@ -25,11 +25,10 @@ const App = ({ socket, accessToken }) => {
         );
         const windowBottom = windowHeight + window.pageYOffset;
         if (windowBottom >= docHeight) {
-            setPage(page + 1);
+            setPage(currentPage => currentPage + 1);
         }
     };
     const getNotifications = () => {
-        console.log(page);
         Axios.get(
             `http://notifications.girchi.docker.localhost/notifications/user/?page=${page}`,
             {
@@ -56,11 +55,16 @@ const App = ({ socket, accessToken }) => {
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
-        generateJwtIfExpired(accessToken);
-        if (socketNotification == 0) {
-            getNotifications();
-        }
-    }, [socketNotification, setSocketNotification, page]);
+        socket.on("notification added", notification => {
+            setNotifications(currentNotifications => [
+                notification,
+                ...currentNotifications
+            ]);
+        });
+    }, []);
+    useEffect(() => {
+        getNotifications();
+    }, [page]);
 
     return (
         <div className="card-body p-0">
