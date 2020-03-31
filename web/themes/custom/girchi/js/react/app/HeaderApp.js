@@ -34,11 +34,12 @@ const HeaderApp = ({ accessToken, refreshToken, socket }) => {
     }, []);
 
     useEffect(() => {
-        if (notifications.length > 4) {
-            notifications.pop();
+        if (notifications.length > 5) {
+            setNotifications(currentNotifications =>
+                currentNotifications.slice(0, -1)
+            );
         }
     }, [notifications]);
-
     return (
         <AppContext.Provider value={appHook}>
             <NotificationWrapper notifications={notifications} />
