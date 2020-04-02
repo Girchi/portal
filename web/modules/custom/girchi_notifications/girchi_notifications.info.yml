@@ -2,4 +2,4 @@ name: 'girchi_notifications'
 type: module
 description: 'Module for notifications'
 core: 8.x
-package: 'Custom'
+package: 'girchi'

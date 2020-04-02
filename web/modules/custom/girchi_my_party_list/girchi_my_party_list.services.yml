@@ -4,5 +4,4 @@ services:
     arguments: ['@entity_type.manager',  '@request_stack', '@logger.factory', '@database']
   girchi_my_party_list.party_list_change_detection_service:
     class: Drupal\girchi_my_party_list\PartyListChangeDetectionService
-    arguments:
-      ['@girchi_notifications.get_user_info', '@girchi_notifications.notify_user']
+    arguments: ['@girchi_notifications.get_user_info', '@girchi_notifications.notify_user']
