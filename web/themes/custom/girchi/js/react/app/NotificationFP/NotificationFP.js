@@ -17,7 +17,6 @@ const NotificationFP = ({ notification, readNotification }) => {
             }`}
             href={link}
             onClick={e => {
-                e.preventDefault();
                 if (!read) {
                     setRead(true);
                     readNotification(_id);
