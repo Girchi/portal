@@ -1,30 +1,28 @@
 import React, { useState, useEffect, useContext } from "react";
-import AppContext from "../AppContext";
+import { AppContext } from "../AppContext";
 import Axios from "axios";
 
-const NotificationBell = () => {
-    const [appInfo, setAppInfo] = useContext(AppContext);
-    const [unredCount, setUnredCount] = useState(appInfo.unreadCount);
+const NotificationBell = ({ toggleBox }) => {
+    const { state, dispatch } = useContext(AppContext);
+    const { unreadCount } = state;
+    const setUnreadCount = unreadCount =>
+        dispatch({ type: "setUnreadCount", payload: unreadCount });
+    const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
     useEffect(() => {
-        Axios.get(
-            "http://notifications.girchi.docker.localhost/notifications/user/unread-count",
-            {
-                withCredentials: true
-            }
-        ).then(
+        Axios.get(`${ENDPOINT}notifications/user/unread-count`, {
+            withCredentials: true
+        }).then(
             res => {
-                console.log(appInfo.unreadCount);
-                setAppInfo({ ...appInfo, unreadCount: res.data.count });
+                setUnreadCount(res.data.count);
             },
             err => console.log(err)
         );
-    }, [appInfo, setAppInfo]);
-
+    }, [unreadCount]);
     return (
-        <div className="notifications__icon">
-            <img src="http://girchi.docker.localhost/themes/custom/girchi/images/Bell.svg" />
-            <span>{unredCount}</span>
+        <div className="notifications__icon" onClick={() => toggleBox()}>
+            <img src="themes/custom/girchi/images/Bell.svg" />
+            {state.unreadCount > 0 && <span>{state.unreadCount}</span>}
         </div>
     );
 };
