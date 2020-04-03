@@ -1,32 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import HeaderApp from "./HeaderApp";
 import App from "./App";
 import "regenerator-runtime";
-import Cookies from "js-cookie";
 import { generateJwtIfExpired } from "./Utils/Utils";
 import io from "socket.io-client";
+import { AppContextProvider } from "./AppContext";
 
-let accessToken = Cookies.get("g-u-at");
-const refreshToken = Cookies.get("g-u-rt");
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
-const ENDPOINT = "http://notifications.girchi.docker.localhost/";
-let socket = io(ENDPOINT);
-generateJwtIfExpired(accessToken);
-accessToken = Cookies.get("g-u-at");
-socket.emit("auth", { accessToken, refreshToken }, err => {
-    console.log(err);
-});
+const accessToken = generateJwtIfExpired();
+if (accessToken) {
+    let socket = io(ENDPOINT);
 
-ReactDOM.render(
-    <HeaderApp
-        accessToken={accessToken}
-        refreshToken={refreshToken}
-        socket={socket}
-    />,
-    document.getElementById("notifications-header")
-);
-// ReactDOM.render(
-//     <App socket={socket} accessToken={accessToken} />,
-//     document.getElementById("notifications")
-// );
+    socket.emit("auth", { accessToken }, err => {
+        console.log(err);
+    });
+
+    ReactDOM.render(
+        <AppContextProvider>
+            <HeaderApp accessToken={accessToken} socket={socket} />
+        </AppContextProvider>,
+        document.getElementById("notifications-header")
+    );
+    const element = document.getElementById("notifications");
+    if (typeof element != "undefined" && element != null) {
+        ReactDOM.render(
+            <AppContextProvider>
+                <App socket={socket} accessToken={accessToken} />
+            </AppContextProvider>,
+            element
+        );
+    }
+}
