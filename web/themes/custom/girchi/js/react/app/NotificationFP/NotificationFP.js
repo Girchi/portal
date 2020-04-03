@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-const Notification = ({ notification, readNotification }) => {
+const NotificationFP = ({ notification, readNotification }) => {
     const { _id, title, desc, link, photoUrl, created, isRead } = notification;
     const [read, setRead] = useState(isRead);
 
-    useEffect(() => {}, [read, setRead]);
+    useEffect(() => {
+        if (isRead) {
+            setRead(true);
+        }
+    }, [read, notification]);
 
     return (
         <a
@@ -14,9 +18,9 @@ const Notification = ({ notification, readNotification }) => {
             href={link}
             onClick={e => {
                 e.preventDefault();
-                readNotification(_id);
                 if (!read) {
                     setRead(true);
+                    readNotification(_id);
                 }
             }}
         >
@@ -37,4 +41,4 @@ const Notification = ({ notification, readNotification }) => {
     );
 };
 
-export default Notification;
+export default NotificationFP;

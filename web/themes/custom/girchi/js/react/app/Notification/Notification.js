@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Notification.css";
 
 const Notification = ({ notification, readNotification }) => {
@@ -16,9 +16,9 @@ const Notification = ({ notification, readNotification }) => {
                 href={link}
                 onClick={e => {
                     e.preventDefault();
-                    readNotification(_id);
                     if (!read) {
                         setRead(true);
+                        readNotification(_id);
                     }
                 }}
             >

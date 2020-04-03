@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NotificationFP from "./NotificationFP/NotificationFP";
 import { generateJwtIfExpired } from "./Utils/Utils";
 import Axios from "axios";
+import { AppContext } from "./AppContext";
 
 const App = ({ socket, accessToken }) => {
+    const { state, dispatch } = useContext(AppContext);
     const [notifications, setNotifications] = useState([]);
-    const [socketNotification, setSocketNotification] = useState(0);
     const [page, setPage] = useState(1);
-    const ENDPOINT = "http://notifications.girchi.docker.localhost/";
+    const ENDPOINT = process.env.REACT_APP_ENDPOINT;
+    const decrement = () => dispatch({ type: "decrement" });
 
     const handleScroll = () => {
         const windowHeight =
@@ -24,17 +26,14 @@ const App = ({ socket, accessToken }) => {
             html.offsetHeight
         );
         const windowBottom = windowHeight + window.pageYOffset;
-        if (windowBottom >= docHeight) {
+        if (windowBottom + 10 >= docHeight) {
             setPage(currentPage => currentPage + 1);
         }
     };
     const getNotifications = () => {
-        Axios.get(
-            `http://notifications.girchi.docker.localhost/notifications/user/?page=${page}`,
-            {
-                withCredentials: true
-            }
-        ).then(
+        Axios.get(`${ENDPOINT}notifications/user/?page=${page}`, {
+            withCredentials: true
+        }).then(
             res => {
                 setNotifications(notifications.concat(res.data.notifications));
             },
@@ -47,7 +46,9 @@ const App = ({ socket, accessToken }) => {
             withCredentials: true
         }).then(
             res => {
-                console.log(res);
+                socket.emit("notification read", { _id }, err => {
+                    console.log(err);
+                });
             },
             err => console.log(err)
         );
@@ -61,10 +62,21 @@ const App = ({ socket, accessToken }) => {
                 ...currentNotifications
             ]);
         });
+        socket.on("rerender notification", ({ _id }) => {
+            setNotifications(currentNotifications => {
+                const res = currentNotifications.map(notf =>
+                    notf._id === _id ? { ...notf, isRead: true } : notf
+                );
+                return res;
+            });
+        });
     }, []);
+
     useEffect(() => {
         getNotifications();
     }, [page]);
+
+    useEffect(() => {}, [notifications]);
 
     return (
         <div className="card-body p-0">

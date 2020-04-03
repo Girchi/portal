@@ -1,21 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import NotificationWrapper from "./NotificationWrapper/NotificationWrapper";
-import AppContext from "./AppContext";
+import { AppContext } from "./AppContext";
 
 const HeaderApp = ({ accessToken, refreshToken, socket }) => {
     const [notifications, setNotifications] = useState([]);
-    const appHook = useState({
-        unreadCount: 0
-    });
-
+    const { state, dispatch } = useContext(AppContext);
+    const decrement = () => dispatch({ type: "decrement" });
+    const increment = () => dispatch({ type: "increment" });
+    const ENDPOINT = process.env.REACT_APP_ENDPOINT;
     const getNotifications = () => {
-        Axios.get(
-            "http://notifications.girchi.docker.localhost/notifications/user",
-            {
-                withCredentials: true
-            }
-        ).then(
+        Axios.get(`${ENDPOINT}notifications/user`, {
+            withCredentials: true
+        }).then(
             res => {
                 setNotifications(res.data.notifications);
             },
@@ -24,12 +21,15 @@ const HeaderApp = ({ accessToken, refreshToken, socket }) => {
     };
 
     useEffect(() => {
-        getNotifications();
         socket.on("notification added", notification => {
             setNotifications(currentNotifications => [
                 notification,
                 ...currentNotifications
             ]);
+            increment();
+        });
+        socket.on("rerender notification", ({ _id }) => {
+            decrement();
         });
     }, []);
 
@@ -40,10 +40,11 @@ const HeaderApp = ({ accessToken, refreshToken, socket }) => {
             );
         }
     }, [notifications]);
+    useEffect(() => {
+        getNotifications();
+    }, [state]);
     return (
-        <AppContext.Provider value={appHook}>
-            <NotificationWrapper notifications={notifications} />
-        </AppContext.Provider>
+        <NotificationWrapper notifications={notifications} socket={socket} />
     );
 };
 
