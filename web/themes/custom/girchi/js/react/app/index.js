@@ -23,6 +23,12 @@ if (accessToken) {
         </AppContextProvider>,
         document.getElementById("notifications-header")
     );
+    ReactDOM.render(
+        <AppContextProvider>
+            <HeaderApp accessToken={accessToken} socket={socket} />
+        </AppContextProvider>,
+        document.getElementById("notifications-sticky")
+    );
     const element = document.getElementById("notifications");
     if (typeof element != "undefined" && element != null) {
         ReactDOM.render(
