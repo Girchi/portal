@@ -11,7 +11,7 @@ const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const accessToken = generateJwtIfExpired();
 if (accessToken) {
-    let socket = io(ENDPOINT);
+    let socket = io(ENDPOINT, { transports: ["websocket"] });
 
     socket.emit("auth", { accessToken }, err => {
         console.log(err);
