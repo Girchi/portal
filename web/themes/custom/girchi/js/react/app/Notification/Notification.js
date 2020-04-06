@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./Notification.css";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
-import ka from "../Utils/dayjaska";
+import ka from "../Utils/dayjas.ka";
 
 const Notification = ({ notification, readNotification }) => {
     const { _id, title, desc, link, photoUrl, created, isRead } = notification;
