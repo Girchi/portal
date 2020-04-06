@@ -48,12 +48,10 @@ const NotificationWrapper = ({ notifications, socket }) => {
                             />
                         ))
                     ) : (
-                        <div className="notifications__notifi-box__item">
-                            <a>
-                                <div className="notifications__notifi-box__item__text">
-                                    <h4>თქვენ არ გაქვთ შეტყობინება</h4>
-                                </div>
-                            </a>
+                        <div class="notifications__notifi-box__item">
+                            <p class="d-flex justify-content-center align-items-center notifications__notifi-box__item__empty-notification-bar mb-0">
+                                თქვენ არ გაქვთ შეტყობინება
+                            </p>
                         </div>
                     )}
                     <div className="notifications__notifi-box__item">
