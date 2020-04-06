@@ -1,45 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
 import NotificationFP from "./NotificationFP/NotificationFP";
-import { generateJwtIfExpired } from "./Utils/Utils";
 import Axios from "axios";
-import { AppContext } from "./AppContext";
+import useInfiniteScroll from "./Hooks/useInfiniteScroll";
 
 const App = ({ socket, accessToken }) => {
-    const { state, dispatch } = useContext(AppContext);
     const [notifications, setNotifications] = useState([]);
+    const [fetch, setFetch] = useInfiniteScroll(getNotifications);
     const [page, setPage] = useState(1);
     const ENDPOINT = process.env.REACT_APP_ENDPOINT;
-    const decrement = () => dispatch({ type: "decrement" });
 
-    const handleScroll = () => {
-        const windowHeight =
-            "innerHeight" in window
-                ? window.innerHeight
-                : document.documentElement.offsetHeight;
-        const body = document.body;
-        const html = document.documentElement;
-        const docHeight = Math.max(
-            body.scrollHeight,
-            body.offsetHeight,
-            html.clientHeight,
-            html.scrollHeight,
-            html.offsetHeight
-        );
-        const windowBottom = windowHeight + window.pageYOffset;
-        if (windowBottom + 10 >= docHeight) {
-            setPage(currentPage => currentPage + 1);
-        }
-    };
-    const getNotifications = () => {
+    function getNotifications() {
         Axios.get(`${ENDPOINT}notifications/user/?page=${page}`, {
             withCredentials: true
         }).then(
             res => {
-                setNotifications(notifications.concat(res.data.notifications));
+                setNotifications([...notifications, ...res.data.notifications]);
+                setPage(currentPage => currentPage + 1);
+                setFetch(false);
+                console.log(notifications.length);
             },
             err => console.log(err)
         );
-    };
+    }
     async function readNotification(_id) {
         Axios(`${ENDPOINT}notifications/${_id}/read`, {
             method: "post",
@@ -55,7 +37,7 @@ const App = ({ socket, accessToken }) => {
     }
 
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
+        getNotifications();
         socket.on("notification added", notification => {
             setNotifications(currentNotifications => [
                 notification,
@@ -71,10 +53,6 @@ const App = ({ socket, accessToken }) => {
             });
         });
     }, []);
-
-    useEffect(() => {
-        getNotifications();
-    }, [page]);
 
     useEffect(() => {}, [notifications]);
 
