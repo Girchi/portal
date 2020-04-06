@@ -11,7 +11,7 @@ const HeaderApp = ({ accessToken, refreshToken, socket }) => {
     const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
     let notfSound = new Audio(
-        `themes/custom/girchi/sound/notification_bell.mp3`
+        `/themes/custom/girchi/sound/notification_bell.mp3`
     );
     const getNotifications = () => {
         Axios.get(`${ENDPOINT}notifications/user`, {

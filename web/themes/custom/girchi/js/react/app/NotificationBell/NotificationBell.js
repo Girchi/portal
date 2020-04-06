@@ -20,8 +20,13 @@ const NotificationBell = ({ toggleBox }) => {
         );
     }, [unreadCount]);
     return (
-        <div className="notifications__icon" onClick={() => toggleBox()}>
-            <img src="themes/custom/girchi/images/Bell.svg" />
+        <div
+            className="notifications__icon"
+            onClick={() => {
+                toggleBox();
+            }}
+        >
+            <img src="/themes/custom/girchi/images/Bell.svg" />
             {state.unreadCount > 0 && <span>{state.unreadCount}</span>}
         </div>
     );
