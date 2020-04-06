@@ -22,3 +22,17 @@ function girchi_notifications_help($route_name, RouteMatchInterface $route_match
     default:
   }
 }
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_notifications_theme($existing, $type, $theme, $path) {
+  $templates = [
+    'girchi_notifications' => [
+      'template' => 'girchi-notifications',
+      'render element' => 'children',
+    ],
+  ];
+
+  return $templates;
+}
