@@ -15,8 +15,6 @@ const NotificationFP = ({ notification, readNotification }) => {
         }
     }, [read, notification]);
 
-    console.log(dayjs("2019/06/06").fromNow());
-
     return (
         <a
             className={`row notifications-full-page ${
