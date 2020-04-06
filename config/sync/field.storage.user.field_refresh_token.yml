@@ -1,0 +1,21 @@
+uuid: d40371e3-2717-4e93-8a1f-83385c56f9e6
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_refresh_token
+field_name: field_refresh_token
+entity_type: user
+type: string
+settings:
+  max_length: 1000
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
