@@ -17,7 +17,6 @@ const App = ({ socket, accessToken }) => {
                 setNotifications([...notifications, ...res.data.notifications]);
                 setPage(currentPage => currentPage + 1);
                 setFetch(false);
-                console.log(notifications.length);
             },
             err => console.log(err)
         );
