@@ -273,9 +273,10 @@ class UserController extends ControllerBase {
     $user_refresh_token = $this->user->get('field_refresh_token')->value;
 
     if ($current_refresh_token == $user_refresh_token) {
-      $this->generateJWT->generateJwt();
+      $tokens = $this->generateJWT->generateJwt();
+      return new JsonResponse(["status" => "success", "tokens" => $tokens]);
     }
-    return new JsonResponse('success');
+    return new JsonResponse(["status" => "fail"]);
 
   }
 
