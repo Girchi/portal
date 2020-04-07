@@ -72,17 +72,17 @@ class NotifyUserService {
    */
   public function notifyUser($user_id, array $invoker, $type, $type_en, $text, $text_en) {
     try {
-      $host = $this->request->getCurrentRequest()->getHost();
+      $url = $this->request->getCurrentRequest()->getSchemeAndHttpHost();
       $link = '';
 
       if ($type_en == NotificationConstants::DONATION_EN) {
-        $link = $host . '/user/' . $invoker['uid'];
+        $link = $url . '/user/' . $invoker['uid'];
       }
       elseif ($type_en == NotificationConstants::REFERRAL_EN) {
-        $link = $host . '/user/' . $user_id . '?show_referral_modal=true';
+        $link = $url . '/user/' . $user_id . '?show_referral_modal=true';
       }
       elseif ($type_en == NotificationConstants::PARTY_LIST_EN) {
-        $link = $host . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
+        $link = $url . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
       }
 
       $notification = [
