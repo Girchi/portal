@@ -185,3 +185,10 @@ input[type=number]::-webkit-outer-spin-button {
 .header-user-name {
     margin-right: 3rem;
 }
+
+.notifications-unread .notifications__notifi-box__item__corner-circle div {
+    background-color: #327f37;
+}
+.notifications-seen {
+    background-color: #f7f7f7;
+}
