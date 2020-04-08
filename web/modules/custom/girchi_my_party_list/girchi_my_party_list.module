@@ -98,4 +98,11 @@ function girchi_my_party_list_user_presave(EntityInterface $user) {
       }
     }
   }
+
+  if (!$user->isNew()) {
+    /** @var Drupal\girchi_my_party_list\PartyListChangeDetectionService $partyListChangeDetectionService */
+    $partyListChangeDetectionService = \Drupal::service('girchi_my_party_list.party_list_change_detection_service');
+    $partyListChangeDetectionService->partyListChangeDetection($user);
+  }
+
 }

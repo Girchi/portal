@@ -187,7 +187,7 @@ class PartyListController extends ControllerBase {
           if (!empty($user->get('user_picture')[0])) {
             $imgId = $user->get('user_picture')[0]->getValue()['target_id'];
             $imgFile = $this->entityTypeManager->getStorage('file')->load($imgId);
-            $style = $this->entityTypeManager()->getStorage('image_style')->load('party_member');
+            $style = $this->entityTypeManager->getStorage('image_style')->load('party_member');
             $imgUrl = $style->buildUrl($imgFile->getFileUri());
           }
           else {

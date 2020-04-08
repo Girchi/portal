@@ -1,0 +1,28 @@
+uuid: 103f13ff-c0a6-4bcf-beca-5a8d12ca1405
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_user
+    - taxonomy.vocabulary.donation_issues
+id: taxonomy_term.donation_issues.field_user
+field_name: field_user
+entity_type: taxonomy_term
+bundle: donation_issues
+label: User
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: false
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference
