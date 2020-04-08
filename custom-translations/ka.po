@@ -4503,3 +4503,9 @@ msgstr ""
 "მიზანი"
 msgid "Benefits"
 msgstr "სარგებელი"
+
+msgid "Notifications"
+msgstr "შეტყობინებები"
+
+msgid "Notifications page"
+msgstr "შეტყობინებების გვერდი"
