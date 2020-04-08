@@ -4,9 +4,12 @@ global-styling:
     theme:
       css/custom.css: {}
       dist/css/global.css: {}
+      js/react/dist/react.bundle.css: {}
+
   js:
     js/global.js: {}
     dist/js/script.js: {weight: -999}
+    js/react/dist/react.bundle.js: {}
   dependencies:
 
 myparty-list:

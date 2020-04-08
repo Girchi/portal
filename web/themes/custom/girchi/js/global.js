@@ -112,6 +112,9 @@ $(document).ready(function() {
     if(urlParams.has('show_referral_modal') && urlParams.get('show_referral_modal')=='true'){
         $('#referralModal').modal('show');
     }
+    if(urlParams.has('show_partyList_modal') && urlParams.get('show_partyList_modal')=='true'){
+        $('#fullList').modal('show');
+    }
 
     if(window.location.search == '?pass-reset=success'){
         $("#user-login-form").prepend(`<div class="alert alert-success">${Drupal.t("Your password has been successfully changed. Please log in into your account with new password.")} </div>`);

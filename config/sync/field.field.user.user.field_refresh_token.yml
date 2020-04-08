@@ -1,0 +1,20 @@
+uuid: fcc2818f-520a-43ea-bb3f-97184aa68a58
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_refresh_token
+  module:
+    - user
+id: user.user.field_refresh_token
+field_name: field_refresh_token
+entity_type: user
+bundle: user
+label: Refresh_token
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

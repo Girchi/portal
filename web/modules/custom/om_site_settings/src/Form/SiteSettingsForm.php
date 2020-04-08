@@ -2,12 +2,16 @@
 
 namespace Drupal\om_site_settings\Form;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigManager;
 use Drupal\Core\Config\ExtensionInstallStorage;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManager;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,23 +40,41 @@ class SiteSettingsForm extends ConfigFormBase {
   protected $languageManager;
 
   /**
+   * Entity type manager.
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * LoggerFactory.
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected $loggerFactory;
+
+  /**
    * Constructs a new GeneralSettingsForm object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    * @param \Drupal\Core\Config\ConfigManager $config_manager
    * @param \Drupal\Core\Config\ExtensionInstallStorage $config_storage_schema
    * @param \Drupal\Core\Language\LanguageManager $language_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
    */
   public function __construct(
         ConfigFactoryInterface $config_factory,
         ConfigManager $config_manager,
         ExtensionInstallStorage $config_storage_schema,
-        LanguageManager $language_manager
+        LanguageManager $language_manager,
+        EntityTypeManagerInterface $entityTypeManager,
+        LoggerChannelFactoryInterface $loggerFactory
     ) {
     parent::__construct($config_factory);
     $this->configManager = $config_manager;
     $this->configStorageSchema = $config_storage_schema;
     $this->languageManager = $language_manager;
+    $this->entityTypeManager = $entityTypeManager;
+    $this->loggerFactory = $loggerFactory->get('om_site_settings');
   }
 
   /**
@@ -63,7 +85,9 @@ class SiteSettingsForm extends ConfigFormBase {
           $container->get('config.factory'),
           $container->get('config.manager'),
           $container->get('config.storage.schema'),
-          $container->get('language_manager')
+          $container->get('language_manager'),
+          $container->get('entity_type.manager'),
+          $container->get('logger.factory')
       );
   }
 
@@ -88,6 +112,13 @@ class SiteSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('om_site_settings.site_settings');
+    try {
+      $user_storage = $this->entityTypeManager->getStorage('user');
+    } catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    } catch (PluginNotFoundException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
 
     $cache_life_options = [
       60 => '1 Minute',
@@ -214,6 +245,18 @@ class SiteSettingsForm extends ConfigFormBase {
       '#options' => ['5' => 5, '10' => 10],
       '#default_value' => $config->get('number_of_politicians')
     ];
+    $form['donation-aim'] = [
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => t('Default notification receiver'),
+    ];
+    $form['donation-aim']['default_receiver'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'user',
+      "#bundle" => "user",
+      '#title' => t('Default receiver'),
+      '#default_value' => !empty($config->get('default_receiver')) ? $user_storage->load($config->get('default_receiver')) : NULL,
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -246,6 +289,7 @@ class SiteSettingsForm extends ConfigFormBase {
       'donation_right_block',
       'createpass',
       'number_of_politicians',
+      'default_receiver',
     ];
 
     foreach ($fields as $field_key) {
