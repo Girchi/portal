@@ -86,6 +86,8 @@ class AuthenticationSubscriber implements EventSubscriberInterface {
     }
   }
 
+
+
   /**
    * On KernelEvent response.
    *
@@ -96,22 +98,21 @@ class AuthenticationSubscriber implements EventSubscriberInterface {
     $host = $this->request->getCurrentRequest()->getHost();
     $access_token = $this->request->getCurrentRequest()->cookies->get('g-u-at');
     $refresh_token = $this->request->getCurrentRequest()->cookies->get('g-u-rt');
+    $url = str_replace("www","",$host);
     if (!isset($access_token) && !isset($refresh_token)) {
       if (!empty($this->request->getCurrentRequest()->getSession()->get('g-u-at'))) {
-        $jwt = $this->request->getCurrentRequest()->getSession()->get('g-u-at');
-        $refresh_token = $this->request->getCurrentRequest()->getSession()->get('g-u-rt');
-        $jwt_cookie = new Cookie('g-u-at', $jwt, time() + 18000, '', $host, FALSE, FALSE);
-        $refresh_token_cookie = new Cookie('g-u-rt', $refresh_token, time() + 18000, '', $host, FALSE, FALSE);
-        $event->getResponse()->headers->setCookie($jwt_cookie);
-        $event->getResponse()->headers->setCookie($refresh_token_cookie);
-      }
+      $jwt = $this->request->getCurrentRequest()->getSession()->get('g-u-at');
+      $refresh_token = $this->request->getCurrentRequest()->getSession()->get('g-u-rt');
+      $jwt_cookie = new Cookie('g-u-at', $jwt, time() + 18000, '', $url, FALSE, FALSE);
+      $refresh_token_cookie = new Cookie('g-u-rt', $refresh_token, time() + 18000, '', $url, FALSE, FALSE);
+      $event->getResponse()->headers->setCookie($jwt_cookie);
+      $event->getResponse()->headers->setCookie($refresh_token_cookie);
     }
-
+    }
     if ($this->accountProxy->isAnonymous() && !empty($this->request->getCurrentRequest()->getSession()->get('g-u-at'))) {
-      $event->getResponse()->headers->clearCookie('g-u-at', '', $host);
-      $event->getResponse()->headers->clearCookie('g-u-rt', '', $host);
+      $event->getResponse()->headers->clearCookie('g-u-at', '', $url);
+      $event->getResponse()->headers->clearCookie('g-u-rt', '', $url);
     }
 
   }
-
 }

@@ -1,0 +1,11 @@
+services:
+  girchi_notifications.get_user_info:
+    class: Drupal\girchi_notifications\GetUserInfoService
+    arguments: ['@entity_type.manager', '@logger.factory']
+  girchi_notifications.notify_user:
+    class: Drupal\girchi_notifications\NotifyUserService
+    arguments: ['@logger.factory', '@request_stack', '@http_client']
+  girchi_notifications.get_assigned_aim_user:
+    class: Drupal\girchi_notifications\NotifyDonationService
+    arguments: ['@entity_type.manager', '@logger.factory',
+                '@girchi_notifications.notify_user', '@girchi_notifications.get_user_info']

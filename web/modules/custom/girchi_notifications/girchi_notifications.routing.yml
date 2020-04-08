@@ -1,0 +1,7 @@
+girchi_notifications.notifications:
+  path: '/notifications'
+  defaults:
+    _controller: '\Drupal\girchi_notifications\Controller\NotificationController::notifications'
+    _title: 'Notifications page'
+  requirements:
+    _permission: 'access content'
