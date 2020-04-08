@@ -93,7 +93,7 @@ class GenerateJwtService {
       $session->set('g-u-at', $jwt);
       // Girchi user refresh token.
       $session->set('g-u-rt', $refresh_token);
-
+      return ["accessToken" => $jwt, "refreshToken" => $refresh_token];
     }
     catch (\Exception $e) {
       $this->loggerFactory->error($e);
