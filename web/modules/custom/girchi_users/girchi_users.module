@@ -195,18 +195,18 @@ function girchi_users_user_presave(EntityInterface $user) {
   if (!$user->isNew()) {
     $original_referral_id = !empty($user->original->get('field_referral')->target_id) ? $user->original->get('field_referral')->target_id : '';
     $referral_id = !empty($user->get('field_referral')->target_id) ? $user->get('field_referral')->target_id : '';
+    $user_id = $user->id();
+    /** @var \Drupal\girchi_notifications\GetUserInfoService $getUserInfoService */
+    $getUserInfoService = \Drupal::service('girchi_notifications.get_user_info');
+    /** @var \Drupal\girchi_notifications\NotifyUserService $notifyUserService */
+    $notifyUserService = \Drupal::service('girchi_notifications.notify_user');
+    $getUserInfo = $getUserInfoService->getUserInfo($user_id);
+    $type = NotificationConstants::REFERRAL;
+    $type_en = NotificationConstants::REFERRAL_EN;
     if (!empty($referral_id) && $original_referral_id != $referral_id) {
-      $user_id = $user->id();
-      /** @var \Drupal\girchi_notifications\GetUserInfoService $getUserInfoService */
-      $getUserInfoService = \Drupal::service('girchi_notifications.get_user_info');
-      /** @var \Drupal\girchi_notifications\NotifyUserService $notifyUserService */
-      $notifyUserService = \Drupal::service('girchi_notifications.notify_user');
-      $getUserInfo = $getUserInfoService->getUserInfo($user_id);
       // Notify user that someone chose them as their referral.
       $text = "${getUserInfo['full_name']}-მ მოგნიშნათ თავის რეფერალად.";
       $text_en = "${getUserInfo['full_name']} tagged you as referral";
-      $type = NotificationConstants::REFERRAL;
-      $type_en = NotificationConstants::REFERRAL_EN;
       $notifyUserService->notifyUser($referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
 
       // Inform user that someone removed them from referrals.
@@ -217,6 +217,14 @@ function girchi_users_user_presave(EntityInterface $user) {
       }
 
     }
+
+    if(empty($referral_id) && !empty($original_referral_id)){
+      $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
+      $text_en = "${getUserInfo['full_name']} removed you from referral.";
+      $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+    }
   }
+
+
 
 }
