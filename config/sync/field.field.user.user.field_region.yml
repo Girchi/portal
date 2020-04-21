@@ -1,0 +1,26 @@
+uuid: 7a1761ac-3135-4369-b47e-9e03a3f27872
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_region
+  module:
+    - user
+id: user.user.field_region
+field_name: field_region
+entity_type: user
+bundle: user
+label: Region
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: region_autocomplete
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

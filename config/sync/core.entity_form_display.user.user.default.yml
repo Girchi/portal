@@ -28,6 +28,7 @@ dependencies:
     - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_refresh_token
+    - field.field.user.user.field_region
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
@@ -211,6 +212,15 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_region:
+    weight: 25
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_tel:
     weight: 4

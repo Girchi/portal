@@ -1,0 +1,8 @@
+uuid: 4df45863-c680-4cc0-b64d-5eb47707f4a2
+langcode: ka
+status: true
+dependencies: {  }
+name: Regions
+vid: regions
+description: ''
+weight: 0
