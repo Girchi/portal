@@ -212,17 +212,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   // Getting Politician text from omedia_settings.
   $config = \Drupal::config('om_site_settings.site_settings');
 
-  if ($form_id == "user_form") {
-    unset($form['field_referral']['widget'][0]['target_id']['#title']);
-    unset($form['field_referral']['widget'][0]['target_id']['#description']);
-    unset($form['field_referral']['widget']['#title']);
-    unset($form['field_referral']['widget']['#description']);
-
-    $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
-    $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
-    $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
-  }
-
   if ($form_id == "user_register_form") {
 
     if (reset($currentUser) == "anonymous") {
@@ -288,6 +277,21 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   }
 
   if ($form_id == "user_form") {
+    unset($form['field_referral']['widget'][0]['target_id']['#title']);
+    unset($form['field_referral']['widget'][0]['target_id']['#description']);
+    unset($form['field_referral']['widget']['#title']);
+    unset($form['field_referral']['widget']['#description']);
+
+    unset($form['field_region']['widget'][0]['target_id']['#title']);
+    unset($form['field_region']['widget'][0]['target_id']['#description']);
+
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
+
+    $form['field_region']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+    $form['field_region']['widget'][0]['target_id']['#attributes']['id'][] = 'region';
+    $form['field_region']['widget'][0]['target_id']['#attributes']['placeholder'][] = t('Choose region');
 
 
     if (!Drupal::currentUser()->hasPermission('admin')) {
@@ -317,7 +321,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
-
       $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_politician']['#attributes']['class'][] = 'form-control';
       $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
@@ -335,74 +338,25 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
         '#theme' => '',
       ];
 
+      // Public profile.
+      unset($form['field_intro']['widget'][0]['#title']);
+      unset($form['field_bio']['widget'][0]['#title']);
+      unset($form['field_profile_video']['widget']['#title']);
+      unset($form['field_profile_video']['widget'][0]['value']['#title']);
+      unset($form['field_twitter_url']['widget']['0']['value']['#title']);
+      unset($form['field_facebook_url']['widget']['0']['value']['#title']);
+      unset($form['field_public_email']['widget']['0']['value']['#title']);
+
+      $form['field_profile_video']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_twitter_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+
       $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
+      $form['#validate'][] = 'user_form_validate';
       $form['#after_build'][] = 'girchi_utils_after_build';
-
-      if ($form_id == "user_form") {
-        if (!Drupal::currentUser()->hasPermission('admin')) {
-          $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
-          // Unset titles.
-          unset($form['account']['mail']['#title']);
-          unset($form['field_first_name']['widget']['0']['value']['#title']);
-          unset($form['field_last_name']['widget']['0']['value']['#title']);
-          unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
-          unset($form['field_tel']['widget']['0']['value']['#title']);
-          unset($form['field_personal_id']['widget']['0']['value']['#title']);
-          unset($form['field_address']['widget']['0']['value']['#title']);
-          unset($form['field_politician']['widget']['value']['#title']);
-          unset($form['field_publicity']['widget']['value']['#title']);
-          unset($form['account']['current_pass']['#title']);
-
-          // Unset descriptions.
-          unset($form['account']['mail']['#description']);
-          unset($form['account']['current_pass']['#description']);
-
-          // Set classes for inputs.
-          $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['account']['mail']['#attributes']['id'][] = 'email';
-          $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
-          $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
-          $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_politician']['#attributes']['class'][] = 'form-control';
-          $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
-          $form['field_publicity']['#attributes']['class'][] = 'form-control';
-          $form['field_publicity']['widget']['value']['#attributes']['class'][] = 'form-control';
-          $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
-
-          $form['field_politician']['#theme_wrappers'] = [];
-          $form['field_publicity']['#theme_wrappers'] = [];
-
-          // Get politician text from settings.
-          $form['politician_text'] = [
-            '#type' => 'html',
-            '#markup' => $config->get('politician_checkbox_text')['value'],
-            '#theme' => '',
-          ];
-
-          // Public profile.
-          unset($form['field_intro']['widget'][0]['#title']);
-          unset($form['field_bio']['widget'][0]['#title']);
-          unset($form['field_profile_video']['widget']['#title']);
-          unset($form['field_profile_video']['widget'][0]['value']['#title']);
-          unset($form['field_twitter_url']['widget']['0']['value']['#title']);
-          unset($form['field_facebook_url']['widget']['0']['value']['#title']);
-          unset($form['field_public_email']['widget']['0']['value']['#title']);
-
-          $form['field_profile_video']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_twitter_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-
-          $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
-          $form['#validate'][] = 'user_form_validate';
-          $form['#after_build'][] = 'girchi_utils_after_build';
-        }
-      }
     }
+
     // Validate phone filed if it's not empty.
     $value = $form_state->getUserInput();
     if (!empty($value['field_tel'][0]['full_phone'])) {
