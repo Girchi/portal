@@ -14,3 +14,6 @@ services:
   girchi_users.generate_jwt:
     class: Drupal\girchi_users\GenerateJwtService
     arguments: ['@logger.factory', '@request_stack', '@current_user', '@entity_type.manager']
+  girchi_users.custom_badges:
+    class: Drupal\girchi_users\CustomBadgesService
+    arguments: ['@entity_type.manager','@logger.factory']
