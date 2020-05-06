@@ -84,6 +84,19 @@ class NotifyUserService {
       elseif ($type_en == NotificationConstants::PARTY_LIST_EN) {
         $link = $url . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
       }
+      elseif ($type_en == NotificationConstants::BADGE_EN) {
+        $link = $url . '/admin/custom-badges?tid=' . $invoker['badge_id'] . '&uid=' . $invoker['uid'];
+      }
+      elseif ($type_en == NotificationConstants::USER_BADGE_EN){
+        $link = $url . '/user/' . $user_id;
+      }
+
+      if($type_en == NotificationConstants::USER_BADGE_EN || $type_en == NotificationConstants::BADGE_EN){
+        $image = $invoker['badge_img'];
+      }
+      else {
+        $image = $invoker['image'];
+      }
 
       $notification = [
         'title' => $type,
@@ -93,7 +106,7 @@ class NotifyUserService {
         'type' => $type_en,
         'user' => $user_id,
         'link' => $link,
-        'photoUrl' => $invoker['image'],
+        'photoUrl' => $image,
       ];
       $encoded_notification = json::encode($notification);
       $options = [

@@ -9,3 +9,11 @@ services:
     class: Drupal\girchi_notifications\NotifyDonationService
     arguments: ['@entity_type.manager', '@logger.factory',
                 '@girchi_notifications.notify_user', '@girchi_notifications.get_user_info']
+  girchi_notifications.notify_admin:
+    class: Drupal\girchi_notifications\NotifyAdminService
+    arguments: ['@entity_type.manager', '@logger.factory',
+                '@girchi_notifications.get_user_info', '@girchi_notifications.get_badge_info',
+                '@girchi_notifications.notify_user', '@config.factory']
+  girchi_notifications.get_badge_info:
+    class: Drupal\girchi_notifications\GetBadgeInfo
+    arguments: ['@entity_type.manager', '@logger.factory']
