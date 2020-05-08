@@ -14,6 +14,8 @@ use Drupal\girchi_donations\Utils\CreateGedTransaction;
 use Drupal\girchi_notifications\NotifyDonationService;
 use Drupal\girchi_paypal\Utils\PayPalClient;
 use Drupal\girchi_paypal\Utils\PaypalUtils;
+use Drupal\girchi_users\UserBadgesChangeDetectionService;
+use Drupal\user\Entity\User;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -84,6 +86,13 @@ class PaypalController extends ControllerBase {
   protected $notifyDonationService;
 
   /**
+   * UserBadgesChangeDetectionService.
+   *
+   * @var \Drupal\girchi_users\UserBadgesChangeDetectionService
+   */
+  protected $userBadgesChangeDetection;
+
+  /**
    * PaypalController constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
@@ -104,6 +113,8 @@ class PaypalController extends ControllerBase {
    *   PaypalClient.
    * @param \Drupal\girchi_notifications\NotifyDonationService $notifyDonationService
    *   NotifyDonationService.
+   * @param UserBadgesChangeDetectionService $userBadgesChangeDetectionService
+   *   UserBadgesChangeDetectionService.
    */
   public function __construct(EntityTypeManager $entityTypeManager,
                               LoggerChannelFactory $loggerChannelFactory,
@@ -113,7 +124,8 @@ class PaypalController extends ControllerBase {
                               KeyValueFactory $keyValue,
                               PaypalUtils $paypalUtils,
                               PayPalClient $payPalClient,
-                              NotifyDonationService $notifyDonationService
+                              NotifyDonationService $notifyDonationService,
+                              UserBadgesChangeDetectionService $userBadgesChangeDetectionService
   ) {
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerChannelFactory = $loggerChannelFactory->get('girchi_paypal');
@@ -124,6 +136,8 @@ class PaypalController extends ControllerBase {
     $this->paypalUtils = $paypalUtils;
     $this->payPalClient = $payPalClient;
     $this->notifyDonationService = $notifyDonationService;
+    $this->userBadgesChangeDetection = $userBadgesChangeDetectionService;
+
   }
 
   /**
@@ -139,7 +153,8 @@ class PaypalController extends ControllerBase {
       $container->get('keyvalue'),
       $container->get('girchi_paypal.paypal_utils'),
       $container->get('girchi_paypal.paypal_client'),
-      $container->get('girchi_notifications.get_assigned_aim_user')
+      $container->get('girchi_notifications.get_assigned_aim_user'),
+      $container->get('girchi_users.user_badges_change_detection')
     );
   }
 
@@ -222,6 +237,7 @@ class PaypalController extends ControllerBase {
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
             $this->notifyDonationService->notifyDonation($donation);
+            $this->userBadgesChangeDetection->addDonationBadge($this->currentUser->id(), TRUE);
           }
           $this->loggerChannelFactory->info('Donation from paypal was created with status: ' . $donation->getStatus());
         }

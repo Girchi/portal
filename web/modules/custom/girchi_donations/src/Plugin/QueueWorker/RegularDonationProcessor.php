@@ -14,6 +14,7 @@ use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\girchi_notifications\NotifyDonationService;
+use Drupal\girchi_users\UserBadgesChangeDetectionService;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -80,6 +81,13 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
   protected $notifyDonationService;
 
   /**
+   * UserBadgesChangeDetectionService.
+   *
+   * @var \Drupal\girchi_users\UserBadgesChangeDetectionService
+   */
+  protected $userBadgeChangeDetection;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration,
@@ -91,7 +99,8 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
                               DonationUtils $donationUtils,
                               GedCalculator $gedCalculator,
                               EventDispatcherInterface $dispatcher,
-                              NotifyDonationService $notifyDonationService) {
+                              NotifyDonationService $notifyDonationService,
+                              UserBadgesChangeDetectionService $userBadgesChangeDetectionService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerChannelFactory = $loggerChannelFactory;
@@ -116,7 +125,8 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
       $container->get('girchi_donations.donation_utils'),
       $container->get('girchi_donations.ged_calculator'),
       $container->get('event_dispatcher'),
-      $container->get('girchi_notifications.get_assigned_aim_user')
+      $container->get('girchi_notifications.get_assigned_aim_user'),
+      $container->get('girchi_users.user_badges_change_detection')
     );
   }
 
@@ -201,6 +211,7 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
             $this->notifyDonationService->notifyDonation($donation);
+            $this->userBadgeChangeDetection->addDonationBadge($data->getOwnerId(), FALSE);
           }
 
           $this->loggerChannelFactory->get('girchi_donations')->info(

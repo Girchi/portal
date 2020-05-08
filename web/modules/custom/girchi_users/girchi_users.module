@@ -12,6 +12,7 @@ use Drupal\Core\Url;
 use Drupal\girchi_notifications\Constants\NotificationConstants;
 use Drupal\girchi_users\Event\UserLoginEvent;
 use Drupal\user\UserInterface;
+use Drupal\views\ViewExecutable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -225,6 +226,8 @@ function girchi_users_user_presave(EntityInterface $user) {
     }
   }
 
-
+  /** @var \Drupal\girchi_users\UserBadgesChangeDetectionService $userBadgesChangeDetectionService */
+  $userBadgesChangeDetectionService = \Drupal::service('girchi_users.user_badges_change_detection');
+  $userBadgesChangeDetectionService->userBadgesChangeDetection($user);
 
 }

@@ -17,3 +17,6 @@ services:
   girchi_users.custom_badges:
     class: Drupal\girchi_users\CustomBadgesService
     arguments: ['@entity_type.manager','@logger.factory']
+  girchi_users.user_badges_change_detection:
+    class: Drupal\girchi_users\UserBadgesChangeDetectionService
+    arguments: ['@entity_type.manager','@logger.factory', '@serialization.json']

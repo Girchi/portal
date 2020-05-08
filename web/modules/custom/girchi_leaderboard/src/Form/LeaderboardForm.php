@@ -10,6 +10,7 @@ use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\CreateGedTransaction;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_notifications\NotifyDonationService;
+use Drupal\girchi_users\UserBadgesChangeDetectionService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -75,6 +76,13 @@ class LeaderboardForm extends FormBase {
   protected $notifyDonationService;
 
   /**
+   * UserBadgesChangeDetectionService.
+   *
+   * @var \Drupal\girchi_users\UserBadgesChangeDetectionService
+   */
+  protected $userBadgesChangeDetection;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\girchi_donations\Utils\DonationUtils $donationUtils
@@ -87,12 +95,15 @@ class LeaderboardForm extends FormBase {
    *   Dispatcher.
    * @param \Drupal\girchi_notifications\NotifyDonationService $notifyDonationService
    *   NotifyDonationService.
+   * @param \Drupal\girchi_users\UserBadgesChangeDetectionService $userBadgesChangeDetectionService
+   *   UserBadgesChangeDetectionService.
    */
   public function __construct(DonationUtils $donationUtils,
                               MessengerInterface $messenger,
                               CreateGedTransaction $createGedTransaction,
                               EventDispatcherInterface $dispatcher,
-                              NotifyDonationService $notifyDonationService) {
+                              NotifyDonationService $notifyDonationService,
+                              UserBadgesChangeDetectionService $userBadgesChangeDetectionService) {
 
     $this->donationUtils = $donationUtils;
     $this->messenger = $messenger;
@@ -102,6 +113,7 @@ class LeaderboardForm extends FormBase {
     $this->createGedTransaction = $createGedTransaction;
     $this->dispatcher = $dispatcher;
     $this->notifyDonationService = $notifyDonationService;
+    $this->userBadgesChangeDetection = $userBadgesChangeDetectionService;
 
   }
 
@@ -114,7 +126,8 @@ class LeaderboardForm extends FormBase {
       $container->get('messenger'),
       $container->get('girchi_donations.create_ged_transaction'),
       $container->get('event_dispatcher'),
-      $container->get('girchi_notifications.get_assigned_aim_user')
+      $container->get('girchi_notifications.get_assigned_aim_user'),
+      $container->get('girchi_users.user_badges_change_detection')
     );
   }
 
@@ -224,6 +237,7 @@ class LeaderboardForm extends FormBase {
           $event = new DonationEvents($valid);
           $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $event);
           $this->notifyDonationService->notifyDonation($valid);
+          $this->userBadgesChangeDetection->addDonationBadge($user, TRUE);
         }
       }
       else {
