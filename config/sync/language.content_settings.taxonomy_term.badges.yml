@@ -1,0 +1,11 @@
+uuid: 9911c22d-6d0f-41bb-828e-4f54d529ac4a
+langcode: ka
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.badges
+id: taxonomy_term.badges
+target_entity_type_id: taxonomy_term
+target_bundle: badges
+default_langcode: site_default
+language_alterable: false

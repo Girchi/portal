@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_address
+    - field.field.user.user.field_badges
     - field.field.user.user.field_bio
     - field.field.user.user.field_cover_photo
     - field.field.user.user.field_date_of_birth
@@ -219,6 +220,7 @@ content:
     third_party_settings: {  }
     label: above
 hidden:
+  field_badges: true
   field_cover_photo: true
   field_facebook_url: true
   field_favorite_news: true
