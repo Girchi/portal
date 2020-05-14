@@ -33,7 +33,7 @@ $("document").ready(function () {
             $(selectedOption).attr('selected','selected');
             $(selectEl).selectpicker('refresh');
             $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
-	     $(`.${sourceAttr}-hidden-politician`).val(politician_id);
+	        $(`.${sourceAttr}-hidden-politician`).val(politician_id);
         }
 
         selectEl.on('changed.bs.select',function(e){
