@@ -2,8 +2,11 @@
 
 namespace Drupal\girchi_users\Commands;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Queue\QueueFactory;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,17 +39,27 @@ class GirchiUsersCommands extends DrushCommands {
   private $loggerFactory;
 
   /**
+   * QueueFactory.
+   *
+   * @var \Drupal\Core\Queue\QueueFactory
+   */
+  protected $queueFactory;
+
+  /**
    * EntityTypeManager.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    *   EntityManager.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerChannelFactory
    *   Logger.
+   * @param \Drupal\Core\Queue\QueueFactory $queueFactory
+   *   QueueFactory.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerChannelFactory) {
+  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerChannelFactory, QueueFactory $queueFactory) {
     parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerFactory = $loggerChannelFactory;
+    $this->queueFactory = $queueFactory;
   }
 
   /**
@@ -94,6 +107,64 @@ class GirchiUsersCommands extends DrushCommands {
     catch (\Exception $e) {
       $this->loggerFactory->get('girchi_users')->error($e->getMessage());
     }
+  }
+
+  /**
+   * Main command.
+   *
+   * @command girchi_users:badges
+   * @aliases user-badges
+   */
+  public function userBadges() {
+    try {
+      $users = $this->entityTypeManager->getStorage('user')->loadMultiple();
+      $queue = $this->queueFactory->get('user_badges_queue');
+
+      $donation_storage = $this->entityTypeManager->getStorage('donation');
+      $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+
+      foreach ($users as $user) {
+        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პორტალის წევრი']);
+        $tid = reset($term)->id();
+        $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+
+        if ($user->get('field_politician')->value == TRUE) {
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პოლიტიკოსი']);
+          $tid = reset($term)->id();
+          $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+        }
+
+        $single_donation = $donation_storage->getQuery()
+          ->condition('user_id', $user->id(), '=')
+          ->condition('field_donation_type', '0', '=')
+          ->execute();
+        $regular_donation = $regular_donation_storage->getQuery()
+          ->condition('user_id', $user->id(), '=')
+          ->condition('status', 'ACTIVE', '=')
+          ->execute();
+
+        if (!empty($single_donation)) {
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პარტნიორი - ერთჯერადი დამფინანსებელი']);
+          $tid = reset($term)->id();
+          $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+        }
+
+        if (!empty($regular_donation)) {
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პარტნიორი - მრავალჯერადი დამფინანსებელი']);
+          $tid = reset($term)->id();
+          $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+        }
+
+      }
+
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+
   }
 
 }

@@ -29,6 +29,8 @@ class UserBadgesChangeDetectionService {
   protected $loggerFactory;
 
   /**
+   * Json.
+   *
    * @var \Drupal\Component\Serialization\Json
    */
   protected $json;
@@ -141,8 +143,9 @@ class UserBadgesChangeDetectionService {
    *   Single donation.
    */
   public function addDonationBadge($user_id, $single_donation) {
+    // TODO :: maybe notify user.
     try {
-      if($user_id != 0) {
+      if ($user_id != 0) {
         $appearance_array = [
           'visibility' => TRUE,
           'selected' => FALSE,
@@ -155,7 +158,8 @@ class UserBadgesChangeDetectionService {
 
         if ($single_donation == TRUE) {
           $badge_name = 'პარტნიორი - ერთჯერადი დამფინანსებელი';
-        } elseif ($single_donation == FALSE) {
+        }
+        elseif ($single_donation == FALSE) {
           $badge_name = 'პარტნიორი - მრავალჯერადი დამფინანსებელი';
         }
 
@@ -176,7 +180,8 @@ class UserBadgesChangeDetectionService {
               'value' => $value,
             ]);
             $user->save();
-          } else {
+          }
+          else {
             foreach ($user_badges as $user_badge) {
               if ($user_badge->target_id == $tid && $user_badge->value = '') {
                 $user_badge->set('value', $value);
@@ -204,4 +209,8 @@ class UserBadgesChangeDetectionService {
 
   }
 
+  // TODO:: if regular donation was deleted
+  //  public function donationBadgesChangeDetection(){
+  //
+  //  }
 }
