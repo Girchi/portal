@@ -77,6 +77,18 @@ function girchi_users_form_alter(&$form, FormStateInterface $form_state, $form_i
 
   }
 
+  if ($form_id = 'custom_badges_form') {
+    $request = \Drupal::service('request_stack');
+    $tid = $request->getCurrentRequest()->query->get('tid');
+    $uid = $request->getCurrentRequest()->query->get('uid');
+    if (!empty($uid) && !empty($tid)) {
+      $user = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
+      $form['badge']['#value'] = $tid;
+      $form['user']['#default_value'] = $user;
+    }
+
+  }
+
 }
 
 /**

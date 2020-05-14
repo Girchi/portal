@@ -51,6 +51,8 @@ class TwigExtension extends Twig_Extension
       new \Twig_SimpleFilter('single_value_at', [$this, 'getSingleValueAt']),
       new \Twig_SimpleFilter('ged_long_format', [$this, 'getLongFormattedGed']),
       new \Twig_SimpleFilter('ged_formatter', [$this, 'getFormattedGeD']),
+      new \Twig_SimpleFilter('twig_json_decode', [$this, 'twigJsonDecode']),
+
     );
   }
 
@@ -306,6 +308,11 @@ class TwigExtension extends Twig_Extension
   public function getFormattedGed($input) {
     $GEDHelper = \Drupal::service('girchi_users.ged_helper');
     return $GEDHelper::getFormattedGed($input);
+  }
+
+  public function twigJsonDecode($json)
+  {
+    return json_decode($json);
   }
 
   /**

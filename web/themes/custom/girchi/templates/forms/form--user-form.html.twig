@@ -94,17 +94,65 @@
                                 {#                                        >#}
                             </div>
                         </div>
+                        <div  class="d-none d-md-block"
                         {{ element.actions.submit }}
-                    </div>
+                        </div>
+                </div>
 
                 </div>
                 <div class="col-lg-6">
                     <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
-
-                        <div class="form-group mb-0"></span>
+                        <div class="form-group mb-0">
                             <span class="text-success text-success font-size-3 text-uppercase w-auto">
-              {{ element.field_referral_url }}
-            </span>
+                                 {{ 'Badges'|t }}
+                             </span>
+                            <p class="font-size-1 text-grey my-3">
+                                {{ 'თქვენ შეგიძლიათ მოიპოვოთ ბეჯები და დამალოთ ან გამოაჩინოთ ისინი საჯაროდ'|t }}
+                            </p>
+                        </div>
+
+                        <div class="form-group mb-2 p-1">
+                            {% for badge in badges %}
+                                {% set appearance_data = badge.appearance|twig_json_decode %}
+                                <div class="d-flex w-100 align-items-center p-2 form-control form-control-lg  fix badges-border mb-2"
+                                     data-id="{{ badge.id }}"
+                                     data-value="{{ badge.status }}"
+                                >
+                                  <span
+                                      class="rounded-circle overflow-hidden d-inline-block"
+                                  >
+                                    <img
+                                        src="{{ badge.logo ? image_style_url(badge.logo, 'avatar_34x34') : theme_path('/images/avatar34x34.png') }}"
+                                    />
+                                  </span>
+                                  <span class="mb-0 mx-3 font-weight-bold font-size-2  w-auto">{{ badge.name }}</span>
+                                    <div class="badge-visibility p-2 float-right ml-auto">
+                                        {% if (appearance_data.visibility == true )  %}
+                                        <span class="badge-visible font-size-4  shadow-none text-dark-silver text-hover-danger" >
+                                            <i class="icon-delete"></i>
+                                            <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >
+                                        </span>
+                                        {% else %}
+                                        <span class="badge-invisible font-size-4  shadow-none text-dark-silver text-hover-danger" >
+                                            <i class="icon-ged"></i>
+                                            <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+{#                            <input class="hidden badge-value" name="badges" >#}
+                        </div>
+                    </div>
+
+
+                    <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+
+                        <div class="form-group mb-0">
+                            <span class="text-success text-success font-size-3 text-uppercase w-auto">
+                                 {{ element.field_referral_url }}
+                            </span>
                             {{ 'დააკოპირე შენი refferal ბმული და მოიწვიე ახალი წევრები.' }}
 
                         </div>
@@ -133,7 +181,12 @@
                         <hr class="border-secondary my-2 my-sm-3"/>
                         {{ element.politician_text }}
                     </div>
+
+                    <div  class="d-sm-block d-md-none">
+                    {{ element.actions.submit }}
+                    </div>
                 </div>
+
             </div>
             {#Modal#}
             {#Modal is sitting inside of form because of user form custom image set in form alter#}

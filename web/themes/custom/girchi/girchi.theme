@@ -5,6 +5,7 @@
  * Functions to support theming in the girchi theme.
  */
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
@@ -425,6 +426,77 @@ function girchi_preprocess_form(array &$variables) {
       $coverName = $user->get('field_cover_photo')->entity->getFileName();
       $variables['cover_name'] = $coverName;
     }
+
+    //TODO: prettify code
+    /** @var \Drupal\taxonomy\TermStorage  $terms */
+    $terms =\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('badges',0,NULL,TRUE);
+    $user_badges = $user->get('field_badges');
+    $appearance = [];
+    foreach ($terms as $term) {
+      $tid = $term->id();
+      $name = $term->get('name')->value;
+      $imageEntity = $term->get('field_logo')->entity;
+      $status = $term->get('field_publicity')->value;
+      if ($imageEntity) {
+        $logo = $imageEntity->getFileUri();
+      } else {
+        $logo = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar34x34.png');
+      }
+
+      if($user_badges->isEmpty()){
+        $statusMessage = t("You have not earned this badge yet");
+        $appearance_array = [
+          'visibility' => false,
+          'selected' => false,
+          'approved' => $status == 1 ? true : false,
+          'status_message' => $statusMessage,
+        ];
+        $appearance = Json::encode($appearance_array);
+
+      }
+      else {
+          $user_badges_new = clone $user_badges;
+          /** @var \Drupal\Core\Field\FieldItemList $supporter_exists */
+          $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($tid) {
+            return $tid == $user_badges->target_id;
+          });
+          if ($badge_exists->value == '') {
+            $statusMessage = t("You have not earned this badge yet");
+            $appearance_array = [
+              'visibility' => false,
+              'selected' => false,
+              'approved' => $status == 1 ? true : false,
+              'status_message' => $statusMessage,
+            ];
+            $appearance = Json::encode($appearance_array);
+          }
+          else {
+//            dump($user_badges);die;
+           foreach ($user_badges as $user_badge){
+
+             if($user_badge->target_id == $tid){
+               $appearance = $user_badge->value;
+             }
+           }
+          }
+
+
+      }
+
+
+
+      $variables['badges'][] = [
+        'id' => $tid,
+        'name' => $name,
+        'logo' => $logo,
+        'status' => $status,
+        'appearance' => $appearance,
+      ];
+    }
+//die;
+
+
+
   }
 
 }
