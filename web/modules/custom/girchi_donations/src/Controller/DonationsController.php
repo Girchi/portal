@@ -492,10 +492,12 @@ class DonationsController extends ControllerBase {
         if ($action == "pause") {
           $regular_donation->setStatus('PAUSED');
           $regular_donation->save();
+          $this->userBadgeChangeDetection->deleteRegDonationBadge($user_id);
         }
         elseif ($action == "resume") {
           $regular_donation->setStatus('ACTIVE');
           $regular_donation->save();
+          $this->userBadgeChangeDetection->addDonationBadge($user_id, FALSE);
         }
         return new JsonResponse([
           "statusCode" => 200,

@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\girchi_users\Constants\BadgeConstants;
 
 /**
  * Class UserBadgesChangeDetectionService.
@@ -64,6 +65,7 @@ class UserBadgesChangeDetectionService {
         'selected' => FALSE,
         'approved' => TRUE,
         'status_message' => '',
+        'earned_badge' => TRUE,
       ];
       $earned_badge = FALSE;
       $lost_badge = FALSE;
@@ -73,18 +75,18 @@ class UserBadgesChangeDetectionService {
 
       if ($user->isNew()) {
         $earned_badge = TRUE;
-        $badge_name = "პორტალის წევრი";
+        $badge_name = BadgeConstants::PORTAL_MEMBER;
         $value = $encoded_value;
       }
       elseif ($user->get('field_politician')->value == TRUE && $user->original->get('field_politician')->value == FALSE) {
         $earned_badge = TRUE;
-        $badge_name = "პოლიტიკოსი";
+        $badge_name = BadgeConstants::POLITICIAN;
         $value = $encoded_value;
 
       }
       elseif ($user->get('field_politician')->value == FALSE && $user->original->get('field_politician')->value == TRUE) {
         $lost_badge = TRUE;
-        $badge_name = "პოლიტიკოსი";
+        $badge_name = BadgeConstants::POLITICIAN;
         $value = '';
       }
 
@@ -112,7 +114,6 @@ class UserBadgesChangeDetectionService {
               if ($user_badge->target_id == $tid) {
                 $user_badge->set('value', $value);
               }
-
             }
           }
         }
@@ -151,16 +152,17 @@ class UserBadgesChangeDetectionService {
           'selected' => FALSE,
           'approved' => TRUE,
           'status_message' => '',
+          'earned_badge' => TRUE,
         ];
 
         $badge_name = '';
         $value = $this->json->encode($appearance_array);
 
         if ($single_donation == TRUE) {
-          $badge_name = 'პარტნიორი - ერთჯერადი დამფინანსებელი';
+          $badge_name = BadgeConstants::SINGLE_CONTRIBUTOR;
         }
         elseif ($single_donation == FALSE) {
-          $badge_name = 'პარტნიორი - მრავალჯერადი დამფინანსებელი';
+          $badge_name = BadgeConstants::REGULAR_CONTRIBUTOR;
         }
 
         $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => $badge_name]);
@@ -183,7 +185,7 @@ class UserBadgesChangeDetectionService {
           }
           else {
             foreach ($user_badges as $user_badge) {
-              if ($user_badge->target_id == $tid && $user_badge->value = '') {
+              if ($user_badge->target_id == $tid && $user_badge->value == '') {
                 $user_badge->set('value', $value);
                 $user->save();
               }
@@ -192,25 +194,54 @@ class UserBadgesChangeDetectionService {
           }
         }
       }
-
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->error($e->getMessage());
-
     }
     catch (PluginNotFoundException $e) {
       $this->loggerFactory->error($e->getMessage());
-
     }
     catch (EntityStorageException $e) {
       $this->loggerFactory->error($e->getMessage());
-
     }
 
   }
 
-  // TODO:: if regular donation was deleted
-  //  public function donationBadgesChangeDetection(){
-  //
-  //  }
+  /**
+   * @param int $uid
+   *   uid.
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public function deleteRegDonationBadge($uid) {
+    try {
+      $user = $this->entityTypeManager->getStorage('user')->load($uid);
+      $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+      $regular_donation = $regular_donation_storage->getQuery()
+        ->condition('user_id', $user->id(), '=')
+        ->condition('status', 'ACTIVE', '=')
+        ->execute();
+      if (empty($regular_donation)) {
+        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::REGULAR_CONTRIBUTOR]);
+        $tid = reset($term)->id();
+        /** @var \Drupal\Core\Field\FieldItemList $user_badges */
+        $user_badges = $user->get('field_badges');
+        if (!$user_badges->isEmpty()) {
+          foreach ($user_badges as $user_badge) {
+            if ($user_badge->target_id == $tid) {
+              $user_badge->set('value', '');
+              $user->save();
+            }
+          }
+        }
+      }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+
+  }
+
 }
