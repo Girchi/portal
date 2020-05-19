@@ -47,6 +47,7 @@ class NotifyAdminService {
 
   /**
    * ConfigFactory.
+   *
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
@@ -93,12 +94,12 @@ class NotifyAdminService {
     $badge_info = $this->getBadgeInfo->getBadgeInfo($badge_id);
     $invoker = array_merge($invokerService, $badge_info);
     $text = "${invokerService['full_name']}-მ გამოგიგზავნათ მოთხოვნა ბეჯზე -${badge_info['badge_name']}";
-    $text_en = "${invokerService['full_name']} has sent you a request for badge - ${badge_info['badge_name']}";
+    $text_en = "${invokerService['full_name']} has sent you a request for badge - ${badge_info['badge_name_en']}";
     $notification_type = NotificationConstants::BADGE;
     $notification_type_en = NotificationConstants::BADGE_EN;
     $user = $this->configFactory->get('om_site_settings.site_settings')->get('default_receiver');
-    //Notify user.
-    $this->notifyUser->notifyUser($user, $invoker,$notification_type, $notification_type_en, $text, $text_en);
+    // Notify user.
+    $this->notifyUser->notifyUser($user, $invoker, $notification_type, $notification_type_en, $text, $text_en);
 
   }
 

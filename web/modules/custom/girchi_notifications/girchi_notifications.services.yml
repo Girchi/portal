@@ -16,4 +16,4 @@ services:
                 '@girchi_notifications.notify_user', '@config.factory']
   girchi_notifications.get_badge_info:
     class: Drupal\girchi_notifications\GetBadgeInfo
-    arguments: ['@entity_type.manager', '@logger.factory']
+    arguments: ['@entity_type.manager', '@logger.factory', '@language_manager']

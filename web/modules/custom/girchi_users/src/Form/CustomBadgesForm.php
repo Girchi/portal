@@ -183,14 +183,14 @@ class CustomBadgesForm extends FormBase {
           'selected' => FALSE,
           'approved' => TRUE,
           'status_message' => '',
+          'earned_badge' => TRUE,
         ];
         $encoded_Value = $this->json->encode($appearance_array);
 
         // Set parameters for NotifyUserService.
         $badge_info = $this->getBadgeInfoService->getBadgeInfo($badge_id);
-        $text = "თქვენ მოგენიჭათ ბეჯი -${badge_info['badge_name']}.";
-        $text_en = "You have acquired the badge - ${badge_info['badge_name']}.";
-
+        $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+        $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
         $notification_type = NotificationConstants::USER_BADGE;
         $notification_type_en = NotificationConstants::USER_BADGE_EN;
 
@@ -214,7 +214,7 @@ class CustomBadgesForm extends FormBase {
                 $form_state->setRebuild();
               }
               else {
-                $user_badge->set('value', Json::encode($appearance_array));
+                $user_badge->set('value', $encoded_Value);
                 $user->save();
                 $this->messenger->addMessage($this->t('User has successfully acquired the badge!'));
                 // Notify user.
