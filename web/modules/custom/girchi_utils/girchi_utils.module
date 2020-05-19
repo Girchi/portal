@@ -5,9 +5,11 @@
  * Contains girchi_utils.module.
  */
 
+use Drupal\Core\TypedData\Exception\MissingDataException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -447,92 +449,74 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
   // Save full phone into users field.
   if ($form['#form_id'] == 'user_form') {
     $value = $form_state->getUserInput();
+    $uid = \Drupal::currentUser()->id();
+    /** @var \Drupal\user\Entity\User $user */
+    $user = User::load($uid);
 
-    /** @var \Drupal\Core\Logger\LoggerChannelFactory $logger */
-    $logger = \Drupal::service('logger.factory');
+    /** @var \Drupal\Core\Logger\LoggerChannel $logger_factory */
+    $logger_factory = \Drupal::service('logger.factory')->get('girchi_utils');
     if (isset($value['field_tel'][0]['full_phone'])) {
       try {
         $full_phone = $value['field_tel'][0]['full_phone'];
-        /** @var \Drupal\user\Entity\User $uid */
-        $uid = \Drupal::currentUser()->id();
-        $user = User::load($uid);
         $user->set('field_tel', $full_phone);
         $user->save();
-      } catch (EntityStorageException $e) {
-        $logger->get('girchi_utils')->error($e->getMessage());
       }
-
+      catch (EntityStorageException $e) {
+        $logger_factory->error($e->getMessage());
+      }
     }
 
-    //TODO::make code more readable
-
+    // Badge visibility logic.
     try {
-      $uid = \Drupal::currentUser()->id();
-      /** @var \Drupal\user\Entity\User $user */
-      $user = User::load($uid);
-      /** @var EntityReferenceFieldItemList $user_badges */
+      /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $user_badges */
       $user_badges = $user->get('field_badges');
-      foreach ($value['badges'] as $key => $badge){
+      foreach ($value['badges'] as $key => $badge) {
         $decoded_value = Json::decode($badge);
-        if($decoded_value['selected'] == TRUE){
+        if ($decoded_value['selected'] == TRUE) {
           $decoded_value['selected'] = FALSE;
           $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
           $term_status = $term->get('field_publicity')->value;
-          if($decoded_value['visibility'] == TRUE && $term_status == FALSE) {
-              $decoded_value['visibility'] = FALSE;
-              $decoded_value['approved'] = FALSE;
-              $decoded_value['status_message'] = t('The request is being processed');
-              /** @var \Drupal\girchi_notifications\NotifyAdminService $service */
-              $service = Drupal::service('girchi_notifications.notify_admin');
-              $service->badgeRequest($uid, $key);
+          $term_name = $term->get('name')->value;
+          // If term status is equal to false
+          // Send notification to admin
+          // for approving that badge.
+          if ($decoded_value['visibility'] == TRUE && $term_status == FALSE) {
+            $decoded_value['visibility'] = FALSE;
+            $decoded_value['approved'] = FALSE;
+            $decoded_value['status_message'] = t('The request is being processed');
+            /** @var \Drupal\girchi_notifications\NotifyAdminService $notify_admin */
+            $notify_admin = Drupal::service('girchi_notifications.notify_admin');
+            $notify_admin->badgeRequest($uid, $key);
+            \Drupal::messenger()->addMessage(t("მოთხოვნა ბეჯზე ${term_name} გაგზავნილია საიტის ადმინისტრაციასთან."));
           }
-          elseif($decoded_value['visibility'] == TRUE && $term_status == TRUE){
+          elseif ($decoded_value['visibility'] == TRUE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
             $decoded_value['status_message'] = '';
           }
-          if (!empty($user_badges)) {
-            $user_badges_new = clone $user_badges;
-            /** @var \Drupal\Core\Field\FieldItemList $supporter_exists */
-            $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($key) {
-              return $key == $user_badges->target_id;
-            });
-            if ($badge_exists->isEmpty()) {
-              $user_badges->appendItem([
-                'target_id' => $key,
-                'value' => Json::encode($decoded_value),
-              ]);
-              $user->save();
-            }
-            else {
-              foreach ($user_badges as $user_badge){
-//                dump($decoded_value);die;
-                if($user_badge->target_id == $key){
-                  $user_badge->set('value', Json::encode($decoded_value));
-                  $user->save();
-                }
+          elseif ($decoded_value['earned_badge'] == FALSE && $term_status == TRUE) {
+            \Drupal::messenger()->addWarning("You have not earned this badge yet");
+          }
 
+          if (!empty($user_badges)) {
+            foreach ($user_badges as $user_badge) {
+              if ($user_badge->target_id == $key) {
+                $user_badge->set('value', Json::encode($decoded_value));
+                $user->save();
               }
             }
-          }
-          else {
-            $user_badges->appendItem([
-              'target_id' => $key,
-              'value' => Json::encode($decoded_value),
-            ]);
-            $user->save();
           }
         }
       }
 
-
-
-
-
-
-    } catch (\Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException $e) {
-    } catch (\Drupal\Component\Plugin\Exception\PluginNotFoundException $e) {
-    } catch (\Drupal\Core\TypedData\Exception\MissingDataException $e) {
     }
-
+    catch (InvalidPluginDefinitionException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+    catch (MissingDataException $e) {
+      $logger_factory->error($e->getMessage());
+    }
 
   }
 
