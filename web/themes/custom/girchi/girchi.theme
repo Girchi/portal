@@ -427,34 +427,41 @@ function girchi_preprocess_form(array &$variables) {
       $variables['cover_name'] = $coverName;
     }
 
-    //TODO: prettify code
-    /** @var \Drupal\taxonomy\TermStorage  $terms */
-    $terms =\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('badges',0,NULL,TRUE);
-    $user_badges = $user->get('field_badges');
-    $appearance = [];
-    foreach ($terms as $term) {
-      $tid = $term->id();
-      $name = $term->get('name')->value;
-      $imageEntity = $term->get('field_logo')->entity;
-      $status = $term->get('field_publicity')->value;
-      if ($imageEntity) {
-        $logo = $imageEntity->getFileUri();
-      } else {
-        $logo = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar34x34.png');
-      }
+    //User badges.
+    /** @var \Drupal\Core\Logger\LoggerChannel $logger_factory */
+    $logger_factory = Drupal::service('logger.factory')->get('taxonomy');
+    try {
+      /** @var \Drupal\taxonomy\TermStorage  $term_storage */
+      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $terms = $term_storage->loadTree('badges', 0, NULL, TRUE);
 
-      if($user_badges->isEmpty()){
-        $statusMessage = t("You have not earned this badge yet");
+      $user_badges = $user->get('field_badges');
+      $appearance = [];
+      //show all existed badges (from taxonomy) in user edit form.
+      foreach ($terms as $term) {
+        $tid = $term->id();
+        $name = $term->get('name')->value;
+        $imageEntity = $term->get('field_logo')->entity;
+        $status = $term->get('field_publicity')->value;
+        if ($imageEntity) {
+          $logo = $imageEntity->getFileUri();
+        } else {
+          $logo = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar34x34.png');
+        }
+
         $appearance_array = [
-          'visibility' => false,
-          'selected' => false,
-          'approved' => $status == 1 ? true : false,
-          'status_message' => $statusMessage,
+          'visibility' => FALSE,
+          'selected' => FALSE,
+          'approved' => $status == 1 ? TRUE : FALSE,
+          'earned_badge' => FALSE,
         ];
-        $appearance = Json::encode($appearance_array);
 
-      }
-      else {
+        if($user_badges->isEmpty()){
+          $statusMessage = t("You have not earned this badge yet");
+          $appearance_array['status_message'] = $statusMessage;
+          $appearance = Json::encode($appearance_array);
+        }
+        else {
           $user_badges_new = clone $user_badges;
           /** @var \Drupal\Core\Field\FieldItemList $supporter_exists */
           $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($tid) {
@@ -462,40 +469,32 @@ function girchi_preprocess_form(array &$variables) {
           });
           if ($badge_exists->value == '') {
             $statusMessage = t("You have not earned this badge yet");
-            $appearance_array = [
-              'visibility' => false,
-              'selected' => false,
-              'approved' => $status == 1 ? true : false,
-              'status_message' => $statusMessage,
-            ];
+            $appearance_array['status_message'] = $statusMessage;
             $appearance = Json::encode($appearance_array);
           }
           else {
-//            dump($user_badges);die;
            foreach ($user_badges as $user_badge){
-
              if($user_badge->target_id == $tid){
                $appearance = $user_badge->value;
              }
            }
           }
+        }
 
+        $variables['badges'][] = [
+          'id' => $tid,
+          'name' => $name,
+          'logo' => $logo,
+          'status' => $status,
+          'appearance' => $appearance,
+        ];
 
       }
-
-
-
-      $variables['badges'][] = [
-        'id' => $tid,
-        'name' => $name,
-        'logo' => $logo,
-        'status' => $status,
-        'appearance' => $appearance,
-      ];
+    } catch (\Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException $e) {
+      $logger_factory->error($e->getMessage());
+    } catch (\Drupal\Component\Plugin\Exception\PluginNotFoundException $e) {
+      $logger_factory->error($e->getMessage());
     }
-//die;
-
-
 
   }
 

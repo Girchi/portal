@@ -72,6 +72,7 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
       'selected' => FALSE,
       'approved' => TRUE,
       'status_message' => '',
+      'earned_badge' => TRUE,
     ];
     $value = $this->json->encode($appearance_array);
 
