@@ -6,6 +6,9 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\girchi_notifications\Constants\NotificationConstants;
+use Drupal\girchi_notifications\GetBadgeInfo;
+use Drupal\girchi_notifications\NotifyUserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -32,16 +35,34 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
   protected $json;
 
   /**
+   * GetBadgeInfo.
+   *
+   * @var \Drupal\girchi_notifications\GetBadgeInfo
+   */
+  protected $getBadgeInfoService;
+
+  /**
+   * NotifyUserService.
+   *
+   * @var \Drupal\girchi_notifications\NotifyUserService
+   */
+  protected $notifyUser;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration,
                               $plugin_id,
                               $plugin_definition,
                               EntityTypeManagerInterface $entityTypeManager,
-                              Json $json) {
+                              Json $json,
+                              GetBadgeInfo $getBadgeInfo,
+                              NotifyUserService $notifyUserService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entityTypeManager;
     $this->json = $json;
+    $this->getBadgeInfoService = $getBadgeInfo;
+    $this->notifyUser = $notifyUserService;
   }
 
   /**
@@ -53,7 +74,9 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('serialization.json')
+      $container->get('serialization.json'),
+      $container->get('girchi_notifications.get_badge_info'),
+      $container->get('girchi_notifications.notify_user')
     );
 
   }
@@ -62,11 +85,6 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
    * {@inheritdoc}
    */
   public function processItem($data) {
-    $user = $this->entityTypeManager->getStorage('user')->load($data['uid']);
-    /** @var \Drupal\Core\Field\FieldItemList $user_badges */
-    $user_badges = $user->get('field_badges');
-    $tid = $data['tid'];
-
     $appearance_array = [
       'visibility' => TRUE,
       'selected' => FALSE,
@@ -75,6 +93,18 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
       'earned_badge' => TRUE,
     ];
     $value = $this->json->encode($appearance_array);
+
+    $user = $this->entityTypeManager->getStorage('user')->load($data['uid']);
+    /** @var \Drupal\Core\Field\FieldItemList $user_badges */
+    $user_badges = $user->get('field_badges');
+    $tid = $data['tid'];
+
+    // Set parameters for NotifyUserService.
+    $badge_info = $this->getBadgeInfoService->getBadgeInfo($tid);
+    $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+    $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+    $notification_type = NotificationConstants::USER_BADGE;
+    $notification_type_en = NotificationConstants::USER_BADGE_EN;
 
     if (!$user_badges->isEmpty()) {
       $user_badges_new = clone $user_badges;
@@ -89,6 +119,8 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
           'value' => $value,
         ]);
         $user->save();
+        // Notify user.
+        $this->notifyUser->notifyUser($data['uid'], $badge_info, $notification_type, $notification_type_en, $text, $text_en);
       }
     }
     else {
@@ -97,6 +129,8 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
         'value' => $value,
       ]);
       $user->save();
+      // Notify user.
+      $this->notifyUser->notifyUser($data['uid'], $badge_info, $notification_type, $notification_type_en, $text, $text_en);
     }
 
   }

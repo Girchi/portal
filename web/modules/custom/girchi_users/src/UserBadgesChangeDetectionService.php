@@ -9,6 +9,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\girchi_notifications\Constants\NotificationConstants;
+use Drupal\girchi_notifications\GetBadgeInfo;
+use Drupal\girchi_notifications\NotifyUserService;
 use Drupal\girchi_users\Constants\BadgeConstants;
 
 /**
@@ -37,6 +40,20 @@ class UserBadgesChangeDetectionService {
   protected $json;
 
   /**
+   * GetBadgeInfo.
+   *
+   * @var \Drupal\girchi_notifications\GetBadgeInfo
+   */
+  protected $getBadgeInfoService;
+
+  /**
+   * NotifyUserService.
+   *
+   * @var \Drupal\girchi_notifications\NotifyUserService
+   */
+  protected $notifyUser;
+
+  /**
    * CreateGedTransaction constructor.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
@@ -45,11 +62,21 @@ class UserBadgesChangeDetectionService {
    *   Logger factory.
    * @param \Drupal\Component\Serialization\Json $json
    *   Json.
+   * @param \Drupal\girchi_notifications\GetBadgeInfo $getBadgeInfo
+   *   GetBadgeInfo.
+   * @param \Drupal\girchi_notifications\NotifyUserService $notifyUserService
+   *   NotifyUserService.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactory $loggerChannelFactory, Json $json) {
+  public function __construct(EntityTypeManager $entityTypeManager,
+                              LoggerChannelFactory $loggerChannelFactory,
+                              Json $json,
+                              GetBadgeInfo $getBadgeInfo,
+                              NotifyUserService $notifyUserService) {
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerFactory = $loggerChannelFactory->get('girchi_users');
     $this->json = $json;
+    $this->getBadgeInfoService = $getBadgeInfo;
+    $this->notifyUser = $notifyUserService;
   }
 
   /**
@@ -94,6 +121,19 @@ class UserBadgesChangeDetectionService {
         $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => $badge_name]);
         $tid = reset($term)->id();
 
+        // Set parameters for NotifyUserService.
+        $badge_info = $this->getBadgeInfoService->getBadgeInfo($tid);
+        if ($lost_badge == TRUE) {
+          $text = "თქვენ ჩამოგერთვათ ბეჯი - ${badge_info['badge_name']}.";
+          $text_en = "You are deprived the badge - ${badge_info['badge_name_en']}.";
+        }
+        else {
+          $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+          $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+        }
+        $notification_type = NotificationConstants::USER_BADGE;
+        $notification_type_en = NotificationConstants::USER_BADGE_EN;
+
         /** @var \Drupal\Core\Field\FieldItemList $user_badges */
         $user_badges = $user->get('field_badges');
         if (!$user_badges->isEmpty()) {
@@ -108,11 +148,15 @@ class UserBadgesChangeDetectionService {
               'target_id' => $tid,
               'value' => $value,
             ]);
+            // Notify user.
+            $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
           }
           else {
             foreach ($user_badges as $user_badge) {
               if ($user_badge->target_id == $tid) {
                 $user_badge->set('value', $value);
+                // Notify user.
+                $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
               }
             }
           }
@@ -122,6 +166,8 @@ class UserBadgesChangeDetectionService {
             'target_id' => $tid,
             'value' => $value,
           ]);
+          // Notify user.
+          $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
         }
       }
 
@@ -144,7 +190,6 @@ class UserBadgesChangeDetectionService {
    *   Single donation.
    */
   public function addDonationBadge($user_id, $single_donation) {
-    // TODO :: maybe notify user.
     try {
       if ($user_id != 0) {
         $appearance_array = [
@@ -171,6 +216,13 @@ class UserBadgesChangeDetectionService {
         /** @var \Drupal\Core\Field\FieldItemList $user_badges */
         $user_badges = $user->get('field_badges');
         if (!$user_badges->isEmpty()) {
+          // Set parameters for NotifyUserService.
+          $badge_info = $this->getBadgeInfoService->getBadgeInfo($tid);
+          $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+          $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+          $notification_type = NotificationConstants::USER_BADGE;
+          $notification_type_en = NotificationConstants::USER_BADGE_EN;
+
           $user_badges_new = clone $user_badges;
           /** @var \Drupal\Core\Field\FieldItemList $badge_exists */
           $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($tid) {
@@ -182,12 +234,16 @@ class UserBadgesChangeDetectionService {
               'value' => $value,
             ]);
             $user->save();
+            // Notify user.
+            $this->notifyUser->notifyUser($user_id, $badge_info, $notification_type, $notification_type_en, $text, $text_en);
           }
           else {
             foreach ($user_badges as $user_badge) {
               if ($user_badge->target_id == $tid && $user_badge->value == '') {
                 $user_badge->set('value', $value);
                 $user->save();
+                // Notify user.
+                $this->notifyUser->notifyUser($user_id, $badge_info, $notification_type, $notification_type_en, $text, $text_en);
               }
 
             }
@@ -228,8 +284,17 @@ class UserBadgesChangeDetectionService {
         if (!$user_badges->isEmpty()) {
           foreach ($user_badges as $user_badge) {
             if ($user_badge->target_id == $tid) {
+              // Set parameters for NotifyUserService.
+              $badge_info = $this->getBadgeInfoService->getBadgeInfo($tid);
+              $text = "თქვენ ჩამოგერთვათ ბეჯი - ${badge_info['badge_name']}.";
+              $text_en = "You are deprived the badge - ${badge_info['badge_name_en']}.";
+              $notification_type = NotificationConstants::USER_BADGE;
+              $notification_type_en = NotificationConstants::USER_BADGE_EN;
+              // Save badge value.
               $user_badge->set('value', '');
               $user->save();
+              // Notify user.
+              $this->notifyUser->notifyUser($uid, $badge_info, $notification_type, $notification_type_en, $text, $text_en);
             }
           }
         }
