@@ -7,6 +7,7 @@ use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Queue\QueueFactory;
+use Drupal\girchi_users\Constants\BadgeConstants;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -124,12 +125,12 @@ class GirchiUsersCommands extends DrushCommands {
       $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
 
       foreach ($users as $user) {
-        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პორტალის წევრი']);
+        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::PORTAL_MEMBER]);
         $tid = reset($term)->id();
         $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
 
         if ($user->get('field_politician')->value == TRUE) {
-          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პოლიტიკოსი']);
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::POLITICIAN]);
           $tid = reset($term)->id();
           $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
         }
@@ -144,13 +145,13 @@ class GirchiUsersCommands extends DrushCommands {
           ->execute();
 
         if (!empty($single_donation)) {
-          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პარტნიორი - ერთჯერადი დამფინანსებელი']);
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::SINGLE_CONTRIBUTOR]);
           $tid = reset($term)->id();
           $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
         }
 
         if (!empty($regular_donation)) {
-          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => 'პარტნიორი - მრავალჯერადი დამფინანსებელი']);
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::REGULAR_CONTRIBUTOR]);
           $tid = reset($term)->id();
           $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
         }
