@@ -94,7 +94,7 @@
                                 {#                                        >#}
                             </div>
                         </div>
-                        <div  class="d-none d-md-block"
+                        <div  class="d-none d-md-block">
                         {{ element.actions.submit }}
                         </div>
                 </div>
@@ -127,7 +127,7 @@
                                   </span>
                                   <span class="mb-0 mx-3 font-weight-bold font-size-2  w-auto">{{ badge.name }}</span>
                                     <div class="badge-visibility p-2 float-right ml-auto">
-                                        {% if (appearance_data.visibility == true )  %}
+                                        {% if (appearance_data.visibility == true and appearance_data.earned_badge == true )  %}
                                         <span class="badge-visible font-size-4  shadow-none text-dark-silver text-hover-danger" >
                                             <i class="icon-delete"></i>
                                             <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >
@@ -142,7 +142,6 @@
                                 </div>
 
                             {% endfor %}
-{#                            <input class="hidden badge-value" name="badges" >#}
                         </div>
                     </div>
 

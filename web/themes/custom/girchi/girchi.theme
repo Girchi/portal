@@ -452,6 +452,7 @@ function girchi_preprocess_form(array &$variables) {
         $appearance_array = [
           'visibility' => FALSE,
           'selected' => FALSE,
+          //approved means that you do not need admins permission to acquire this badge.
           'approved' => $status == 1 ? TRUE : FALSE,
           'earned_badge' => FALSE,
         ];

@@ -118,7 +118,11 @@ class GirchiUsersCommands extends DrushCommands {
    */
   public function userBadges() {
     try {
-      $users = $this->entityTypeManager->getStorage('user')->loadMultiple();
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $uid = $user_storage->getQuery()
+        ->condition('uid', '0', '!=')
+        ->execute();
+      $users = $user_storage->loadMultiple($uid);
       $queue = $this->queueFactory->get('user_badges_queue');
 
       $donation_storage = $this->entityTypeManager->getStorage('donation');

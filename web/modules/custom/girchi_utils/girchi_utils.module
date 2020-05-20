@@ -477,6 +477,15 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
           $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
           $term_status = $term->get('field_publicity')->value;
           $term_name = $term->get('name')->value;
+
+          $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+          if ($language === 'ka' && $term->hasTranslation('ka')) {
+            $term_name = $term->getTranslation('ka')->getName();
+          }
+          else {
+            $term_name = $term->get('name')->value;
+          }
+
           // If term status is equal to false
           // Send notification to admin
           // for approving that badge.
@@ -493,14 +502,29 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
             $decoded_value['status_message'] = '';
           }
           elseif ($decoded_value['earned_badge'] == FALSE && $term_status == TRUE) {
-            \Drupal::messenger()->addWarning("You have not earned this badge yet");
+            \Drupal::messenger()->addWarning(t("You have not earned this badge yet"));
           }
 
           if (!empty($user_badges)) {
-            foreach ($user_badges as $user_badge) {
-              if ($user_badge->target_id == $key) {
-                $user_badge->set('value', Json::encode($decoded_value));
-                $user->save();
+            $user_badges_new = clone $user_badges;
+            /** @var \Drupal\Core\Field\FieldItemList $supporter_exists */
+            $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($key) {
+              return $key == $user_badges->target_id;
+            });
+            if ($badge_exists->isEmpty()) {
+              $user_badges->appendItem([
+                'target_id' => $key,
+                'value' => Json::encode($decoded_value),
+              ]);
+              $user->save();
+            }
+            else {
+              foreach ($user_badges as $user_badge){
+                if($user_badge->target_id == $key){
+                  $user_badge->set('value', Json::encode($decoded_value));
+                  $user->save();
+                }
+
               }
             }
           }
