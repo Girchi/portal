@@ -142,7 +142,7 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
         ->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE))
         ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
 
-      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369) ? '1360' : NULL;
+      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
 
       if ($data->getStatus() === 'ACTIVE') {
         $card_id = $data->get('card_id')->value;
