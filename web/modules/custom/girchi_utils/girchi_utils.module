@@ -501,6 +501,9 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
           elseif ($decoded_value['visibility'] == TRUE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
             $decoded_value['status_message'] = '';
           }
+          elseif ($decoded_value['visibility'] == FALSE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
+            $decoded_value['status_message'] = 'ბეჯი დამალულია საჯაროდ';
+          }
           elseif ($decoded_value['earned_badge'] == FALSE && $term_status == TRUE) {
             \Drupal::messenger()->addWarning(t("You have not earned this badge yet"));
           }

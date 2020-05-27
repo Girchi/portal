@@ -91,13 +91,6 @@ class NotifyUserService {
         $link = $url . '/user/' . $user_id;
       }
 
-      if($type_en == NotificationConstants::USER_BADGE_EN || $type_en == NotificationConstants::BADGE_EN){
-        $image = $invoker['badge_img'];
-      }
-      else {
-        $image = $invoker['image'];
-      }
-
       $notification = [
         'title' => $type,
         'title_en' => $type_en,
@@ -106,7 +99,7 @@ class NotifyUserService {
         'type' => $type_en,
         'user' => $user_id,
         'link' => $link,
-        'photoUrl' => $image,
+        'photoUrl' => $invoker['image'],
       ];
       $encoded_notification = json::encode($notification);
       $options = [

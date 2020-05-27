@@ -8,7 +8,8 @@ namespace Drupal\girchi_users\Constants;
 class BadgeConstants {
   const POLITICIAN = 'politician';
   const PORTAL_MEMBER = 'Member of the portal';
-  const REGULAR_CONTRIBUTOR = 'პარტნიორი - მრავალჯერადი დამფინანსებელი';
-  const SINGLE_CONTRIBUTOR = 'პარტნიორი - ერთჯერადი დამფინანსებელი';
+  const REGULAR_CONTRIBUTOR = 'partner - multiple contributor';
+  const SINGLE_CONTRIBUTOR = 'partner - single contributor';
+  const CULTIVATION = 'cultivation';
 
 }

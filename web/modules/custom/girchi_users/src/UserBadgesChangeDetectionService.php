@@ -133,6 +133,7 @@ class UserBadgesChangeDetectionService {
         }
         $notification_type = NotificationConstants::USER_BADGE;
         $notification_type_en = NotificationConstants::USER_BADGE_EN;
+        $badge_info['image'] = $badge_info['logo_svg'][$badge_name];
 
         /** @var \Drupal\Core\Field\FieldItemList $user_badges */
         $user_badges = $user->get('field_badges');
@@ -222,6 +223,7 @@ class UserBadgesChangeDetectionService {
           $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
           $notification_type = NotificationConstants::USER_BADGE;
           $notification_type_en = NotificationConstants::USER_BADGE_EN;
+          $badge_info['image'] = $badge_info['logo_svg'][$badge_name];
 
           $user_badges_new = clone $user_badges;
           /** @var \Drupal\Core\Field\FieldItemList $badge_exists */
@@ -271,13 +273,14 @@ class UserBadgesChangeDetectionService {
   public function deleteRegDonationBadge($uid) {
     try {
       $user = $this->entityTypeManager->getStorage('user')->load($uid);
+      $badge_name = BadgeConstants::REGULAR_CONTRIBUTOR;
       $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
       $regular_donation = $regular_donation_storage->getQuery()
         ->condition('user_id', $user->id(), '=')
         ->condition('status', 'ACTIVE', '=')
         ->execute();
       if (empty($regular_donation)) {
-        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::REGULAR_CONTRIBUTOR]);
+        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => $badge_name]);
         $tid = reset($term)->id();
         /** @var \Drupal\Core\Field\FieldItemList $user_badges */
         $user_badges = $user->get('field_badges');
@@ -290,6 +293,8 @@ class UserBadgesChangeDetectionService {
               $text_en = "You are deprived the badge - ${badge_info['badge_name_en']}.";
               $notification_type = NotificationConstants::USER_BADGE;
               $notification_type_en = NotificationConstants::USER_BADGE_EN;
+              $badge_info['image'] = $badge_info['logo_svg'][$badge_name];
+
               // Save badge value.
               $user_badge->set('value', '');
               $user->save();

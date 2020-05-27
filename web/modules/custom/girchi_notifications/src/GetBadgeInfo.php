@@ -6,6 +6,7 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\girchi_users\Constants\BadgeConstants;
 use Drupal\language\ConfigurableLanguageManager;
 
 /**
@@ -62,8 +63,23 @@ class GetBadgeInfo {
     try {
       $language = $this->languageManager->getCurrentLanguage()->getId();
       $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($badge_id);
-      $badge_logo = $term->get('field_logo')->entity->getFileUri();
       $badge_name_en = $term->getName();
+
+      $logo_names = [
+        BadgeConstants::PORTAL_MEMBER => 'icon-badge-user',
+        BadgeConstants::CULTIVATION => 'icon-badge-weed',
+        BadgeConstants::POLITICIAN => 'icon-badge-politician',
+        BadgeConstants::SINGLE_CONTRIBUTOR => 'icon-badge-partner',
+        BadgeConstants::REGULAR_CONTRIBUTOR => 'icon-badge-partner-multiple',
+      ];
+
+      $logo_svg = [
+        BadgeConstants::PORTAL_MEMBER => '/themes/custom/girchi/images/badge-user.svg',
+        BadgeConstants::CULTIVATION => '/themes/custom/girchi/images/badge-weed.svg',
+        BadgeConstants::POLITICIAN => '/themes/custom/girchi/images/badge-politician.svg',
+        BadgeConstants::SINGLE_CONTRIBUTOR => '/themes/custom/girchi/images/badge-partner.svg',
+        BadgeConstants::REGULAR_CONTRIBUTOR => '/themes/custom/girchi/images/badge-partner-multiple.svg',
+      ];
 
       if ($language === 'ka' && $term->hasTranslation('ka')) {
         $badge_name = $term->getTranslation('ka')->getName();
@@ -75,8 +91,9 @@ class GetBadgeInfo {
       return [
         'badge_name' => $badge_name,
         'badge_name_en' => $badge_name_en,
-        'badge_img' => $badge_logo,
         'badge_id' => $badge_id,
+        'icon_name' => $logo_names,
+        'logo_svg' => $logo_svg
       ];
     }
     catch (InvalidPluginDefinitionException $e) {
