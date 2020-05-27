@@ -122,34 +122,25 @@ $(document).ready(function() {
     };
 
     //Badge visibility logic.
-    $('.badge-visibility').click(function(e) {
+    $('.user-badge-visibility').click(function (e) {
         let badgeData = $(this).parent();
-        let bandgeSpan = $(this).children();
-        let visibleIcon = `<i class="icon-delete"></i>`
-        let invisibleIcon = `<i class="icon-ged"></i>`
-        let current_values = JSON.parse(bandgeSpan.children('input').val());
+        let bandgeSpan = $(this).children('input');
+        let current_values = JSON.parse(bandgeSpan.val());
 
-        if(bandgeSpan.hasClass('badge-visible')) {
-            bandgeSpan.removeClass('badge-visible');
-            bandgeSpan.addClass('badge-invisible');
-            bandgeSpan.children().remove('i');
-            bandgeSpan.append(invisibleIcon);
-            badgeData.attr('data-value', 0);
+        if(badgeData.hasClass('user-badge-visible')) {
+            badgeData.removeClass('user-badge-visible');
             current_values.visibility = false;
             current_values.selected = true;
-            bandgeSpan.children('input').val(JSON.stringify(current_values));
+            bandgeSpan.val(JSON.stringify(current_values));
         }
-        else if(bandgeSpan.hasClass('badge-invisible')) {
-            bandgeSpan.removeClass('badge-invisible');
-            bandgeSpan.addClass('badge-visible');
-            bandgeSpan.children().remove('i');
-            bandgeSpan.append(visibleIcon);
-            badgeData.attr('data-value', 1);
+        else if(!badgeData.hasClass('user-badge-visible')){
+            badgeData.addClass('user-badge-visible');
             current_values.visibility = true;
             current_values.selected = true;
-            bandgeSpan.children('input').val(JSON.stringify(current_values));
+            bandgeSpan.val(JSON.stringify(current_values));
         }
-      });
+
+    })
 
 });
 
