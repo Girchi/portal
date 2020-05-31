@@ -41,3 +41,11 @@ girchi_users.user_controller_jwtRefreshToken:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
+girchi_users.chrome_ext_controller_list:
+  path: '/users/list-for-extension'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\ChromeExtController::list'
+    _title: 'Users list'
+  requirements:
+    _permission: 'access content'
