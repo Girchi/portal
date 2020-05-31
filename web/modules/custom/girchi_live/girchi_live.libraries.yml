@@ -1,0 +1,4 @@
+jsmpeg:
+  version: 1.x
+  js:
+    js/jsmpeg.min.js: {}

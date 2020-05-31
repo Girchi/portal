@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_live.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_live_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_live module.
+    case 'help.page.girchi_live':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Custom page for GirchiTV live.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_live_theme() {
+  return [
+    'girchi_live_page' => [
+      'render element' => 'children',
+      'variables' =>
+        [
+          'live_url' => NULL,
+        ],
+    ],
+  ];
+}
