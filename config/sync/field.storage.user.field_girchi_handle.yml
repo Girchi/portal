@@ -1,0 +1,21 @@
+uuid: 9a75312b-1552-41b1-abf6-1cb5730ffd92
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_girchi_handle
+field_name: field_girchi_handle
+entity_type: user
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
