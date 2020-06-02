@@ -20,3 +20,6 @@ services:
   girchi_users.user_badges_change_detection:
     class: Drupal\girchi_users\UserBadgesChangeDetectionService
     arguments: ['@entity_type.manager','@logger.factory', '@serialization.json', '@girchi_notifications.get_badge_info', '@girchi_notifications.notify_user']
+  girchi_users.approved_badges:
+    class: Drupal\girchi_users\UserApprovedBadgesService
+    arguments: ['@entity_type.manager','@logger.factory','@serialization.json' ]

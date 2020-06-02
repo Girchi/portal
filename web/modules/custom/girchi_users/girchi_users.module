@@ -5,6 +5,7 @@
  * Contains girchi_users.module.
  */
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -12,7 +13,6 @@ use Drupal\Core\Url;
 use Drupal\girchi_notifications\Constants\NotificationConstants;
 use Drupal\girchi_users\Event\UserLoginEvent;
 use Drupal\user\UserInterface;
-use Drupal\views\ViewExecutable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -231,7 +231,7 @@ function girchi_users_user_presave(EntityInterface $user) {
 
     }
 
-    if(empty($referral_id) && !empty($original_referral_id)){
+    if (empty($referral_id) && !empty($original_referral_id)) {
       $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
       $text_en = "${getUserInfo['full_name']} removed you from referral.";
       $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
@@ -241,5 +241,27 @@ function girchi_users_user_presave(EntityInterface $user) {
   /** @var \Drupal\girchi_users\UserBadgesChangeDetectionService $userBadgesChangeDetectionService */
   $userBadgesChangeDetectionService = \Drupal::service('girchi_users.user_badges_change_detection');
   $userBadgesChangeDetectionService->userBadgesChangeDetection($user);
+
+  // Update field_approved_badges field.
+  /** @var \Drupal\Core\Field\FieldItemList $user_badges */
+  $user_badges = $user->get('field_badges');
+  if (!empty($user_badges)) {
+    /** @var Drupal\girchi_users\UserApprovedBadgesService $userApprovedBadgesService */
+    $userApprovedBadgesService = \Drupal::service('girchi_users.approved_badges');
+    foreach ($user_badges as $user_badge) {
+      $badge_id = $user_badge->target_id;
+      $value = Json::decode($user_badge->value);
+      if ($value['earned_badge'] == TRUE && $value['visibility'] == TRUE) {
+        $userApprovedBadgesService->approvedBadges($user, $badge_id);
+      }
+      elseif (($value['earned_badge'] == TRUE && $value['visibility'] == FALSE)) {
+        $userApprovedBadgesService->removeBadge($user, $badge_id);
+      }
+      elseif ($value == NULL) {
+        $userApprovedBadgesService->removeBadge($user, $badge_id);
+      }
+
+    }
+  }
 
 }
