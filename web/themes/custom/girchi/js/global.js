@@ -121,7 +121,7 @@ $(document).ready(function() {
 
     };
 
-    //Badge visibility logic.
+    // Badge visibility logic.
     $('.user-badge-visibility').click(function (e) {
         let badgeData = $(this).parent();
         let bandgeSpan = $(this).children('input');
@@ -141,6 +141,15 @@ $(document).ready(function() {
         }
 
     })
+
+    // Save selected region in hidden field to use it in drupal
+    $('.selectpicker').on('change', function (e) {
+        let region_id = $(this).val();
+        let selectpicker_parent = $(this).parent();
+        let input_region = `<input class="hidden" name="region" value="${region_id}">`;
+        selectpicker_parent.parent().append(input_region);
+    });
+    
 
 });
 

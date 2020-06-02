@@ -296,7 +296,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
     $form['field_region']['widget'][0]['target_id']['#attributes']['id'][] = 'region';
     $form['field_region']['widget'][0]['target_id']['#attributes']['placeholder'][] = t('Choose region');
 
-
     if (!Drupal::currentUser()->hasPermission('admin')) {
       $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
       // Unset titles.
@@ -466,8 +465,18 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
       }
     }
 
-    // Badge visibility logic.
     try {
+      // Set region to user field field_region.
+      if(isset($value['region'])){
+        $region_id = $value['region'];
+        $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($region_id);
+        if($term){
+          $user->set('field_region', $region_id);
+          $user->save();
+        }
+      }
+
+      // Badge visibility logic.
       /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $user_badges */
       $user_badges = $user->get('field_badges');
       foreach ($value['badges'] as $key => $badge) {
@@ -476,7 +485,6 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
           $decoded_value['selected'] = FALSE;
           $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
           $term_status = $term->get('field_publicity')->value;
-          $term_name = $term->get('name')->value;
 
           $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
           if ($language === 'ka' && $term->hasTranslation('ka')) {
@@ -489,16 +497,17 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
           // If term status is equal to false
           // Send notification to admin
           // for approving that badge.
-          if ($decoded_value['visibility'] == TRUE && $term_status == FALSE) {
-            $decoded_value['visibility'] = FALSE;
-            $decoded_value['approved'] = FALSE;
-            $decoded_value['status_message'] = t('The request is being processed');
-            /** @var \Drupal\girchi_notifications\NotifyAdminService $notify_admin */
-            $notify_admin = Drupal::service('girchi_notifications.notify_admin');
-            $notify_admin->badgeRequest($uid, $key);
-            \Drupal::messenger()->addMessage(t("მოთხოვნა ბეჯზე ${term_name} გაგზავნილია საიტის ადმინისტრაციასთან."));
-          }
-          elseif ($decoded_value['visibility'] == TRUE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
+          // TODO:: aq axali unda moipiqro rame dablokili bejebi rogor daatrigero
+          //          if ($decoded_value['visibility'] == TRUE && $term_status == FALSE) {
+          //            $decoded_value['visibility'] = FALSE;
+          //            $decoded_value['approved'] = FALSE;
+          //            $decoded_value['status_message'] = t('The request is being processed');
+          //            /** @var \Drupal\girchi_notifications\NotifyAdminService $notify_admin */
+          //            $notify_admin = Drupal::service('girchi_notifications.notify_admin');
+          //            $notify_admin->badgeRequest($uid, $key);
+          //            \Drupal::messenger()->addMessage(t("მოთხოვნა ბეჯზე ${term_name} გაგზავნილია საიტის ადმინისტრაციასთან."));
+          //          }.
+          if ($decoded_value['visibility'] == TRUE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
             $decoded_value['status_message'] = '';
           }
           elseif ($decoded_value['visibility'] == FALSE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
@@ -510,7 +519,7 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
 
           if (!empty($user_badges)) {
             $user_badges_new = clone $user_badges;
-            /** @var \Drupal\Core\Field\FieldItemList $supporter_exists */
+            /** @var \Drupal\Core\Field\FieldItemList $badge_exists */
             $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($key) {
               return $key == $user_badges->target_id;
             });
