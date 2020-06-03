@@ -39,6 +39,7 @@ hidden:
   field_favorite_news: true
   field_first_name: true
   field_ged: true
+  field_girchi_handle: true
   field_intro: true
   field_last_name: true
   field_my_party_list: true
@@ -48,12 +49,14 @@ hidden:
   field_politician: true
   field_profile_video: true
   field_public_email: true
+  field_publicity: true
   field_rank: true
   field_rating_in_party_list: true
   field_referral: true
   field_referral_benefits: true
   field_referral_date: true
   field_referral_url: true
+  field_refresh_token: true
   field_social_auth_password: true
   field_tel: true
   field_twitter_url: true

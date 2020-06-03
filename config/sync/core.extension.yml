@@ -117,6 +117,7 @@ module:
   toolbar: 0
   twig_field_value: 0
   twig_tweak: 0
+  unique_field_ajax: 0
   url_embed: 0
   user: 0
   user_registrationpassword: 0

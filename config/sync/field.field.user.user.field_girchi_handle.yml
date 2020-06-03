@@ -5,7 +5,14 @@ dependencies:
   config:
     - field.storage.user.field_girchi_handle
   module:
+    - unique_field_ajax
     - user
+third_party_settings:
+  unique_field_ajax:
+    unique: 1
+    per_lang: 0
+    use_ajax: 0
+    message: ''
 id: user.user.field_girchi_handle
 field_name: field_girchi_handle
 entity_type: user

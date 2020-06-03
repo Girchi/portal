@@ -277,6 +277,7 @@
     "drupal/telephone_validation": "^2.2",
     "drupal/twig_field_value": "^1.1",
     "drupal/twig_tweak": "2.1",
+    "drupal/unique_field_ajax": "^1.2",
     "drupal/url_embed": "^1.0@alpha",
     "drupal/user_registrationpassword": "^1.0@alpha",
     "drupal/video_embed_facebook": "^1.2",
