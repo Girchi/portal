@@ -19,8 +19,8 @@ class LiveController extends ControllerBase {
   /**
    * Hello.
    *
-   * @return string
-   *   Return Hello string.
+   * @return array
+   *   Return index of live page.
    */
   public function index() {
     return [
