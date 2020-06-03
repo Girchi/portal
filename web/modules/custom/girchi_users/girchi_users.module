@@ -218,13 +218,10 @@ function girchi_users_user_presave(EntityInterface $user) {
 
     }
 
-    if(empty($referral_id) && !empty($original_referral_id)){
+    if (empty($referral_id) && !empty($original_referral_id)) {
       $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
       $text_en = "${getUserInfo['full_name']} removed you from referral.";
       $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
     }
   }
-
-
-
 }
