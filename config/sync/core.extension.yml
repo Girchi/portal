@@ -48,6 +48,7 @@ module:
   girchi_donations: 0
   girchi_ged_transactions: 0
   girchi_leaderboard: 0
+  girchi_live: 0
   girchi_my_party_list: 0
   girchi_notifications: 0
   girchi_paypal: 0
