@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_address
+    - field.field.user.user.field_approved_badges
     - field.field.user.user.field_badges
     - field.field.user.user.field_bio
     - field.field.user.user.field_cover_photo
@@ -64,6 +65,15 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_approved_badges:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_badges:
     type: reference_value_autocomplete_widget
