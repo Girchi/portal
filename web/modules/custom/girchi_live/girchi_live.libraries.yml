@@ -1,4 +1,5 @@
-jsmpeg:
+live:
   version: 1.x
-  js:
-    js/jsmpeg.min.js: {}
+  css:
+    layout:
+      css/live.css: {}

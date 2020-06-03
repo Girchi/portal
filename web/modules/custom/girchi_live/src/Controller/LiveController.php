@@ -14,7 +14,7 @@ class LiveController extends ControllerBase {
    *
    * @var string
    */
-  private $livestreamUrl = 'http://stream1.datacomm.ge:8080/feed/girchitv/main/mpegts';
+  private $livestreamUrl = 'https://tv.myvideo.ge/embed.html?chan=girchitv';
 
   /**
    * Hello.
@@ -28,7 +28,7 @@ class LiveController extends ControllerBase {
       '#live_url' => $this->livestreamUrl,
       '#attached' => [
         'library' => [
-          'girchi_live/jsmpeg',
+          'girchi_live/live',
         ],
       ],
     ];
