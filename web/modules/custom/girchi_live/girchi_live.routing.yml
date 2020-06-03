@@ -1,0 +1,8 @@
+
+girchi_live.live_controller_hello:
+  path: '/live'
+  defaults:
+    _controller: '\Drupal\girchi_live\Controller\LiveController::index'
+    _title: 'Live'
+  requirements:
+    _permission: 'access content'
