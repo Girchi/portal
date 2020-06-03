@@ -12,5 +12,4 @@ COMMIT_MSG_FILE=$1
 DIFF=$(git -c diff.mnemonicprefix=false --no-pager diff -r -p -m -M --full-index --no-color --staged | cat)
 
 # Run GrumPHP
-(cd "./" && printf "%s\n" "${DIFF}" | docker exec -i girchi_php sh -c "cd /var/www/html && ./vendor/bin/grumphp git:commit-msg --git-user=$GIT_USER --git-email=$GIT_EMAIL $COMMIT_MSG_FILE")
-
+(cd "./" && printf "%s\n" "${DIFF}" | docker exec -i `docker ps --filter name="_php" --format "{{ .ID }}"` bash -c "cd /var/www/html && ./vendor/bin/grumphp git:commit-msg --git-user=$GIT_USER --git-email=$GIT_EMAIL $COMMIT_MSG_FILE")
