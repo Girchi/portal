@@ -1,0 +1,8 @@
+
+girchi_reports.users_report_controller_users-report:
+  path: '/admin/girchi-reports/users'
+  defaults:
+    _controller: '\Drupal\girchi_reports\Controller\UsersReportController::users'
+    _title: 'Users Report'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_reports.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_reports_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_reports module.
+    case 'help.page.girchi_reports':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module generates pages with various interesting internal reports.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_reports_theme() {
+  return [
+    'girchi_reports' => [
+      'render element' => 'children',
+    ],
+  ];
+}

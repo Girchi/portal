@@ -1,0 +1,5 @@
+name: 'Girchi reports'
+type: module
+description: 'Module generates pages with various interesting internal reports.'
+core: 8.x
+package: 'Custom'
