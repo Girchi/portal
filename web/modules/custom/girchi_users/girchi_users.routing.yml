@@ -41,3 +41,12 @@ girchi_users.user_controller_jwtRefreshToken:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
+girchi_users.user_page_controller_get_referrals:
+  path: '/api/user/get_referrals'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UsersPageController::getPoliticianSupporters'
+    _title: 'Generate jwt refresh token'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'
