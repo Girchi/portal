@@ -50,3 +50,13 @@ girchi_users.user_page_controller_get_referrals:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
+girchi_users.custom_badges_form:
+  path: '/admin/custom-badges'
+  defaults:
+    _form: '\Drupal\girchi_users\Form\CustomBadgesForm'
+    _title: 'CustomBadgesForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE

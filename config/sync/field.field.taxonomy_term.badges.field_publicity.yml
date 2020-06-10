@@ -1,0 +1,23 @@
+uuid: 30e5ead3-398e-400a-93cc-3e71ab26aad3
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_publicity
+    - taxonomy.vocabulary.badges
+id: taxonomy_term.badges.field_publicity
+field_name: field_publicity
+entity_type: taxonomy_term
+bundle: badges
+label: Publicity
+description: 'თუ ამ ველს <b>არ მონიშნავთ </b>, მომხმარებელს დაჭირდება მოთხოვნის გამოგზავნა მის მოსაპოვებლად'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: ჩართვა
+  off_label: გამორთვა
+field_type: boolean

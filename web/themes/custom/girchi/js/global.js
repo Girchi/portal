@@ -121,6 +121,36 @@ $(document).ready(function() {
 
     };
 
+    // Badge visibility logic.
+    $('.user-badge-visibility').click(function (e) {
+        let badgeData = $(this).parent();
+        let bandgeSpan = $(this).children('input');
+        let current_values = JSON.parse(bandgeSpan.val());
+
+        if(badgeData.hasClass('user-badge-visible')) {
+            badgeData.removeClass('user-badge-visible');
+            current_values.visibility = false;
+            current_values.selected = true;
+            bandgeSpan.val(JSON.stringify(current_values));
+        }
+        else if(!badgeData.hasClass('user-badge-visible')){
+            badgeData.addClass('user-badge-visible');
+            current_values.visibility = true;
+            current_values.selected = true;
+            bandgeSpan.val(JSON.stringify(current_values));
+        }
+
+    })
+
+    // Save selected region in hidden field to use it in drupal
+    $('.selectpicker').on('change', function (e) {
+        let region_id = $(this).val();
+        let selectpicker_parent = $(this).parent();
+        let input_region = `<input class="hidden" name="region" value="${region_id}">`;
+        selectpicker_parent.parent().append(input_region);
+    });
+    
+
 });
 
 function SetCaretAtEnd(elem) {
@@ -204,3 +234,4 @@ $(".investor-parent-checkbox input").on("change",  function () {
         $(".investment-amount").attr('min', 1);
     }
 });
+

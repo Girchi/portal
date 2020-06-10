@@ -62,6 +62,44 @@
                             <label class="form-label" for="address">{{ "Address" | t }}</label>
                             {{ element.field_address }}
                         </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="address">{{ "Region" | t }}</label>
+                            {{ element.field_region }}
+                        </div>
+                        <div class="form-group mb-2 yle">
+                            <label class="form-label" for="last-name"
+                            >ქალაქი / რაიონი</label
+                            >
+                            <select
+                                name="country"
+                                id="country"
+                                multiple
+                                data-max-options="1"
+                                title="ქალაქი"
+                                class="selectpicker form-control form-control-lg pr-0"
+                                data-style="btn-lg btn-block"
+                            >
+                                {% for key, region in regions %}
+                                    {% if region.children is not null %}
+                                        <optgroup label="{{ region.region_name }}">
+                                            {% for key, child in region.children %}
+                                                {%  if(user_region == key) %}
+                                                    <option selected value={{key}}>{{child}} </option>
+                                                {% else %}
+                                                     <option value={{key}}>{{child}} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </optgroup>
+                                    {% else %}
+                                        {%  if(user_region == key) %}
+                                            <option selected value={{key}}>{{region.region_name}}</option>
+                                        {% else %}
+                                            <option value={{key}}>{{region.region_name}}</option>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div class="form-group mb-2 ">
                             <label class="form-label" for="phone">{{ "Phone number" | t }}</label>
                             {{ element.field_tel }}
@@ -89,17 +127,96 @@
                                 {#                                        >#}
                             </div>
                         </div>
+                        <div  class="d-none d-md-block">
                         {{ element.actions.submit }}
-                    </div>
+                        </div>
+                </div>
 
                 </div>
                 <div class="col-lg-6">
                     <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+                        <h6
+                            class="text-uppercase text-success font-weight-bold"
+                        >
+                            {{ 'Badges'|t }}
+                        </h6>
 
-                        <div class="form-group mb-0"></span>
+                        <p class="font-size-3 text-grey">
+                            {{ 'თქვენ შეგიძლიათ მოიპოვოთ ბეჯები და დამალოთ ან გამოაჩინოთ ისინი საჯაროდ'|t }}
+                        </p>
+                            {% for badge in badges %}
+                                {% set appearance_data = badge.appearance|twig_json_decode %}
+                                <div
+                                     {% if appearance_data.earned_badge == 1 and appearance_data.visibility == 1 %}
+                                         class="user-badge user-badge-visible"
+                                     {% elseif  appearance_data.earned_badge == 0 %}
+                                         class="user-badge user-badge-disabled"
+                                     {% else %}
+                                         class = "user-badge"
+                                     {% endif %}
+                                >
+                                    <i
+                                        class="icon-badge icon-badge-lg {{ appearance_data.earned_badge == true ? badge.logo_name[badge.name] : badge.logo_name[badge.name] ~'-disabled' }} "
+                                    ></i>
+                                    <div class="user-badge-text">
+                                        <span class="user-badge-status"> {{ badge.name }} </span>
+                                        {% if appearance_data.status_message != ''%}
+                                        <span class="user-badge-hint"> {{ appearance_data.status_message }} </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <button class="user-badge-visibility" type="button">
+                                        <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >
+                                    </button>
+                                </div>
+
+                            {% endfor %}
+
+
+
+{#                        <div class="form-group mb-2 p-1">#}
+{#                            {% for badge in badges %}#}
+{#                                {{ drupal_dump(badge.logo_name[badge.name]) }}#}
+{#                                {% set appearance_data = badge.appearance|twig_json_decode %}#}
+{#                                <div class="d-flex w-100 align-items-center p-2 form-control form-control-lg  fix badges-border mb-2"#}
+{#                                     data-id="{{ badge.id }}"#}
+{#                                     data-value="{{ badge.status }}"#}
+{#                                >#}
+{#                                  <span#}
+{#                                      class="rounded-circle overflow-hidden d-inline-block"#}
+{#                                  >#}
+{#                                    <img#}
+{#                                        src="{{ image_style_url(badge.logo, 'avatar_34x34') }}"#}
+{#                                    />#}
+{#                                  </span>#}
+{#                                    <span class="mb-0 mx-3 font-weight-bold font-size-2  w-auto">{{ badge.name }}</span>#}
+{#                                    <div class="badge-visibility p-2 float-right ml-auto">#}
+{#                                        {% if (appearance_data.visibility == true and appearance_data.earned_badge == true )  %}#}
+{#                                            <span class="badge-visible font-size-4  shadow-none text-dark-silver text-hover-danger" >#}
+{#                                            <i class="icon-delete"></i>#}
+{#                                            <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >#}
+{#                                        </span>#}
+{#                                        {% else %}#}
+{#                                            <span class="badge-invisible font-size-4  shadow-none text-dark-silver text-hover-danger" >#}
+{#                                            <i class="icon-ged"></i>#}
+{#                                            <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >#}
+{#                                        </span>#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                </div>#}
+
+{#                            {% endfor %}#}
+{#                        </div>#}
+
+                    </div>
+
+
+                    <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
+
+                        <div class="form-group mb-0">
                             <span class="text-success text-success font-size-3 text-uppercase w-auto">
-              {{ element.field_referral_url }}
-            </span>
+                                 {{ element.field_referral_url }}
+                            </span>
                             {{ 'დააკოპირე შენი refferal ბმული და მოიწვიე ახალი წევრები.' }}
 
                         </div>
@@ -128,7 +245,12 @@
                         <hr class="border-secondary my-2 my-sm-3"/>
                         {{ element.politician_text }}
                     </div>
+
+                    <div  class="d-sm-block d-md-none">
+                    {{ element.actions.submit }}
+                    </div>
                 </div>
+
             </div>
             {#Modal#}
             {#Modal is sitting inside of form because of user form custom image set in form alter#}
