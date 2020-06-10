@@ -1,0 +1,221 @@
+{#
+/**
+ * @file
+ * Default theme implementation for main view template.
+ *
+ * Available variables:
+ * - attributes: Remaining HTML attributes for the element.
+ * - css_name: A css-safe version of the view name.
+ * - css_class: The user-specified classes names, if any.
+ * - header: The optional header.
+ * - footer: The optional footer.
+ * - rows: The results of the view query, if any.
+ * - empty: The content to display if there are no rows.
+ * - pager: The optional pager next/prev links to display.
+ * - exposed: Exposed widget form/info to display.
+ * - feed_icons: Optional feed icons to display.
+ * - more: An optional link to the next page of results.
+ * - title: Title of the view, only used when displaying in the admin preview.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the view title.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the view title.
+ * - attachment_before: An optional attachment view to be displayed before the
+ *   view content.
+ * - attachment_after: An optional attachment view to be displayed after the
+ *   view content.
+ * - dom_id: Unique id for every view being printed to give unique class for
+ *   Javascript.
+ *
+ * @see template_preprocess_views_view()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+    set classes = [
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+]
+%}
+<div{{ attributes.addClass(classes) }}>
+    {{ title_prefix }}
+    {{ title }}
+    {{ title_suffix }}
+
+    {% if header %}
+        <header>
+            {{ header }}
+        </header>
+    {% endif %}
+
+    {{ exposed }}
+    {{ attachment_before }}
+    <div class="jumbotron bg-gradient-green rounded-none pt-3 pt-md-5">
+        <div class="container">
+            <div class="row">
+                <div class="pb-5 w-100">
+                    <div class="p-0 px-md-5 mb-5 d-flex align-items-center">
+                        <h4 class="line-height-1-3 line-height-md-1-0 font-size-4 font-size-md-6 text-white text-uppercase font-weight-bold d-flex align-items-center">
+                            <i class="icon-girchi-logo mr-3 font-size-8 d-none d-md-inline"></i>
+                            პორტალზე რეგისტრირებული მომხმარებლები
+                        </h4>
+
+                        <button href="#" class="btn btn-lg btn-warning text-uppercase ml-auto d-none d-md-block">
+                            დააფინანსე
+                        </button>
+                        <button href="#" class="btn btn-sm btn-warning text-uppercase ml-auto d-block d-md-none">
+                            დააფინანსე
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-n150">
+        <div class="container">
+            <div class="my-3 my-sm-4">
+                <div class="row flex-column-reverse flex-lg-row">
+                    <div class="col-md-12">
+                        <!-- Start of card -->
+                        <div
+                            class="card mt-0 mt-md-3 mt-lg-0 mb-2 mb-lg-3 overflow-hidden"
+                        >
+                            <div class="card-body p-0">
+                                <div
+                                    class="d-flex flex-column flex-md-row px-3 flex-wrap flex-lg-nowrap x-md-4 py-3 align-items-md-center"
+                                >
+                                    <div
+                                        class="d-flex align-items-center mb-0 mb-md-3 mb-lg-0 pb-0 pb-md-3 pb-lg-0 w-100 w-lg-auto border-bottom-0 border-bottom-md-1 border-bottom-lg-0"
+                                    >
+                      <span
+                          class="text-uppercase d-none d-md-inline-block font-weight-bold m-0 text-grey"
+                      >ფილტრი</span
+                      >
+                                        <form
+                                            class="w-100 d-flex flex-column flex-sm-row align-items-center m-0 mx-md-2 mb-3 mb-md-0"
+                                        >
+                                            <div class="form-group mx-1 my-md-0 w-100 w-md-180-px">
+                                                <select
+                                                    name="country"
+                                                    id="country"
+                                                    multiple
+                                                    title="ქალაქი"
+                                                    class="select form-control tree-select"
+                                                    data-style=""
+                                                >
+                                                    <optgroup label="ბათუმი">
+                                                        <option value="1">თელავი</option>
+                                                        <option value="2">ახმეტა</option>
+                                                        <option value="3">თელავი</option>
+                                                        <option value="4">ახმეტა</option>
+                                                        <option value="5">თელავი</option>
+                                                    </optgroup>
+                                                    <optgroup label="ქუთაისი">
+                                                        <option value="6">თელავი</option>
+                                                        <option value="7">თელავი</option>
+                                                        <option value="8">თელავი</option>
+                                                        <option value="9">თელავი</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mx-1 my-0 w-100  w-md-180-px">
+                                                <select
+                                                    name="status"
+                                                    id="status"
+                                                    multiple
+                                                    class="select form-control"
+                                                    data-style=""
+                                                    title="სტატუსი"
+                                                >
+                                                    <option value="1"
+                                                    >პარტნიორი - მრავალჯერადი დამფინანსებელი</option
+                                                    >
+                                                    <option value="2">პარტნიორი</option>
+                                                    <option value="3">პარტნიორი</option>
+                                                    <option value="4">პარტნიორი</option>
+                                                    <option value="5">პარტნიორი</option>
+                                                    <option value="5">პარტნიორი</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div
+                                        class="table-actions text-center mx-n1 d-flex flex-wrap"
+                                    >
+                                        <button
+                                            data-toggle="modal"
+                                            data-target="#sendEmailModal"
+                                            class="mx-1 flex-grow-1 my-1 btn btn-warning font-size-1 font-size-md-3 btn-with-icon d-inline-flex align-items-center text-uppercase"
+                                        >
+                                            <i class="icon-envelope font-size-4 mr-2 "></i>
+                                            მეილის გაგზავნა
+                                        </button>
+                                        <button
+                                            data-toggle="modal"
+                                            data-target="#sendSmsModal"
+                                            class="mx-1 flex-grow-1 my-1 btn btn-warning font-size-1 font-size-md-3 btn-with-icon d-inline-flex align-items-center text-uppercase"
+                                        >
+                                            <i class="icon-sms font-size-4 mr-2 "></i>
+                                            SMS გაგზავნა
+                                        </button>
+                                    </div>
+                                    <form
+                                        class="w-100 max-w-md-200 pt-2  mt-2 mt-md-0 pt-md-0 navbar-search ml-auto text-right"
+                                        action=""
+                                    >
+                                        <div
+                                            class="navbar-search-input bg-white rounded-oval pr-4 border-secondary border overflow-hidden w-100 w-md-200-px d-block"
+                                        >
+                                            <input
+                                                type="text"
+                                                name="q"
+                                                placeholder="ძებნა..."
+                                                class="border-0 py-1 m-1 px-3 outline-none font-size-3 text-success w-100"
+                                            />
+                                        </div>
+                                        <button
+                                            class="navbar-search-btn border-0 p-0 outline-none bg-transparent line-height-0-9 m-2 p-1 text-dark-silver"
+                                        >
+                                            <i class="icon-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="filter-chips">
+                                    <div class="filter-selected-chips">
+                                        <span class="filter-selected-chips-label">არჩეული:</span>
+                                        <div class="filter-selected-chips-list">
+                                            <!-- <button class="filter-chip">საბურთალო</button>
+                                            <button class="filter-chip">ახმეტა</button>
+                                            <button class="filter-chip">კრწანისი</button>
+                                            <button class="filter-chip">კრწანისი</button> -->
+                                        </div>
+                                    </div>
+                                    <button class="filter-chip js-clear-filter">
+                                        <span class="text-dark">ფილტრის მოხსნა</span>
+                                    </button>
+                                </div>
+    {% if rows -%}
+        {{ rows }}
+    {% elseif empty -%}
+        {{ empty }}
+    {% endif %}
+    {{ pager }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ attachment_after }}
+    {{ more }}
+
+    {% if footer %}
+        <footer>
+            {{ footer }}
+        </footer>
+    {% endif %}
+
+    {{ feed_icons }}
+</div>
