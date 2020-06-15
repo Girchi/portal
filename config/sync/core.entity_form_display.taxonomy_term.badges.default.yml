@@ -3,25 +3,13 @@ langcode: ka
 status: true
 dependencies:
   config:
-    - field.field.taxonomy_term.badges.field_logo
     - field.field.taxonomy_term.badges.field_publicity
-    - image.style.thumbnail
     - taxonomy.vocabulary.badges
-  module:
-    - image
 id: taxonomy_term.badges.default
 targetEntityType: taxonomy_term
 bundle: badges
 mode: default
 content:
-  field_logo:
-    weight: 35
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-    type: image_image
-    region: content
   field_publicity:
     weight: 36
     settings:
@@ -44,6 +32,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
 hidden:
   description: true
   path: true
