@@ -126,7 +126,6 @@ $(document).ready(function() {
         let badgeData = $(this).parent();
         let bandgeSpan = $(this).children('input');
         let current_values = JSON.parse(bandgeSpan.val());
-
         if(badgeData.hasClass('user-badge-visible')) {
             badgeData.removeClass('user-badge-visible');
             current_values.visibility = false;
@@ -141,6 +140,24 @@ $(document).ready(function() {
         }
 
     })
+    //Send request to administration to earn badge
+    $('.user-badge-send').click(function (e) {
+        let badgeData = $(this).parent();
+        let badgeId = badgeData.attr('data-id');
+        let bandgeSpan = $(this).children('input');
+        let current_values = JSON.parse(bandgeSpan.val());
+        current_values.selected = true;
+        $.ajax({
+            type: "POST",
+            url: "/api/user-badges/send-badge-request",
+            data: { badgeId: badgeId, badgeValue: current_values}
+        }).done(data => {
+            $(this).removeClass('user-badge-send icon-send');
+            $(this).addClass('hidden');
+            badgeData.find('.user-badge-hint').text(`${Drupal.t('The request is being processed')}`);
+            $("#user-form").prepend(`<div class="alert alert-success">${Drupal.t(`The request for the badge is sent to the sites administration`)} </div>`);
+        });
+    })
 
     // Save selected region in hidden field to use it in drupal
     $('.selectpicker').on('change', function (e) {
@@ -149,7 +166,7 @@ $(document).ready(function() {
         let input_region = `<input class="hidden" name="region" value="${region_id}">`;
         selectpicker_parent.parent().append(input_region);
     });
-    
+
 
 });
 

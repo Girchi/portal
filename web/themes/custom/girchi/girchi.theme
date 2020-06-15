@@ -220,6 +220,7 @@ function girchi_preprocess_page(array &$variables)
     //load user badges.
     /** @var \Drupal\Core\Field\FieldItemList $badges */
     $badges = $user->get('field_badges');
+    $user_badges = [];
     if (!$badges->isEmpty()){
       $user_badges = [];
       /** @var \Drupal\girchi_notifications\GetBadgeInfo $service */
@@ -463,13 +464,7 @@ function girchi_preprocess_form(array &$variables) {
       foreach ($terms as $term) {
         $tid = $term->id();
         $name = $term->get('name')->value;
-        $imageEntity = $term->get('field_logo')->entity;
         $status = $term->get('field_publicity')->value;
-        if ($imageEntity) {
-          $logo = $imageEntity->getFileUri();
-        } else {
-          $logo = file_create_url(drupal_get_path('theme', 'girchi') . '/images/avatar34x34.png');
-        }
 
         $appearance_array = [
           'visibility' => FALSE,
@@ -480,8 +475,14 @@ function girchi_preprocess_form(array &$variables) {
         ];
 
         if($user_badges->isEmpty()){
-          $statusMessage = t("You have not earned this badge yet");
-          $appearance_array['status_message'] = $statusMessage;
+          if($status == 0){
+            $statusMessage = t("Send request to administration to earn this badge");
+            $appearance_array['status_message'] = $statusMessage;
+          }
+          else {
+            $statusMessage = t("You have not earned this badge yet");
+            $appearance_array['status_message'] = $statusMessage;
+          }
           $appearance = Json::encode($appearance_array);
         }
         else {
@@ -491,8 +492,14 @@ function girchi_preprocess_form(array &$variables) {
             return $tid == $user_badges->target_id;
           });
           if ($badge_exists->value == '') {
-            $statusMessage = t("You have not earned this badge yet");
-            $appearance_array['status_message'] = $statusMessage;
+            if ($status ==1) {
+              $statusMessage = t("You have not earned this badge yet");
+              $appearance_array['status_message'] = $statusMessage;
+            }
+            else {
+              $statusMessage = t("Send request to administration to earn this badge");
+              $appearance_array['status_message'] = $statusMessage;
+            }
             $appearance = Json::encode($appearance_array);
           }
           else {
@@ -515,7 +522,6 @@ function girchi_preprocess_form(array &$variables) {
         $variables['badges'][] = [
           'id' => $tid,
           'name' => $name,
-          'logo' => $logo,
           'logo_name' => $logo_names,
           'status' => $status,
           'appearance' => $appearance,

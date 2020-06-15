@@ -51,3 +51,11 @@ girchi_users.custom_badges_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+
+girchi_users.request_badges:
+  path: '/api/user-badges/send-badge-request'
+  defaults:
+    _controller: '\Drupal\girchi_users\Controller\UserController::requestBadges'
+    _title: 'Generate jwt refresh token'
+  requirements:
+    _permission: 'access content'
