@@ -458,13 +458,22 @@ function girchi_preprocess_form(array &$variables) {
       $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
       $terms = $term_storage->loadTree('badges', 0, NULL, TRUE);
 
+      $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+
       $user_badges = $user->get('field_badges');
       $appearance = [];
       //show all existed badges (from taxonomy) in user edit form.
       foreach ($terms as $term) {
+        $icon = $term->get('field_icon_class')->value;
         $tid = $term->id();
-        $name = $term->get('name')->value;
         $status = $term->get('field_publicity')->value;
+        if ($language === 'ka' && $term->hasTranslation('ka')) {
+          $name = $term->getTranslation('ka')->getName();
+        }
+        else {
+          $name = $term->get('name')->value;
+        }
 
         $appearance_array = [
           'visibility' => FALSE,
@@ -511,18 +520,10 @@ function girchi_preprocess_form(array &$variables) {
           }
         }
 
-        $logo_names = [
-          BadgeConstants::PORTAL_MEMBER => 'icon-badge-user',
-          BadgeConstants::CULTIVATION => 'icon-badge-weed',
-          BadgeConstants::POLITICIAN => 'icon-badge-politician',
-          BadgeConstants::SINGLE_CONTRIBUTOR => 'icon-badge-partner',
-          BadgeConstants::REGULAR_CONTRIBUTOR => 'icon-badge-partner-multiple',
-        ];
-
         $variables['badges'][] = [
           'id' => $tid,
           'name' => $name,
-          'logo_name' => $logo_names,
+          'icon' => $icon,
           'status' => $status,
           'appearance' => $appearance,
         ];

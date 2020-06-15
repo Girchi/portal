@@ -55,23 +55,17 @@ class GetBadgeInfo {
    * GetBadgeInfo.
    *
    * @param int $badge_id
-   *   badge_id.
+   *   Badge_id.
    *
    * @return array
+   *   Badge_info.
    */
   public function getBadgeInfo($badge_id) {
     try {
       $language = $this->languageManager->getCurrentLanguage()->getId();
       $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($badge_id);
       $badge_name_en = $term->getName();
-
-      $logo_names = [
-        BadgeConstants::PORTAL_MEMBER => 'icon-badge-user',
-        BadgeConstants::CULTIVATION => 'icon-badge-weed',
-        BadgeConstants::POLITICIAN => 'icon-badge-politician',
-        BadgeConstants::SINGLE_CONTRIBUTOR => 'icon-badge-partner',
-        BadgeConstants::REGULAR_CONTRIBUTOR => 'icon-badge-partner-multiple',
-      ];
+      $icon = $term->get('field_icon_class')->value;
 
       $logo_svg = [
         BadgeConstants::PORTAL_MEMBER => '/themes/custom/girchi/images/badge-user.svg',
@@ -92,8 +86,8 @@ class GetBadgeInfo {
         'badge_name' => $badge_name,
         'badge_name_en' => $badge_name_en,
         'badge_id' => $badge_id,
-        'icon_name' => $logo_names,
-        'logo_svg' => $logo_svg
+        'icon' => $icon,
+        'logo_svg' => $logo_svg,
       ];
     }
     catch (InvalidPluginDefinitionException $e) {
