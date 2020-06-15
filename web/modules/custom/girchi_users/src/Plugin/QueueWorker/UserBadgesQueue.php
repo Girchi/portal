@@ -105,6 +105,8 @@ class UserBadgesQueue extends QueueWorkerBase implements ContainerFactoryPluginI
     $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
     $notification_type = NotificationConstants::USER_BADGE;
     $notification_type_en = NotificationConstants::USER_BADGE_EN;
+    $badgeName = $badge_info['badge_name_en'];
+    $badge_info['image'] = $badge_info['logo_svg'][$badgeName];
 
     if (!$user_badges->isEmpty()) {
       $user_badges_new = clone $user_badges;
