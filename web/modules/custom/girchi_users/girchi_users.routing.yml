@@ -45,11 +45,10 @@ girchi_users.user_controller_jwtRefreshToken:
 girchi_users.user_page_controller_get_referrals:
   path: '/api/user/get_referrals'
   defaults:
-    _controller: '\Drupal\girchi_users\Controller\UsersPageController::getPoliticianSupporters'
-    _title: 'Generate jwt refresh token'
+    _controller: '\Drupal\girchi_users\Controller\UsersPageController::getReferrals'
+    _title: 'getReferrals'
   requirements:
     _permission: 'access content'
-    _role: 'authenticated'
 
 girchi_users.custom_badges_form:
   path: '/admin/custom-badges'
@@ -60,3 +59,4 @@ girchi_users.custom_badges_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+
