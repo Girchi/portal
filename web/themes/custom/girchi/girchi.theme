@@ -17,6 +17,7 @@ include drupal_get_path('theme', 'girchi') . '/girchi.theme-suggestions.inc';
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
 function girchi_preprocess_html(array &$variables) {
+
   /* Add class to html tag */
   // $variables['html_attributes']->addClass('no-js');
   // Don't display the site name twice on the front page (and potentially others)
@@ -220,8 +221,8 @@ function girchi_preprocess_page(array &$variables)
     //load user badges.
     /** @var \Drupal\Core\Field\FieldItemList $badges */
     $badges = $user->get('field_badges');
+    $user_badges = [];
     if (!$badges->isEmpty()){
-      $user_badges = [];
       /** @var \Drupal\girchi_notifications\GetBadgeInfo $service */
       $service = \Drupal::service('girchi_notifications.get_badge_info');
       foreach ($badges as $badge) {
@@ -374,6 +375,14 @@ function girchi_preprocess_views_view(&$variables) {
       $uid = $user->id();
       $variables['newsAuthor'] = $uid;
     }
+  }
+  if ($variables['id'] == 'users') {
+    $taxonomy_service = Drupal::service("girchi_utils.taxonomy_term_tree");
+    $regions_taxonomy_tree = $taxonomy_service->load('regions');
+    $badges_taxonomy_tree = $taxonomy_service->load('badges');
+    $variables['regions'] = $regions_taxonomy_tree;
+    $variables['badges'] = $badges_taxonomy_tree;
+
   }
 }
 
