@@ -94,7 +94,7 @@
                                         <form
                                             class="w-100 d-flex flex-column flex-sm-row align-items-center m-0 mx-md-2 mb-3 mb-md-0"
                                         >
-                                            <div class="form-group mx-1 my-md-0 w-100 w-md-180-px">
+                                            <div class="form-group mx-1 my-md-0 w-100 w-md-180-px region-container">
                                                 <select
                                                     name="country"
                                                     id="country"
@@ -103,22 +103,20 @@
                                                     class="select form-control tree-select"
                                                     data-style=""
                                                 >
-                                                    <optgroup label="ბათუმი">
-                                                        <option value="1">თელავი</option>
-                                                        <option value="2">ახმეტა</option>
-                                                        <option value="3">თელავი</option>
-                                                        <option value="4">ახმეტა</option>
-                                                        <option value="5">თელავი</option>
-                                                    </optgroup>
-                                                    <optgroup label="ქუთაისი">
-                                                        <option value="6">თელავი</option>
-                                                        <option value="7">თელავი</option>
-                                                        <option value="8">თელავი</option>
-                                                        <option value="9">თელავი</option>
-                                                    </optgroup>
+                                                    {% for region in regions %}
+                                                        {% if region.children is not empty %}
+                                                            <optgroup value = {{ region.tid }} label="{{ region.name }}">
+                                                                    {% for sub_region in region.children %}
+                                                                        <option value="{{ sub_region.tid }}">{{ sub_region.name }}</option>
+                                                                    {% endfor %}
+                                                            </optgroup>
+                                                        {% else %}
+                                                            <option value="{{ region.tid }}">{{ region.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </select>
                                             </div>
-                                            <div class="form-group mx-1 my-0 w-100  w-md-180-px">
+                                            <div class="form-group mx-1 my-0 w-100  w-md-180-px status-container">
                                                 <select
                                                     name="status"
                                                     id="status"
@@ -127,14 +125,11 @@
                                                     data-style=""
                                                     title="სტატუსი"
                                                 >
-                                                    <option value="1"
-                                                    >პარტნიორი - მრავალჯერადი დამფინანსებელი</option
-                                                    >
-                                                    <option value="2">პარტნიორი</option>
-                                                    <option value="3">პარტნიორი</option>
-                                                    <option value="4">პარტნიორი</option>
-                                                    <option value="5">პარტნიორი</option>
-                                                    <option value="5">პარტნიორი</option>
+                                                    {% for badge in badges %}
+                                                        <option value="{{ badge.tid }}">
+                                                            {{ badge.name }}
+                                                        </option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </form>
@@ -142,22 +137,6 @@
                                     <div
                                         class="table-actions text-center mx-n1 d-flex flex-wrap"
                                     >
-                                        <button
-                                            data-toggle="modal"
-                                            data-target="#sendEmailModal"
-                                            class="mx-1 flex-grow-1 my-1 btn btn-warning font-size-1 font-size-md-3 btn-with-icon d-inline-flex align-items-center text-uppercase"
-                                        >
-                                            <i class="icon-envelope font-size-4 mr-2 "></i>
-                                            მეილის გაგზავნა
-                                        </button>
-                                        <button
-                                            data-toggle="modal"
-                                            data-target="#sendSmsModal"
-                                            class="mx-1 flex-grow-1 my-1 btn btn-warning font-size-1 font-size-md-3 btn-with-icon d-inline-flex align-items-center text-uppercase"
-                                        >
-                                            <i class="icon-sms font-size-4 mr-2 "></i>
-                                            SMS გაგზავნა
-                                        </button>
                                     </div>
                                     <form
                                         class="w-100 max-w-md-200 pt-2  mt-2 mt-md-0 pt-md-0 navbar-search ml-auto text-right"
@@ -167,6 +146,7 @@
                                             class="navbar-search-input bg-white rounded-oval pr-4 border-secondary border overflow-hidden w-100 w-md-200-px d-block"
                                         >
                                             <input
+                                                id="user-search"
                                                 type="text"
                                                 name="q"
                                                 placeholder="ძებნა..."
@@ -184,22 +164,62 @@
                                     <div class="filter-selected-chips">
                                         <span class="filter-selected-chips-label">არჩეული:</span>
                                         <div class="filter-selected-chips-list">
-                                            <!-- <button class="filter-chip">საბურთალო</button>
-                                            <button class="filter-chip">ახმეტა</button>
-                                            <button class="filter-chip">კრწანისი</button>
-                                            <button class="filter-chip">კრწანისი</button> -->
                                         </div>
                                     </div>
                                     <button class="filter-chip js-clear-filter">
                                         <span class="text-dark">ფილტრის მოხსნა</span>
                                     </button>
                                 </div>
-    {% if rows -%}
-        {{ rows }}
-    {% elseif empty -%}
-        {{ empty }}
-    {% endif %}
-    {{ pager }}
+                                <table class="table m-0 table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="px-0 pl-2 px-md-3 pr-md-1 border-bottom-0 w-auto text-center text-dark-silver font-size-2"
+                                        >
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="align-middle border-bottom-0 font-size-1 font-size-md-2 text-dark-silver"
+                                        >
+                                            მომხმარებელი
+                                            <span class="d-none d-md-inline">
+                            - ქალაქი / რაიონი</span
+                                            >
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="align-middle d-none d-lg-table-cell border-bottom-0 font-size-1 font-size-md-2 text-dark-silver text-center"
+                                        >
+                                            სტატუსი
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="align-middle border-bottom-0 font-size-1 font-size-md-2 text-dark-silver"
+                                        >
+                                            <span class="d-none d-md-block">
+                                                <a class = "table-sort-elem" data-target="field_referral_count_value" href="">რეფერალები</a></span>
+                                            <span class="d-block d-md-none"><a class = "table-sort-elem" href="">რეფერ.</a></span></span>
+                                        </th>
+
+                                        <th
+                                            scope="col"
+                                            class="border-bottom-0 font-size-1 font-size-md-2 text-dark-silver align-middle text-center"
+                                        >
+                                            <a class = "table-sort-elem"data-target="field_ged_value" href="">GeD</a>
+                                        </th>
+                                        <th class="d-none d-lg-table-cell"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if rows -%}
+                                            {{ rows }}
+                                        {% elseif empty -%}
+                                            {{ empty }}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                                {{ pager }}
                             </div>
                         </div>
                     </div>
@@ -207,7 +227,60 @@
             </div>
         </div>
     </div>
-
+    <div
+        class="modal fade"
+        id="referrals"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="supportersTitle"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content overflow-hidden">
+                <div class="modal-header align-items-center px-3 px-md-4">
+                    <h5
+                        class="modal-title font-size-3 text-uppercase font-weight-bold"
+                        id="supportersTitle"
+                    >
+                        {{"Referrals" | t}}
+                    </h5>
+                    <button
+                        type="button"
+                        class="close ml-2"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                    >
+                        <i
+                            aria-hidden="true"
+                            class="icon-close font-size-3 text-dark-silver"
+                        ></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <table class="table m-0 table-hover">
+                        <thead>
+                        <tr class="bg-dark-white">
+                            <th
+                                scope="col"
+                                class="align-middle w-auto text-center text-dark-silver font-size-2 border-0"
+                            >
+                                #
+                            </th>
+                            <th
+                                scope="col"
+                                class="align-middle font-size-1 font-size-md-2 text-dark-silver border-0"
+                            >
+                                {{'Name' | t}}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     {{ attachment_after }}
     {{ more }}
 
@@ -219,3 +292,4 @@
 
     {{ feed_icons }}
 </div>
+
