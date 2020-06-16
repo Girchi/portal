@@ -43,6 +43,11 @@ function girchi_users_theme() {
         'subtitle' => NULL,
       ],
     ],
+    'girchi_users_modal' => [
+      'variables' => [
+        'referrals' => NULL,
+      ],
+    ],
   ];
 }
 
@@ -213,6 +218,8 @@ function girchi_users_user_presave(EntityInterface $user) {
     $getUserInfoService = \Drupal::service('girchi_notifications.get_user_info');
     /** @var \Drupal\girchi_notifications\NotifyUserService $notifyUserService */
     $notifyUserService = \Drupal::service('girchi_notifications.notify_user');
+    /** @var \Drupal\girchi_referral\ReferralCount $referralCountService */
+    $referralCountService = \Drupal::service('girchi_referral.referral_count');
     $getUserInfo = $getUserInfoService->getUserInfo($user_id);
     $type = NotificationConstants::REFERRAL;
     $type_en = NotificationConstants::REFERRAL_EN;
@@ -221,12 +228,14 @@ function girchi_users_user_presave(EntityInterface $user) {
       $text = "${getUserInfo['full_name']}-მ მოგნიშნათ თავის რეფერალად.";
       $text_en = "${getUserInfo['full_name']} tagged you as referral";
       $notifyUserService->notifyUser($referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+      $referralCountService->dispatch('INCREMENT', $referral_id);
 
       // Inform user that someone removed them from referrals.
       if (!empty($original_referral_id)) {
         $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
         $text_en = "${getUserInfo['full_name']} removed you from referral.";
         $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+        $referralCountService->dispatch('DECREMENT', $original_referral_id);
       }
 
     }
@@ -235,6 +244,8 @@ function girchi_users_user_presave(EntityInterface $user) {
       $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
       $text_en = "${getUserInfo['full_name']} removed you from referral.";
       $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+      $referralCountService->dispatch('DECREMENT', $original_referral_id);
+
     }
   }
 
