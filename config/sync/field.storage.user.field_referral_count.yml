@@ -1,0 +1,20 @@
+uuid: 4af19c93-3d95-443e-b298-363a490cbf13
+langcode: ka
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_referral_count
+field_name: field_referral_count
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

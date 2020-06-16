@@ -3,6 +3,7 @@ langcode: ka
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.badges.field_icon_class
     - field.field.taxonomy_term.badges.field_logo
     - field.field.taxonomy_term.badges.field_publicity
     - image.style.thumbnail
@@ -14,6 +15,14 @@ targetEntityType: taxonomy_term
 bundle: badges
 mode: default
 content:
+  field_icon_class:
+    weight: 37
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_logo:
     weight: 35
     settings:
@@ -44,6 +53,11 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
 hidden:
   description: true
   path: true
