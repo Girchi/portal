@@ -192,3 +192,7 @@ input[type=number]::-webkit-outer-spin-button {
 .notifications-seen {
     background-color: #f7f7f7;
 }
+
+#views-exposed-form-users-page-1{
+    display: none;
+}
