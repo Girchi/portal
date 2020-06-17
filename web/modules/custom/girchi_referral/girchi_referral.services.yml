@@ -10,3 +10,6 @@ services:
   girchi_referral.create_referral_transaction:
     class: Drupal\girchi_referral\CreateReferralTransactionService
     arguments: ['@entity_type.manager','@logger.factory']
+  girchi_referral.referral_count:
+    class: Drupal\girchi_referral\ReferralCount
+    arguments: ['@entity_type.manager','@logger.factory']

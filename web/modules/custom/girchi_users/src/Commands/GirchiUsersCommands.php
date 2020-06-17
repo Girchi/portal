@@ -7,6 +7,7 @@ use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Queue\QueueFactory;
+use Drupal\girchi_referral\GetUserReferralsService;
 use Drupal\girchi_users\Constants\BadgeConstants;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -47,6 +48,13 @@ class GirchiUsersCommands extends DrushCommands {
   protected $queueFactory;
 
   /**
+   * ReferralService.
+   *
+   * @var \Drupal\girchi_referral\GetUserReferralsService
+   */
+  protected $referralService;
+
+  /**
    * EntityTypeManager.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
@@ -55,12 +63,18 @@ class GirchiUsersCommands extends DrushCommands {
    *   Logger.
    * @param \Drupal\Core\Queue\QueueFactory $queueFactory
    *   QueueFactory.
+   * @param \Drupal\girchi_referral\GetUserReferralsService $referralsService
+   *   ReferralService.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerChannelFactory, QueueFactory $queueFactory) {
+  public function __construct(EntityTypeManager $entityTypeManager,
+                              LoggerChannelFactoryInterface $loggerChannelFactory,
+                              QueueFactory $queueFactory,
+                              GetUserReferralsService $referralsService) {
     parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerFactory = $loggerChannelFactory;
     $this->queueFactory = $queueFactory;
+    $this->referralService = $referralsService;
   }
 
   /**
@@ -170,6 +184,29 @@ class GirchiUsersCommands extends DrushCommands {
       $this->loggerFactory->get('girchi_users')->error($e->getMessage());
     }
 
+  }
+
+  /**
+   * Set referral count command.
+   *
+   * @command girchi_users:set-referral-count
+   * @aliases users:set-ref
+   */
+  public  function setReferralCount() {
+    try {
+      $referralTree = $this->referralService->getUserReferralTree();
+      $users = $this->entityTypeManager->getStorage('user')->loadMultiple(array_keys($referralTree));
+
+      foreach ($users as $user) {
+        $user->set('field_referral_count', $referralTree[$user->id()]);
+        $user->save();
+
+      }
+
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
   }
 
 }

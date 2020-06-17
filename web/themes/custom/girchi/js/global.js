@@ -57,6 +57,7 @@ $(document).ready(function() {
             }
         });
     });
+
     $("body").on("click", ".politician-modal", e => {
         let userID = e.target.getAttribute("data-uid");
         if (typeof userID === "undefined" || userID === null) {
@@ -71,6 +72,25 @@ $(document).ready(function() {
         }).done(data => {
             let supporterTable = $("#supporters table tbody");
             supporterTable.html(data);
+        });
+    });
+
+    $("body").on("click", ".referral-modal", e => {
+        let userID = e.target.getAttribute("data-uid");
+        console.log(userID);
+        if (typeof userID === "undefined" || userID === null) {
+            userID = $(e.target)
+                .parents("a:first")
+                .attr("data-uid");
+        }
+        $.ajax({
+            type: "POST",
+            url: "/api/user/get_referrals",
+            data: { userId: userID }
+        }).done(data => {
+            let referralsTable = $("#referrals table tbody");
+            console.log(referralsTable);
+            referralsTable.html(data);
         });
     });
 
