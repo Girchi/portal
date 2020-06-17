@@ -2,6 +2,7 @@
 
 namespace Drupal\om_twig_helpers;
 
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\TypedData\TypedDataInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
@@ -663,13 +664,16 @@ class TwigExtension extends Twig_Extension
    *
    */
   public function getBadges($badges) {
+    $curr_langcode = \Drupal::service('language_manager')->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
     $markup = "";
     if($badges != '') {
       $badges = explode(',', $badges);
       $terms = Term::loadMultiple($badges);
       foreach ($terms as $term) {
-        $icon_class = $term->field_icon_class->value;
-        $name = $term->name->value;
+        $taxonomy_term_trans = \Drupal::service('entity.repository')->getTranslationFromContext($term, $curr_langcode);
+        $icon_class = $taxonomy_term_trans->field_icon_class->value;
+        $name = $taxonomy_term_trans->name->value;
         $element  = sprintf('<i class="icon-badge %s" data-toggle="tooltip" data-placement="top" title="" data-original-title="%s"></i>',$icon_class, $name);
         $markup .= $element;
       }

@@ -126,8 +126,8 @@
                                                     title="სტატუსი"
                                                 >
                                                     {% for badge in badges %}
-                                                        <option value="{{ badge.tid }}">
-                                                            {{ badge.name }}
+                                                        <option value="{{ badge.tid.value }}">
+                                                            {{ badge.name.value }}
                                                         </option>
                                                     {% endfor %}
                                                 </select>

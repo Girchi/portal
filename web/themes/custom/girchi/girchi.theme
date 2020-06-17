@@ -6,8 +6,10 @@
  */
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Url;
 use Drupal\girchi_users\Constants\BadgeConstants;
+use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
 
@@ -377,11 +379,22 @@ function girchi_preprocess_views_view(&$variables) {
     }
   }
   if ($variables['id'] == 'users') {
+    $curr_langcode = \Drupal::service('language_manager')->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $taxonomy_service = Drupal::service("girchi_utils.taxonomy_term_tree");
     $regions_taxonomy_tree = $taxonomy_service->load('regions');
+    //quick fix for translations @TODO
     $badges_taxonomy_tree = $taxonomy_service->load('badges');
+    $badge_traslated_tree = [];
+
+    foreach ($badges_taxonomy_tree as $term) {
+      $taxonomy_term = Term::load($term->tid);
+      $taxonomy_term_trans = \Drupal::service('entity.repository')->getTranslationFromContext($taxonomy_term, $curr_langcode);
+      $badge_traslated_tree[] = $taxonomy_term_trans;
+    }
+
+
     $variables['regions'] = $regions_taxonomy_tree;
-    $variables['badges'] = $badges_taxonomy_tree;
+    $variables['badges'] = $badge_traslated_tree;
 
   }
 }
