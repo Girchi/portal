@@ -109,6 +109,7 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
     $this->gedCalculator = $gedCalculator;
     $this->dispatcher = $dispatcher;
     $this->notifyDonationService = $notifyDonationService;
+    $this->userBadgeChangeDetection = $userBadgesChangeDetectionService;
   }
 
   /**
