@@ -36,6 +36,8 @@ Drupal.behaviors.userPage = {
             $('#status').selectpicker('val', status_values);
             $('#user-search').val($('[data-drupal-selector="edit-combine"]').val());
             $('#user-search').focus();
+            $('[data-toggle="tooltip"]').tooltip('dispose');
+            $('[data-toggle="tooltip"]').tooltip();
         }
 
 // Remove single filter
