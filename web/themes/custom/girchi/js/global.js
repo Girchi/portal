@@ -175,7 +175,7 @@ $(document).ready(function() {
             $(this).removeClass('user-badge-send icon-send');
             $(this).addClass('hidden');
             badgeData.find('.user-badge-hint').text(`${Drupal.t('The request is being processed')}`);
-            $("#user-form").prepend(`<div class="alert alert-success">${Drupal.t(`The request for the badge is sent to the sites administration`)} </div>`);
+            $("#user-form").prepend(`<div class="alert alert-success">${Drupal.t(`The request for the badge has been sent to the sites administration`)} </div>`);
         });
     })
 
