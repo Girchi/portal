@@ -10,6 +10,7 @@ global-styling:
     js/global.js: {}
     dist/js/script.js: {weight: -999}
     js/react/dist/react.bundle.js: {}
+    js/users.js: {}
   dependencies:
 
 myparty-list:

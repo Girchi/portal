@@ -84,6 +84,12 @@ class NotifyUserService {
       elseif ($type_en == NotificationConstants::PARTY_LIST_EN) {
         $link = $url . '/user/' . $invoker['uid'] . '?show_partyList_modal=true';
       }
+      elseif ($type_en == NotificationConstants::BADGE_EN) {
+        $link = $url . '/admin/custom-badges?tid=' . $invoker['badge_id'] . '&uid=' . $invoker['uid'];
+      }
+      elseif ($type_en == NotificationConstants::USER_BADGE_EN){
+        $link = $url . '/user/' . $user_id;
+      }
 
       $notification = [
         'title' => $type,

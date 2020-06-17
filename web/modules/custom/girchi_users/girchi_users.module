@@ -5,6 +5,7 @@
  * Contains girchi_users.module.
  */
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -42,6 +43,11 @@ function girchi_users_theme() {
         'subtitle' => NULL,
       ],
     ],
+    'girchi_users_modal' => [
+      'variables' => [
+        'referrals' => NULL,
+      ],
+    ],
   ];
 }
 
@@ -73,6 +79,18 @@ function girchi_users_form_alter(&$form, FormStateInterface $form_state, $form_i
     $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
     $form['#after_build'][] = 'girchi_users_after_build';
     $form['#submit'][] = 'girchi_users_pass_reset_custom_submit';
+
+  }
+
+  if ($form_id = 'custom_badges_form') {
+    $request = \Drupal::service('request_stack');
+    $tid = $request->getCurrentRequest()->query->get('tid');
+    $uid = $request->getCurrentRequest()->query->get('uid');
+    if (!empty($uid) && !empty($tid)) {
+      $user = \Drupal::entityTypeManager()->getStorage('user')->load($uid);
+      $form['badge']['#value'] = $tid;
+      $form['user']['#default_value'] = $user;
+    }
 
   }
 
@@ -200,6 +218,8 @@ function girchi_users_user_presave(EntityInterface $user) {
     $getUserInfoService = \Drupal::service('girchi_notifications.get_user_info');
     /** @var \Drupal\girchi_notifications\NotifyUserService $notifyUserService */
     $notifyUserService = \Drupal::service('girchi_notifications.notify_user');
+    /** @var \Drupal\girchi_referral\ReferralCount $referralCountService */
+    $referralCountService = \Drupal::service('girchi_referral.referral_count');
     $getUserInfo = $getUserInfoService->getUserInfo($user_id);
     $type = NotificationConstants::REFERRAL;
     $type_en = NotificationConstants::REFERRAL_EN;
@@ -208,23 +228,51 @@ function girchi_users_user_presave(EntityInterface $user) {
       $text = "${getUserInfo['full_name']}-მ მოგნიშნათ თავის რეფერალად.";
       $text_en = "${getUserInfo['full_name']} tagged you as referral";
       $notifyUserService->notifyUser($referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+      $referralCountService->dispatch('INCREMENT', $referral_id);
 
       // Inform user that someone removed them from referrals.
       if (!empty($original_referral_id)) {
         $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
         $text_en = "${getUserInfo['full_name']} removed you from referral.";
         $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+        $referralCountService->dispatch('DECREMENT', $original_referral_id);
       }
 
     }
 
-    if(empty($referral_id) && !empty($original_referral_id)){
+    if (empty($referral_id) && !empty($original_referral_id)) {
       $text = "${getUserInfo['full_name']}-მ ამოგშალათ რეფერალებიდან.";
       $text_en = "${getUserInfo['full_name']} removed you from referral.";
       $notifyUserService->notifyUser($original_referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
+      $referralCountService->dispatch('DECREMENT', $original_referral_id);
+
     }
   }
 
+  /** @var \Drupal\girchi_users\UserBadgesChangeDetectionService $userBadgesChangeDetectionService */
+  $userBadgesChangeDetectionService = \Drupal::service('girchi_users.user_badges_change_detection');
+  $userBadgesChangeDetectionService->userBadgesChangeDetection($user);
 
+  // Update field_approved_badges field.
+  /** @var \Drupal\Core\Field\FieldItemList $user_badges */
+  $user_badges = $user->get('field_badges');
+  if (!empty($user_badges)) {
+    /** @var Drupal\girchi_users\UserApprovedBadgesService $userApprovedBadgesService */
+    $userApprovedBadgesService = \Drupal::service('girchi_users.approved_badges');
+    foreach ($user_badges as $user_badge) {
+      $badge_id = $user_badge->target_id;
+      $value = Json::decode($user_badge->value);
+      if ($value['earned_badge'] == TRUE && $value['visibility'] == TRUE) {
+        $userApprovedBadgesService->approvedBadges($user, $badge_id);
+      }
+      elseif (($value['earned_badge'] == TRUE && $value['visibility'] == FALSE)) {
+        $userApprovedBadgesService->removeBadge($user, $badge_id);
+      }
+      elseif ($value == NULL) {
+        $userApprovedBadgesService->removeBadge($user, $badge_id);
+      }
+
+    }
+  }
 
 }

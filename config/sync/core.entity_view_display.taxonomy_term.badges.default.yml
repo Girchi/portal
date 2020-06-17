@@ -1,0 +1,35 @@
+uuid: f091f921-aaea-453b-b248-c6006f3c8e82
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.badges.field_icon_class
+    - field.field.taxonomy_term.badges.field_publicity
+    - taxonomy.vocabulary.badges
+id: taxonomy_term.badges.default
+targetEntityType: taxonomy_term
+bundle: badges
+mode: default
+content:
+  field_icon_class:
+    weight: 4
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_publicity:
+    weight: 3
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+hidden:
+  description: true
+  langcode: true
+  search_api_excerpt: true

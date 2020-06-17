@@ -2,8 +2,13 @@
 
 namespace Drupal\girchi_users\Commands;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\girchi_referral\GetUserReferralsService;
+use Drupal\girchi_users\Constants\BadgeConstants;
 use Drush\Commands\DrushCommands;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,17 +41,40 @@ class GirchiUsersCommands extends DrushCommands {
   private $loggerFactory;
 
   /**
+   * QueueFactory.
+   *
+   * @var \Drupal\Core\Queue\QueueFactory
+   */
+  protected $queueFactory;
+
+  /**
+   * ReferralService.
+   *
+   * @var \Drupal\girchi_referral\GetUserReferralsService
+   */
+  protected $referralService;
+
+  /**
    * EntityTypeManager.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
    *   EntityManager.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerChannelFactory
    *   Logger.
+   * @param \Drupal\Core\Queue\QueueFactory $queueFactory
+   *   QueueFactory.
+   * @param \Drupal\girchi_referral\GetUserReferralsService $referralsService
+   *   ReferralService.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerChannelFactory) {
+  public function __construct(EntityTypeManager $entityTypeManager,
+                              LoggerChannelFactoryInterface $loggerChannelFactory,
+                              QueueFactory $queueFactory,
+                              GetUserReferralsService $referralsService) {
     parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerFactory = $loggerChannelFactory;
+    $this->queueFactory = $queueFactory;
+    $this->referralService = $referralsService;
   }
 
   /**
@@ -90,6 +118,91 @@ class GirchiUsersCommands extends DrushCommands {
         $progress_bar->advance();
       }
       $progress_bar->finish();
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+  }
+
+  /**
+   * Main command.
+   *
+   * @command girchi_users:badges
+   * @aliases user-badges
+   */
+  public function userBadges() {
+    try {
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $uid = $user_storage->getQuery()
+        ->condition('uid', '0', '!=')
+        ->execute();
+      $users = $user_storage->loadMultiple($uid);
+      $queue = $this->queueFactory->get('user_badges_queue');
+
+      $donation_storage = $this->entityTypeManager->getStorage('donation');
+      $regular_donation_storage = $this->entityTypeManager->getStorage('regular_donation');
+
+      foreach ($users as $user) {
+        $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::PORTAL_MEMBER]);
+        $tid = reset($term)->id();
+        $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+
+        if ($user->get('field_politician')->value == TRUE) {
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::POLITICIAN]);
+          $tid = reset($term)->id();
+          $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+        }
+
+        $single_donation = $donation_storage->getQuery()
+          ->condition('user_id', $user->id(), '=')
+          ->condition('field_donation_type', '0', '=')
+          ->execute();
+        $regular_donation = $regular_donation_storage->getQuery()
+          ->condition('user_id', $user->id(), '=')
+          ->condition('status', 'ACTIVE', '=')
+          ->execute();
+
+        if (!empty($single_donation)) {
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::SINGLE_CONTRIBUTOR]);
+          $tid = reset($term)->id();
+          $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+        }
+
+        if (!empty($regular_donation)) {
+          $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => BadgeConstants::REGULAR_CONTRIBUTOR]);
+          $tid = reset($term)->id();
+          $queue->createItem(['uid' => $user->id(), 'tid' => $tid]);
+        }
+
+      }
+
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+
+  }
+
+  /**
+   * Set referral count command.
+   *
+   * @command girchi_users:set-referral-count
+   * @aliases users:set-ref
+   */
+  public  function setReferralCount() {
+    try {
+      $referralTree = $this->referralService->getUserReferralTree();
+      $users = $this->entityTypeManager->getStorage('user')->loadMultiple(array_keys($referralTree));
+
+      foreach ($users as $user) {
+        $user->set('field_referral_count', $referralTree[$user->id()]);
+        $user->save();
+
+      }
+
     }
     catch (\Exception $e) {
       $this->loggerFactory->get('girchi_users')->error($e->getMessage());

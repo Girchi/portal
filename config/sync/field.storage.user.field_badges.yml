@@ -1,0 +1,24 @@
+uuid: 31ab0bf4-f6eb-42f6-a6e9-000d3eee8f1a
+langcode: ka
+status: true
+dependencies:
+  module:
+    - reference_value_pair
+    - taxonomy
+    - user
+id: user.field_badges
+field_name: field_badges
+entity_type: user
+type: reference_value_pair
+settings:
+  max_length: '255'
+  target_type: taxonomy_term
+  is_ascii: false
+  case_sensitive: false
+module: reference_value_pair
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

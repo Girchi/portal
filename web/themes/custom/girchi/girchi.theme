@@ -5,7 +5,11 @@
  * Functions to support theming in the girchi theme.
  */
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Url;
+use Drupal\girchi_users\Constants\BadgeConstants;
+use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\user\Entity\User;
 
@@ -15,6 +19,7 @@ include drupal_get_path('theme', 'girchi') . '/girchi.theme-suggestions.inc';
  * Implements hook_preprocess_HOOK() for html.html.twig.
  */
 function girchi_preprocess_html(array &$variables) {
+
   /* Add class to html tag */
   // $variables['html_attributes']->addClass('no-js');
   // Don't display the site name twice on the front page (and potentially others)
@@ -215,6 +220,26 @@ function girchi_preprocess_page(array &$variables)
     }
     $favoriteNewsIds = implode('+', $favoriteNewsIds);
 
+    //load user badges.
+    /** @var \Drupal\Core\Field\FieldItemList $badges */
+    $badges = $user->get('field_badges');
+    $user_badges = [];
+    if (!$badges->isEmpty()){
+      /** @var \Drupal\girchi_notifications\GetBadgeInfo $service */
+      $service = \Drupal::service('girchi_notifications.get_badge_info');
+      foreach ($badges as $badge) {
+        if ($badge->value != NULL) {
+          $encoded_value = Json::decode($badge->value);
+          if ($encoded_value['visibility'] == TRUE && $encoded_value['earned_badge'] == TRUE) {
+            $badge_id = (int)$badge->target_id;
+            $badge_info = $service->getBadgeInfo($badge_id);
+            $user_badges[] = $badge_info;
+          }
+        }
+      }
+    }
+
+
     // $ged_formatted = $GEDHelper::getFormattedGed($user->get('field_political_ged')->value);
     $variables['user'] = [
       'id' => $user->id(),
@@ -241,6 +266,7 @@ function girchi_preprocess_page(array &$variables)
       'thumbnail_url' => $thumbnail_url,
       'is_politician' => $user->get('field_politician')->value,
       'referral_benefits' => $user->get('field_referral_benefits')->value,
+      'user_badges' => $user_badges
     ];
   }
 
@@ -352,6 +378,25 @@ function girchi_preprocess_views_view(&$variables) {
       $variables['newsAuthor'] = $uid;
     }
   }
+  if ($variables['id'] == 'users') {
+    $curr_langcode = \Drupal::service('language_manager')->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    $taxonomy_service = Drupal::service("girchi_utils.taxonomy_term_tree");
+    $regions_taxonomy_tree = $taxonomy_service->load('regions');
+    //quick fix for translations @TODO
+    $badges_taxonomy_tree = $taxonomy_service->load('badges');
+    $badge_traslated_tree = [];
+
+    foreach ($badges_taxonomy_tree as $term) {
+      $taxonomy_term = Term::load($term->tid);
+      $taxonomy_term_trans = \Drupal::service('entity.repository')->getTranslationFromContext($taxonomy_term, $curr_langcode);
+      $badge_traslated_tree[] = $taxonomy_term_trans;
+    }
+
+
+    $variables['regions'] = $regions_taxonomy_tree;
+    $variables['badges'] = $badge_traslated_tree;
+
+  }
 }
 
 /**
@@ -425,6 +470,128 @@ function girchi_preprocess_form(array &$variables) {
       $coverName = $user->get('field_cover_photo')->entity->getFileName();
       $variables['cover_name'] = $coverName;
     }
+
+    //User badges.
+    /** @var \Drupal\Core\Logger\LoggerChannel $logger_factory */
+    $logger_factory = Drupal::service('logger.factory')->get('taxonomy');
+    try {
+      /** @var \Drupal\taxonomy\TermStorage  $term_storage */
+      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $terms = $term_storage->loadTree('badges', 0, NULL, TRUE);
+
+      $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+
+      $user_badges = $user->get('field_badges');
+      $appearance = [];
+      //show all existed badges (from taxonomy) in user edit form.
+      foreach ($terms as $term) {
+        $icon = $term->get('field_icon_class')->value;
+        $tid = $term->id();
+        $status = $term->get('field_publicity')->value;
+        if ($language === 'ka' && $term->hasTranslation('ka')) {
+          $name = $term->getTranslation('ka')->getName();
+        }
+        else {
+          $name = $term->get('name')->value;
+        }
+
+        $appearance_array = [
+          'visibility' => FALSE,
+          'selected' => FALSE,
+          //approved means that you do not need admins permission to acquire this badge.
+          'approved' => $status == 1 ? TRUE : FALSE,
+          'earned_badge' => FALSE,
+        ];
+
+        if($user_badges->isEmpty()){
+          if($status == 0){
+            $statusMessage = t("Send request to administration to earn this badge");
+            $appearance_array['status_message'] = $statusMessage;
+          }
+          else {
+            $statusMessage = t("You have not earned this badge yet");
+            $appearance_array['status_message'] = $statusMessage;
+          }
+          $appearance = Json::encode($appearance_array);
+        }
+        else {
+          $user_badges_new = clone $user_badges;
+          /** @var \Drupal\Core\Field\FieldItemList $supporter_exists */
+          $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($tid) {
+            return $tid == $user_badges->target_id;
+          });
+          if ($badge_exists->value == '') {
+            if ($status ==1) {
+              $statusMessage = t("You have not earned this badge yet");
+              $appearance_array['status_message'] = $statusMessage;
+            }
+            else {
+              $statusMessage = t("Send request to administration to earn this badge");
+              $appearance_array['status_message'] = $statusMessage;
+            }
+            $appearance = Json::encode($appearance_array);
+          }
+          else {
+           foreach ($user_badges as $user_badge){
+             if($user_badge->target_id == $tid){
+               $appearance = $user_badge->value;
+             }
+           }
+          }
+        }
+
+        $variables['badges'][] = [
+          'id' => $tid,
+          'name' => $name,
+          'icon' => $icon,
+          'status' => $status,
+          'appearance' => $appearance,
+        ];
+
+      }
+
+      //Region
+      /** @var \Drupal\taxonomy\TermStorage $region_entitiy */
+      $region_entitiy = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $regions = $region_entitiy->loadTree('regions', 0, NULL, TRUE);
+      foreach ($regions as $region) {
+        $region_name = $region->getName();
+        $region_id = $region->id();
+        $children = $region_entitiy->getChildren($region);
+        if ($children) {
+          $child_array = [];
+          foreach ($children as $child) {
+            $child_id = $child->id();
+            $child_name = $child->getName();
+            $child_array[$child_id] = $child_name;
+          }
+          $variables['regions'][$region_id] = [
+            'region_name' => $region_name,
+            'children' => $child_array
+          ];
+        }
+        else {
+          if($region->parent->target_id == 0) {
+            $variables['regions'][$region_id] = [
+              'region_name' => $region_name,
+            ];
+          }
+        }
+      }
+
+      $user_region = $user->get('field_region');
+      if(!empty($user_region->target_id)) {
+        $variables['user_region'] = $user_region->target_id;
+      }
+
+
+    } catch (\Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException $e) {
+      $logger_factory->error($e->getMessage());
+    } catch (\Drupal\Component\Plugin\Exception\PluginNotFoundException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+
   }
 
 }

@@ -20,6 +20,7 @@ use Drupal\girchi_donations\Event\DonationEventsConstants;
 use Drupal\girchi_donations\Utils\DonationUtils;
 use Drupal\girchi_donations\Utils\GedCalculator;
 use Drupal\girchi_notifications\NotifyDonationService;
+use Drupal\girchi_users\UserBadgesChangeDetectionService;
 use Drupal\om_tbc_payments\Services\PaymentService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -120,6 +121,13 @@ class DonationsController extends ControllerBase {
   protected $notifyDonationService;
 
   /**
+   * UserBadgesChangeDetectionService.
+   *
+   * @var \Drupal\girchi_users\UserBadgesChangeDetectionService
+   */
+  protected $userBadgeChangeDetection;
+
+  /**
    * Construct.
    *
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
@@ -146,6 +154,8 @@ class DonationsController extends ControllerBase {
    *   Entity form builder.
    * @param \Drupal\girchi_notifications\NotifyDonationService $notifyDonationService
    *   NotifyDonationService.
+   * @param \Drupal\girchi_users\UserBadgesChangeDetectionService $userBadgesChangeDetectionService
+   *   UserBadgesChangeDetectionService.
    */
   public function __construct(ConfigFactory $configFactory,
                               PaymentService $omediaPayment,
@@ -158,7 +168,8 @@ class DonationsController extends ControllerBase {
                               AccountProxy $accountProxy,
                               EventDispatcherInterface $dispatcher,
                               EntityFormBuilder $entityFormBuilder,
-                              NotifyDonationService $notifyDonationService
+                              NotifyDonationService $notifyDonationService,
+                              UserBadgesChangeDetectionService $userBadgesChangeDetectionService
   ) {
     $this->configFactory = $configFactory;
     $this->omediaPayment = $omediaPayment;
@@ -172,6 +183,7 @@ class DonationsController extends ControllerBase {
     $this->dispatcher = $dispatcher;
     $this->entityFormBuilder = $entityFormBuilder;
     $this->notifyDonationService = $notifyDonationService;
+    $this->userBadgeChangeDetection = $userBadgesChangeDetectionService;
   }
 
   /**
@@ -190,7 +202,8 @@ class DonationsController extends ControllerBase {
       $container->get('current_user'),
       $container->get('event_dispatcher'),
       $container->get('entity.form_builder'),
-      $container->get('girchi_notifications.get_assigned_aim_user')
+      $container->get('girchi_notifications.get_assigned_aim_user'),
+      $container->get('girchi_users.user_badges_change_detection')
     );
   }
 
@@ -305,6 +318,7 @@ class DonationsController extends ControllerBase {
             $donationEvent = new DonationEvents($donation);
             $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
             $this->notifyDonationService->notifyDonation($donation);
+            $this->userBadgeChangeDetection->addDonationBadge($user->id(), TRUE);
             $this->getLogger('girchi_donations')
               ->info("Ged transaction was made.");
             $this->getLogger('girchi_donations')
@@ -478,10 +492,12 @@ class DonationsController extends ControllerBase {
         if ($action == "pause") {
           $regular_donation->setStatus('PAUSED');
           $regular_donation->save();
+          $this->userBadgeChangeDetection->deleteRegDonationBadge($user_id);
         }
         elseif ($action == "resume") {
           $regular_donation->setStatus('ACTIVE');
           $regular_donation->save();
+          $this->userBadgeChangeDetection->addDonationBadge($user_id, FALSE);
         }
         return new JsonResponse([
           "statusCode" => 200,

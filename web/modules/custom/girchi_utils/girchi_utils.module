@@ -5,12 +5,15 @@
  * Contains girchi_utils.module.
  */
 
+use Drupal\Core\TypedData\Exception\MissingDataException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\webform\WebformSubmissionInterface;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\user\Entity\User;
 
 /**
@@ -212,17 +215,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   // Getting Politician text from omedia_settings.
   $config = \Drupal::config('om_site_settings.site_settings');
 
-  if ($form_id == "user_form") {
-    unset($form['field_referral']['widget'][0]['target_id']['#title']);
-    unset($form['field_referral']['widget'][0]['target_id']['#description']);
-    unset($form['field_referral']['widget']['#title']);
-    unset($form['field_referral']['widget']['#description']);
-
-    $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
-    $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
-    $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
-  }
-
   if ($form_id == "user_register_form") {
 
     if (reset($currentUser) == "anonymous") {
@@ -288,7 +280,21 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   }
 
   if ($form_id == "user_form") {
+    unset($form['field_referral']['widget'][0]['target_id']['#title']);
+    unset($form['field_referral']['widget'][0]['target_id']['#description']);
+    unset($form['field_referral']['widget']['#title']);
+    unset($form['field_referral']['widget']['#description']);
 
+    unset($form['field_region']['widget'][0]['target_id']['#title']);
+    unset($form['field_region']['widget'][0]['target_id']['#description']);
+
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['id'][] = 'referral';
+    $form['field_referral']['widget'][0]['target_id']['#attributes']['placeholder'][] = 'მიუთითეთ Referral-ი';
+
+    $form['field_region']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+    $form['field_region']['widget'][0]['target_id']['#attributes']['id'][] = 'region';
+    $form['field_region']['widget'][0]['target_id']['#attributes']['placeholder'][] = t('Choose region');
 
     if (!Drupal::currentUser()->hasPermission('admin')) {
       $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
@@ -317,7 +323,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
-
       $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_politician']['#attributes']['class'][] = 'form-control';
       $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
@@ -335,74 +340,25 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
         '#theme' => '',
       ];
 
+      // Public profile.
+      unset($form['field_intro']['widget'][0]['#title']);
+      unset($form['field_bio']['widget'][0]['#title']);
+      unset($form['field_profile_video']['widget']['#title']);
+      unset($form['field_profile_video']['widget'][0]['value']['#title']);
+      unset($form['field_twitter_url']['widget']['0']['value']['#title']);
+      unset($form['field_facebook_url']['widget']['0']['value']['#title']);
+      unset($form['field_public_email']['widget']['0']['value']['#title']);
+
+      $form['field_profile_video']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_twitter_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+
       $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
+      $form['#validate'][] = 'user_form_validate';
       $form['#after_build'][] = 'girchi_utils_after_build';
-
-      if ($form_id == "user_form") {
-        if (!Drupal::currentUser()->hasPermission('admin')) {
-          $form['field_ged']['widget'][0]['value']['#attributes']['disabled'] = 'disabled';
-          // Unset titles.
-          unset($form['account']['mail']['#title']);
-          unset($form['field_first_name']['widget']['0']['value']['#title']);
-          unset($form['field_last_name']['widget']['0']['value']['#title']);
-          unset($form['field_date_of_birth']['widget']['0']['value']['#title']);
-          unset($form['field_tel']['widget']['0']['value']['#title']);
-          unset($form['field_personal_id']['widget']['0']['value']['#title']);
-          unset($form['field_address']['widget']['0']['value']['#title']);
-          unset($form['field_politician']['widget']['value']['#title']);
-          unset($form['field_publicity']['widget']['value']['#title']);
-          unset($form['account']['current_pass']['#title']);
-
-          // Unset descriptions.
-          unset($form['account']['mail']['#description']);
-          unset($form['account']['current_pass']['#description']);
-
-          // Set classes for inputs.
-          $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['account']['current_pass']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['account']['mail']['#attributes']['id'][] = 'email';
-          $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
-          $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
-          $form['field_address']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_politician']['#attributes']['class'][] = 'form-control';
-          $form['field_politician']['widget']['value']['#attributes']['class'][] = 'form-control';
-          $form['field_publicity']['#attributes']['class'][] = 'form-control';
-          $form['field_publicity']['widget']['value']['#attributes']['class'][] = 'form-control';
-          $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4';
-
-          $form['field_politician']['#theme_wrappers'] = [];
-          $form['field_publicity']['#theme_wrappers'] = [];
-
-          // Get politician text from settings.
-          $form['politician_text'] = [
-            '#type' => 'html',
-            '#markup' => $config->get('politician_checkbox_text')['value'],
-            '#theme' => '',
-          ];
-
-          // Public profile.
-          unset($form['field_intro']['widget'][0]['#title']);
-          unset($form['field_bio']['widget'][0]['#title']);
-          unset($form['field_profile_video']['widget']['#title']);
-          unset($form['field_profile_video']['widget'][0]['value']['#title']);
-          unset($form['field_twitter_url']['widget']['0']['value']['#title']);
-          unset($form['field_facebook_url']['widget']['0']['value']['#title']);
-          unset($form['field_public_email']['widget']['0']['value']['#title']);
-
-          $form['field_profile_video']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_twitter_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-          $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
-
-          $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
-          $form['#validate'][] = 'user_form_validate';
-          $form['#after_build'][] = 'girchi_utils_after_build';
-        }
-      }
     }
+
     // Validate phone filed if it's not empty.
     $value = $form_state->getUserInput();
     if (!empty($value['field_tel'][0]['full_phone'])) {
@@ -485,28 +441,98 @@ function girchi_utils_preprocess_block(&$variables)
 
 /**
  * Impelements hook_user_form_submit().
+ * @throws EntityStorageException
  */
 function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
 {
   // Save full phone into users field.
   if ($form['#form_id'] == 'user_form') {
     $value = $form_state->getUserInput();
+    $uid = \Drupal::currentUser()->id();
+    /** @var \Drupal\user\Entity\User $user */
+    $user = User::load($uid);
 
-    /** @var \Drupal\Core\Logger\LoggerChannelFactory $logger */
-    $logger = \Drupal::service('logger.factory');
+    /** @var \Drupal\Core\Logger\LoggerChannel $logger_factory */
+    $logger_factory = \Drupal::service('logger.factory')->get('girchi_utils');
     if (isset($value['field_tel'][0]['full_phone'])) {
       try {
         $full_phone = $value['field_tel'][0]['full_phone'];
-        /** @var \Drupal\user\Entity\User $uid */
-        $uid = \Drupal::currentUser()->id();
-        $user = User::load($uid);
         $user->set('field_tel', $full_phone);
         $user->save();
-      } catch (EntityStorageException $e) {
-        $logger->get('girchi_utils')->error($e->getMessage());
+      }
+      catch (EntityStorageException $e) {
+        $logger_factory->error($e->getMessage());
+      }
+    }
+
+    try {
+      // Set region to user field field_region.
+      if(isset($value['region'])){
+        $region_id = $value['region'];
+        $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($region_id);
+        if($term){
+          $user->set('field_region', $region_id);
+          $user->save();
+        }
+      }
+
+      // Badge visibility logic.
+      /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $user_badges */
+      $user_badges = $user->get('field_badges');
+      foreach ($value['badges'] as $key => $badge) {
+        $decoded_value = Json::decode($badge);
+        if ($decoded_value['selected'] == TRUE) {
+          $decoded_value['selected'] = FALSE;
+          $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
+          $term_status = $term->get('field_publicity')->value;
+
+          if ($decoded_value['visibility'] == TRUE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
+            $decoded_value['status_message'] = '';
+          }
+          elseif ($decoded_value['visibility'] == FALSE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
+            $decoded_value['status_message'] = 'ბეჯი დამალულია საჯაროდ';
+          }
+          elseif ($decoded_value['earned_badge'] == FALSE && $term_status == TRUE) {
+            \Drupal::messenger()->addWarning(t("You have not earned this badge yet"));
+          }
+
+          if (!empty($user_badges)) {
+            $user_badges_new = clone $user_badges;
+            /** @var \Drupal\Core\Field\FieldItemList $badge_exists */
+            $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($key) {
+              return $key == $user_badges->target_id;
+            });
+            if ($badge_exists->isEmpty()) {
+              $user_badges->appendItem([
+                'target_id' => $key,
+                'value' => Json::encode($decoded_value),
+              ]);
+              $user->save();
+            }
+            else {
+              foreach ($user_badges as $user_badge){
+                if($user_badge->target_id == $key){
+                  $user_badge->set('value', Json::encode($decoded_value));
+                  $user->save();
+                }
+
+              }
+            }
+          }
+        }
       }
 
     }
+    catch (InvalidPluginDefinitionException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+    catch (MissingDataException $e) {
+      $logger_factory->error($e->getMessage());
+    }
+
   }
 
   if ($_FILES['avatar']['size'] != 0) {

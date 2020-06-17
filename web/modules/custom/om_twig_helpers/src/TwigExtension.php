@@ -2,6 +2,7 @@
 
 namespace Drupal\om_twig_helpers;
 
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\TypedData\TypedDataInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
@@ -11,6 +12,7 @@ use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\Driver\Exception\Exception;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\block\Entity\Block;
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -51,6 +53,8 @@ class TwigExtension extends Twig_Extension
       new \Twig_SimpleFilter('single_value_at', [$this, 'getSingleValueAt']),
       new \Twig_SimpleFilter('ged_long_format', [$this, 'getLongFormattedGed']),
       new \Twig_SimpleFilter('ged_formatter', [$this, 'getFormattedGeD']),
+      new \Twig_SimpleFilter('twig_json_decode', [$this, 'twigJsonDecode']),
+
     );
   }
 
@@ -77,6 +81,8 @@ class TwigExtension extends Twig_Extension
       new Twig_SimpleFunction('field_bool', [$this, 'getFieldBool']),
       new Twig_SimpleFunction('get_language_links', [$this, 'getLanguageLinks']),
       new Twig_SimpleFunction('get_full_name', [$this, 'getFullName']),
+      new Twig_SimpleFunction('get_badges', [$this, 'getBadges']),
+      new Twig_SimpleFunction('get_referrals', [$this, 'getReferrals']),
 
       new Twig_SimpleFunction('user_picture', [$this, 'getUserPicture']),
 
@@ -306,6 +312,11 @@ class TwigExtension extends Twig_Extension
   public function getFormattedGed($input) {
     $GEDHelper = \Drupal::service('girchi_users.ged_helper');
     return $GEDHelper::getFormattedGed($input);
+  }
+
+  public function twigJsonDecode($json)
+  {
+    return json_decode($json);
   }
 
   /**
@@ -648,6 +659,40 @@ class TwigExtension extends Twig_Extension
     }
 
   }
+
+  /**
+   *
+   */
+  public function getBadges($badges) {
+    $curr_langcode = \Drupal::service('language_manager')->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+    $markup = "";
+    if($badges != '') {
+      $badges = explode(',', $badges);
+      $terms = Term::loadMultiple($badges);
+      foreach ($terms as $term) {
+        $taxonomy_term_trans = \Drupal::service('entity.repository')->getTranslationFromContext($term, $curr_langcode);
+        $icon_class = $taxonomy_term_trans->field_icon_class->value;
+        $name = $taxonomy_term_trans->name->value;
+        $element  = sprintf('<i class="icon-badge %s" data-toggle="tooltip" data-placement="top" title="" data-original-title="%s"></i>',$icon_class, $name);
+        $markup .= $element;
+      }
+      return ['#markup' => $markup];
+    }
+  }
+
+  /**
+   *
+   */
+  public function getReferrals($uid) {
+    if(!empty($uid)) {
+        $referral_service = \Drupal::service('girchi_referral.get_user_referrals');
+        $referrals = $referral_service->getReferralsWithInfo($uid);
+        return $referrals;
+    }
+    return [];
+  }
+
 
   /**
    * Returns user picture or name-letter circle.

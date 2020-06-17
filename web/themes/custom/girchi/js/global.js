@@ -57,6 +57,7 @@ $(document).ready(function() {
             }
         });
     });
+
     $("body").on("click", ".politician-modal", e => {
         let userID = e.target.getAttribute("data-uid");
         if (typeof userID === "undefined" || userID === null) {
@@ -71,6 +72,25 @@ $(document).ready(function() {
         }).done(data => {
             let supporterTable = $("#supporters table tbody");
             supporterTable.html(data);
+        });
+    });
+
+    $("body").on("click", ".referral-modal", e => {
+        let userID = e.target.getAttribute("data-uid");
+        console.log(userID);
+        if (typeof userID === "undefined" || userID === null) {
+            userID = $(e.target)
+                .parents("a:first")
+                .attr("data-uid");
+        }
+        $.ajax({
+            type: "POST",
+            url: "/api/user/get_referrals",
+            data: { userId: userID }
+        }).done(data => {
+            let referralsTable = $("#referrals table tbody");
+            console.log(referralsTable);
+            referralsTable.html(data);
         });
     });
 
@@ -120,6 +140,53 @@ $(document).ready(function() {
         $("#user-login-form").prepend(`<div class="alert alert-success">${Drupal.t("Your password has been successfully changed. Please log in into your account with new password.")} </div>`);
 
     };
+
+    // Badge visibility logic.
+    $('.user-badge-visibility').click(function (e) {
+        let badgeData = $(this).parent();
+        let bandgeSpan = $(this).children('input');
+        let current_values = JSON.parse(bandgeSpan.val());
+        if(badgeData.hasClass('user-badge-visible')) {
+            badgeData.removeClass('user-badge-visible');
+            current_values.visibility = false;
+            current_values.selected = true;
+            bandgeSpan.val(JSON.stringify(current_values));
+        }
+        else if(!badgeData.hasClass('user-badge-visible')){
+            badgeData.addClass('user-badge-visible');
+            current_values.visibility = true;
+            current_values.selected = true;
+            bandgeSpan.val(JSON.stringify(current_values));
+        }
+
+    })
+    //Send request to administration to earn badge
+    $('.user-badge-send').click(function (e) {
+        let badgeData = $(this).parent();
+        let badgeId = badgeData.attr('data-id');
+        let bandgeSpan = $(this).children('input');
+        let current_values = JSON.parse(bandgeSpan.val());
+        current_values.selected = true;
+        $.ajax({
+            type: "POST",
+            url: "/api/user-badges/send-badge-request",
+            data: { badgeId: badgeId, badgeValue: current_values}
+        }).done(data => {
+            $(this).removeClass('user-badge-send icon-send');
+            $(this).addClass('hidden');
+            badgeData.find('.user-badge-hint').text(`${Drupal.t('The request is being processed')}`);
+            $("#user-form").prepend(`<div class="alert alert-success">${Drupal.t(`მოთხოვნა ბეჯის მოსაპოვებლად გაგზავნილია საიტის ადმინისტრაციასთან.`)} </div>`);
+        });
+    })
+
+    // Save selected region in hidden field to use it in drupal
+    $('.selectpicker').on('change', function (e) {
+        let region_id = $(this).val();
+        let selectpicker_parent = $(this).parent();
+        let input_region = `<input class="hidden" name="region" value="${region_id}">`;
+        selectpicker_parent.parent().append(input_region);
+    });
+
 
 });
 
@@ -204,3 +271,4 @@ $(".investor-parent-checkbox input").on("change",  function () {
         $(".investment-amount").attr('min', 1);
     }
 });
+

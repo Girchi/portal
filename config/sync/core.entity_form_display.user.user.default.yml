@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_address
+    - field.field.user.user.field_approved_badges
+    - field.field.user.user.field_badges
     - field.field.user.user.field_bio
     - field.field.user.user.field_cover_photo
     - field.field.user.user.field_date_of_birth
@@ -25,9 +27,11 @@ dependencies:
     - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
     - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_count
     - field.field.user.user.field_referral_date
     - field.field.user.user.field_referral_url
     - field.field.user.user.field_refresh_token
+    - field.field.user.user.field_region
     - field.field.user.user.field_social_auth_password
     - field.field.user.user.field_tel
     - field.field.user.user.field_twitter_url
@@ -63,6 +67,26 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
+  field_approved_badges:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_badges:
+    type: reference_value_autocomplete_widget
+    weight: 26
+    region: content
+    settings:
+      size_er: 60
+      placeholder_er: ''
+      match_operator: CONTAINS
+      size_value: 60
+      placeholder_value: ''
+    third_party_settings: {  }
   field_bio:
     weight: 23
     settings:
@@ -204,6 +228,13 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_referral_count:
+    weight: 28
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
   field_referral_url:
     weight: 14
     settings:
@@ -211,6 +242,15 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textarea
+    region: content
+  field_region:
+    weight: 25
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_tel:
     weight: 4

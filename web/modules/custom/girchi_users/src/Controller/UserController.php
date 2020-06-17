@@ -4,10 +4,12 @@ namespace Drupal\girchi_users\Controller;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\girchi_notifications\NotifyAdminService;
 use Drupal\girchi_users\GenerateJwtService;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -66,6 +68,20 @@ class UserController extends ControllerBase {
   protected $generateJWT;
 
   /**
+   * NotifyAdminService.
+   *
+   * @var \Drupal\girchi_notifications\NotifyAdminService
+   */
+  protected $notifyAdmin;
+
+  /**
+   * Json.
+   *
+   * @var \Drupal\Component\Serialization\Json
+   */
+  public $json;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -78,19 +94,25 @@ class UserController extends ControllerBase {
    *   ConfigFactory.
    * @param \Drupal\girchi_users\GenerateJwtService $generateJWT
    *   GenerateJwtService.
+   * @param \Drupal\girchi_notifications\NotifyAdminService $notifyAdmin
+   *   NotifyAdminService.
+   * @param \Drupal\Component\Serialization\Json $json
+   *   Json.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
                               SocialAuthDataHandler $socialAuthDataHandler,
                               LoggerChannelFactoryInterface $loggerFactory,
                               ConfigFactory $configFactory,
-                              GenerateJwtService $generateJWT) {
-
+                              GenerateJwtService $generateJWT,
+                              NotifyAdminService $notifyAdmin,
+                              Json $json) {
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;
     $this->loggerFactory = $loggerFactory;
     $this->configFactory = $configFactory;
     $this->generateJWT = $generateJWT;
-
+    $this->notifyAdmin = $notifyAdmin;
+    $this->json = $json;
     try {
       $userStorage = $this->entityTypeManager->getStorage('user');
       $current_user_id = $this->currentUser()->id();
@@ -115,7 +137,9 @@ class UserController extends ControllerBase {
       $container->get('social_auth.data_handler'),
       $container->get('logger.factory'),
       $container->get('config.factory'),
-      $container->get('girchi_users.generate_jwt')
+      $container->get('girchi_users.generate_jwt'),
+      $container->get('girchi_notifications.notify_admin'),
+      $container->get('serialization.json')
     );
   }
 
@@ -277,6 +301,55 @@ class UserController extends ControllerBase {
       return new JsonResponse(["status" => "success", "tokens" => $tokens]);
     }
     return new JsonResponse(["status" => "fail"]);
+
+  }
+
+  /**
+   * RequestBadges.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   Request.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   Json.
+   */
+  public function requestBadges(Request $request) {
+    try {
+      $badge_id = $request->request->get('badgeId');
+      $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($badge_id);
+      $term_status = $term->get('field_publicity')->value;
+      $appearance_array = [
+        'visibility' => FALSE,
+        'selected' => TRUE,
+        'approved' => FALSE,
+        'status_message' => $this->t('The request is being processed'),
+        'earned_badge' => FALSE,
+      ];
+      $encoded_Value = $this->json->encode($appearance_array);
+      // If term status is equal to false
+      // Send notification to admin
+      // for approving that badge.
+      if ($term_status == FALSE) {
+        $this->notifyAdmin->badgeRequest($this->user->id(), $badge_id);
+        $this->user->get('field_badges')->appendItem([
+          'target_id' => $badge_id,
+          'value' => $encoded_Value,
+        ]);
+        $this->user->save();
+        return new JsonResponse("success");
+      }
+
+    }
+    catch (EntityStorageException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    return new JsonResponse("fail");
 
   }
 

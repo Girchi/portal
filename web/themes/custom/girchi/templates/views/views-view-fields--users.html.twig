@@ -1,0 +1,361 @@
+{#
+/**
+ * @file
+ * Default view template to display all the fields in a row.
+ *
+ * Available variables:
+ * - view: The view in use.
+ * - fields: A list of fields, each one contains:
+ *   - content: The output of the field.
+ *   - raw: The raw data for the field, if it exists. This is NOT output safe.
+ *   - class: The safe class ID to use.
+ *   - handler: The Views field handler controlling this field.
+ *   - inline: Whether or not the field should be inline.
+ *   - wrapper_element: An HTML element for a wrapper.
+ *   - wrapper_attributes: List of attributes for wrapper element.
+ *   - separator: An optional separator that may appear before a field.
+ *   - label: The field's label text.
+ *   - label_element: An HTML element for a label wrapper.
+ *   - label_attributes: List of attributes for label wrapper.
+ *   - label_suffix: Colon after the label.
+ *   - element_type: An HTML element for the field content.
+ *   - element_attributes: List of attributes for HTML element for field content.
+ *   - has_label_colon: A boolean indicating whether to display a colon after
+ *     the label.
+ *   - element_type: An HTML element for the field content.
+ *   - element_attributes: List of attributes for HTML element for field content.
+ * - row: The raw result from the query, with all data it fetched.
+ *
+ * @see template_preprocess_views_view_fields()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set ged = fields.field_ged.content | striptags | replace({"\n":'', "\r":''}) %}
+{% set uid = fields.uid.content | striptags | replace({"\n":'', "\r":''}) %}
+{% set img_url = fields.user_picture.content | striptags  | replace({"\n":'', "\r":''}) %}
+{% set badges = fields.field_approved_badges.content | striptags  | replace({"\n":'', "\r":''}) %}
+{% set default_img_url = theme_path('images/avatar42x42.png', 1) %}
+{% set referrals = get_referrals(uid) %}
+{% set is_politician = fields.field_politician.content| striptags  | replace({"\n":'', "\r":''})  %}
+
+<tr>
+    <th
+        scope="row"
+        class="px-0 pl-2 px-md-3 pr-md-1 w-auto text-center align-top align-md-middle pt-4 pt-md-0"
+    >
+    </th>
+    <td class="d-none d-lg-table-cell align-middle">
+        <div class="d-flex w-100 align-items-center my-2">
+            <a
+                href="{{ path('entity.user.canonical', {'user' : uid}) }}"
+                class="rounded-circle overflow-hidden d-none d-md-block"
+            >
+                <img
+                    src="{{ img_url ? img_url : default_img_url }}"
+                    class="rounded w-100"
+                    alt="..."
+                />
+            </a>
+            <h6
+                class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mb-0 mx-0 mx-md-3"
+            >
+                <div>
+                    <a
+                    href="{{ path('entity.user.canonical', {'user' : uid}) }}"
+                    class="d-inline-block text-hover-success"
+                    >
+                                <span
+                                    class="text-decoration-none d-inline-block"
+                                >
+                                    <span>{{ fields.field_first_name.content }}</span>
+                                  <span class="font-weight-bold"
+                                  >{{ fields.field_last_name.content }}</span
+                                  >
+                                </span>
+                    </a>
+                </div>
+                <span
+                    class="d-inline-flex font-size-1 font-size-lg-3 text-grey mt-1 justify-content-center justify-content-sm-start"
+                >
+                                {{fields.field_region.content}}
+                              </span>
+                <span
+                    class="text-warning font-size-4 font-weight-bold d-block d-md-none"
+                ><i class="icon-ged font-size-4"></i> {{ ged |ged_long_format }}</span>
+            </h6>
+        </div>
+    </td>
+    <td
+        class="d-none d-lg-table-cell text-md-center align-middle"
+    >
+        <div class="d-flex justify-content-center">
+           {{ get_badges(badges) }}
+        </div>
+    </td>
+    <td
+        class="d-none d-lg-table-cell text-right text-md-center align-middle"
+    >
+        <ul
+            class="list-unstyled list-avatars-sm m-0 align-items-center d-none d-md-flex"
+        >
+            {% if referrals|length > 3 %}
+                {% for i in 0..3 %}
+                    <li class="d-inline-flex align-items-center">
+                        <a
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="{{ referrals[i]['name'] }}"
+                            href="{{ path('entity.user.canonical', {'user' : referrals[i].id}) }}"
+                            class="rounded-circle overflow-hidden d-inline-block m-1"
+                        >
+                            <img
+                                src="{{ referrals[i]['img_url'] ? referrals[i]['img_url'] : default_img_url }}"
+                                class="rounded"
+                                width="34"
+                                alt="..."
+                            />
+                        </a>
+                    </li>
+                {% endfor %}
+                <li class="d-inline-flex align-items-center">
+                    <a
+                        href="#"
+                        data-toggle="modal"
+                        data-target="#referrals"
+                        class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white referral-modal"
+                        data-uid="{{ uid }}"
+                    >
+                        {{"+" ~ referrals|length}}
+                    </a>
+                </li>
+            {% else %}
+                {% for referral in referrals %}
+                    <li class="d-inline-flex align-items-center">
+                        <a
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="{{ referral['name'] }}"
+                            href="{{ path('entity.user.canonical', {'user' : referral.id}) }}"
+                            class="rounded-circle overflow-hidden d-inline-block m-1"
+                        >
+                            <img
+                                src="{{ referral['img_url'] ? referral['img_url'] : default_img_url }}"
+                                class="rounded"
+                                width="34"
+                                alt="..."
+                            />
+                        </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </td>
+    <td
+        class="align-middle text-center d-none d-lg-table-cell"
+    >
+        <span class="text-success font-size-4 font-size-xl-5 font-weight-bold text-nowrap">
+          <i class="icon-ged font-size-4"></i>
+          {{ ged |ged_long_format }}
+        </span>
+    </td>
+    <td
+        class="d-none d-lg-table-cell text-right text-md-center align-middle"
+    >
+        <div
+            class="d-flex align-items-center justify-content-end"
+        >
+            {% if is_politician %}
+                <a
+                    href="{{ path('girchi_donations.donations_controller_index', {'user' : uid}) }}"
+                    class="btn btn-warning text-uppercase ml-3"
+                >
+                    {{'Donate' | t}}
+                </a>
+            {% endif %}
+        </div>
+    </td>
+
+    <!-- For Mobile -->
+    <td class="d-lg-none d-table-cell" colspan="3">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <!-- Start User -->
+                <div class="d-flex w-100 align-items-center my-2">
+                    <a
+                        href="{{ path('entity.user.canonical', {'user' : uid}) }}"
+                        class="rounded-circle overflow-hidden w-50-px"
+                    >
+                        <img
+                            src="{{ img_url ? img_url : default_img_url }}"
+                            class="rounded w-100"
+                            alt="..."
+                        />
+                    </a>
+                    <h6
+                        class="w-100 m-0 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-4 mx-1 pl-1"
+                    >
+                        <a
+                            href="{{ path('entity.user.canonical', {'user' : uid}) }}"
+                            class="d-inline-block text-hover-success"
+                        >
+                                    <span
+                                        class="text-decoration-none d-inline-block"
+                                    >
+                                      <span>{{ fields.field_first_name.content }}</span>
+                                      <span class="font-weight-bold d-block"
+                                      >{{ fields.field_last_name.content }}</span
+                                      >
+                                    </span>
+                        </a>
+                        <span
+                            class="d-flex font-size-1 font-size-lg-3 text-grey mt-1"
+                        >
+                                    {{fields.field_region.content}}
+                                  </span>
+                    </h6>
+                </div>
+                <!-- End User -->
+                <!-- Start icon-Badges -->
+                <div>
+                    {{ get_badges(badges) }}
+                </div>
+                <!-- End icon-Badges -->
+                <!-- Start Referrals -->
+                <div class="d-block d-sm-none">
+                    <ul
+                        class="pl-2 list-unstyled list-avatars-sm m-0 align-items-center d-flex"
+                    >
+                        {% if referrals|length > 3 %}
+                            {% for i in 0..2 %}
+                            <li class="d-inline-flex align-items-center">
+                                <a
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="{{ referrals[i]['name'] }}"
+                                    href="{{ path('entity.user.canonical', {'user' : referrals[i].id}) }}"
+                                    class="rounded-circle overflow-hidden d-inline-block m-1"
+                                >
+                                    <img
+                                        src="{{ referrals[i]['img_url'] ? referrals[i]['img_url'] : default_img_url }}"
+                                        class="rounded"
+                                        width="26"
+                                        alt="..."
+                                    />
+                                </a>
+                            </li>
+                        {% endfor %}
+                        <li class="d-inline-flex align-items-center">
+                            <a
+                                href="#"
+                                data-toggle="modal"
+                                data-target="#referrals"
+                                data-uid="{{ uid }}"
+                                class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white referral-modal"
+                            >
+                                {{ '+' ~ referrals | length  }}
+                            </a>
+                        </li>
+                        {% else %}
+                            {% for referral in referrals %}
+                                <li class="d-inline-flex align-items-center">
+                                    <a
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="{{ referral['name'] }}"
+                                        href="{{ path('entity.user.canonical', {'user' : referral.id}) }}"
+                                        class="rounded-circle overflow-hidden d-inline-block m-1"
+                                    >
+                                        <img
+                                            src="{{ referral['img_url'] ? referral['img_url'] : default_img_url }}"                                            class="rounded"
+                                            width="26"
+                                            alt="..."
+                                        />
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- End Referrals -->
+            </div>
+            <div
+                class="d-none d-sm-flex align-items-center mr-3"
+            >
+                <!-- Start Referrals -->
+                <ul
+                    class="pl-2 list-unstyled list-avatars-sm m-0 align-items-center d-flex"
+                >
+                    {% if referrals|length > 3 %}
+                        {% for i in 0..2 %}
+                            <li class="d-inline-flex align-items-center">
+                                <a
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="{{ referrals[i]['name'] }}"
+                                    href="{{ path('entity.user.canonical', {'user' : referrals[i].id}) }}"
+                                    class="rounded-circle overflow-hidden d-inline-block m-1"
+                                >
+                                    <img
+                                        src="{{ referrals[i]['img_url'] ? referrals[i]['img_url'] : default_img_url }}"
+                                        class="rounded"
+                                        width="26"
+                                        alt="..."
+                                    />
+                                </a>
+                            </li>
+                        {% endfor %}
+                    <li class="d-inline-flex align-items-center">
+                        <a
+                            href="#"
+                            data-toggle="modal"
+                            data-target="#referrals"
+                            data-uid="{{ uid }}"
+                            class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white referral-modal"
+                        >
+                            {{ '+' ~ referrals | length }}
+                        </a>
+                    </li>
+                    {% else %}
+                        {% for referral in referrals %}
+                            <li class="d-inline-flex align-items-center">
+                                <a
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="{{ referral['name'] }}"
+                                    href="{{ path('entity.user.canonical', {'user' : referral.id}) }}"
+                                    class="rounded-circle overflow-hidden d-inline-block m-1"
+                                >
+                                    <img
+                                        src="{{ referral['img_url'] ? referral['img_url'] : default_img_url }}"                                            class="rounded"
+                                        width="26"
+                                        alt="..."
+                                    />
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <!-- End Referrals -->
+            </div>
+            <div
+                class="w-100-px d-flex justify-content-end flex-wrap align-items-center"
+            >
+                              <span
+                                  class="text-success font-size-4 font-weight-bold d-block d-md-none mr-3"
+                              ><i class="icon-ged font-size-3"></i> {{ ged |ged_formatter }}</span
+                              >
+                <button
+                    href="#"
+                    class="btn btn-sm btn-warning text-uppercase my-2 px-2"
+                >
+                    {{'Donate' | t}}
+                </button>
+                <div
+                    class="flex-grow-1 d-flex align-items-center  justify-content-center mt-1"
+                >
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,30 @@
+uuid: 750c9fbe-dbda-4857-b286-f6d599493b49
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_approved_badges
+    - taxonomy.vocabulary.badges
+  module:
+    - user
+id: user.user.field_approved_badges
+field_name: field_approved_badges
+entity_type: user
+bundle: user
+label: 'approved badges'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      badges: badges
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
