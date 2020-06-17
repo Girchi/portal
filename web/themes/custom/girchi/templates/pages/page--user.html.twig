@@ -29,7 +29,7 @@
                         {% if user.user_badges is not empty %}
                             {% for badge in user.user_badges %}
                                 <i
-                                    class="icon-badge icon-badge-lg {{ badge.icon_name[badge.badge_name_en] }}"
+                                    class="icon-badge icon-badge-lg {{ badge.icon }}"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="{{ badge.badge_name }}"

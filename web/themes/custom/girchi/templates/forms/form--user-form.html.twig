@@ -62,13 +62,9 @@
                             <label class="form-label" for="address">{{ "Address" | t }}</label>
                             {{ element.field_address }}
                         </div>
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="address">{{ "Region" | t }}</label>
-                            {{ element.field_region }}
-                        </div>
                         <div class="form-group mb-2 yle">
                             <label class="form-label" for="last-name"
-                            >ქალაქი / რაიონი</label
+                            >{{ "Region" | t }}</label
                             >
                             <select
                                 name="country"
@@ -147,6 +143,7 @@
                             {% for badge in badges %}
                                 {% set appearance_data = badge.appearance|twig_json_decode %}
                                 <div
+                                    data-id="{{ badge.id }}"
                                      {% if appearance_data.earned_badge == 1 and appearance_data.visibility == 1 %}
                                          class="user-badge user-badge-visible"
                                      {% elseif  appearance_data.earned_badge == 0 %}
@@ -156,7 +153,7 @@
                                      {% endif %}
                                 >
                                     <i
-                                        class="icon-badge icon-badge-lg {{ appearance_data.earned_badge == true ? badge.logo_name[badge.name] : badge.logo_name[badge.name] ~'-disabled' }} "
+                                        class="icon-badge icon-badge-lg {{ appearance_data.earned_badge == true ? badge.icon : badge.icon ~'-disabled' }} "
                                     ></i>
                                     <div class="user-badge-text">
                                         <span class="user-badge-status"> {{ badge.name }} </span>
@@ -164,50 +161,11 @@
                                         <span class="user-badge-hint"> {{ appearance_data.status_message }} </span>
                                         {% endif %}
                                     </div>
-
-                                    <button class="user-badge-visibility" type="button">
+                                    <button class="{{ appearance_data.approved == 0 and appearance_data.selected == 0 ? 'icon-send user-badge-send' : 'user-badge-visibility' }}" type="button">
                                         <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >
                                     </button>
                                 </div>
-
                             {% endfor %}
-
-
-
-{#                        <div class="form-group mb-2 p-1">#}
-{#                            {% for badge in badges %}#}
-{#                                {{ drupal_dump(badge.logo_name[badge.name]) }}#}
-{#                                {% set appearance_data = badge.appearance|twig_json_decode %}#}
-{#                                <div class="d-flex w-100 align-items-center p-2 form-control form-control-lg  fix badges-border mb-2"#}
-{#                                     data-id="{{ badge.id }}"#}
-{#                                     data-value="{{ badge.status }}"#}
-{#                                >#}
-{#                                  <span#}
-{#                                      class="rounded-circle overflow-hidden d-inline-block"#}
-{#                                  >#}
-{#                                    <img#}
-{#                                        src="{{ image_style_url(badge.logo, 'avatar_34x34') }}"#}
-{#                                    />#}
-{#                                  </span>#}
-{#                                    <span class="mb-0 mx-3 font-weight-bold font-size-2  w-auto">{{ badge.name }}</span>#}
-{#                                    <div class="badge-visibility p-2 float-right ml-auto">#}
-{#                                        {% if (appearance_data.visibility == true and appearance_data.earned_badge == true )  %}#}
-{#                                            <span class="badge-visible font-size-4  shadow-none text-dark-silver text-hover-danger" >#}
-{#                                            <i class="icon-delete"></i>#}
-{#                                            <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >#}
-{#                                        </span>#}
-{#                                        {% else %}#}
-{#                                            <span class="badge-invisible font-size-4  shadow-none text-dark-silver text-hover-danger" >#}
-{#                                            <i class="icon-ged"></i>#}
-{#                                            <input class="hidden" name="badges[{{ badge.id }}]" value="{{ badge.appearance }}"  >#}
-{#                                        </span>#}
-{#                                        {% endif %}#}
-{#                                    </div>#}
-{#                                </div>#}
-
-{#                            {% endfor %}#}
-{#                        </div>#}
-
                     </div>
 
 

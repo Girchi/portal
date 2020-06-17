@@ -486,27 +486,6 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
           $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($key);
           $term_status = $term->get('field_publicity')->value;
 
-          $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-          if ($language === 'ka' && $term->hasTranslation('ka')) {
-            $term_name = $term->getTranslation('ka')->getName();
-          }
-          else {
-            $term_name = $term->get('name')->value;
-          }
-
-          // If term status is equal to false
-          // Send notification to admin
-          // for approving that badge.
-          // TODO:: aq axali unda moipiqro rame dablokili bejebi rogor daatrigero
-          //          if ($decoded_value['visibility'] == TRUE && $term_status == FALSE) {
-          //            $decoded_value['visibility'] = FALSE;
-          //            $decoded_value['approved'] = FALSE;
-          //            $decoded_value['status_message'] = t('The request is being processed');
-          //            /** @var \Drupal\girchi_notifications\NotifyAdminService $notify_admin */
-          //            $notify_admin = Drupal::service('girchi_notifications.notify_admin');
-          //            $notify_admin->badgeRequest($uid, $key);
-          //            \Drupal::messenger()->addMessage(t("მოთხოვნა ბეჯზე ${term_name} გაგზავნილია საიტის ადმინისტრაციასთან."));
-          //          }.
           if ($decoded_value['visibility'] == TRUE && $term_status == TRUE && $decoded_value['earned_badge'] == TRUE) {
             $decoded_value['status_message'] = '';
           }
