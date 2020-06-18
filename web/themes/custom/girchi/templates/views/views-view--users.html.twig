@@ -60,12 +60,12 @@
                             პორტალზე რეგისტრირებული მომხმარებლები
                         </h4>
 
-                        <button href="#" class="btn btn-lg btn-warning text-uppercase ml-auto d-none d-md-block">
+                        <a href="{{ path('girchi_donations.donations_controller_index') }}" class="btn btn-lg btn-warning text-uppercase ml-auto d-none d-md-block">
                             დააფინანსე
-                        </button>
-                        <button href="#" class="btn btn-sm btn-warning text-uppercase ml-auto d-block d-md-none">
+                        </a>
+                        <a href="{{ path('girchi_donations.donations_controller_index') }}" class="btn btn-sm btn-warning text-uppercase ml-auto d-block d-md-none">
                             დააფინანსე
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@
                                                     id="country"
                                                     multiple
                                                     title="ქალაქი"
-                                                    class="select form-control tree-select"
+                                                    class="select form-control tree-select user-page-select"
                                                     data-style=""
                                                 >
                                                     {% for region in regions %}
@@ -121,7 +121,7 @@
                                                     name="status"
                                                     id="status"
                                                     multiple
-                                                    class="select form-control"
+                                                    class="select form-control user-page-select"
                                                     data-style=""
                                                     title="სტატუსი"
                                                 >
