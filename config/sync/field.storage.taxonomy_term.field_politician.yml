@@ -1,0 +1,20 @@
+uuid: b674800f-eef3-43e9-9791-0c994da67761
+langcode: ka
+status: true
+dependencies:
+  module:
+    - taxonomy
+    - user
+id: taxonomy_term.field_politician
+field_name: field_politician
+entity_type: taxonomy_term
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

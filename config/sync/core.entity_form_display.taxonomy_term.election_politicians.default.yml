@@ -1,0 +1,79 @@
+uuid: 1938801f-59e8-4e8f-a30d-21f6c2cc7708
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.election_politicians.field_icon
+    - field.field.taxonomy_term.election_politicians.field_icon_title
+    - field.field.taxonomy_term.election_politicians.field_link
+    - field.field.taxonomy_term.election_politicians.field_politician
+    - taxonomy.vocabulary.election_politicians
+  module:
+    - path
+    - text
+id: taxonomy_term.election_politicians.default
+targetEntityType: taxonomy_term
+bundle: election_politicians
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_icon:
+    weight: 32
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_icon_title:
+    weight: 37
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_link:
+    weight: 36
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_politician:
+    weight: 35
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

@@ -1,0 +1,19 @@
+uuid: 45e58114-b38d-4b57-935f-ff027754df61
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_link
+    - taxonomy.vocabulary.election_politicians
+id: taxonomy_term.election_politicians.field_link
+field_name: field_link
+entity_type: taxonomy_term
+bundle: election_politicians
+label: Link
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,59 @@
+uuid: 4cda9a3b-ef47-4658-9661-e6fa88865178
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.election_politicians.field_icon
+    - field.field.taxonomy_term.election_politicians.field_icon_title
+    - field.field.taxonomy_term.election_politicians.field_link
+    - field.field.taxonomy_term.election_politicians.field_politician
+    - taxonomy.vocabulary.election_politicians
+  module:
+    - options
+    - text
+id: taxonomy_term.election_politicians.default
+targetEntityType: taxonomy_term
+bundle: election_politicians
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_icon:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_icon_title:
+    weight: 7
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_link:
+    weight: 6
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_politician:
+    weight: 5
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

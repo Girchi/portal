@@ -1,0 +1,28 @@
+uuid: 855f1ced-293c-484f-ac9c-e4ad79b21326
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_politician
+    - taxonomy.vocabulary.election_politicians
+id: taxonomy_term.election_politicians.field_politician
+field_name: field_politician
+entity_type: taxonomy_term
+bundle: election_politicians
+label: Politician
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

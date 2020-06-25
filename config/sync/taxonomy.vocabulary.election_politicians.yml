@@ -1,0 +1,8 @@
+uuid: 1852d493-f34c-4484-94a9-55b160b5cd98
+langcode: ka
+status: true
+dependencies: {  }
+name: 'Election politicians'
+vid: election_politicians
+description: ''
+weight: 0
