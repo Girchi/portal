@@ -200,6 +200,10 @@ function girchi_utils_theme($existing, $type, $theme, $path)
         ],
       'template' => 'my-party-list-block',
     ],
+    'page_election_2020' => [
+      'template' => 'page--election-2020',
+      'render element' => 'children',
+    ]
 
   ];
 
