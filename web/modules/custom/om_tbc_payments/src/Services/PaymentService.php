@@ -161,7 +161,7 @@ class PaymentService {
         $values = [
           'trans_id' => $trans_id,
           'user_id' => $this->currentUser->id(),
-          'amount' => $payment_data['amount'] * 1,
+          'amount' => $payment_data['amount'] * 100,
           'ip_address' => $this->request->getClientIp(),
           'currency_code' => 981,
           'description' => $payment_data['description'],
@@ -213,7 +213,7 @@ class PaymentService {
    */
   public function generateTransactionId($amount, $description) {
 
-    $this->tbcPayProcessor->amount = $amount * 1;
+    $this->tbcPayProcessor->amount = $amount * 100;
     $this->tbcPayProcessor->currency = 981;
     $this->tbcPayProcessor->description = $description;
     $this->tbcPayProcessor->language = $this->getLanguage();
@@ -242,7 +242,7 @@ class PaymentService {
    */
   public function saveCard($amount, $description) {
     $card_id = $this->generateCardCode();
-    $this->tbcPayProcessor->amount = $amount * 1;
+    $this->tbcPayProcessor->amount = $amount * 100;
     $this->tbcPayProcessor->currency = 981;
     $this->tbcPayProcessor->description = $description;
     $this->tbcPayProcessor->language = $this->getLanguage();
@@ -306,7 +306,7 @@ class PaymentService {
    */
   public function executePayment($card_id, $amount, $description) {
     $this->tbcPayProcessor->biller_id = $card_id;
-    $this->tbcPayProcessor->amount = $amount * 1;
+    $this->tbcPayProcessor->amount = $amount * 100;
     $this->tbcPayProcessor->currency = 981;
     $this->tbcPayProcessor->description = 'Regular payment';
     $response = $this->tbcPayProcessor->execute_transaction();
