@@ -1,4 +1,3 @@
-{{ drupal_dump(politicians) }}
 <div class="election-sticky-navbar">
     <!-- Start of header -->
     <header class="bg-gradient-green">
@@ -47,7 +46,7 @@
                         </li>
                     </ul>
                     <a
-                        href="{{ url('<front>') }}"
+                        href="/front"
                         class="btn px-3 btn-warning font-size-1 font-size-md-3 btn-with-icon d-none d-lg-inline-flex align-items-center text-uppercase"
                     >
                         <i class="icon-girchi-logo font-size-4 mr-2 "></i>
@@ -60,10 +59,10 @@
                         <div class="d-flex align-items-center ml-auto py-3 py-lg-0 user-panel">
                             <a href="/user/{{ user_header.uid }}/edit" class="rounded-circle overflow-hidden d-inline-block">
                                 <img
-                                    {% if user_header.is_avatar %}
-                                        src="{{ image_style_url(user_header.user_picture , 'logged_in_user_picture') }}"
+                                    {% if user_header.isAvatar %}
+                                        src="{{ image_style_url(user_header.userPicture , 'logged_in_user_picture') }}"
                                     {% else %}
-                                        src="{{ user_header.user_picture }}"
+                                        src="{{ user_header.userPicture }}"
                                     {% endif %}
                                     class="rounded" alt="..." width="50"
                                     height="50">
@@ -71,11 +70,11 @@
                             <h6 class="text-uppercase line-height-1-2 font-size-3 font-size-xl-base mb-0 ml-2 ml-xl-3 mr-sm-4">
                                 <a href="/user/{{ user_header.uid }}/edit"
                                    class="text-decoration-none d-inline-block text-white text-hover-success">
-                                    {% if user_header.first_name %}
-                                        {{ user_header.first_name }}
-                                        <span class="font-weight-bold">{{ user_header.last_name }}</span>
+                                    {% if user_header.firstName %}
+                                        {{ user_header.firstName }}
+                                        <span class="font-weight-bold">{{ user_header.lastName }}</span>
                                     {% else %}
-                                        <span class="font-weight-bold">{{ user_header.user_name }}</span>
+                                        <span class="font-weight-bold">{{ user_header.userName }}</span>
                                     {% endif %}
                                     <span class="d-flex align-items-center font-size-3 text-hospital-green mt-1"><i
                                             class="icon-ged line-height-1-1"></i>
@@ -88,7 +87,6 @@
                             </a>
                         </div>
                     {% else %}
-                        {% if header_config.enable_user_ui %}
                             <div
                                 class="ml-auto py-3 py-lg-0 border-top border-top-lg-0 text-center"
                             >
@@ -103,7 +101,6 @@
                                     {{ "Register" | t }}
                                 </a>
                             </div>
-                        {% endif %}
                     {% endif %}
                 </div>
 
@@ -172,25 +169,25 @@
                           class="icon-friend text-warning font-size-5 line-height-1-0 mr-2"
                       ></i>
                       <strong class="font-size-4 line-height-1-4">
-                        3 258 ₾
+                        {{ total_amount }} ₾
                       </strong>
                       <span class="text-grey ml-2 line-height-1-8"
-                      >შემოწირულობა</span
+                      >სულ</span
                       >
                     </span>
                             </div>
                             <div>
                     <span>
-                      <span class="text-grey">საჭიროა</span>
-                      <strong class="font-size-3">5000 ₾ </strong>
+                      <span class="text-grey">მიზანი</span>
+                      <strong class="font-size-3">50,000 ₾ </strong>
                     </span>
                             </div>
                         </div>
                         <div
                             class="progress-bar bg-gradient-green"
                             role="progressbar"
-                            style="width: 50%"
-                            aria-valuenow="50"
+                            style="width: {{ total_amount   / 500 ~ '%'}}"
+                            aria-valuenow="0"
                             aria-valuemin="0"
                             aria-valuemax="100"
                         ></div>
@@ -200,18 +197,18 @@
                     <label
                         class="font-size-2 text-grey w-100 w-md-auto justify-content-start my-2"
                         for="staticEmail2"
-                    >დააფინანსე საარჩევნო მიზანი</label
+                    >ნუღარ ელოდები</label
                     >
                     <div class="form-group max-w-160 mb-0 mr-3 mx-md-3">
                         <input
                             type="text"
                             class="form-control px-3 w-100 min-h-41"
-                            id="inputPassword2"
-                            placeholder="მიუთითეთ თანხა"
+                            id="inputElectionDonate"
+                            placeholder="მიუთითე თანხა და"
                         />
                     </div>
-                    <a href="{{ url('girchi_donations.donations_controller_index') }}" class="btn btn-warning  text-uppercase">
-                        {{ "Donate"|t }}
+                    <a href="{{ url('girchi_donations.donations_controller_index') }}" class="btn btn-warning text-uppercase" id="donateSubmit">
+                       დააფინანსე
                     </a>
                 </form>
             </div>
@@ -222,53 +219,54 @@
 
 <div class="container">
     <div class="masonry mb-4">
-        <div class="masonry-item">
-            <div class="masonry-card">
+        {% for politician in politicians %}
+            <div class="masonry-item">
+             <div class="masonry-card">
                 <div class="masonry-card-icon">
-                    <i class="icon-education"></i>
+                    <i class="{{ politician.icon }}"></i>
                 </div>
                 <h5
                     class="masonry-card-title line-height-1-2 font-weight-bold mb-4"
                 >
-                    განათლების გათავისუფლება სისტემიდან
+                    {{ politician.iconTitle }}
                 </h5>
                 <div class="masonry-card-panel">
                     <div class="masonry-card-politician">
                         <div class="masonry-card-politician-image">
                             <div class="masonry-card-politician-image-wrapper">
-                                <img src="./images/i.metreveli.jpg" alt="" />
+                                <img src="{{ politician.imgUri ? image_style_url(politician.imgUri, 'election_politician') : theme_path() ~ "/images/avatar50x50.png"  }}" alt="" />
                             </div>
-                            <span class="number">01</span>
+                            <span class="number">{{ '0' ~ politician.ratingInPartyList }}</span>
                         </div>
 
                         <div class="masonry-card-politician-info">
                             <div class="masonry-card-politician-name">
                                 <h5 class="text-uppercase line-height-1-2">
                                     <a href="#" class="text-decoration-none text-success">
-                                        ზურაბ გირჩი <strong>ჯაფარიძე</strong>
+                                        {{ politician.firstName }} <strong>{{ politician.lastName }}</strong>
                                     </a>
                                 </h5>
                                 <span>
-                      <span class="text-warning font-weight-bold">9.4M</span>
+                      <span class="text-warning font-weight-bold">{{ politician.politicalGed | ged_formatter  }}</span>
                       <span class="text-grey font-size-2 text-uppercase"
                       >პარტიული წონა</span
                       >
                     </span>
                             </div>
-                            <button class="btn btn-warning text-uppercase">
-                                დააფინანსე
-                            </button>
+                            <a class="btn btn-warning text-uppercase">
+                                დამაფინანსე
+                            </a>
                         </div>
                     </div>
                     <div class="masonry-card-panel-footer">
-                        <span class="text-uppercase text-grey">სოციალური ქსელი</span>
+                        <span class="text-uppercase text-grey">გამომყევი</span>
                         <div class="masonry-card-panel-social">
-                            <a href="#">
+                            <a href="{{ politician.facebookUrl }}" target="_blank">
                                 <i
                                     class="icon-social-facebook-circular-button text-purple"
                                 ></i>
                             </a>
-                            <a href="#">
+                            <a href="{{ politician.twitterUrl }}" target="_blank">
                                 <i
                                     class="icon-social-twitter-circular-button text-light-blue"
                                 ></i>
@@ -280,311 +278,15 @@
                     </div>
                 </div>
                 <div class="masonry-card-panel text-center">
-                    <ul>
-                        <li>მშობლის უფლების დაბრუნება</li>
-                        <li>სკოლების მრავალფეროვნება</li>
-                        <li>განათლების სისტემების არჩევითობა</li>
-                        <li>
-                            კერძო საგანმანათლებლო დაწესებულებების რეგულაციებისგან
-                            განთავისუფლება
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary text-uppercase my-3">
+                    {{ politician.description | raw }}
+                    <a class="btn btn-primary text-uppercase my-3" href="{{ politician.url }}">
                         გაიგე მეტი
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="masonry-item">
-            <div class="masonry-card">
-                <div class="masonry-card-icon">
-                    <i class="icon-weed"></i>
-                </div>
-                <h5
-                    class="masonry-card-title line-height-1-2 font-weight-bold mb-4"
-                >
-                    ნარკოპოლიტიკა
-                </h5>
-                <div class="masonry-card-panel">
-                    <div class="masonry-card-politician">
-                        <div class="masonry-card-politician-image">
-                            <div class="masonry-card-politician-image-wrapper">
-                                <img src="./images/i.metreveli.jpg" alt="" />
-                            </div>
-                            <span class="number">01</span>
-                        </div>
+        {% endfor %}
 
-                        <div class="masonry-card-politician-info">
-                            <div class="masonry-card-politician-name">
-                                <h5 class="text-uppercase line-height-1-2">
-                                    <a href="#" class="text-decoration-none text-success">
-                                        ზურაბ გირჩი <strong>ჯაფარიძე</strong>
-                                    </a>
-                                </h5>
-                                <span>
-                      <span class="text-warning font-weight-bold">9.4M</span>
-                      <span class="text-grey font-size-2 text-uppercase"
-                      >პარტიული წონა</span
-                      >
-                    </span>
-                            </div>
-                            <button class="btn btn-warning text-uppercase">
-                                დააფინანსე
-                            </button>
-                        </div>
-                    </div>
-                    <div class="masonry-card-panel-footer">
-                        <span class="text-uppercase text-grey">სოციალური ქსელი</span>
-                        <div class="masonry-card-panel-social">
-                            <a href="#">
-                                <i
-                                    class="icon-social-facebook-circular-button text-purple"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i
-                                    class="icon-social-twitter-circular-button text-light-blue"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i class="icon-instagram text-pink"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="masonry-card-panel text-center">
-                    <ul>
-                        <li>მშობლის უფლების დაბრუნება</li>
-                        <li>სკოლების მრავალფეროვნება</li>
-                        <li>განათლების სისტემების არჩევითობა</li>
-                        <li>
-                            კერძო საგანმანათლებლო დაწესებულებების რეგულაციებისგან
-                            განთავისუფლება
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary text-uppercase my-3">
-                        გაიგე მეტი
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="masonry-item">
-            <div class="masonry-card">
-                <div class="masonry-card-icon">
-                    <i class="icon-law"></i>
-                </div>
-                <h5 class="masonry-card-title">
-                    მართლმსაჯულება
-                </h5>
-                <div class="masonry-card-panel">
-                    <div class="masonry-card-politician">
-                        <div class="masonry-card-politician-image">
-                            <div class="masonry-card-politician-image-wrapper">
-                                <img src="./images/i.metreveli.jpg" alt="" />
-                            </div>
-                            <span class="number">01</span>
-                        </div>
-
-                        <div class="masonry-card-politician-info">
-                            <div class="masonry-card-politician-name">
-                                <h5 class="text-uppercase line-height-1-2">
-                                    <a href="#" class="text-decoration-none text-success">
-                                        ზურაბ გირჩი <strong>ჯაფარიძე</strong>
-                                    </a>
-                                </h5>
-                                <span>
-                      <span class="text-warning font-weight-bold">9.4M</span>
-                      <span class="text-grey font-size-2 text-uppercase"
-                      >პარტიული წონა</span
-                      >
-                    </span>
-                            </div>
-                            <button class="btn btn-warning text-uppercase">
-                                დააფინანსე
-                            </button>
-                        </div>
-                    </div>
-                    <div class="masonry-card-panel-footer">
-                        <span class="text-uppercase text-grey">სოციალური ქსელი</span>
-                        <div class="masonry-card-panel-social">
-                            <a href="#">
-                                <i
-                                    class="icon-social-facebook-circular-button text-purple"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i
-                                    class="icon-social-twitter-circular-button text-light-blue"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i class="icon-instagram text-pink"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="masonry-card-panel text-center">
-                    <ul>
-                        <li>მშობლის უფლების დაბრუნება</li>
-                        <li>სკოლების მრავალფეროვნება</li>
-                        <li>განათლების სისტემების არჩევითობა</li>
-                        <li>
-                            კერძო საგანმანათლებლო დაწესებულებების რეგულაციებისგან
-                            განთავისუფლება
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary text-uppercase my-3">
-                        გაიგე მეტი
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="masonry-item">
-            <div class="masonry-card">
-                <div class="masonry-card-icon">
-                    <i class="icon-property"></i>
-                </div>
-                <h5
-                    class="masonry-card-title line-height-1-2 font-weight-bold mb-4"
-                >
-                    პრივატიზაცია
-                </h5>
-                <div class="masonry-card-panel">
-                    <div class="masonry-card-politician">
-                        <div class="masonry-card-politician-image">
-                            <div class="masonry-card-politician-image-wrapper">
-                                <img src="./images/i.metreveli.jpg" alt="" />
-                            </div>
-                            <span class="number">01</span>
-                        </div>
-
-                        <div class="masonry-card-politician-info">
-                            <div class="masonry-card-politician-name">
-                                <h5 class="text-uppercase line-height-1-2">
-                                    <a href="#" class="text-decoration-none text-success">
-                                        ზურაბ გირჩი <strong>ჯაფარიძე</strong>
-                                    </a>
-                                </h5>
-                                <span>
-                      <span class="text-warning font-weight-bold">9.4M</span>
-                      <span class="text-grey font-size-2 text-uppercase"
-                      >პარტიული წონა</span
-                      >
-                    </span>
-                            </div>
-                            <button class="btn btn-warning text-uppercase">
-                                დააფინანსე
-                            </button>
-                        </div>
-                    </div>
-                    <div class="masonry-card-panel-footer">
-                        <span class="text-uppercase text-grey">სოციალური ქსელი</span>
-                        <div class="masonry-card-panel-social">
-                            <a href="#">
-                                <i
-                                    class="icon-social-facebook-circular-button text-purple"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i
-                                    class="icon-social-twitter-circular-button text-light-blue"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i class="icon-instagram text-pink"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="masonry-card-panel text-center">
-                    <ul>
-                        <li>მშობლის უფლების დაბრუნება</li>
-                        <li>სკოლების მრავალფეროვნება</li>
-                        <li>განათლების სისტემების არჩევითობა</li>
-                        <li>
-                            კერძო საგანმანათლებლო დაწესებულებების რეგულაციებისგან
-                            განთავისუფლება
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary text-uppercase my-3">
-                        გაიგე მეტი
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="masonry-item">
-            <div class="masonry-card">
-                <div class="masonry-card-icon">
-                    <i class="icon-property"></i>
-                </div>
-                <h5
-                    class="masonry-card-title line-height-1-2 font-weight-bold mb-4"
-                >
-                    პრივატიზაცია
-                </h5>
-                <div class="masonry-card-panel">
-                    <div class="masonry-card-politician">
-                        <div class="masonry-card-politician-image">
-                            <div class="masonry-card-politician-image-wrapper">
-                                <img src="./images/i.metreveli.jpg" alt="" />
-                            </div>
-                            <span class="number">01</span>
-                        </div>
-
-                        <div class="masonry-card-politician-info">
-                            <div class="masonry-card-politician-name">
-                                <h5 class="text-uppercase line-height-1-2">
-                                    <a href="#" class="text-decoration-none text-success">
-                                        ზურაბ გირჩი <strong>ჯაფარიძე</strong>
-                                    </a>
-                                </h5>
-                                <span>
-                      <span class="text-warning font-weight-bold">9.4M</span>
-                      <span class="text-grey font-size-2 text-uppercase"
-                      >პარტიული წონა</span
-                      >
-                    </span>
-                            </div>
-                            <button class="btn btn-warning text-uppercase">
-                                დააფინანსე
-                            </button>
-                        </div>
-                    </div>
-                    <div class="masonry-card-panel-footer">
-                        <span class="text-uppercase text-grey">სოციალური ქსელი</span>
-                        <div class="masonry-card-panel-social">
-                            <a href="#">
-                                <i
-                                    class="icon-social-facebook-circular-button text-purple"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i
-                                    class="icon-social-twitter-circular-button text-light-blue"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i class="icon-instagram text-pink"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="masonry-card-panel text-center">
-                    <ul>
-                        <li>მშობლის უფლების დაბრუნება</li>
-                        <li>სკოლების მრავალფეროვნება</li>
-                        <li>განათლების სისტემების არჩევითობა</li>
-                        <li>
-                            კერძო საგანმანათლებლო დაწესებულებების რეგულაციებისგან
-                            განთავისუფლება
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary text-uppercase my-3">
-                        გაიგე მეტი
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="masonry-item">
             <div class="masonry-card mb-3 mb-sm-4">
                 <a

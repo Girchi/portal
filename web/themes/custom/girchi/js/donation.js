@@ -27,13 +27,20 @@ $("document").ready(function () {
         })
 
         //Load politician from query string
-        let politician_id = location.search.substring(location.search.lastIndexOf("=") + 1);
+        let politician_id = getParameterByName('politician');
         if (politician_id) {
             const selectedOption = $(selectEl).find(`option[value="2:${politician_id}"]`).get(0);
             $(selectedOption).attr('selected','selected');
             $(selectEl).selectpicker('refresh');
             $(`#del-sel-option-${sourceAttr}`).removeClass('d-none');
 	        $(`.${sourceAttr}-hidden-politician`).val(politician_id);
+        }
+        let amount = getParameterByName('amount');
+        if(amount) {
+            $('#edit-amount').val(amount);
+            let value = Math.floor((amount / currency) * 100);
+            $("#ged-place1").html(value);
+            $("#ged-place-2").html(value);
         }
 
         selectEl.on('changed.bs.select',function(e){
@@ -214,4 +221,14 @@ function calculateGed(amount, currency) {
         value = Math.floor((amount / currency) * 100);
     }
     return value;
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }

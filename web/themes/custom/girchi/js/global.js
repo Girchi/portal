@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    let url = $('#donateSubmit').attr('href');
+    $('#inputElectionDonate').on('change', function (e) {
+        $('#donateSubmit').attr('href', `${url}?amount=${e.target.value}`);
+    })
     $("#edit-field-politician-value").on("change", e => {
         if (e.target.checked) {
             $(".form-checkbox-politician").addClass("checked");
@@ -186,6 +190,9 @@ $(document).ready(function() {
         let input_region = `<input class="hidden" name="region" value="${region_id}">`;
         selectpicker_parent.parent().append(input_region);
     });
+
+
+
 
 
 });

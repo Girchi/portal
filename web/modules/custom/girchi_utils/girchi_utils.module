@@ -15,6 +15,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\webform\WebformSubmissionInterface;
 use Drupal\user\Entity\User;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Implements hook_token_info().
@@ -201,7 +202,13 @@ function girchi_utils_theme($existing, $type, $theme, $path)
       'template' => 'my-party-list-block',
     ],
     'page_election_2020' => [
-      'template' => 'page--election-2020',
+      'variables' => [
+        'politicians' => NULL,
+        'logged_in' => NULL,
+        'user_header' => NULL,
+        'total_amount' => NULL
+      ],
+      'template' => 'page-election-2020',
       'render element' => 'children',
     ]
 
@@ -566,11 +573,32 @@ function girchi_utils_user_form_submit(&$form, FormStateInterface $form_state)
  */
 function girchi_utils_cron()
 {
+  $logger_factory = Drupal::service('logger.factory')->get('girchi_utils');
   /**
    * @var \Drupal\girchi_utils\GedRaitingService $rankRaiting
    */
   $rankRaiting = Drupal::service('girchi_utils.ged_raiting');
   $rankRaiting->calculateRankRating();
+
+  try {
+    $donation_storage = \Drupal::entityTypeManager()->getStorage('donation');
+    $donation_entity_ids = $donation_storage->getQuery()
+      ->condition('status', 'OK')
+      ->condition('user_id', '0', '!=')
+      ->condition('created', strtotime('1-04-2020'), '>=')
+      ->execute();
+    $donations = $donation_storage->loadMultiple($donation_entity_ids);
+    $total_value = 0;
+    foreach ($donations as $donation) {
+      $total_value += $donation->amount->value;
+    }
+    $key_value = Drupal::service('keyvalue')->get('girchi_utils');
+    $key_value->set('total_amount',$total_value );
+  } catch (Exception $exception) {
+    $logger_factory->error($exception->getMessage());
+  }
+
+
 }
 
 /**
