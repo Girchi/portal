@@ -39,10 +39,10 @@
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav m-0 mr-lg-3">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">მიზანი</a>
+                            <a class="nav-link" href="#reason">მიზანი</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">პოლიტიკოსები</a>
+                            <a class="nav-link" href="#politicians">პოლიტიკოსები</a>
                         </li>
                     </ul>
                     <a
@@ -125,7 +125,7 @@
                 ></i>
                 <h4
                     class="line-height-1-3 line-height-md-1-0 font-size-7 font-size-md-9 text-white text-uppercase font-weight-bold d-flex align-items-center"
-                >
+                    id="reason">
                     მეტი ფული ხალხს
                 </h4>
             </div>
@@ -135,11 +135,11 @@
 <!-- End jumbotron -->
 
 <!-- Start donation  -->
-<div class="bg-white py-4 py-md-5 mb-3 mb-md-4">
+<div class="bg-white py-4 py-md-5 mb-3 mb-md-4" >
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
-                <h6 class="text-uppercase font-weight-bold my-3">
+                <h6 class="text-uppercase font-weight-bold my-3" >
                     ახალი საარჩევნო მიზნის სათაური
                 </h6>
                 <div class="font-size-2 text-grey mb-4 mb-lg-0">
@@ -157,7 +157,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5" id="politicians">
                 <div action="" class="pt-4 mt-2">
                     <div class="progress progress-sm">
                         <div class="progress-info">
@@ -218,7 +218,7 @@
 <!-- End donation -->
 
 <div class="container">
-    <div class="masonry mb-4">
+    <div class="masonry mb-4" >
         {% for politician in politicians %}
             <div class="masonry-item">
              <div class="masonry-card">
@@ -253,7 +253,7 @@
                       >
                     </span>
                             </div>
-                            <a class="btn btn-warning text-uppercase">
+                            <a class="btn btn-warning text-uppercase" href="/donate?politician={{ politician.id }}" >
                                 დამაფინანსე
                             </a>
                         </div>
@@ -261,19 +261,25 @@
                     <div class="masonry-card-panel-footer">
                         <span class="text-uppercase text-grey">გამომყევი</span>
                         <div class="masonry-card-panel-social">
-                            <a href="{{ politician.facebookUrl }}" target="_blank">
-                                <i
-                                    class="icon-social-facebook-circular-button text-purple"
-                                ></i>
-                            </a>
-                            <a href="{{ politician.twitterUrl }}" target="_blank">
-                                <i
-                                    class="icon-social-twitter-circular-button text-light-blue"
-                                ></i>
-                            </a>
-                            <a href="#">
-                                <i class="icon-instagram text-pink"></i>
-                            </a>
+                            {% if politician.facebookUrl %}
+                                <a href="{{ politician.facebookUrl }}" target="_blank">
+                                    <i
+                                        class="icon-social-facebook-circular-button text-purple"
+                                    ></i>
+                                </a>
+                            {% endif %}
+                            {% if politician.twitterUrl %}
+                                <a href="{{ politician.twitterUrl }}" target="_blank">
+                                    <i
+                                        class="icon-social-twitter-circular-button text-light-blue"
+                                    ></i>
+                                </a>
+                            {% endif %}
+                            {% if politician.instagramUrl %}
+                                <a href="{{ politician.instagramUrl }}">
+                                    <i class="icon-instagram text-pink"></i>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

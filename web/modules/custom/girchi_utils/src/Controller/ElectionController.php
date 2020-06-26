@@ -109,7 +109,7 @@ class ElectionController extends ControllerBase {
     $politicians = $user_storage->loadMultiple($politicians);
     $politiciansFullInfo = $this->mergeFieldsWithUsers($politicians, $fields);
     $headerVariables = $this->getCurrentUserInfo();
-    $totalAmount = $this->keyValue->get('total_amount');
+    $totalAmount = 98000;
 
     $milestones = $this->getMilestons($totalAmount);
 
@@ -175,6 +175,7 @@ class ElectionController extends ControllerBase {
       $ratingInPartyList = $user->field_rating_in_party_list->value;
       $twitterUrl = $user->field_twitter_url->value;
       $facebookUrl = $user->field_facebook_url->value;
+      $instagramUrl = $user->field_instagram_url->value;
 
       if ($user->get('user_picture')->entity) {
         $img_uri = $user->get('user_picture')->entity->getFileUri();
@@ -183,12 +184,14 @@ class ElectionController extends ControllerBase {
         $img_uri = NULL;
       }
       $resultArr[] = [
+        'id' => $id,
         'firstName' => $firstName,
         'lastName' => $lastName,
         'politicalGed' => $politicalGed,
         'ratingInPartyList' => $ratingInPartyList,
         'twitterUrl' => $twitterUrl,
         'facebookUrl' => $facebookUrl,
+        'instagramUrl' => $instagramUrl,
         'imgUri' => $img_uri,
         'icon' => $fields[$id]['icon'] ?? '',
         'url' => $fields[$id]['url'] ?? '',

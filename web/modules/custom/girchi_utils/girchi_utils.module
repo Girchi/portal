@@ -359,11 +359,13 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       unset($form['field_profile_video']['widget'][0]['value']['#title']);
       unset($form['field_twitter_url']['widget']['0']['value']['#title']);
       unset($form['field_facebook_url']['widget']['0']['value']['#title']);
+      unset($form['field_instagram_url']['widget']['0']['value']['#title']);
       unset($form['field_public_email']['widget']['0']['value']['#title']);
 
       $form['field_profile_video']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_twitter_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_instagram_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_public_email']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
 
       $form['actions']['submit']['#submit'][] = 'girchi_utils_user_form_submit';
