@@ -169,7 +169,7 @@
                           class="icon-friend text-warning font-size-5 line-height-1-0 mr-2"
                       ></i>
                       <strong class="font-size-4 line-height-1-4">
-                        {{ total_amount }} ₾
+                        {{ total_amount | number_format}} ₾
                       </strong>
                       <span class="text-grey ml-2 line-height-1-8"
                       >სულ</span
@@ -179,14 +179,14 @@
                             <div>
                     <span>
                       <span class="text-grey">მიზანი</span>
-                      <strong class="font-size-3">50,000 ₾ </strong>
+                      <strong class="font-size-3">{{ milestones.milestoneEnd | number_format }} ₾ </strong>
                     </span>
                             </div>
                         </div>
                         <div
                             class="progress-bar bg-gradient-green"
                             role="progressbar"
-                            style="width: {{ total_amount   / 500 ~ '%'}}"
+                            style="width: {{ (total_amount - milestones.milestoneStart) / 250 ~ '%'}}"
                             aria-valuenow="0"
                             aria-valuemin="0"
                             aria-valuemax="100"

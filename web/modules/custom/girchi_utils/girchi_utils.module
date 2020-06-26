@@ -206,7 +206,8 @@ function girchi_utils_theme($existing, $type, $theme, $path)
         'politicians' => NULL,
         'logged_in' => NULL,
         'user_header' => NULL,
-        'total_amount' => NULL
+        'total_amount' => NULL,
+        'milestones' => NULL,
       ],
       'template' => 'page-election-2020',
       'render element' => 'children',

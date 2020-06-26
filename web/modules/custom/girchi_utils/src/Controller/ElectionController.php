@@ -109,6 +109,9 @@ class ElectionController extends ControllerBase {
     $politicians = $user_storage->loadMultiple($politicians);
     $politiciansFullInfo = $this->mergeFieldsWithUsers($politicians, $fields);
     $headerVariables = $this->getCurrentUserInfo();
+    $totalAmount = $this->keyValue->get('total_amount');
+
+    $milestones = $this->getMilestons($totalAmount);
 
     return [
       '#theme' => 'page_election_2020',
@@ -116,7 +119,8 @@ class ElectionController extends ControllerBase {
       '#politicians' => $politiciansFullInfo,
       '#logged_in' => $this->user->isAuthenticated(),
       '#user_header' => $headerVariables,
-      '#total_amount' => $this->keyValue->get('total_amount') ?? 0,
+      '#total_amount' => $totalAmount,
+      '#milestones' => $milestones,
     ];
   }
 
@@ -221,6 +225,33 @@ class ElectionController extends ControllerBase {
       'isAvatar' => $isAvatar,
       'uid' => $this->user->id(),
     ];
+  }
+
+  /**
+   * Creates milestones according to total amount.
+   *
+   * @param int $totalAmount
+   *   Total donation amount.
+   *
+   * @return array
+   *   Array of milestones.
+   */
+  protected function getMilestons($totalAmount) {
+    $milestones = [25000, 50000, 75000, 100000, 125000];
+    $milestoneStart = 0;
+    $milestoneEnd = 25000;
+    for ($i = 0; $i < count($milestones); $i++) {
+      if ($totalAmount > end($milestones)) {
+        $milestoneEnd = $milestoneStart = end($milestones);
+        break;
+      }
+      elseif ($totalAmount > $milestones[$i] && $totalAmount < $milestones[$i + 1]) {
+        $milestoneStart = $milestones[$i];
+        $milestoneEnd = $milestones[$i + 1];
+        break;
+      }
+    }
+    return ['milestoneStart' => $milestoneStart, 'milestoneEnd' => $milestoneEnd];
   }
 
 }
