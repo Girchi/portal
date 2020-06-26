@@ -259,7 +259,11 @@
                         </div>
                     </div>
                     <div class="masonry-card-panel-footer">
-                        <span class="text-uppercase text-grey">გამომყევი</span>
+                        <span class="text-uppercase text-grey">
+                            {% if politician.facebookUrl or politician.twitterUrl or  politician.instagramUrl %}
+                                გამომყევი
+                            {% endif %}
+                        </span>
                         <div class="masonry-card-panel-social">
                             {% if politician.facebookUrl %}
                                 <a href="{{ politician.facebookUrl }}" target="_blank">
