@@ -1,0 +1,46 @@
+<style>
+    input {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-text {
+        margin: 0;
+    }
+
+    input[type="submit"] {
+        width: 50%;
+        margin: 10px auto;
+    }
+
+    .rs-form-wrapper {
+        justify-content: center;
+    }
+
+    .logo-wrapper {
+        justify-content: center;
+    }
+
+    .form-wrapper {
+        justify-content: center;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        flex-flow: column;
+    }
+
+</style>
+
+{% if page.content %}
+    <div class="container rs-form-wrapper">
+        <div class="row logo-wrapper">
+            <i class="icon-girchi-logo navbar-brand-lg mr-lg-4"></i>
+        </div>
+        <div class="row form-wrapper">
+            {{ page.content }}
+        </div>
+    </div>
+{% endif %}

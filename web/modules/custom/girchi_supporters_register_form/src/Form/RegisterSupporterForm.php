@@ -72,6 +72,7 @@ class RegisterSupporterForm extends FormBase {
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Register'),
+      '#weight' => '5',
     ];
 
     return $form;
