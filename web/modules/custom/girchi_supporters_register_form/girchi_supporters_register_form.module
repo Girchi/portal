@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_supporters_register_form.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_supporters_register_form_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_supporters_register_form module.
+    case 'help.page.girchi_supporters_register_form':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module registers route to register supporters quickly.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function girchi_supporters_register_form_theme() {
+  return [
+    'girchi_supporters_register_form' => [
+      'render element' => 'children',
+    ],
+  ];
+}
