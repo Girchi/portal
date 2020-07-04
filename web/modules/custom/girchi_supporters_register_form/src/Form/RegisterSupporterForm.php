@@ -26,12 +26,20 @@ class RegisterSupporterForm extends FormBase {
   protected $usersUtils;
 
   /**
+   * Drupal\Core\Entity\EntityTypeManagerInterface definition.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
     $instance->currentUser = $container->get('current_user');
     $instance->usersUtils = $container->get('girchi_users.utils');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
     return $instance;
   }
 
@@ -46,8 +54,23 @@ class RegisterSupporterForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $user_manager = $this->entityTypeManager->getStorage('user');
+    $user = $user_manager->load($this->currentUser->id());
+    if ($user->field_referral->entity) {
+      $team = $user->field_referral->entity->getDisplayName();
+    }
+    else {
+      $team = '--';
+    }
+
     $form['registrator'] = [
-      '#markup' => '<div class="registrator-box">Registrator: <strong>' . $this->currentUser->getDisplayName() . '</strong></div>',
+      '#markup' => '
+            <div class="registrator-box">
+                <strong>Registrator: <span class="registrator-name">' . $this->currentUser->getDisplayName() . '</span></strong><br />
+                <strong>Team: <span class="team">' . $team . '</span></strong><br />
+                <strong>Total registrations: <span class="total-registrations">' . 5 . '</span></strong><br />
+            </div>
+       ',
     ];
     $form['gov_id'] = [
       '#type' => 'textfield',
@@ -124,6 +147,7 @@ class RegisterSupporterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {}
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+  }
 
 }
