@@ -24,6 +24,11 @@
 
     .form-wrapper {
         justify-content: center;
+        flex-flow: column;
+    }
+
+    .form-wrapper .alert ul {
+        margin-bottom: 0;
     }
 
     form {
@@ -32,6 +37,10 @@
         flex-flow: column;
     }
 
+    .registrator-box {
+        border-bottom: 1px dotted black;
+        margin-bottom: 15px;
+    }
 </style>
 
 {% if page.content %}
