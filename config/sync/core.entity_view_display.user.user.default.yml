@@ -7,6 +7,7 @@ dependencies:
     - field.field.user.user.field_approved_badges
     - field.field.user.user.field_badges
     - field.field.user.user.field_bio
+    - field.field.user.user.field_bot_integration_code
     - field.field.user.user.field_cover_photo
     - field.field.user.user.field_date_of_birth
     - field.field.user.user.field_facebook_url
@@ -73,6 +74,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_bot_integration_code:
+    weight: 23
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
   field_date_of_birth:
     weight: 9

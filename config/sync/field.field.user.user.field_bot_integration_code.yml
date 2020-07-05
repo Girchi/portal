@@ -1,0 +1,20 @@
+uuid: 551a3947-e081-4ccd-9b11-27a7ed088845
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_bot_integration_code
+  module:
+    - user
+id: user.user.field_bot_integration_code
+field_name: field_bot_integration_code
+entity_type: user
+bundle: user
+label: 'Bot integration code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

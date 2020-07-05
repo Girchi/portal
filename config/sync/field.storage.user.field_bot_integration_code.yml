@@ -1,0 +1,21 @@
+uuid: a800a716-b1a7-45f0-acc2-a70a9eedc4b1
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_bot_integration_code
+field_name: field_bot_integration_code
+entity_type: user
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
