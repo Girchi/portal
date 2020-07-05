@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains girchi_chatbot_integration.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function girchi_chatbot_integration_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the girchi_chatbot_integration module.
+    case 'help.page.girchi_chatbot_integration':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module provides girchi.com users integration with Girchi chatbots.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
