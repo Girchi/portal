@@ -4,4 +4,4 @@ girchi_supporters_register_form.register_supporter_form:
     _form: '\Drupal\girchi_supporters_register_form\Form\RegisterSupporterForm'
     _title: 'RegisterSupporterForm'
   requirements:
-    _access: 'TRUE'
+    _role: 'missioner'
