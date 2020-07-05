@@ -44,6 +44,7 @@ module:
   filter: 0
   form_options_attributes: 0
   girchi_banking: 0
+  girchi_chatbot_integration: 0
   girchi_contact: 0
   girchi_donations: 0
   girchi_ged_transactions: 0
