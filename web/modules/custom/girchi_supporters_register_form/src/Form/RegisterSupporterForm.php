@@ -33,6 +33,20 @@ class RegisterSupporterForm extends FormBase {
   protected $entityTypeManager;
 
   /**
+   * Referral entity.
+   *
+   * @var \Drupal\user\Entity\User
+   */
+  protected $referral;
+
+  /**
+   * Messenger service.
+   *
+   * @var \Drupal\pathauto\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -40,6 +54,12 @@ class RegisterSupporterForm extends FormBase {
     $instance->currentUser = $container->get('current_user');
     $instance->usersUtils = $container->get('girchi_users.utils');
     $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->messenger = $container->get('messenger');
+
+    $user_manager = $instance->entityTypeManager->getStorage('user');
+    $user = $user_manager->load($instance->currentUser->id());
+    $instance->referral = $user->field_referral->entity;
+
     return $instance;
   }
 
@@ -54,10 +74,8 @@ class RegisterSupporterForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $user_manager = $this->entityTypeManager->getStorage('user');
-    $user = $user_manager->load($this->currentUser->id());
-    if ($user->field_referral->entity) {
-      $team = $user->field_referral->entity->getDisplayName();
+    if ($this->referral) {
+      $team = $this->referral->getDisplayName();
     }
     else {
       $team = '--';
@@ -148,6 +166,26 @@ class RegisterSupporterForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $user = $this->entityTypeManager->getStorage('user')->create();
+    $values = $form_state->getValues();
+
+    $user->setPassword('girchi');
+    $user->enforceIsNew();
+    $user->setEmail($values['email']);
+    $user->setUsername($values['gov_id']);
+    $user->set('field_tel', $values['phone']);
+    $user->set('field_personal_id', $values['gov_id']);
+    $user->set('field_first_name', $values['firstname']);
+    $user->set('field_last_name', $values['lastname']);
+    $user->set('field_referral', $this->referral->id());
+    $user->set('field_ged', $values['ged_amount']);
+
+    $user->activate();
+
+    // Save user account.
+    if ($user->save()) {
+      $this->messenger->addMessage($values['firstname'] . ' ' . $values['lastname'] . ' is registered successfully!');
+    }
   }
 
 }
