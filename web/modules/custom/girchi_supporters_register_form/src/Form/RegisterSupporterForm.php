@@ -47,6 +47,27 @@ class RegisterSupporterForm extends FormBase {
   protected $messenger;
 
   /**
+   * State service.
+   *
+   * @var \Drupal\Core\State\State
+   */
+  protected $state;
+
+  /**
+   * Number of total registered supporters by current user.
+   *
+   * @var int
+   */
+  private $registeredSupportersNumber;
+
+  /**
+   * Storage api key for current user to get total registered supporters number.
+   *
+   * @var int
+   */
+  private $registeredSupportersNumKey;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -55,10 +76,14 @@ class RegisterSupporterForm extends FormBase {
     $instance->usersUtils = $container->get('girchi_users.utils');
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->messenger = $container->get('messenger');
+    $instance->state = $container->get('state');
 
     $user_manager = $instance->entityTypeManager->getStorage('user');
     $user = $user_manager->load($instance->currentUser->id());
     $instance->referral = $user->field_referral->entity;
+
+    $instance->registeredSupportersNumKey = 'u_' . $instance->currentUser->id() . '_registered_supporters_num';
+    $instance->registeredSupportersNumber = $instance->state->get($instance->registeredSupportersNumKey);
 
     return $instance;
   }
@@ -86,7 +111,7 @@ class RegisterSupporterForm extends FormBase {
             <div class="registrator-box">
                 <strong>Registrator: <span class="registrator-name">' . $this->currentUser->getDisplayName() . '</span></strong><br />
                 <strong>Team: <span class="team">' . $team . '</span></strong><br />
-                <strong>Total registrations: <span class="total-registrations">' . 5 . '</span></strong><br />
+                <strong>Total registrations: <span class="total-registrations">' . (int) $this->registeredSupportersNumber . '</span></strong><br />
             </div>
        ',
     ];
@@ -185,6 +210,7 @@ class RegisterSupporterForm extends FormBase {
     // Save user account.
     if ($user->save()) {
       $this->messenger->addMessage($values['firstname'] . ' ' . $values['lastname'] . ' is registered successfully!');
+      $this->state->set($this->registeredSupportersNumKey, $this->registeredSupportersNumber + 1);
     }
   }
 
