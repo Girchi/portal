@@ -194,10 +194,14 @@ class RegisterSupporterForm extends FormBase {
     $user = $this->entityTypeManager->getStorage('user')->create();
     $values = $form_state->getValues();
 
+    $userName = preg_replace('/@.*$/', '', $values['email']);
+    $userName = email_registration_cleanup_username($userName);
+    $userName = email_registration_unique_username($userName);
+
     $user->setPassword('girchi');
     $user->enforceIsNew();
     $user->setEmail($values['email']);
-    $user->setUsername($values['gov_id']);
+    $user->setUsername($userName);
     $user->set('field_tel', $values['phone']);
     $user->set('field_personal_id', $values['gov_id']);
     $user->set('field_first_name', $values['firstname']);
