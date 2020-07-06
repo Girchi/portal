@@ -680,6 +680,13 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        trans_id:
+          id: trans_id
+          table: donation
+          field: trans_id
+          entity_type: donation
+          entity_field: trans_id
+          plugin_id: field
       filters:
         politician_donation:
           id: politician_donation
@@ -872,6 +879,50 @@ display:
           entity_type: donation
           entity_field: created
           plugin_id: date
+        field_source_value:
+          id: field_source_value
+          table: donation__field_source
+          field: field_source_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_source_value_op
+            label: 'Source (field_source)'
+            description: ''
+            use_operator: false
+            operator: field_source_value_op
+            identifier: field_source_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          plugin_id: string
       sorts:
         created:
           id: created
