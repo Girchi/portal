@@ -7,8 +7,6 @@ label: მისიონერი
 weight: -5
 is_admin: null
 permissions:
-  - 'access administration pages'
   - 'access all views'
   - 'access supporters registration'
   - 'administer users'
-  - 'view the administration theme'
