@@ -109,7 +109,6 @@ class UserBadgesChangeDetectionService {
         $earned_badge = TRUE;
         $badge_name = BadgeConstants::POLITICIAN;
         $value = $encoded_value;
-
       }
       elseif ($user->get('field_politician')->value == FALSE && $user->original->get('field_politician')->value == TRUE) {
         $lost_badge = TRUE;
@@ -119,32 +118,52 @@ class UserBadgesChangeDetectionService {
 
       if ($earned_badge == TRUE || $lost_badge == TRUE) {
         $term = $this->entityTypeManager->getStorage('taxonomy_term')->loadByProperties(['name' => $badge_name]);
-        $tid = reset($term)->id();
 
-        // Set parameters for NotifyUserService.
-        $badge_info = $this->getBadgeInfoService->getBadgeInfo($tid);
-        if ($lost_badge == TRUE) {
-          $text = "თქვენ ჩამოგერთვათ ბეჯი - ${badge_info['badge_name']}.";
-          $text_en = "You are deprived the badge - ${badge_info['badge_name_en']}.";
-        }
-        else {
-          $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
-          $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
-        }
-        $notification_type = NotificationConstants::USER_BADGE;
-        $notification_type_en = NotificationConstants::USER_BADGE_EN;
-        $badge_info['image'] = $badge_info['logo_svg'][$badge_name];
+        if ($term) {
+          $tid = reset($term)->id();
 
-        /** @var \Drupal\Core\Field\FieldItemList $user_badges */
-        $user_badges = $user->get('field_badges');
-        if (!$user_badges->isEmpty()) {
-          $user_badges_new = clone $user_badges;
-          /** @var \Drupal\Core\Field\FieldItemList $badge_exists */
-          $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($tid) {
-            return $tid == $user_badges->target_id;
-          });
+          // Set parameters for NotifyUserService.
+          $badge_info = $this->getBadgeInfoService->getBadgeInfo($tid);
+          if ($lost_badge == TRUE) {
+            $text = "თქვენ ჩამოგერთვათ ბეჯი - ${badge_info['badge_name']}.";
+            $text_en = "You are deprived the badge - ${badge_info['badge_name_en']}.";
+          }
+          else {
+            $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+            $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+          }
+          $notification_type = NotificationConstants::USER_BADGE;
+          $notification_type_en = NotificationConstants::USER_BADGE_EN;
+          $badge_info['image'] = $badge_info['logo_svg'][$badge_name];
 
-          if ($badge_exists->isEmpty()) {
+          /** @var \Drupal\Core\Field\FieldItemList $user_badges */
+          $user_badges = $user->get('field_badges');
+          if (!$user_badges->isEmpty()) {
+            $user_badges_new = clone $user_badges;
+            /** @var \Drupal\Core\Field\FieldItemList $badge_exists */
+            $badge_exists = $user_badges_new->filter(static function ($user_badges) use ($tid) {
+              return $tid == $user_badges->target_id;
+            });
+
+            if ($badge_exists->isEmpty()) {
+              $user_badges->appendItem([
+                'target_id' => $tid,
+                'value' => $value,
+              ]);
+              // Notify user.
+              $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
+            }
+            else {
+              foreach ($user_badges as $user_badge) {
+                if ($user_badge->target_id == $tid) {
+                  $user_badge->set('value', $value);
+                  // Notify user.
+                  $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
+                }
+              }
+            }
+          }
+          elseif ($user_badges->isEmpty()) {
             $user_badges->appendItem([
               'target_id' => $tid,
               'value' => $value,
@@ -152,23 +171,6 @@ class UserBadgesChangeDetectionService {
             // Notify user.
             $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
           }
-          else {
-            foreach ($user_badges as $user_badge) {
-              if ($user_badge->target_id == $tid) {
-                $user_badge->set('value', $value);
-                // Notify user.
-                $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
-              }
-            }
-          }
-        }
-        elseif ($user_badges->isEmpty()) {
-          $user_badges->appendItem([
-            'target_id' => $tid,
-            'value' => $value,
-          ]);
-          // Notify user.
-          $this->notifyUser->notifyUser($user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
         }
       }
 
@@ -266,8 +268,11 @@ class UserBadgesChangeDetectionService {
   }
 
   /**
+   * DeleteRegDonationBadge.
+   *
    * @param int $uid
-   *   uid.
+   *   Uid.
+   *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function deleteRegDonationBadge($uid) {
@@ -311,7 +316,6 @@ class UserBadgesChangeDetectionService {
     catch (PluginNotFoundException $e) {
       $this->loggerFactory->error($e->getMessage());
     }
-
   }
 
 }

@@ -1,0 +1,69 @@
+<style>
+    input {
+        width: 100%;
+        margin: 0;
+        padding: 5px;
+    }
+
+    .form-text {
+        margin: 0;
+    }
+
+    input[type="submit"] {
+        width: 50%;
+        margin: 10px auto;
+    }
+
+    .rs-form-wrapper {
+        justify-content: center;
+        padding: 20px 50px;
+    }
+
+    .logo-wrapper {
+        justify-content: center;
+    }
+
+    .form-wrapper {
+        justify-content: center;
+        flex-flow: column;
+    }
+
+    .form-wrapper .alert ul {
+        margin-bottom: 0;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        flex-flow: column;
+    }
+
+    .registrator-box {
+        border-bottom: 1px dotted black;
+        margin-bottom: 15px;
+        text-align: center;
+        line-height: 37px;
+        padding-bottom: 10px;
+    }
+
+    .registrator-box .registrator-name,
+    .registrator-box .team {
+        color: #0a6eb4;
+    }
+
+    .registrator-box .total-registrations {
+        color: #0daeee;
+        font-size: 28px;
+    }
+</style>
+
+{% if page.content %}
+    <div class="container rs-form-wrapper">
+        <div class="row logo-wrapper">
+            <i class="icon-girchi-logo navbar-brand-lg mr-lg-4"></i>
+        </div>
+        <div class="row form-wrapper">
+            {{ page.content }}
+        </div>
+    </div>
+{% endif %}

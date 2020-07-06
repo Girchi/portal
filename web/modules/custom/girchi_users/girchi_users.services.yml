@@ -23,3 +23,9 @@ services:
   girchi_users.approved_badges:
     class: Drupal\girchi_users\UserApprovedBadgesService
     arguments: ['@entity_type.manager','@logger.factory','@serialization.json' ]
+  logger.channel.girchi_users:
+    parent: logger.channel_base
+    arguments: ['girchi_users']
+  girchi_users.utils:
+    class: Drupal\girchi_users\UsersUtils
+    arguments: ['@entity_type.manager', '@current_user']

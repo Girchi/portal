@@ -1,0 +1,5 @@
+name: 'Supporters form'
+type: module
+description: 'This module registers route to register supporters quickly.'
+core: 8.x
+package: 'Custom'
