@@ -1,0 +1,6 @@
+services:
+  girchi_chatbot_integration.girchi_chatbot_integration_update_codes:
+    class: Drupal\girchi_chatbot_integration\Command\UpdateChatbotCodesCommand
+    arguments: []
+    tags:
+      - { name: drupal.command }
