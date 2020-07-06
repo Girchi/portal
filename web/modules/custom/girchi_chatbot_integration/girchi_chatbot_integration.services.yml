@@ -1,0 +1,8 @@
+services:
+  logger.channel.girchi_chatbot_integration:
+    parent: logger.channel_base
+    arguments: ['girchi_chatbot_integration']
+
+  girchi_chatbot.helpers:
+    class: Drupal\girchi_chatbot_integration\Services\ChatbotIntegrationHelpers
+    arguments: ['@entity_type.manager', '@current_user']
