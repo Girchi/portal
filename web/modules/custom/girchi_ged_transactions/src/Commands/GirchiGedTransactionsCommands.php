@@ -2,6 +2,9 @@
 
 namespace Drupal\girchi_ged_transactions\Commands;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drush\Commands\DrushCommands;
@@ -92,6 +95,36 @@ class GirchiGedTransactionsCommands extends DrushCommands {
     foreach ($ged_transactions as $ged_transaction) {
       $ged_transaction->set("transaction_type", $transaction_type_id);
       $ged_transaction->save();
+    }
+  }
+
+
+  /**
+   * Fix transaction type for regular donations.
+   *
+   * @command girchi_ged_transactions:fix-reg-transaction-type
+   * @aliases fix-reg-transaction-type
+   */
+  public function fixRegTransactionType() {
+    try {
+      $ged_t_storage =$this->entityTypeManager->getStorage('ged_transaction');
+      $ged_transaction_ids = $ged_t_storage->getQuery()
+        ->condition('transaction_type', '1360', '=')
+        ->execute();
+      $ged_transactions =  $ged_t_storage->loadMultiple($ged_transaction_ids);
+      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369);
+
+      foreach ($ged_transactions as $transaction) {
+        $transaction->set('transaction_type', $transaction_type_id);
+        $transaction->save();
+      }
+
+    } catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_ged_transactions')->error($e->getMessage());
+    } catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_ged_transactions')->error($e->getMessage());
+    } catch (EntityStorageException $e) {
+      $this->loggerFactory->get('girchi_ged_transactions')->error($e->getMessage());
     }
   }
 
