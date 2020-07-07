@@ -124,6 +124,16 @@ class PartyListCalculatorService {
           $this->loggerFactory->error($e->getMessage());
         }
       }
+      $unlistedPoliticians = $user_storage->getQuery()
+        ->condition('field_politician', TRUE, '=')
+        ->condition('uid', array_keys($user_rating), 'NOT IN')
+        ->execute();
+      $unlistedPoliticians = $user_storage->loadMultiple($unlistedPoliticians);
+      foreach ($unlistedPoliticians as $politician) {
+        $politician->set('field_political_ged', NULL);
+        $politician->set('field_rating_in_party_list', NULL);
+        $politician->save();
+      }
     }
     catch (\Exception $e) {
       $this->loggerFactory->error($e->getMessage());
