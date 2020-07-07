@@ -5,10 +5,16 @@ services:
 
   girchi_chatbot.helpers:
     class: Drupal\girchi_chatbot_integration\Services\ChatbotIntegrationHelpers
-    arguments: ['@entity_type.manager', '@current_user']
+    arguments:
+      - '@entity_type.manager'
+      - '@current_user'
+      - '@logger.channel.girchi_chatbot_integration'
 
   gitchi_chatbot.user_authentication_subscriber:
     class: Drupal\girchi_chatbot_integration\EventSubscriber\ChatbotUserAuthenticationSubscriber
-    arguments: ['@current_user', '@entity_type.manager', '@girchi_chatbot.helpers']
+    arguments:
+      - '@current_user'
+      - '@entity_type.manager'
+      - '@girchi_chatbot.helpers'
     tags:
       - { name: event_subscriber }

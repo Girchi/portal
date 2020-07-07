@@ -4,7 +4,9 @@ namespace Drupal\girchi_chatbot_integration\Services;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannel;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\user\Entity\User;
 
 /**
  * Class ChatbotIntegrationHelpers.
@@ -40,13 +42,24 @@ class ChatbotIntegrationHelpers {
   private $currentUserObject;
 
   /**
+   * Drupal\Core\Logger\LoggerChannel definition.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannel
+   */
+  protected $loggerChannel;
+
+  /**
    * Constructs a new ChatbotIntegrationHelpers object.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $current_user) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    AccountProxyInterface $current_user,
+    LoggerChannel $logger_channel) {
     $this->entityTypeManager = $entity_type_manager;
     $this->currentUser = $current_user;
     $this->userManager = $entity_type_manager->getStorage('user');
     $this->currentUserObject = $this->userManager->load($this->currentUser->id());
+    $this->loggerChannel = $logger_channel;
   }
 
   /**
@@ -71,7 +84,13 @@ class ChatbotIntegrationHelpers {
       $new_code = sprintf('%07d', rand(0, 1000000));
     }
     return $new_code;
+  }
 
+  /**
+   * Log new code generations.
+   */
+  public function logNewCode(User $user) {
+    $this->loggerChannel->info('Chatbot integration code generated for @user', ['@user' => $user->getDisplayName()]);
   }
 
 }

@@ -38,7 +38,10 @@ class ChatbotUserAuthenticationSubscriber implements EventSubscriberInterface {
   /**
    * Constructs a new ChatbotUserAuthenticationSubscriber object.
    */
-  public function __construct(AccountProxyInterface $current_user, EntityTypeManagerInterface $entity_type_manager, ChatbotIntegrationHelpers $chatbotHelpers) {
+  public function __construct(
+    AccountProxyInterface $current_user,
+    EntityTypeManagerInterface $entity_type_manager,
+    ChatbotIntegrationHelpers $chatbotHelpers) {
     $this->currentUser = $current_user;
     $this->entityTypeManager = $entity_type_manager;
     $this->chatbotHelpers = $chatbotHelpers;
@@ -64,6 +67,7 @@ class ChatbotUserAuthenticationSubscriber implements EventSubscriberInterface {
       if ($new_code = $this->chatbotHelpers->generateUniqueCode($user)) {
         $user->set('field_bot_integration_code', $new_code);
         $user->save();
+        $this->chatbotHelpers->logNewCode($user);
       }
     }
   }

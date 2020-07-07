@@ -29,8 +29,8 @@ class UpdateChatbotCodesCommand extends ContainerAwareCommand {
    * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
-    /*
-     * @var Drupal\girchi_chatbot_integration\Services\ChatbotIntegrationHelpers
+    /**
+     * @var $chatbot_helpers \Drupal\girchi_chatbot_integration\Services\ChatbotIntegrationHelpers
      */
     $chatbot_helpers = $this->container->get('girchi_chatbot.helpers');
     $userManager = $this->get('entity_type.manager')->getStorage('user');
@@ -45,6 +45,7 @@ class UpdateChatbotCodesCommand extends ContainerAwareCommand {
         $user->save();
 
         $this->getIo()->info($user->getDisplayName() . ' - ' . $new_code);
+        $chatbot_helpers->logNewCode($user);
       }
       else {
         $this->getIo()->info($user->getDisplayName() . ' - ALREADY SET.');
