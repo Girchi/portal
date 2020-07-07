@@ -40,7 +40,7 @@ class UpdateChatbotCodesCommand extends ContainerAwareCommand {
      */
     $users = $userManager->loadByProperties();
     foreach ($users as $user) {
-      if ($new_code = $chatbot_helpers->generateUniqueCodes($user)) {
+      if ($new_code = $chatbot_helpers->generateUniqueCode($user)) {
         $user->set('field_bot_integration_code', $new_code);
         $user->save();
 
