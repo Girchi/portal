@@ -2202,7 +2202,7 @@ display:
           label: სტატუსი
           exclude: false
           alter:
-            alter_text: true
+            alter_text: false
             text: '{{get_badges(field_approved_badges) }}'
             make_link: false
             path: ''
@@ -2241,8 +2241,9 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: target_id
-          type: entity_reference_entity_id
-          settings: {  }
+          type: entity_reference_label
+          settings:
+            link: false
           group_column: target_id
           group_columns: {  }
           group_rows: true
