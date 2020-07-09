@@ -1,0 +1,4 @@
+block.settings.girchi_chatbot_integration_bot_integration_message:
+  type: block_settings
+  label: 'Bot Integration Message block'
+  mapping:
