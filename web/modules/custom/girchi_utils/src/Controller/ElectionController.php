@@ -109,7 +109,7 @@ class ElectionController extends ControllerBase {
     $politicians = $user_storage->loadMultiple($politicians);
     $politiciansFullInfo = $this->mergeFieldsWithUsers($politicians, $fields);
     $headerVariables = $this->getCurrentUserInfo();
-    $totalAmount = 98000;
+    $totalAmount = $this->keyValue->get('total_amount');
 
     $milestones = $this->getMilestons($totalAmount);
 
