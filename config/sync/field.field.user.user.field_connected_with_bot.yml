@@ -1,0 +1,24 @@
+uuid: ef95ae87-bfbc-4878-bcf2-c709bae53048
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_connected_with_bot
+  module:
+    - user
+id: user.user.field_connected_with_bot
+field_name: field_connected_with_bot
+entity_type: user
+bundle: user
+label: 'Connected with bot'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: ჩართვა
+  off_label: გამორთვა
+field_type: boolean
