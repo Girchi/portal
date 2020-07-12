@@ -8,6 +8,7 @@ dependencies:
     - field.field.user.user.field_badges
     - field.field.user.user.field_bio
     - field.field.user.user.field_bot_integration_code
+    - field.field.user.user.field_connected_with_bot
     - field.field.user.user.field_cover_photo
     - field.field.user.user.field_date_of_birth
     - field.field.user.user.field_facebook_url
@@ -103,6 +104,13 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_connected_with_bot:
+    weight: 30
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   field_cover_photo:
     weight: 16
