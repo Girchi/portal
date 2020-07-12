@@ -1,0 +1,7 @@
+girchi_chatbot_integration.check_code:
+  path: '/chatbot-integration/check-code/{code}'
+  defaults:
+    _title: 'Check code'
+    _controller: '\Drupal\girchi_chatbot_integration\Controller\GirchiChatbotIntegrationController::checkCode'
+  requirements:
+    _permission: 'access content'
