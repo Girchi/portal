@@ -66,7 +66,7 @@ class GirchiChatbotIntegrationController extends ControllerBase {
 
     $response = [
       'messages' => [
-        'text' => $message,
+        0 => ['text' => $message],
       ],
     ];
     return JsonResponse::create($response);
