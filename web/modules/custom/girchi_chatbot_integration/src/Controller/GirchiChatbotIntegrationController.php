@@ -42,9 +42,13 @@ class GirchiChatbotIntegrationController extends ControllerBase {
    * Builds the response.
    */
   public function checkCode($code) {
-    return JsonResponse::create([
-      'code' => $code,
-    ]);
+
+    $response = [
+      'messages' => [
+        'text' => 'მადლობა',
+      ],
+    ];
+    return JsonResponse::create($response);
   }
 
 }
