@@ -100,7 +100,7 @@ class BotIntegrationMessageBlock extends BlockBase implements ContainerFactoryPl
     }
 
     $user = $this->userManager->load($this->currentUser->id());
-    if ($user->get('field_connected_with_bot')->getValue()[0]['value']) {
+    if (isset($user->get('field_connected_with_bot')->getValue()[0]['value'])) {
       return AccessResult::forbidden();;
     }
     else {

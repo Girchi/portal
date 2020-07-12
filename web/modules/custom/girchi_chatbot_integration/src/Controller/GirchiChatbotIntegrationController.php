@@ -43,9 +43,30 @@ class GirchiChatbotIntegrationController extends ControllerBase {
    */
   public function checkCode($code) {
 
+    $user_manager = $this->entityTypeManager->getStorage('user');
+
+    $users = $user_manager->loadByProperties([
+      'field_bot_integration_code' => $code,
+      'field_connected_with_bot' => 0,
+    ]);
+
+    if (empty($users)) {
+      $message = 'მემგონი რაღაც შეგეშალა, კარგად გადაამოწმე და თავიდან გამომიგზავნე კოდი :)';
+    }
+    else {
+      /**
+       * @var $user \Drupal\user\Entity\User
+       */
+      $user = array_shift(array_values($users));
+      $user->set('field_connected_with_bot', 1);
+      $user->save();
+
+      $message = sprintf('ეგაა! წარმატებით დავუკავშირდი პორტალზე შენს ანგარიშს - %s', $user->getDisplayName());
+    }
+
     $response = [
       'messages' => [
-        'text' => 'მადლობა',
+        'text' => $message,
       ],
     ];
     return JsonResponse::create($response);
