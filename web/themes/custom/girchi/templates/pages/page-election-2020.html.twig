@@ -16,13 +16,42 @@
                     <i class="icon-menu-three-horizontal-lines-symbol"></i>
                 </button>
 
-                <a
-                    href="#"
-                    class="btn mr-auto ml-4 px-3 btn-warning font-size-1 font-size-md-3 btn-with-icon d-lg-none d-inline-flex align-items-center text-uppercase"
-                >
-                    <i class="icon-girchi-logo font-size-4 mr-2 "></i>
-                    გირჩის პორტალი
-                </a>
+                <!-- Visible On Mobile -->
+                <div class="d-flex d-sm-none">
+                    <a
+                        href="#"
+                        class="btn ml-1 ml-sm-4 py-1 line-height-1-2 px-3 btn-warning font-size-1 font-size-md-3 btn-with-icon d-lg-none d-inline-flex align-items-center text-uppercase"
+                    >
+                        <i class="icon-girchi-logo font-size-4 mr-2 "></i>
+                        გირჩის <br />
+                        პორტალი
+                    </a>
+                    <a
+                        href="/media/news/3799-cadi-archevnebze-da-moige-tesla"
+                        class="btn mr-auto ml-2 ml-sm-4 py-1 line-height-1-2 px-3 btn-light text-success font-size-1 font-size-md-3 btn-with-icon d-lg-none d-inline-flex align-items-center text-uppercase"
+                    >
+                        <i class="icon-tesla font-size-4 mr-2 "></i>
+                        მოიგე <br />
+                        ტესლა
+                    </a>
+                </div>
+                <!-- Visible On Tablet -->
+                <div class="d-none d-sm-flex">
+                    <a
+                        href="#"
+                        class="btn ml-1 ml-sm-4 px-3 btn-warning font-size-1 font-size-md-3 btn-with-icon d-lg-none d-inline-flex align-items-center text-uppercase"
+                    >
+                        <i class="icon-girchi-logo font-size-4 mr-2 "></i>
+                        გირჩის პორტალი
+                    </a>
+                    <a
+                        href="/media/news/3799-cadi-archevnebze-da-moige-tesla"
+                        class="btn mr-auto ml-2 ml-sm-4 px-3 btn-light text-success font-size-1 font-size-md-3 btn-with-icon d-lg-none d-inline-flex align-items-center text-uppercase"
+                    >
+                        <i class="icon-tesla font-size-4 mr-2 "></i>
+                        მოიგე ტესლა
+                    </a>
+                </div>
 
                 <button
                     class="navbar-toggler"
@@ -51,6 +80,13 @@
                     >
                         <i class="icon-girchi-logo font-size-4 mr-2 "></i>
                         გირჩის პორტალი
+                    </a>
+                    <a
+                        href="/media/news/3799-cadi-archevnebze-da-moige-tesla"
+                        class="btn px-3 btn-light ml-3 font-size-1 font-size-md-3 btn-with-icon d-none d-lg-inline-flex text-success align-items-center text-uppercase"
+                    >
+                        <i class="icon-tesla font-size-4 mr-2 "></i>
+                        მოიგე ტესლა
                     </a>
                 </div>
 
@@ -116,6 +152,7 @@
 <!-- Start jumbotron -->
 <div class="jumbotron bg-gradient-green bg-parliament rounded-none p-0 m-0">
     <div class="container">
+
         <div class="row">
             <div
                 class="d-flex align-items-center flex-column justify-content-center w-100 py-4 py-md-5"
@@ -224,6 +261,63 @@
 <!-- End donation -->
 
 <div class="container">
+    <!-- Tesla Banner Start -->
+    <div
+        class="rounded banner-bg-raffle mb-3 mb-md-4 p-4 p-md-2 d-flex flex-column flex-md-row align-items-center"
+    >
+        <img
+            src="{{ theme_path('images/tesla-logo.svg', 1) }}"
+            class="mb-3 d-md-none"
+            width="40"
+            alt="Tesla Logo"
+        />
+        <img
+            src="{{ theme_path('images/tesla-logo.svg', 1) }}"
+            class="mx-5 d-none d-md-inline-block d-lg-none"
+            width="60"
+            alt="Tesla Logo"
+        />
+        <img
+            src="{{ theme_path('images/tesla-logo.svg', 1) }}"
+            class="ml-6 ml-lg-8 mr-6 d-none d-lg-inline-block"
+            width="74"
+            alt="Tesla Logo"
+        />
+        <div>
+          <span
+              class="text-uppercase text-white font-size-5 font-size-md-7 font-size-lg-8 font-weight-bold d-block"
+          >მოიგე ტესლა!</span
+          >
+            <a
+                href="/media/news/3799-cadi-archevnebze-da-moige-tesla"
+                class="btn btn-light d-none d-md-inline-block text-uppercase mt-2"
+            >
+                გაიგე მეტი
+            </a>
+        </div>
+        <img
+            src="{{ theme_path('images/tesla.png', 1) }}"
+            class="mx-auto my-2 d-md-none"
+            width="80%"
+            alt="Tesla Logo"
+        />
+        <img
+            src="{{ theme_path('images/tesla.png', 1) }}"
+            class="ml-auto mr-4 d-none d-md-inline-block d-lg-none"
+            width="250"
+            alt="Tesla Logo"
+        />
+        <img
+            src="{{ theme_path('images/tesla.png', 1) }}"
+            class="ml-auto mr-4 d-none d-lg-inline-block"
+            width="346"
+            alt="Tesla Logo"
+        />
+        <a href="/media/news/3799-cadi-archevnebze-da-moige-tesla" class="btn btn-light d-md-none text-uppercase mt-2">
+            გაიგე მეტი
+        </a>
+    </div>
+    <!-- Tesla Banner End -->
     <div class="masonry mb-4" >
         {% for politician in politicians %}
             <div class="masonry-item">
@@ -240,7 +334,9 @@
                     <div class="masonry-card-politician">
                         <div class="masonry-card-politician-image">
                             <div class="masonry-card-politician-image-wrapper">
-                                <img src="{{ politician.imgUri ? image_style_url(politician.imgUri, 'election_politician') : theme_path() ~ "/images/avatar50x50.png"  }}" alt="" />
+                                <a href="/profile/{{ politician.id }}">
+                                        <img src="{{ politician.imgUri ? image_style_url(politician.imgUri, 'election_politician') : theme_path() ~ "/images/avatar50x50.png"  }}" alt="" />
+                                </a>
                             </div>
                             <span class="number">{{ '0' ~ politician.ratingInPartyList }}</span>
                         </div>
@@ -248,7 +344,7 @@
                         <div class="masonry-card-politician-info">
                             <div class="masonry-card-politician-name">
                                 <h5 class="text-uppercase line-height-1-2">
-                                    <a href="#" class="text-decoration-none text-success">
+                                    <a href="/profile/{{ politician.id }}" class="text-decoration-none text-success">
                                         {{ politician.firstName }} <strong>{{ politician.lastName }}</strong>
                                     </a>
                                 </h5>
