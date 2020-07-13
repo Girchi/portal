@@ -588,7 +588,7 @@ function girchi_utils_cron()
     $donation_entity_ids = $donation_storage->getQuery()
       ->condition('status', 'OK')
       ->condition('user_id', '0', '!=')
-      ->condition('created', strtotime('1-06-2020'), '>=')
+      ->condition('created', strtotime('13-07-2020'), '>=')
       ->execute();
     $donations = $donation_storage->loadMultiple($donation_entity_ids);
     $total_value = 0;
