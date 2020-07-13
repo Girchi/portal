@@ -1,0 +1,21 @@
+uuid: 64481934-0dc7-4e39-a64f-06d94f32d584
+langcode: ka
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_icon_title
+field_name: field_icon_title
+entity_type: taxonomy_term
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

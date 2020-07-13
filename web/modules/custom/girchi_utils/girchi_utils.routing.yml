@@ -13,3 +13,11 @@ girchi_utils.batch_update_page_views:
     _title: 'Update node views'
   requirements:
     _permission: 'access content'
+
+girchi_utils.election_2020:
+  path: '/election-2020'
+  defaults:
+    _controller: '\Drupal\girchi_utils\Controller\ElectionController::election'
+    _title: 'Election 2020'
+  requirements:
+    _permission: 'access content'

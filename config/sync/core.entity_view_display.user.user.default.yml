@@ -13,6 +13,7 @@ dependencies:
     - field.field.user.user.field_favorite_news
     - field.field.user.user.field_first_name
     - field.field.user.user.field_ged
+    - field.field.user.user.field_instagram_url
     - field.field.user.user.field_intro
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
@@ -243,6 +244,7 @@ hidden:
   field_cover_photo: true
   field_facebook_url: true
   field_favorite_news: true
+  field_instagram_url: true
   field_intro: true
   field_phone: true
   field_profile_video: true

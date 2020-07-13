@@ -1,0 +1,20 @@
+uuid: 8f44de9a-7639-4bad-a6c0-20c3d56646c4
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_instagram_url
+  module:
+    - user
+id: user.user.field_instagram_url
+field_name: field_instagram_url
+entity_type: user
+bundle: user
+label: 'Instagram url'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

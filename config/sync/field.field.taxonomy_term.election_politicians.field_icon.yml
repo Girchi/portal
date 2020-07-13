@@ -1,0 +1,21 @@
+uuid: ad87482d-b20e-4481-8af2-b24a1bb90a73
+langcode: ka
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_icon
+    - taxonomy.vocabulary.election_politicians
+  module:
+    - options
+id: taxonomy_term.election_politicians.field_icon
+field_name: field_icon
+entity_type: taxonomy_term
+bundle: election_politicians
+label: Icon
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

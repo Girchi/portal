@@ -1,0 +1,11 @@
+uuid: e127d503-4dcd-4f56-a5b1-957fa3957b54
+langcode: ka
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.election_politicians
+id: taxonomy_term.election_politicians
+target_entity_type_id: taxonomy_term
+target_bundle: election_politicians
+default_langcode: site_default
+language_alterable: false

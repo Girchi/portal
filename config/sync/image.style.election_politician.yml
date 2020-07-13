@@ -1,0 +1,15 @@
+uuid: 958b1327-523d-4793-8638-01ffa45ea319
+langcode: ka
+status: true
+dependencies: {  }
+name: election_politician
+label: 'Election politician'
+effects:
+  d1bd37c2-4500-4fbe-87ef-b710fadc038b:
+    uuid: d1bd37c2-4500-4fbe-87ef-b710fadc038b
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 400
+      height: 400
+      anchor: center-center

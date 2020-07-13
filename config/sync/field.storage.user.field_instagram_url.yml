@@ -1,0 +1,21 @@
+uuid: 43e98091-b07c-4b22-9b29-e8c35fc3b4ab
+langcode: ka
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_instagram_url
+field_name: field_instagram_url
+entity_type: user
+type: string
+settings:
+  max_length: 1000
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

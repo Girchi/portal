@@ -13,6 +13,7 @@ dependencies:
     - field.field.user.user.field_favorite_news
     - field.field.user.user.field_first_name
     - field.field.user.user.field_ged
+    - field.field.user.user.field_instagram_url
     - field.field.user.user.field_intro
     - field.field.user.user.field_last_name
     - field.field.user.user.field_my_party_list
@@ -140,6 +141,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_instagram_url:
+    weight: 29
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_intro:
     weight: 22
