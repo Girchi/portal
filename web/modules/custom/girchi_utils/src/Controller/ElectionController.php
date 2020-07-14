@@ -121,6 +121,7 @@ class ElectionController extends ControllerBase {
       '#user_header' => $headerVariables,
       '#total_amount' => $totalAmount,
       '#milestones' => $milestones,
+      '#cache' => ['contexts' => ['user']],
     ];
   }
 
