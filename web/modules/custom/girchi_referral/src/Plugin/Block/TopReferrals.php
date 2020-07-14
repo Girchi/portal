@@ -9,6 +9,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -109,10 +110,12 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
 
         $users = $user_storage->loadMultiple($uids);
         foreach ($users as $user) {
-          $user_info = $this->getUserInfo($user);
-          $uid = $user->id();
-          $user_info['referral_benefits'] = $user->get('field_referral_benefits')->value;
-          $top_referrals[$uid] = $user_info;
+          if ($user) {
+            $user_info = $this->getUserInfo($user);
+            $uid = $user->id();
+            $user_info['referral_benefits'] = $user->get('field_referral_benefits')->value;
+            $top_referrals[$uid] = $user_info;
+          }
         }
       }
 
@@ -131,16 +134,18 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
         foreach ($referral_benefits_recs as $referral_benefits_rec) {
           $uid = $referral_benefits_rec->get('field_referral')->target_id;
           $user = $user_storage->load($uid);
-          $amount_of_money = $referral_benefits_rec->get('field_amount_of_money')->value;
-          $user_info = $this->getUserInfo($user);
-          $user_info['referral_benefits'] = $amount_of_money;
-          if (array_key_exists($uid, $top_referrals)) {
-            $top_referrals[$uid]['referral_benefits'] += $amount_of_money;
+          if ($user) {
+            // dump($user);
+            $amount_of_money = $referral_benefits_rec->get('field_amount_of_money')->value;
+            $user_info = $this->getUserInfo($user);
+            $user_info['referral_benefits'] = $amount_of_money;
+            if (array_key_exists($uid, $top_referrals)) {
+              $top_referrals[$uid]['referral_benefits'] += $amount_of_money;
+            }
+            else {
+              $top_referrals[$uid] = $user_info;
+            }
           }
-          else {
-            $top_referrals[$uid] = $user_info;
-          }
-
         }
       }
       return $top_referrals;
@@ -163,13 +168,16 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Get user info.
    *
-   * @param mixed $user
+   * @param \Drupal\user\Entity\User $user
    *   User.
+   *
+   * @return array|array[]
+   *   Top referrals.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getUserInfo($user) {
+  public function getUserInfo(User $user) {
     $user_storage = $this->entityTypeManager->getStorage('user');
     /** @var \Drupal\user\Entity\User $user */
     $uid = $user->id();
