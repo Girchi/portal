@@ -5,7 +5,7 @@ slogan: ''
 page:
   403: ''
   404: ''
-  front: /front
+  front: /election-2020
 admin_compact_mode: false
 weight_select_max: 100
 langcode: ka
