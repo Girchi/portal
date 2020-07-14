@@ -214,3 +214,16 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 0.8em
 ;
 }
+
+
+@media only screen and (min-width: 1200px) {
+    .notifications {
+        right: -40.5%!important;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .notifications {
+        right: -27.5%!important;
+    }
+}
