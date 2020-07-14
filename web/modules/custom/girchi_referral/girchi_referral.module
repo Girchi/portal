@@ -76,6 +76,7 @@ function girchi_referral_theme($existing, $type, $theme, $path) {
       'variables' =>
         [
           'topReferrals' => NULL,
+          'topReferralsMonthly' => NULL,
         ],
       'template' => 'top-referrals',
     ],

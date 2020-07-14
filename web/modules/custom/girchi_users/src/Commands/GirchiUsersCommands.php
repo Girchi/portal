@@ -209,4 +209,39 @@ class GirchiUsersCommands extends DrushCommands {
     }
   }
 
+  /**
+   * Set referral count command.
+   *
+   * @command girchi_users:del-ref-benefits
+   * @aliases del-ref-benefits
+   */
+  public  function deleteReferralBenefits() {
+    try {
+      // Delete referral benefits from user field.
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $uids = $user_storage->getQuery()
+        ->condition('field_referral_benefits', '0', '>')
+        ->execute();
+      $users = $user_storage->loadMultiple($uids);
+      foreach ($users as $user) {
+        $user->set('field_referral_benefits', '0');
+        $user->save();
+      }
+
+      // Delete referral benefits from db.
+      $referral_benefits_storage = $this->entityTypeManager->getStorage('node');
+      $referral_benefit_ids = $referral_benefits_storage->getQuery()
+        ->condition('type', 'referral_transaction')
+        ->execute();
+      $referral_benefits = $referral_benefits_storage->loadMultiple($referral_benefit_ids);
+
+      foreach ($referral_benefits as $referral_benefit) {
+        $referral_benefit->delete();
+      }
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+  }
+
 }
