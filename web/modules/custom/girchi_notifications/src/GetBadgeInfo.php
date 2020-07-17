@@ -73,6 +73,8 @@ class GetBadgeInfo {
         BadgeConstants::POLITICIAN => '/themes/custom/girchi/images/badge-politician.svg',
         BadgeConstants::SINGLE_CONTRIBUTOR => '/themes/custom/girchi/images/badge-partner.svg',
         BadgeConstants::REGULAR_CONTRIBUTOR => '/themes/custom/girchi/images/badge-partner-multiple.svg',
+        // TODO:: Change with right svg.
+        BadgeConstants::TESLA => '/themes/custom/girchi/images/badge-user.svg',
       ];
 
       if ($language === 'ka' && $term->hasTranslation('ka')) {
