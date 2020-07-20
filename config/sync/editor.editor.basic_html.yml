@@ -81,10 +81,10 @@ settings:
             - Source
             - Maximize
   plugins:
-    language:
-      language_list: un
     stylescombo:
       styles: "p.highlighted|Highlighted Paragraph\r\np.muted|Muted Paragraph\r\np.indented|Indented Paragraph\r\nh2.smaller|Small Heading 2\r\nh2.alt|Alt Heading 2\r\nblockquote.align-left|Align Left\r\nblockquote.align-right|Align Right\r\nblockquote.large|Large\r\nblockquote.align-left.large|Large Align Left\r\nblockquote.align-right.large|Large Align Right\r\nspan.marked|Marked Text\r\nspan.alt-color|Alt Colored Text\r\ntable.table|Table\r\ntable.table.table-sm|Small Table\r\ntable.table.table-hover|Hovered Table\r\ntable.table.table-sm.table-hover|Hovered Small Table\r\ntr.alt-row|Highlighted Row\r\n"
+    language:
+      language_list: un
     video_embed:
       defaults:
         children:
