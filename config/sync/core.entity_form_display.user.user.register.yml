@@ -4,14 +4,43 @@ status: true
 dependencies:
   config:
     - core.entity_form_mode.user.register
+    - field.field.user.user.field_address
+    - field.field.user.user.field_approved_badges
+    - field.field.user.user.field_badges
+    - field.field.user.user.field_bio
+    - field.field.user.user.field_cover_photo
+    - field.field.user.user.field_date_of_birth
+    - field.field.user.user.field_facebook_url
+    - field.field.user.user.field_favorite_news
     - field.field.user.user.field_first_name
+    - field.field.user.user.field_ged
+    - field.field.user.user.field_instagram_url
+    - field.field.user.user.field_intro
     - field.field.user.user.field_last_name
+    - field.field.user.user.field_my_party_list
     - field.field.user.user.field_personal_id
     - field.field.user.user.field_phone
+    - field.field.user.user.field_political_ged
     - field.field.user.user.field_politician
+    - field.field.user.user.field_profile_video
+    - field.field.user.user.field_public_email
+    - field.field.user.user.field_publicity
+    - field.field.user.user.field_rank
+    - field.field.user.user.field_rating_in_party_list
     - field.field.user.user.field_referral
+    - field.field.user.user.field_referral_benefits
+    - field.field.user.user.field_referral_count
+    - field.field.user.user.field_referral_date
+    - field.field.user.user.field_referral_url
+    - field.field.user.user.field_refresh_token
+    - field.field.user.user.field_region
+    - field.field.user.user.field_social_auth_password
+    - field.field.user.user.field_tel
+    - field.field.user.user.field_twitter_url
     - field.field.user.user.user_picture
   module:
+    - international_phone
+    - telephone
     - user
 _core:
   default_config_hash: K-1rBM8mTIkFp9RqOC2tMRUukOQ1xbRCfSKK8dEddnA
@@ -25,6 +54,45 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_facebook_url:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_first_name:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_last_name:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_personal_id:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_phone:
+    type: telephone_default
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   field_referral:
     type: entity_reference_autocomplete
     weight: 1
@@ -34,35 +102,42 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_tel:
+    type: InternationalPhoneDefaultWidget
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   timezone:
     weight: 6
     region: content
 hidden:
   contact: true
   field_address: true
+  field_approved_badges: true
+  field_badges: true
   field_bio: true
   field_cover_photo: true
   field_date_of_birth: true
-  field_facebook_url: true
   field_favorite_news: true
-  field_first_name: true
   field_ged: true
+  field_instagram_url: true
   field_intro: true
-  field_last_name: true
   field_my_party_list: true
-  field_personal_id: true
-  field_phone: true
   field_political_ged: true
   field_politician: true
   field_profile_video: true
   field_public_email: true
+  field_publicity: true
   field_rank: true
   field_rating_in_party_list: true
   field_referral_benefits: true
+  field_referral_count: true
   field_referral_date: true
   field_referral_url: true
+  field_refresh_token: true
+  field_region: true
   field_social_auth_password: true
-  field_tel: true
   field_twitter_url: true
   google_analytics: true
   langcode: true
