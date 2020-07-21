@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\girchi_notifications\NotifyAdminService;
 use Drupal\girchi_users\GenerateJwtService;
+use Drupal\girchi_utils\TaxonomyTermTree;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -82,6 +83,13 @@ class UserController extends ControllerBase {
   public $json;
 
   /**
+   * TaxonomyTermTree.
+   *
+   * @var \Drupal\girchi_utils\TaxonomyTermTree
+   */
+  public $taxonomyTermTree;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -98,6 +106,8 @@ class UserController extends ControllerBase {
    *   NotifyAdminService.
    * @param \Drupal\Component\Serialization\Json $json
    *   Json.
+   * @param \Drupal\girchi_utils\TaxonomyTermTree $taxonomyTermTree
+   *   Taxonomy term tree.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
                               SocialAuthDataHandler $socialAuthDataHandler,
@@ -105,7 +115,8 @@ class UserController extends ControllerBase {
                               ConfigFactory $configFactory,
                               GenerateJwtService $generateJWT,
                               NotifyAdminService $notifyAdmin,
-                              Json $json) {
+                              Json $json,
+                              TaxonomyTermTree $taxonomyTermTree) {
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;
     $this->loggerFactory = $loggerFactory;
@@ -113,6 +124,7 @@ class UserController extends ControllerBase {
     $this->generateJWT = $generateJWT;
     $this->notifyAdmin = $notifyAdmin;
     $this->json = $json;
+    $this->taxonomyTermTree = $taxonomyTermTree;
     try {
       $userStorage = $this->entityTypeManager->getStorage('user');
       $current_user_id = $this->currentUser()->id();
@@ -139,7 +151,8 @@ class UserController extends ControllerBase {
       $container->get('config.factory'),
       $container->get('girchi_users.generate_jwt'),
       $container->get('girchi_notifications.notify_admin'),
-      $container->get('serialization.json')
+      $container->get('serialization.json'),
+      $container->get('girchi_utils.taxonomy_term_tree')
     );
   }
 
@@ -157,6 +170,7 @@ class UserController extends ControllerBase {
   public function socialAuthPassword(Request $request) {
 
     $token = $this->SocialAuthDataHandler->get('social_auth_facebook_access_token');
+    $regions = $this->taxonomyTermTree->load('regions');
 
     if ($this->user->get('field_social_auth_password')->getValue()) {
       $password_check = $this->user->get('field_social_auth_password')->getValue()[0]['value'];
@@ -174,6 +188,7 @@ class UserController extends ControllerBase {
         '#theme' => 'girchi_users',
         '#uid' => $this->user->id(),
         '#subtitle' => $subtitle,
+        '#regions' => $regions,
       ];
     }
     else {
@@ -198,10 +213,14 @@ class UserController extends ControllerBase {
   public function passwordConfirm(Request $request) {
 
     try {
-
+      $phoneNumber = $request->request->get('phoneNumber');
+      $country = $request->request->get('country');
+      $name = $request->request->get('name');
+      $lastName = $request->request->get('lastName');
+      $idNumber = $request->request->get('idNumber');
+      $fbUrl = $request->request->get('fbUrl');
       $pass = $request->request->get('pass');
       $uid = $request->request->get('uid');
-
       if (empty($pass)) {
         return new JsonResponse('Password is empty');
       }
@@ -210,6 +229,12 @@ class UserController extends ControllerBase {
       if ($this->user) {
         if ($this->user->id() === $uid) {
           $this->user->setPassword($pass);
+          $this->user->set('field_region', ['target_id' => $country]);
+          $this->user->set('field_tel', $phoneNumber);
+          $this->user->set('field_first_name', $name);
+          $this->user->set('field_last_name', $lastName);
+          $this->user->set('field_personal_id', $idNumber);
+          $this->user->set('field_facebook_url', $fbUrl);
           $this->user->set('field_social_auth_password', TRUE);
           $this->user->save();
           return new JsonResponse('success');
