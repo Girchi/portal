@@ -70,6 +70,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_instagram_url:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_last_name:
     type: string_textfield
     weight: 6
@@ -121,7 +129,6 @@ hidden:
   field_date_of_birth: true
   field_favorite_news: true
   field_ged: true
-  field_instagram_url: true
   field_intro: true
   field_my_party_list: true
   field_political_ged: true
