@@ -171,6 +171,7 @@ class UserController extends ControllerBase {
 
     $token = $this->SocialAuthDataHandler->get('social_auth_facebook_access_token');
     $regions = $this->taxonomyTermTree->load('regions');
+    $users = $this->getUsers();
 
     if ($this->user->get('field_social_auth_password')->getValue()) {
       $password_check = $this->user->get('field_social_auth_password')->getValue()[0]['value'];
@@ -189,6 +190,7 @@ class UserController extends ControllerBase {
         '#uid' => $this->user->id(),
         '#subtitle' => $subtitle,
         '#regions' => $regions,
+        '#users' => $users,
       ];
     }
     else {
@@ -376,6 +378,61 @@ class UserController extends ControllerBase {
     }
     return new JsonResponse("fail");
 
+  }
+
+  /**
+   * Get all users as potential referrals.
+   *
+   * @return array
+   *   Options.
+   */
+  public function getUsers() {
+    $options = [];
+    try {
+      /** @var \Drupal\user\UserStorage $user_storage */
+      $user_storage = $this->entityTypeManager->getStorage('user');
+
+      // Get politicians who's rating in party list is not equal to 0.
+      $user_ids = $user_storage->getQuery()
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
+        ->condition('field_referral', NULL, 'IS NOT NULL')
+        ->execute();
+
+      $users = $user_storage->loadMultiple($user_ids);
+
+      if ($users) {
+        /** @var \Drupal\user\Entity\User $user */
+        foreach ($users as $user) {
+          $first_name = $user->get('field_first_name')->value;
+          $last_name = $user->get('field_last_name')->value;
+          if ($user->get('user_picture')->entity) {
+            $profilePictureEntity = $user->get('user_picture')->entity;
+            $profilePicture = $profilePictureEntity->getFileUri();
+          }
+          else {
+            $profilePicture = NULL;
+          }
+          $options[$user->id()] = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'img' => $profilePicture,
+            'id' => $user->id(),
+          ];
+
+        }
+      }
+
+      return $options;
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+
+    return $options;
   }
 
 }

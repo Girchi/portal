@@ -41,7 +41,8 @@ function girchi_users_theme() {
       'variables' => [
         'uid' => NULL,
         'subtitle' => NULL,
-        'regions' => NULL
+        'regions' => NULL,
+        'users' => NULL,
       ],
     ],
     'girchi_users_modal' => [
@@ -204,15 +205,16 @@ function girchi_users_user_insert(EntityInterface $user) {
     $type_en = 'referral';
     $notifyUserService->notifyUser($referral_id, $getUserInfo, $type, $type_en, $text, $text_en);
   }
-    try {
-      $request = \Drupal::service('request_stack');
-      /** @var \Symfony\Component\HttpFoundation\Request $tid */
-      $region = $request->getCurrentRequest()->request->get('country');
-      if(!empty($region)) {
-        $user->set('field_region', ['target_id' => $region]);
-        $user->save();
-      }
-    } catch (Exception $exception) {
+  try {
+    $request = \Drupal::service('request_stack');
+    /** @var \Symfony\Component\HttpFoundation\Request $region */
+    $region = $request->getCurrentRequest()->request->get('country');
+    if (!empty($region)) {
+      $user->set('field_region', ['target_id' => $region]);
+      $user->save();
+    }
+  }
+  catch (Exception $exception) {
 
   }
 }

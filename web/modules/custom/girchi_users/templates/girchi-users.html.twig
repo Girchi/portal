@@ -112,6 +112,59 @@
                             placeholder="{{ 'Enter Facebook url'|t }}"
                         />
                     </div>
+                    <div
+                        class="border bg-dark-white border-dashed rounded px-4 pt-4  mb-4 mt-4"
+                    >
+                        <h6 class="text-uppercase text-success font-weight-bold">
+                            {{ 'Enter your referral'|t }}
+                        </h6>
+                        <p class="font-size-1 text-grey my-3">
+                            {{ 'You can also use Referral to refer to the person who informed you about us and you decided to register.'|t }}
+                        </p>
+                        <div class="form-group">
+                            <select
+                                id="selected-option-tbc-single"
+                                source-type="tbc-single"
+                                class="select w-100"
+                                data-live-search="true"
+                                data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                title="აირჩიე რეფერალი"
+                                data-none-results-text="არაფერი მოიძებნა"
+                            >
+                                {% for user in users %}
+                                    <option
+                                        value="{{ user.id }}"
+                                        data-content='
+                                            <div class="d-flex align-items-center p-1 ">
+                                              <span
+                                                class="rounded-circle overflow-hidden d-inline-block"
+                                              >
+                                                <img
+                                                  src="{{ user.img is defined and user.img is not null ? image_style_url(user.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                  width="35"
+                                                  class="rounded pl-politician-avatar"
+                                                  alt="..."
+                                                />
+
+                                              </span>
+                                              <h6
+                                                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                              >
+                                                <span class="text-decoration-none d-inline-block text-success">
+                                                      <span class="pl-politician-first-name">{{user.first_name}}</span>
+                                                      <span class="font-weight-bold pl-politician-last-name">{{user.last_name}}</span>
+                                                      <span class="font-weight-bold d-none">{{ user.first_name }} {{ user.last_name }}</span>
+                                                </span>
+                                              </h6>
+                                            </div>
+                                        '
+                                    ></option>
+
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
 
                     <button
                             id="create-pass"
