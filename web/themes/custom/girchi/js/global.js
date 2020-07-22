@@ -186,16 +186,15 @@ $(document).ready(function() {
                 $(this).addClass('user-badge-visibility');
                 badgeData.addClass('user-badge-visible');
                 $(e.target).off('click')
-                //TODO:: change with right class -- icon-badge-user-disabled
-                badgeData.children('i').removeClass('icon-badge-user-disabled');
-                badgeData.children('i').addClass('icon-badge-user');
+                badgeData.children('i').removeClass('icon-badge-tesla-disabled');
+                badgeData.children('i').addClass('icon-badge-tesla');
                 badgeData.find('.user-badge-hint').text('');
             }
             else if (data.status === false){
                 $(this).removeClass('user-badge-send icon-send');
                 $(this).addClass('hidden');
-                //TODO:: aagde errorze.
                 $("#user-form").prepend(`<div class="alert alert-warning">${data.text}</div>`);
+                $("#user-form").scroll();
             }
         });
     })

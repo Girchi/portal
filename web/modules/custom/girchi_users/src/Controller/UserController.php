@@ -367,34 +367,41 @@ class UserController extends ControllerBase {
               !empty($this->user->get('field_personal_id')->value) &&
               !empty($this->user->get('field_tel')->value) &&
               !empty($this->user->get('mail')->value) &&
-              !empty($this->user->get('field_region')->target_id) &&
-              !empty($this->user->get('field_facebook_url')->value)
+              !empty($this->user->get('field_region')->target_id)
           ) {
-            $appearance_array = [
-              'visibility' => TRUE,
-              'selected' => FALSE,
-              'approved' => TRUE,
-              'earned_badge' => TRUE,
-              'status_message' => '',
-            ];
-            $encoded_Value = $this->json->encode($appearance_array);
-            $this->user->get('field_badges')->appendItem([
-              'target_id' => $badge_id,
-              'value' => $encoded_Value,
-            ]);
-            $this->user->save();
+            if (!empty($this->user->get('field_facebook_url')->value) || !empty($this->user->get('field_instagram_url')->value)) {
+              $appearance_array = [
+                'visibility' => TRUE,
+                'selected' => FALSE,
+                'approved' => TRUE,
+                'earned_badge' => TRUE,
+                'status_message' => '',
+              ];
+              $encoded_Value = $this->json->encode($appearance_array);
+              $this->user->get('field_badges')->appendItem([
+                'target_id' => $badge_id,
+                'value' => $encoded_Value,
+              ]);
+              $this->user->save();
 
-            // Get badge info and notify user.
-            $badge_info = $this->getBadgeInfo->getBadgeInfo($badge_id);
-            $notification_type = NotificationConstants::USER_BADGE;
-            $notification_type_en = NotificationConstants::USER_BADGE_EN;
-            $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
-            $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
-            $this->notifyUser->notifyUser($this->user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
-            return new JsonResponse(['status' => TRUE]);
+              // Get badge info and notify user.
+              $badge_info = $this->getBadgeInfo->getBadgeInfo($badge_id);
+              $notification_type = NotificationConstants::USER_BADGE;
+              $notification_type_en = NotificationConstants::USER_BADGE_EN;
+              $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+              $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+              $this->notifyUser->notifyUser($this->user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
+              return new JsonResponse(['status' => TRUE]);
+
+            }
+            else {
+              $text = "გათამაშებაში მონაწილეობის მისაღებად სავალდებულოა შეავსოთ Facebook ან Instagram ლინკი.";
+              return new JsonResponse(['status' => FALSE, 'text' => $text]);
+            }
+
           }
           else {
-            $text = "გათამაშებაში მონაწილეობის მისაღებად სავალდებულოა შეავსოთ სავალდებულო ველები: ";
+            $text = "გათამაშებაში მონაწილეობის მისაღებად სავალდებულოა შეავსოთ შემდეგი ველები: ";
             if (empty($this->user->get('field_first_name')->value)) {
               $text = $text . "სახელი, ";
             }
@@ -410,11 +417,11 @@ class UserController extends ControllerBase {
             if (empty($this->user->get('mail')->value)) {
               $text = $text . "ელ.ფოსტა, ";
             }
-            if (empty($this->user->get('field_region')->value)) {
+            if (empty($this->user->get('field_region')->target_id)) {
               $text = $text . "რეგიონი, ";
             }
-            if (empty($this->user->get('field_facebook_url')->value)) {
-              $text = $text . "Facebook ლინკი, ";
+            if (empty($this->user->get('field_facebook_url')->value) || empty($this->user->get('field_instagram_url')->value)) {
+              $text = $text . "Facebook ან Instagram ლინკი, ";
             }
             $text = rtrim($text, ', ') . '.';
 
