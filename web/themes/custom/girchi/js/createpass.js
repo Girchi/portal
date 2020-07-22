@@ -12,6 +12,7 @@ $(document).ready(function() {
 
     $("#create-pass").on("click", e => {
         const country = $('#country').selectpicker('val');
+        const referral = $('#referral').selectpicker('val');
         e.preventDefault();
         message.html('');
         let isValid = true;
@@ -40,7 +41,6 @@ $(document).ready(function() {
            message.append(`<div class="alert alert-danger"> ${Drupal.t('The specified passwords do not match')}</div>`);
            isValid = false;
        }
-       console.log(phoneNumber.val())
        if(country.length == 0) {
            isValid = false;
        }
@@ -51,12 +51,13 @@ $(document).ready(function() {
                data: {
                    pass: pass.val(),
                    uid: uid.val(),
-                   country: country,
+                   country: country[0],
                    name: name.val(),
                    lastName: lastName.val(),
                    idNumber: idNumber.val(),
                    fbUrl: fbUrl.val(),
-                   phoneNumber: phoneNumber.val()
+                   phoneNumber: phoneNumber.val(),
+                   referral: referral
                }
            }).done(data => {
                if (data === "success") {
@@ -72,6 +73,5 @@ $(document).ready(function() {
                  );
            });
        }
-        console.log(isValid)
     });
 });

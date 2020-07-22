@@ -223,6 +223,7 @@ class UserController extends ControllerBase {
       $fbUrl = $request->request->get('fbUrl');
       $pass = $request->request->get('pass');
       $uid = $request->request->get('uid');
+      $referral = $request->request->get('referral');
       if (empty($pass)) {
         return new JsonResponse('Password is empty');
       }
@@ -232,6 +233,7 @@ class UserController extends ControllerBase {
         if ($this->user->id() === $uid) {
           $this->user->setPassword($pass);
           $this->user->set('field_region', ['target_id' => $country]);
+          $this->user->set('field_referral', ['target_id' => $referral]);
           $this->user->set('field_tel', $phoneNumber);
           $this->user->set('field_first_name', $name);
           $this->user->set('field_last_name', $lastName);
