@@ -236,11 +236,12 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
       unset($form['field_last_name']['widget']['0']['value']['#title']);
       unset($form['field_tel']['widget']['0']['value']['#title']);
       unset($form['field_personal_id']['widget']['0']['value']['#title']);
+      unset($form['field_instagram_url']['widget']['0']['value']['#title']);
 
       $form['field_region']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['field_region']['widget'][0]['target_id']['#attributes']['id'][] = 'region';
       $form['field_region']['widget'][0]['target_id']['#attributes']['placeholder'][] = t('Choose region');
-
+      $form['field_instagram_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       unset($form['account']['mail']['#title']);
       unset($form['account']['mail']['#description']);
 
