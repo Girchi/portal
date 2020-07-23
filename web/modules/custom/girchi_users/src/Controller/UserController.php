@@ -390,6 +390,7 @@ class UserController extends ControllerBase {
               $notification_type_en = NotificationConstants::TESLA_EN;
               $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
               $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+              $badge_info['image'] = $badge_info['logo_svg'][BadgeConstants::TESLA];
               $this->notifyUser->notifyUser($this->user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
               return new JsonResponse(['status' => TRUE]);
 
