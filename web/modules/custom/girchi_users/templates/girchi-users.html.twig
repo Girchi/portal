@@ -21,7 +21,7 @@
                 <form class="my-4 auth-form" >
                     <input type="hidden" value="{{ uid }}" name="uid" id="userid">
                     <div class="form-group">
-                        <label class="form-label" for="password">{{ 'Password'|t }}</label>
+                        <label class="form-label" for="password">{{ 'Password'|t }} <span class="text-danger">*</span></label>
                         <input
                                 type="password"
                                 class="form-control form-control-lg"
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="password-confirmation"
-                        >{{ 'Confirm password'|t }}</label >
+                        >{{ 'Confirm password'|t }} <span class="text-danger">*</span></label >
                         <input
                                 type="password"
                                 class="form-control form-control-lg"
@@ -40,7 +40,7 @@
                         />
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="name">{{ 'Name'|t }}</label>
+                        <label class="form-label" for="name">{{ 'Name'|t }} <span class="text-danger">*</span></label>
                         <input
                             type="text"
                             class="form-control form-control-lg"
@@ -49,7 +49,7 @@
                         />
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="last-name">{{ 'Last Name'|t }}</label>
+                        <label class="form-label" for="last-name">{{ 'Last Name'|t }} <span class="text-danger">*</span></label>
                         <input
                             type="text"
                             class="form-control form-control-lg"
@@ -58,7 +58,7 @@
                         />
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="id-number">{{ 'ID number'|t }}</label>
+                        <label class="form-label" for="id-number">{{ 'ID number'|t }} <span class="text-danger">*</span></label>
                         <input
                             type="number"
                             class="form-control form-control-lg"
@@ -68,7 +68,7 @@
                         />
                     </div>
                     <div class="form-group int-phone-parent">
-                        <label class="form-label" for="phone-number">{{ 'Phone number'|t }}</label>
+                        <label class="form-label" for="phone-number">{{ 'Phone number'|t }} <span class="text-danger">*</span></label>
                         <input
                             type="text"
                             class="form-control form-control-lg int-phone"
@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <label class="form-label" for="last-name"
-                        >{{ 'City/Region' | t}}</label
+                        >{{ 'City/Region' | t}} <span class="text-danger">*</span></label
                         >
                         <select
                             name="country"
@@ -104,7 +104,7 @@
                         <span class="validation-message"></span>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="password">{{ 'Facebook url'|t }}</label>
+                        <label class="form-label" for="password">{{ 'Facebook url'|t }} <span class="text-danger">*</span></label>
                         <input
                             type="text"
                             class="form-control form-control-lg"
