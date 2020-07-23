@@ -19,7 +19,7 @@ $(document).ready(function() {
         // let country = $('ul li.selected');
         $('.form-group input[type=text]').each(function () {
             if($(this).val() == '') {
-                message.append(`<div class="alert alert-danger"> ${Drupal.t('რეგისტრაციის დადასრულებლად საჭიროა ყველა ველის შევსება')}</div>`);
+                message.append(`<div class="alert alert-danger"> ${Drupal.t('რეგისტრაციის დასასრულებლად საჭიროა ყველა სავალდებულო ველის შევსება')}</div>`);
                 return false;
             }
         });
