@@ -9,7 +9,11 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\girchi_notifications\Constants\NotificationConstants;
+use Drupal\girchi_notifications\GetBadgeInfo;
 use Drupal\girchi_notifications\NotifyAdminService;
+use Drupal\girchi_notifications\NotifyUserService;
+use Drupal\girchi_users\Constants\BadgeConstants;
 use Drupal\girchi_users\GenerateJwtService;
 use Drupal\girchi_utils\TaxonomyTermTree;
 use Drupal\social_auth\SocialAuthDataHandler;
@@ -83,6 +87,20 @@ class UserController extends ControllerBase {
   public $json;
 
   /**
+   * NotifyUserService.
+   *
+   * @var \Drupal\girchi_notifications\NotifyUserService
+   */
+  protected $notifyUser;
+
+  /**
+   * GetBadgeInfo.
+   *
+   * @var \Drupal\girchi_notifications\GetBadgeInfo
+   */
+  protected $getBadgeInfo;
+
+  /**
    * TaxonomyTermTree.
    *
    * @var \Drupal\girchi_utils\TaxonomyTermTree
@@ -106,6 +124,10 @@ class UserController extends ControllerBase {
    *   NotifyAdminService.
    * @param \Drupal\Component\Serialization\Json $json
    *   Json.
+   * @param \Drupal\girchi_notifications\NotifyUserService $notifyUserService
+   *   NotifyUserService.
+   * @param \Drupal\girchi_notifications\GetBadgeInfo $getBadgeInfoService
+   *   GetBadgeInfo.
    * @param \Drupal\girchi_utils\TaxonomyTermTree $taxonomyTermTree
    *   Taxonomy term tree.
    */
@@ -116,6 +138,8 @@ class UserController extends ControllerBase {
                               GenerateJwtService $generateJWT,
                               NotifyAdminService $notifyAdmin,
                               Json $json,
+                              NotifyUserService $notifyUserService,
+                              GetBadgeInfo $getBadgeInfoService,
                               TaxonomyTermTree $taxonomyTermTree) {
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;
@@ -124,6 +148,8 @@ class UserController extends ControllerBase {
     $this->generateJWT = $generateJWT;
     $this->notifyAdmin = $notifyAdmin;
     $this->json = $json;
+    $this->notifyUser = $notifyUserService;
+    $this->getBadgeInfo = $getBadgeInfoService;
     $this->taxonomyTermTree = $taxonomyTermTree;
     try {
       $userStorage = $this->entityTypeManager->getStorage('user');
@@ -152,6 +178,8 @@ class UserController extends ControllerBase {
       $container->get('girchi_users.generate_jwt'),
       $container->get('girchi_notifications.notify_admin'),
       $container->get('serialization.json'),
+      $container->get('girchi_notifications.notify_user'),
+      $container->get('girchi_notifications.get_badge_info'),
       $container->get('girchi_utils.taxonomy_term_tree')
     );
   }
@@ -346,7 +374,9 @@ class UserController extends ControllerBase {
     try {
       $badge_id = $request->request->get('badgeId');
       $term = $this->entityTypeManager->getStorage('taxonomy_term')->load($badge_id);
+      $term_name = $term->get('name')->value;
       $term_status = $term->get('field_publicity')->value;
+
       $appearance_array = [
         'visibility' => FALSE,
         'selected' => TRUE,
@@ -359,13 +389,84 @@ class UserController extends ControllerBase {
       // Send notification to admin
       // for approving that badge.
       if ($term_status == FALSE) {
-        $this->notifyAdmin->badgeRequest($this->user->id(), $badge_id);
-        $this->user->get('field_badges')->appendItem([
-          'target_id' => $badge_id,
-          'value' => $encoded_Value,
-        ]);
-        $this->user->save();
-        return new JsonResponse("success");
+        if ($term_name == BadgeConstants::TESLA) {
+          if (
+              !empty($this->user->get('field_first_name')->value) &&
+              !empty($this->user->get('field_last_name')->value) &&
+              !empty($this->user->get('field_personal_id')->value) &&
+              !empty($this->user->get('field_tel')->value) &&
+              !empty($this->user->get('mail')->value) &&
+              !empty($this->user->get('field_region')->target_id)
+          ) {
+            if (!empty($this->user->get('field_facebook_url')->value) || !empty($this->user->get('field_instagram_url')->value)) {
+              $appearance_array = [
+                'visibility' => TRUE,
+                'selected' => FALSE,
+                'approved' => TRUE,
+                'earned_badge' => TRUE,
+                'status_message' => '',
+              ];
+              $encoded_Value = $this->json->encode($appearance_array);
+              $this->user->get('field_badges')->appendItem([
+                'target_id' => $badge_id,
+                'value' => $encoded_Value,
+              ]);
+              $this->user->save();
+
+              // Get badge info and notify user.
+              $badge_info = $this->getBadgeInfo->getBadgeInfo($badge_id);
+              $notification_type = NotificationConstants::TESLA;
+              $notification_type_en = NotificationConstants::TESLA_EN;
+              $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
+              $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
+              $badge_info['image'] = $badge_info['logo_svg'][BadgeConstants::TESLA];
+              $this->notifyUser->notifyUser($this->user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);
+              return new JsonResponse(['status' => TRUE]);
+
+            }
+            else {
+              $text = "გათამაშებაში მონაწილეობის მისაღებად სავალდებულოა შეავსოთ Facebook ან Instagram ლინკი.";
+              return new JsonResponse(['status' => FALSE, 'text' => $text]);
+            }
+
+          }
+          else {
+            $text = "გათამაშებაში მონაწილეობის მისაღებად სავალდებულოა შეავსოთ შემდეგი ველები: ";
+            if (empty($this->user->get('field_first_name')->value)) {
+              $text = $text . "სახელი, ";
+            }
+            if (empty($this->user->get('field_last_name')->value)) {
+              $text = $text . "გვარი, ";
+            }
+            if (empty($this->user->get('field_personal_id')->value)) {
+              $text = $text . "პირადი ნომერი, ";
+            }
+            if (empty($this->user->get('field_tel')->value)) {
+              $text = $text . "ტელეფონი, ";
+            }
+            if (empty($this->user->get('mail')->value)) {
+              $text = $text . "ელ.ფოსტა, ";
+            }
+            if (empty($this->user->get('field_region')->target_id)) {
+              $text = $text . "რეგიონი, ";
+            }
+            if (empty($this->user->get('field_facebook_url')->value) || empty($this->user->get('field_instagram_url')->value)) {
+              $text = $text . "Facebook ან Instagram ლინკი, ";
+            }
+            $text = rtrim($text, ', ') . '.';
+
+            return new JsonResponse(['status' => FALSE, 'text' => $text]);
+          }
+        }
+        else {
+          $this->notifyAdmin->badgeRequest($this->user->id(), $badge_id);
+          $this->user->get('field_badges')->appendItem([
+            'target_id' => $badge_id,
+            'value' => $encoded_Value,
+          ]);
+          $this->user->save();
+          return new JsonResponse(['status' => "success"]);
+        }
       }
 
     }

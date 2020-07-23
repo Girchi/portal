@@ -11,5 +11,6 @@ class BadgeConstants {
   const REGULAR_CONTRIBUTOR = 'Partner - multiple contributor';
   const SINGLE_CONTRIBUTOR = 'Partner - single contributor';
   const CULTIVATION = 'Cultivation';
+  const TESLA = 'Vote and Win Tesla';
 
 }
