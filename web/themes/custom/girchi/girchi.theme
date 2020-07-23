@@ -523,8 +523,14 @@ function girchi_preprocess_form(array &$variables) {
 
         if($user_badges->isEmpty()){
           if($status == 0){
-            $statusMessage = t("Send request to administration to earn this badge");
-            $appearance_array['status_message'] = $statusMessage;
+            if($term->get('name')->value == BadgeConstants::TESLA){
+              $statusMessage = t("გათამებაში მონაწილეობისათვის გაგზავნე მოთხოვნა");
+              $appearance_array['status_message'] = $statusMessage;
+            }
+            else {
+              $statusMessage = t("Send request to administration to earn this badge");
+              $appearance_array['status_message'] = $statusMessage;
+            }
           }
           else {
             $statusMessage = t("You have not earned this badge yet");
@@ -544,8 +550,14 @@ function girchi_preprocess_form(array &$variables) {
               $appearance_array['status_message'] = $statusMessage;
             }
             else {
-              $statusMessage = t("Send request to administration to earn this badge");
-              $appearance_array['status_message'] = $statusMessage;
+              if($term->get('name')->value == BadgeConstants::TESLA){
+                $statusMessage = t("მონაწილეობისათვის გაგზავნე მოთხოვნა");
+                $appearance_array['status_message'] = $statusMessage;
+              }
+              else {
+                $statusMessage = t("Send request to administration to earn this badge");
+                $appearance_array['status_message'] = $statusMessage;
+              }
             }
             $appearance = Json::encode($appearance_array);
           }
