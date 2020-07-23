@@ -386,8 +386,8 @@ class UserController extends ControllerBase {
 
               // Get badge info and notify user.
               $badge_info = $this->getBadgeInfo->getBadgeInfo($badge_id);
-              $notification_type = NotificationConstants::USER_BADGE;
-              $notification_type_en = NotificationConstants::USER_BADGE_EN;
+              $notification_type = NotificationConstants::TESLA;
+              $notification_type_en = NotificationConstants::TESLA_EN;
               $text = "თქვენ მოგენიჭათ ბეჯი - ${badge_info['badge_name']}.";
               $text_en = "You have acquired the badge - ${badge_info['badge_name_en']}.";
               $this->notifyUser->notifyUser($this->user->id(), $badge_info, $notification_type, $notification_type_en, $text, $text_en);

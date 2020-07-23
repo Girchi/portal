@@ -16,5 +16,7 @@ final class NotificationConstants {
   const BADGE_EN = 'badge request';
   const USER_BADGE = 'ბეჯი';
   const USER_BADGE_EN = 'badge';
+  const TESLA = 'ტესლა';
+  const TESLA_EN = 'Tesla';
 
 }

@@ -87,7 +87,7 @@ class NotifyUserService {
       elseif ($type_en == NotificationConstants::BADGE_EN) {
         $link = $url . '/admin/custom-badges?tid=' . $invoker['badge_id'] . '&uid=' . $invoker['uid'];
       }
-      elseif ($type_en == NotificationConstants::USER_BADGE_EN){
+      elseif ($type_en == NotificationConstants::USER_BADGE_EN || $type_en == NotificationConstants::TESLA) {
         $link = $url . '/user/' . $user_id;
       }
 
@@ -102,6 +102,7 @@ class NotifyUserService {
         'photoUrl' => $invoker['image'],
       ];
       $encoded_notification = json::encode($notification);
+
       $options = [
         'method' => 'POST',
         'body' => $encoded_notification,
