@@ -401,6 +401,9 @@
       },
       "wearede/tbcpay-php": {
         "Fix url and add card save": "patches/plug_and_pay_url.patch"
+      },
+      "league/oauth2-facebook": {
+        "Fix permissions": "patches/oauth_facebook_permissions.patch"
       }
     },
     "installer-paths": {

@@ -15,6 +15,7 @@ use Drupal\girchi_notifications\NotifyAdminService;
 use Drupal\girchi_notifications\NotifyUserService;
 use Drupal\girchi_users\Constants\BadgeConstants;
 use Drupal\girchi_users\GenerateJwtService;
+use Drupal\girchi_utils\TaxonomyTermTree;
 use Drupal\social_auth\SocialAuthDataHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -100,6 +101,13 @@ class UserController extends ControllerBase {
   protected $getBadgeInfo;
 
   /**
+   * TaxonomyTermTree.
+   *
+   * @var \Drupal\girchi_utils\TaxonomyTermTree
+   */
+  public $taxonomyTermTree;
+
+  /**
    * Constructs a new UserController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -120,6 +128,8 @@ class UserController extends ControllerBase {
    *   NotifyUserService.
    * @param \Drupal\girchi_notifications\GetBadgeInfo $getBadgeInfoService
    *   GetBadgeInfo.
+   * @param \Drupal\girchi_utils\TaxonomyTermTree $taxonomyTermTree
+   *   Taxonomy term tree.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager,
                               SocialAuthDataHandler $socialAuthDataHandler,
@@ -129,7 +139,8 @@ class UserController extends ControllerBase {
                               NotifyAdminService $notifyAdmin,
                               Json $json,
                               NotifyUserService $notifyUserService,
-                              GetBadgeInfo $getBadgeInfoService) {
+                              GetBadgeInfo $getBadgeInfoService,
+                              TaxonomyTermTree $taxonomyTermTree) {
     $this->entityTypeManager = $entity_type_manager;
     $this->SocialAuthDataHandler = $socialAuthDataHandler;
     $this->loggerFactory = $loggerFactory;
@@ -139,6 +150,7 @@ class UserController extends ControllerBase {
     $this->json = $json;
     $this->notifyUser = $notifyUserService;
     $this->getBadgeInfo = $getBadgeInfoService;
+    $this->taxonomyTermTree = $taxonomyTermTree;
     try {
       $userStorage = $this->entityTypeManager->getStorage('user');
       $current_user_id = $this->currentUser()->id();
@@ -167,7 +179,8 @@ class UserController extends ControllerBase {
       $container->get('girchi_notifications.notify_admin'),
       $container->get('serialization.json'),
       $container->get('girchi_notifications.notify_user'),
-      $container->get('girchi_notifications.get_badge_info')
+      $container->get('girchi_notifications.get_badge_info'),
+      $container->get('girchi_utils.taxonomy_term_tree')
     );
   }
 
@@ -185,6 +198,8 @@ class UserController extends ControllerBase {
   public function socialAuthPassword(Request $request) {
 
     $token = $this->SocialAuthDataHandler->get('social_auth_facebook_access_token');
+    $regions = $this->taxonomyTermTree->load('regions');
+    $users = $this->getUsers();
 
     if ($this->user->get('field_social_auth_password')->getValue()) {
       $password_check = $this->user->get('field_social_auth_password')->getValue()[0]['value'];
@@ -202,6 +217,8 @@ class UserController extends ControllerBase {
         '#theme' => 'girchi_users',
         '#uid' => $this->user->id(),
         '#subtitle' => $subtitle,
+        '#regions' => $regions,
+        '#users' => $users,
       ];
     }
     else {
@@ -226,10 +243,15 @@ class UserController extends ControllerBase {
   public function passwordConfirm(Request $request) {
 
     try {
-
+      $phoneNumber = $request->request->get('phoneNumber');
+      $country = $request->request->get('country');
+      $name = $request->request->get('name');
+      $lastName = $request->request->get('lastName');
+      $idNumber = $request->request->get('idNumber');
+      $fbUrl = $request->request->get('fbUrl');
       $pass = $request->request->get('pass');
       $uid = $request->request->get('uid');
-
+      $referral = $request->request->get('referral');
       if (empty($pass)) {
         return new JsonResponse('Password is empty');
       }
@@ -238,6 +260,13 @@ class UserController extends ControllerBase {
       if ($this->user) {
         if ($this->user->id() === $uid) {
           $this->user->setPassword($pass);
+          $this->user->set('field_region', ['target_id' => $country]);
+          $this->user->set('field_referral', ['target_id' => $referral]);
+          $this->user->set('field_tel', $phoneNumber);
+          $this->user->set('field_first_name', $name);
+          $this->user->set('field_last_name', $lastName);
+          $this->user->set('field_personal_id', $idNumber);
+          $this->user->set('field_facebook_url', $fbUrl);
           $this->user->set('field_social_auth_password', TRUE);
           $this->user->save();
           return new JsonResponse('success');
@@ -452,6 +481,61 @@ class UserController extends ControllerBase {
     }
     return new JsonResponse("fail");
 
+  }
+
+  /**
+   * Get all users as potential referrals.
+   *
+   * @return array
+   *   Options.
+   */
+  public function getUsers() {
+    $options = [];
+    try {
+      /** @var \Drupal\user\UserStorage $user_storage */
+      $user_storage = $this->entityTypeManager->getStorage('user');
+
+      // Get politicians who's rating in party list is not equal to 0.
+      $user_ids = $user_storage->getQuery()
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
+        ->condition('field_referral', NULL, 'IS NOT NULL')
+        ->execute();
+
+      $users = $user_storage->loadMultiple($user_ids);
+
+      if ($users) {
+        /** @var \Drupal\user\Entity\User $user */
+        foreach ($users as $user) {
+          $first_name = $user->get('field_first_name')->value;
+          $last_name = $user->get('field_last_name')->value;
+          if ($user->get('user_picture')->entity) {
+            $profilePictureEntity = $user->get('user_picture')->entity;
+            $profilePicture = $profilePictureEntity->getFileUri();
+          }
+          else {
+            $profilePicture = NULL;
+          }
+          $options[$user->id()] = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'img' => $profilePicture,
+            'id' => $user->id(),
+          ];
+
+        }
+      }
+
+      return $options;
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+
+    return $options;
   }
 
 }

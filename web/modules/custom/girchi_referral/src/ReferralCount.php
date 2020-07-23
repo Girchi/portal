@@ -52,20 +52,26 @@ class ReferralCount {
 
     try {
       $user = $this->entityTypeManager->getStorage('user')->load($uid);
-      $referralCount = $user->get('field_referral_count')->value;
-      switch ($event) {
-        case 'INCREMENT':
-          $user->set('field_referral_count', ++$referralCount);
-          break;
+      if ($user) {
+        $referralCount = $user->get('field_referral_count')->value;
+        switch ($event) {
+          case 'INCREMENT':
+            $user->set('field_referral_count', ++$referralCount);
+            break;
 
-        case 'DECREMENT':
-          $user->set('field_referral_count', --$referralCount);
-          break;
+          case 'DECREMENT':
+            $user->set('field_referral_count', --$referralCount);
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+        $user->save();
       }
-      $user->save();
+      else {
+        $this->loggerFactory->error("Referral user was deleted from portal");
+      }
+
     }
     catch (\Exception $exception) {
       $this->loggerFactory->error($exception);
