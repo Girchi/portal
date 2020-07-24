@@ -7,6 +7,7 @@ dependencies:
     - field.storage.user.field_first_name
     - field.storage.user.field_ged
     - field.storage.user.field_last_name
+    - field.storage.user.field_personal_id
     - field.storage.user.field_politician
     - field.storage.user.field_referral_count
     - field.storage.user.field_region
@@ -43,7 +44,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access user profiles'
+          perm: 'administer content types'
       cache:
         type: tag
         options: {  }
@@ -1525,6 +1526,11 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        field_personal_id:
+          id: field_personal_id
+          table: user__field_personal_id
+          field: field_personal_id
+          plugin_id: field
       filters:
         status:
           value: '1'
@@ -1875,6 +1881,51 @@ display:
           entity_type: user
           entity_field: access
           plugin_id: date
+        field_personal_id_value:
+          id: field_personal_id_value
+          table: user__field_personal_id
+          field: field_personal_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_personal_id_value_op
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: null
+            use_operator: false
+            operator: field_personal_id_value_op
+            identifier: field_personal_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: null
+          is_grouped: true
+          group_info:
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: ''
+            identifier: field_personal_id_value
+            optional: true
+            widget: radios
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'პირადი ნომერი შევსებულია'
+                operator: 'not empty'
+                value: ''
+              2:
+                title: 'პირადი ნომერი ცარიელია'
+                operator: empty
+                value: ''
+          plugin_id: string
       filter_groups:
         operator: AND
         groups:
@@ -1902,6 +1953,7 @@ display:
         - 'config:field.storage.user.field_approved_badges'
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
+        - 'config:field.storage.user.field_personal_id'
         - 'config:field.storage.user.field_region'
         - 'config:field.storage.user.field_tel'
   page_1:
@@ -1939,6 +1991,11 @@ display:
           plugin_id: standard
       defaults:
         sorts: false
+        access: false
+      access:
+        type: perm
+        options:
+          perm: 'access user profiles'
     cache_metadata:
       max-age: -1
       contexts:
@@ -2334,6 +2391,69 @@ display:
           table: user__field_tel
           field: field_tel
           plugin_id: field
+        field_personal_id:
+          id: field_personal_id
+          table: user__field_personal_id
+          field: field_personal_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: 'Personal ID'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
       filters:
         status:
           value: '1'
@@ -2684,6 +2804,58 @@ display:
           entity_type: user
           entity_field: access
           plugin_id: date
+        field_personal_id_value:
+          id: field_personal_id_value
+          table: user__field_personal_id
+          field: field_personal_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: empty
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_personal_id_value_op
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: ''
+            use_operator: false
+            operator: field_personal_id_value_op
+            identifier: field_personal_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            placeholder: ''
+          is_grouped: true
+          group_info:
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: ''
+            identifier: field_personal_id_value
+            optional: true
+            widget: radios
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'პირადი ნომერი შევსებულია'
+                operator: 'not empty'
+                value: ''
+              2:
+                title: 'პირადი ნომერი ცარიელია'
+                operator: empty
+                value: ''
+          plugin_id: string
       filter_groups:
         operator: AND
         groups:
@@ -2702,5 +2874,6 @@ display:
         - 'config:field.storage.user.field_approved_badges'
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_last_name'
+        - 'config:field.storage.user.field_personal_id'
         - 'config:field.storage.user.field_region'
         - 'config:field.storage.user.field_tel'
