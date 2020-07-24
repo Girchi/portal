@@ -43,7 +43,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access user profiles'
+          perm: 'access content overview'
       cache:
         type: tag
         options: {  }
@@ -1875,6 +1875,51 @@ display:
           entity_type: user
           entity_field: access
           plugin_id: date
+        field_personal_id_value:
+          id: field_personal_id_value
+          table: user__field_personal_id
+          field: field_personal_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_personal_id_value_op
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: null
+            use_operator: false
+            operator: field_personal_id_value_op
+            identifier: field_personal_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: null
+          is_grouped: true
+          group_info:
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: ''
+            identifier: field_personal_id_value
+            optional: true
+            widget: radios
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'პირადი ნომერი შევსებულია'
+                operator: 'not empty'
+                value: ''
+              2:
+                title: 'პირადი ნომერი ცარიელია'
+                operator: empty
+                value: ''
+          plugin_id: string
       filter_groups:
         operator: AND
         groups:
@@ -2684,6 +2729,58 @@ display:
           entity_type: user
           entity_field: access
           plugin_id: date
+        field_personal_id_value:
+          id: field_personal_id_value
+          table: user__field_personal_id
+          field: field_personal_id_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: empty
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_personal_id_value_op
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: ''
+            use_operator: false
+            operator: field_personal_id_value_op
+            identifier: field_personal_id_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              manager: '0'
+              content_manager: '0'
+              missioner: '0'
+              social_analytics_manager: '0'
+              financial_manager: '0'
+            placeholder: ''
+          is_grouped: true
+          group_info:
+            label: 'პირადი ნომერი (field_personal_id)'
+            description: ''
+            identifier: field_personal_id_value
+            optional: true
+            widget: radios
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'პირადი ნომერი შევსებულია'
+                operator: 'not empty'
+                value: ''
+              2:
+                title: 'პირადი ნომერი ცარიელია'
+                operator: empty
+                value: ''
+          plugin_id: string
       filter_groups:
         operator: AND
         groups:
