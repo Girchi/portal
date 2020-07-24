@@ -244,4 +244,41 @@ class GirchiUsersCommands extends DrushCommands {
     }
   }
 
+  /**
+   * Set special transactions.
+   *
+   * @command girchi_users:special-transactions
+   * @aliases special-transactions
+   */
+  public  function specialTransactins() {
+    try {
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $queue = $this->queueFactory->get('special_transactions');
+
+      $user_ids = $user_storage->getQuery()
+        // TODO:: Add conditions here.
+        ->condition('field_first_name', NULL, 'IS NOT NULL')
+        ->condition('field_last_name', NULL, 'IS NOT NULL')
+        ->execute();
+      $users = $user_storage->loadMultiple($user_ids);
+
+      // TODO:: ჯედების განაწილების ლოგიკა.
+      foreach ($users as $user) {
+        // TODO:: change amount of GED.
+        $queue->createItem([
+          'uid' => $user->id(),
+          'special_uid' => 14,
+          'amount' => '30',
+        ]);
+      }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+
+  }
+
 }
