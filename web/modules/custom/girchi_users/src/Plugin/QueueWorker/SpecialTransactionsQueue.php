@@ -5,7 +5,6 @@ namespace Drupal\girchi_users\Plugin\QueueWorker;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
-use Drupal\girchi_notifications\Constants\NotificationConstants;
 use Drupal\girchi_notifications\GetUserInfoService;
 use Drupal\girchi_notifications\NotifyUserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -84,15 +83,14 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
     // სავარაუდოდ ახალს დაამატებენ და id შეცვალე
     // /admin/structure/taxonomy/manage/transaction_type/overview
     // აქედან ამატებ.
-    $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369);
+    $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(2007);
     $transaction_type_id2 = $this->entityTypeManager->getStorage('taxonomy_term')->load(1370);
 
-    // TODO:: Description, title და name ჯგერეს კითხე რა უნდა რო ეწეროს.
     $new_transaction = $ged_transactions_storage->create([
       'user_id' => "1",
       'user' => $uid,
       'ged_amount' => $ged_amount,
-      'Description' => "ზურაბ გირჩი ჯაფარიძემ გადაურიცხა",
+      'Description' => "ზურაბ ჯაფარიძემ გადაურიცხა",
       'title' => 'Japara',
       'name' => 'Japara',
       'transaction_type' => $transaction_type_id,
@@ -100,15 +98,6 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
     ]);
     $new_transaction->save();
 
-    // Notify user.
-    $getUserInfo = $this->userInfo->getUserInfo(14);
-    $text = "${getUserInfo['full_name']}-მ გადმოგირიცხათ ${ged_amount} ჯედი.";
-    $text_en = "${getUserInfo['full_name']} has transferred you ${ged_amount} GED.";
-    $type = NotificationConstants::DONATION;
-    $type_en = NotificationConstants::DONATION_EN;
-    $this->notifyUser->notifyUser($uid, $getUserInfo, $type, $type_en, $text, $text_en);
-
-    // TODO:: Description, title და name ჯგერეს კითხე რა უნდა რო ეწეროს.
     $return_transaction = $ged_transactions_storage->create([
       'user_id' => "1",
       'user' => $special_user,
