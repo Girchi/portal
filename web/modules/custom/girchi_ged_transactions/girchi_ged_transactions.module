@@ -111,3 +111,20 @@ function girchi_ged_transactions_cron() {
   $gedCalculation->set('ged_percentage', $gedCalc['gedPercentage']);
 
 }
+
+/**
+ * Ged transaction insert hook.
+ *
+ * @inheritDoc
+ */
+function girchi_ged_transactions_ged_transaction_insert(EntityInterface $entity) {
+  $user = $entity->get('user')->entity;
+  if ($user) {
+    // Calculate GeD amount.
+    $service = \Drupal::service('girchi_ged_transactions.ged_agregator_service');
+    $newTransaction = $service->calculateAndUpdateTotalGeds($user->id());
+
+    $user->set('field_ged', $newTransaction);
+    $user->save();
+  }
+}

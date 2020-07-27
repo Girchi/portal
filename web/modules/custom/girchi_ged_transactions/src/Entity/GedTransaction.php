@@ -2,7 +2,6 @@
 
 namespace Drupal\girchi_ged_transactions\Entity;
 
-use Drupal\user\Entity\User;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
@@ -317,28 +316,6 @@ class GedTransaction extends ContentEntityBase implements GedTransactionInterfac
       ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
-  }
-
-  /**
-   * Post Save.
-   */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
-    // Get id of destination user.
-    $uidArray = $this->get('user')->getValue();
-    $uID = ($uidArray[0]['target_id']);
-
-    // Calculate GeD amount.
-    $service = \Drupal::service('girchi_ged_transactions.ged_agregator_service');
-    $newTransaction = $service->calculateAndUpdateTotalGeds($uID);
-
-    // Get GeD amount of destination user.
-    $account = User::load($uID);
-    if ($account) {
-      $account->set('field_ged', $newTransaction);
-      $account->save();
-    }
-
-    parent::postSave($storage);
   }
 
 }
