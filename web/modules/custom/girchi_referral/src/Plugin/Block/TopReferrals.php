@@ -133,6 +133,7 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
         $referral_benefits_recs = $referral_benefits_storage->loadMultiple($referral_benefit_ids);
         foreach ($referral_benefits_recs as $referral_benefits_rec) {
           $uid = $referral_benefits_rec->get('field_referral')->target_id;
+          /** @var \Drupal\user\Entity\User $user */
           $user = $user_storage->load($uid);
           if ($user) {
             // dump($user);
@@ -148,6 +149,9 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
           }
         }
       }
+      usort($top_referrals, function ($a, $b) {
+        return $b['referral_benefits'] - $a['referral_benefits'];
+      });
       return $top_referrals;
 
     }
