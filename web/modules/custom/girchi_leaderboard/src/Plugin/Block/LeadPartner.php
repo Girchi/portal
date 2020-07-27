@@ -132,6 +132,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
       $final_partners = [];
       /** @var \Drupal\girchi_donations\Entity\Donation $top_partner */
       foreach ($top_partners as $top_partner) {
+        if($top_partner->getUser()) {
         $donation_amount = $top_partner->getAmount();
         $uid = $top_partner->getUser()->id();
         $user = $user_storage->load($uid);
@@ -162,6 +163,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
             'donation' => $donation_amount,
             'img' => $profilePicture,
           ];
+        }
         }
       }
       usort($final_partners, function ($a, $b) {
