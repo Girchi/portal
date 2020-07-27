@@ -132,38 +132,38 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
       $final_partners = [];
       /** @var \Drupal\girchi_donations\Entity\Donation $top_partner */
       foreach ($top_partners as $top_partner) {
-        if($top_partner->getUser()) {
-        $donation_amount = $top_partner->getAmount();
-        $uid = $top_partner->getUser()->id();
-        $user = $user_storage->load($uid);
-        $user_name = $user->get('field_first_name')->value;
-        $user_surname = $user->get('field_last_name')->value;
-        $publicity = $user->get('field_publicity')->value;
-        if ($user->get('user_picture')->entity) {
-          $profilePictureEntity = $user->get('user_picture')->entity;
-          $profilePicture = $profilePictureEntity->getFileUri();
-        }
-        else {
-          $profilePicture = NULL;
-        }
-        if (empty($user_name) || empty($user_surname)) {
-          continue;
-        }
-        elseif ($publicity != 1) {
-          continue;
-        }
-        if (array_key_exists($uid, $final_partners)) {
-          $final_partners[$uid]['donation'] += $donation_amount;
-        }
-        else {
-          $final_partners[$uid] = [
-            'uid' => $uid,
-            'user_name' => $user_name,
-            'user_surname' => $user_surname,
-            'donation' => $donation_amount,
-            'img' => $profilePicture,
-          ];
-        }
+        if ($top_partner->getUser()) {
+          $donation_amount = $top_partner->getAmount();
+          $uid = $top_partner->getUser()->id();
+          $user = $user_storage->load($uid);
+          $user_name = $user->get('field_first_name')->value;
+          $user_surname = $user->get('field_last_name')->value;
+          $publicity = $user->get('field_publicity')->value;
+          if ($user->get('user_picture')->entity) {
+            $profilePictureEntity = $user->get('user_picture')->entity;
+            $profilePicture = $profilePictureEntity->getFileUri();
+          }
+          else {
+            $profilePicture = NULL;
+          }
+          if (empty($user_name) || empty($user_surname)) {
+            continue;
+          }
+          elseif ($publicity != 1) {
+            continue;
+          }
+          if (array_key_exists($uid, $final_partners)) {
+            $final_partners[$uid]['donation'] += $donation_amount;
+          }
+          else {
+            $final_partners[$uid] = [
+              'uid' => $uid,
+              'user_name' => $user_name,
+              'user_surname' => $user_surname,
+              'donation' => $donation_amount,
+              'img' => $profilePicture,
+            ];
+          }
         }
       }
       usort($final_partners, function ($a, $b) {
