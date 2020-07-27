@@ -183,11 +183,14 @@
                     <div class="border bg-dark-white border-dashed rounded px-3 pt-3 px-sm-4 pt-sm-4 mb-3 pb-4">
 
                         <div class="form-group mb-0">
+                            <label class="form-checkbox-label text-warning font-size-3 text-uppercase pl-0 pb-2"
+                            for="edit-field-politician-value">{{ "I want to be a politician is temporarly disabled" | t }}</label>
+                            <br>
                             <span class="form-checkbox">
-                              <span class="form-checkbox-input form-checkbox-politician {% if politican_checked %} checked {% endif %}">
+                              <span class="form-checkbox-input form-checkbox {% if politican_checked %} checked {% endif %}">
                                 {{ element.field_politician }}
                               </span>
-                              <label class="form-checkbox-label text-success font-size-3 text-uppercase w-auto"
+                              <label class="form-checkbox-label text-disabled font-size-3 text-uppercase w-auto"
                                      for="edit-field-politician-value">{{ "I want to be a politician" | t }}</label>
                             </span>
                         </div>
