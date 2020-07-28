@@ -135,8 +135,7 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
           $uid = $referral_benefits_rec->get('field_referral')->target_id;
           /** @var \Drupal\user\Entity\User $user */
           $user = $user_storage->load($uid);
-          if ($user) {
-            // dump($user);
+          if ($user && !empty($user->get('field_first_name')->value) && !empty($user->get('field_last_name')->value)) {
             $amount_of_money = $referral_benefits_rec->get('field_amount_of_money')->value;
             $user_info = $this->getUserInfo($user);
             $user_info['referral_benefits'] = $amount_of_money;
