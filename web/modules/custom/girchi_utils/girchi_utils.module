@@ -16,6 +16,7 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\webform\WebformSubmissionInterface;
 use Drupal\user\Entity\User;
 use Drupal\taxonomy\Entity\Term;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_token_info().
@@ -230,14 +231,31 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
   if ($form_id == "user_register_form") {
 
     if (reset($currentUser) == "anonymous") {
+      unset($form['field_region']['widget'][0]['target_id']['#title']);
+      unset($form['field_region']['widget'][0]['target_id']['#description']);
+      unset($form['field_first_name']['widget']['0']['value']['#title']);
+      unset($form['field_last_name']['widget']['0']['value']['#title']);
+      unset($form['field_tel']['widget']['0']['value']['#title']);
+      unset($form['field_personal_id']['widget']['0']['value']['#title']);
+      unset($form['field_instagram_url']['widget']['0']['value']['#title']);
 
+      $form['field_region']['widget'][0]['target_id']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_region']['widget'][0]['target_id']['#attributes']['id'][] = 'region';
+      $form['field_region']['widget'][0]['target_id']['#attributes']['placeholder'][] = t('Choose region');
+      $form['field_instagram_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
       unset($form['account']['mail']['#title']);
       unset($form['account']['mail']['#description']);
 
       $form['account']['mail']['#attributes']['class'][] = 'form-control form-control-lg fix';
       $form['account']['mail']['#attributes']['id'][] = 'email';
       $form['account']['mail']['#attributes']['placeholder'][] = t('Enter Email');
+      $form['field_personal_id']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_first_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_last_name']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
+      $form['field_tel']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix int-phone';
+      $form['field_facebook_url']['widget'][0]['value']['#attributes']['class'][] = 'form-control form-control-lg fix';
 
+      unset($form['field_facebook_url']['widget']['0']['value']['#title']);
       unset($form['field_referral']['widget'][0]['target_id']['#title']);
       unset($form['field_referral']['widget'][0]['target_id']['#description']);
       unset($form['field_referral']['widget']['#title']);
@@ -259,8 +277,15 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 
       $form['account']['terms_and_conditions']['#attributes']['class'][] = 'form-control';
 
+
+
       // Add terms and conditions validation.
       $form['#validate'][] = 'terms_and_conditions_validate';
+      $value = $form_state->getUserInput();
+      if (!empty($value['field_tel'][0]['full_phone'])) {
+        $form['#validate'][] = 'telephone_validation';
+      }
+      $form['#validate'][] = 'user_registration_form_validate';
     }
 
     if (
@@ -290,7 +315,6 @@ function girchi_utils_form_alter(&$form, FormStateInterface $form_state, $form_i
 
     $form['actions']['submit']['#attributes']['class'][] = 'btn btn-lg btn-block btn-success text-uppercase mt-4 fix';
   }
-
   if ($form_id == "user_form") {
     unset($form['field_referral']['widget'][0]['target_id']['#title']);
     unset($form['field_referral']['widget'][0]['target_id']['#description']);
@@ -419,6 +443,13 @@ function terms_and_conditions_validate($form, &$form_state)
 {
   if ($form['account']['terms_and_conditions']['#value'] !== 1) {
     \Drupal::messenger()->addWarning(t('You must agree to the terms and conditions before register'));
+  }
+}
+
+function user_registration_form_validate($form, FormStateInterface &$form_state) {
+  $value = $form_state->getUserInput();
+  if(!isset($value['country'])) {
+    $form_state->setErrorByName('title', t("Please choose region"));
   }
 }
 
@@ -702,6 +733,18 @@ function telephone_validation(array $form, FormStateInterface $form_state)
  */
 function girchi_utils_user_presave(User $account)
 {
+  $user = \Drupal::currentUser();
+  $user->getRoles();
+  if ($account->original != NULL && !in_array('administrator',$user->getRoles())) {
+    $original_politician = $account->original->get('field_politician')->value;
+    $politician = $account->get('field_politician')->value;
+    if($politician != $original_politician) {
+      $response = new RedirectResponse(\Drupal::request()->getRequestUri());
+      $response->send();
+      \Drupal::messenger()->addError(t("You can't change 'I want to be a politicain' value."));
+      exit;
+    }
+  }
   // TODO:: Uncomment if statement.
   //  if ($account->original != NULL) {
   //    $original_referral = $account->original->get('field_referral')->target_id;

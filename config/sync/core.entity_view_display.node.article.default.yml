@@ -105,6 +105,11 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  share_everywhere:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
 hidden:
   field_author: true
   field_comments: true

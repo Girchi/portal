@@ -2,6 +2,7 @@
 
 </div>
 <div class="card">
+
     <div class="card-body overflow-hidden p-3 py-md-4 px-md-4">
         <div class="row">
             <div class="col-xs-12 col-md-8 col-lg-6 m-auto">
@@ -17,10 +18,10 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-md-7 col-lg-4 m-auto">
-                <form class="my-4">
+                <form class="my-4 auth-form" >
                     <input type="hidden" value="{{ uid }}" name="uid" id="userid">
                     <div class="form-group">
-                        <label class="form-label" for="password">{{ 'Password'|t }}</label>
+                        <label class="form-label" for="password">{{ 'Password'|t }} <span class="text-danger">*</span></label>
                         <input
                                 type="password"
                                 class="form-control form-control-lg"
@@ -30,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="password-confirmation"
-                        >{{ 'Confirm password'|t }}</label >
+                        >{{ 'Confirm password'|t }} <span class="text-danger">*</span></label >
                         <input
                                 type="password"
                                 class="form-control form-control-lg"
@@ -38,6 +39,133 @@
                                 placeholder="{{ 'Enter password'|t }}"
                         />
                     </div>
+                    <div class="form-group">
+                        <label class="form-label" for="name">{{ 'Name'|t }} <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            id="name"
+                            placeholder="{{ 'Enter name'|t }}"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="last-name">{{ 'Last Name'|t }} <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            id="last-name"
+                            placeholder="{{ 'Enter last name'|t }}"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="id-number">{{ 'ID number'|t }} <span class="text-danger">*</span></label>
+                        <input
+                            type="number"
+                            class="form-control form-control-lg"
+                            id="id-number"
+                            placeholder="{{ 'Enter ID number'|t }}"
+                            minlength="11"
+                        />
+                    </div>
+                    <div class="form-group int-phone-parent">
+                        <label class="form-label" for="phone-number">{{ 'Phone number'|t }} <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg int-phone"
+                            id="phone-number"
+                            placeholder="{{ 'Enter phone number'|t }}"
+                        />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="form-label" for="last-name"
+                        >{{ 'City/Region' | t}} <span class="text-danger">*</span></label
+                        >
+                        <select
+                            name="country"
+                            id="country"
+                            multiple
+                            data-max-options="1"
+                            title="ქალაქი"
+                            class="selectpicker form-control form-control-lg pr-0"
+                            data-style="btn-lg btn-block"
+                        >
+                            {% for region in regions %}
+                                {% if region.children is not empty %}
+                                    <optgroup value = {{ region.tid }} label="{{ region.name }}">
+                                        {% for sub_region in region.children %}
+                                            <option value="{{ sub_region.tid }}">{{ sub_region.name }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% else %}
+                                    <option value="{{ region.tid }}">{{ region.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <span class="validation-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">{{ 'Facebook url'|t }} <span class="text-danger">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control form-control-lg"
+                            id="facebook-url"
+                            placeholder="{{ 'Enter Facebook url'|t }}"
+                        />
+                    </div>
+                    <div
+                        class="border bg-dark-white border-dashed rounded px-4 pt-4  mb-4 mt-4"
+                    >
+                        <h6 class="text-uppercase text-success font-weight-bold">
+                            {{ 'Enter your referral'|t }}
+                        </h6>
+                        <p class="font-size-1 text-grey my-3">
+                            {{ 'You can also use Referral to refer to the person who informed you about us and you decided to register.'|t }}
+                        </p>
+                        <div class="form-group">
+                            <select
+                                id="referral"
+                                source-type="tbc-single"
+                                class="select w-100"
+                                data-live-search="true"
+                                data-style="btn-white border btn-lg bg-hover-white rounded-oval"
+                                title="აირჩიე რეფერალი"
+                                data-none-results-text="არაფერი მოიძებნა"
+                            >
+                                {% for user in users %}
+                                    <option
+                                        value="{{ user.id }}"
+                                        data-content='
+                                            <div class="d-flex align-items-center p-1 ">
+                                              <span
+                                                class="rounded-circle overflow-hidden d-inline-block"
+                                              >
+                                                <img
+                                                  src="{{ user.img is defined and user.img is not null ? image_style_url(user.img, 'avatar_xs') : theme_path() ~ "/images/avatar34x34.png" }}"
+                                                  width="35"
+                                                  class="rounded pl-politician-avatar"
+                                                  alt="..."
+                                                />
+
+                                              </span>
+                                              <h6
+                                                class="text-uppercase line-height-1-2 font-size-3 font-size-xl-3 mb-0 mx-2"
+                                              >
+                                                <span class="text-decoration-none d-inline-block text-success">
+                                                      <span class="pl-politician-first-name">{{user.first_name}}</span>
+                                                      <span class="font-weight-bold pl-politician-last-name">{{user.last_name}}</span>
+                                                      <span class="font-weight-bold d-none">{{ user.first_name }} {{ user.last_name }}</span>
+                                                </span>
+                                              </h6>
+                                            </div>
+                                        '
+                                    ></option>
+
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
+
                     <button
                             id="create-pass"
                             type="submit"

@@ -81,7 +81,6 @@ $(document).ready(function() {
 
     $("body").on("click", ".referral-modal", e => {
         let userID = e.target.getAttribute("data-uid");
-        console.log(userID);
         if (typeof userID === "undefined" || userID === null) {
             userID = $(e.target)
                 .parents("a:first")
@@ -93,7 +92,6 @@ $(document).ready(function() {
             data: { userId: userID }
         }).done(data => {
             let referralsTable = $("#referrals table tbody");
-            console.log(referralsTable);
             referralsTable.html(data);
         });
     });
@@ -176,10 +174,28 @@ $(document).ready(function() {
             url: "/api/user-badges/send-badge-request",
             data: { badgeId: badgeId, badgeValue: current_values}
         }).done(data => {
-            $(this).removeClass('user-badge-send icon-send');
-            $(this).addClass('hidden');
-            badgeData.find('.user-badge-hint').text(`${Drupal.t('The request is being processed')}`);
-            $("#user-form").prepend(`<div class="alert alert-success">${Drupal.t(`მოთხოვნა ბეჯის მოსაპოვებლად გაგზავნილია საიტის ადმინისტრაციასთან.`)} </div>`);
+            if(data.status === 'success') {
+                $(this).removeClass('user-badge-send icon-send');
+                $(this).addClass('hidden');
+                badgeData.find('.user-badge-hint').text(`${Drupal.t('The request is being processed')}`);
+                $("#user-form").prepend(`<div class="alert alert-success">${Drupal.t(`მოთხოვნა ბეჯის მოსაპოვებლად გაგზავნილია საიტის ადმინისტრაციასთან.`)} </div>`);
+            }
+            else if (data.status === true){
+                $(this).removeClass('user-badge-send icon-send');
+                badgeData.removeClass('user-badge-disabled');
+                $(this).addClass('user-badge-visibility');
+                badgeData.addClass('user-badge-visible');
+                $(e.target).off('click')
+                badgeData.children('i').removeClass('icon-badge-tesla-disabled');
+                badgeData.children('i').addClass('icon-badge-tesla');
+                badgeData.find('.user-badge-hint').text('');
+            }
+            else if (data.status === false){
+                $(this).removeClass('user-badge-send icon-send');
+                $(this).addClass('hidden');
+                $("#user-form").prepend(`<div class="alert alert-warning">${data.text}</div>`);
+                $("#user-form").scroll();
+            }
         });
     })
 

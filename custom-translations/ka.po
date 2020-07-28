@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2020-07-20 14:34+0000\n"
-"PO-Revision-Date: 2020-07-20 14:34+0000\n"
+"POT-Creation-Date: 2020-07-27 13:29+0000\n"
+"PO-Revision-Date: 2020-07-27 13:29+0000\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -3926,6 +3926,19 @@ msgstr ""
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
+msgid "Password is empty "
+msgstr "პაროლის ველი ცარიელია"
+
+msgid "Confirm password is empty"
+msgstr ""
+"პაროლის დადასტურების "
+"ველი ცარიელია"
+
+msgid "The specified passwords do not match"
+msgstr ""
+"მითითებული პაროლი არ "
+"ემთხვევა"
+
 msgid "Girchi party list"
 msgstr "გირჩის პარტიული სია"
 
@@ -4325,21 +4338,59 @@ msgstr "გაწევრიანდი პარტნიორებში"
 msgid "Join Group"
 msgstr "გაწევრიანდი ჯგუფში"
 
+msgid "I agree on publicity"
+msgstr "თანახმა ვარ საჯაროობაზე"
+
+msgid ""
+"If you want your activities to appear in party list, you need to check "
+"\"I agree on publicity\" on your profile."
+msgstr ""
+"თქვენი ქმედება რომ "
+"აისახოს პარტიულ სიაში, "
+"ამისთვის თქვენს პროფილზე "
+"მონიშნული უნდა გქონდეთ "
+"\"თანახმა ვარ საჯაროობაზე\"."
+
+msgid "Benefits"
+msgstr "სარგებელი"
+
+msgid "Aim or politician"
+msgstr "მიზანი ან პოლიტიკოსი"
+
+msgid "Please choose the Politician"
+msgstr "აირჩიეთ პოლიტიკოსი"
+
+msgid "Please choose Donation aim"
+msgstr ""
+"აირჩიეთ დაფინანსების "
+"მიზანი"
+
+msgid "Notifications"
+msgstr "შეტყობინებები"
+
+msgid "Notifications page"
+msgstr "შეტყობინებების გვერდი"
+
+msgid "The request is being processed"
+msgstr "მოთხოვნა მუშავდება"
+
 msgid "You have not earned this badge yet"
 msgstr ""
 "ეს ბეჯი არ გაქვთ "
 "მოპოვებული"
-
-msgid "The request is being processed"
-msgstr "მოთხოვნა მუშავდება"
 
 msgid "Send request to administration to earn this badge"
 msgstr ""
 "ბეჯის მოსაპოვებლად "
 "გაგზავნეთ მოთხოვნა"
 
+
 msgid "Party list is temporarily closed."
 msgstr ""
 "პარტიული სია დროებით "
 "დაკეტილია"
 
+msgid "I want to be a politician is temporarly disabled"
+msgstr ""
+"პოლიტიკოსობის მონიშნვა "
+"დროებით გამორთულია"
