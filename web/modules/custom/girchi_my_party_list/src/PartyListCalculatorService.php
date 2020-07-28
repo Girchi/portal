@@ -115,10 +115,12 @@ class PartyListCalculatorService {
           /**
            * @var \Drupal\user\Entity\User $politician
            */
-          $politician->set('field_political_ged', $user_rating[$politician->id()]);
-          $politician->set('field_rating_in_party_list', $rating_number);
-          $politician->save();
-          $rating_number++;
+          if ($politician->field_politician->value == 1) {
+            $politician->set('field_political_ged', $user_rating[$politician->id()]);
+            $politician->set('field_rating_in_party_list', $rating_number);
+            $politician->save();
+            $rating_number++;
+          }
         }
         catch (\Exception $e) {
           $this->loggerFactory->error($e->getMessage());
