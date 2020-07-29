@@ -257,6 +257,18 @@ class SiteSettingsForm extends ConfigFormBase {
       '#title' => t('Default receiver'),
       '#default_value' => !empty($config->get('default_receiver')) ? $user_storage->load($config->get('default_receiver')) : NULL,
     ];
+    $form['party_list_settings'] = [
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => t('Party list settings'),
+    ];
+
+    $form['party_list_settings']['party_list'] = [
+      '#description' => t('Checkbox should be checked if you want to close party list'),
+      '#type' => 'checkbox',
+      '#title' => t('Close Party List'),
+      '#default_value' => !(empty($config->get('party_list'))) ? $config->get('party_list') : FALSE,
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -290,6 +302,7 @@ class SiteSettingsForm extends ConfigFormBase {
       'createpass',
       'number_of_politicians',
       'default_receiver',
+      'party_list'
     ];
 
     foreach ($fields as $field_key) {

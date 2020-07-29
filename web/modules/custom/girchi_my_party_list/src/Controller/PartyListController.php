@@ -2,6 +2,7 @@
 
 namespace Drupal\girchi_my_party_list\Controller;
 
+use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Render\Renderer;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
@@ -42,22 +43,32 @@ class PartyListController extends ControllerBase {
   protected $partyListCalculator;
 
   /**
+   * ConfigFactory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
+
+  /**
    * Constructs a new PartyListController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *
    *   Entity type manager.
    * @param \Drupal\Core\Render\Renderer $renderer
-   *
    *   Renderer.
    * @param \Drupal\girchi_my_party_list\PartyListCalculatorService $partyListCalculator
-   *
    *   Party list calculator.
+   * @param \Drupal\Core\Config\ConfigFactory $configFactory
+   *   ConfigFactory.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Renderer $renderer, PartyListCalculatorService $partyListCalculator) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager,
+                              Renderer $renderer,
+                              PartyListCalculatorService $partyListCalculator,
+                              ConfigFactory $configFactory) {
     $this->entityTypeManager = $entity_type_manager;
     $this->renderer = $renderer;
     $this->partyListCalculator = $partyListCalculator;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -67,7 +78,8 @@ class PartyListController extends ControllerBase {
     return new static(
       $container->get('entity_type.manager'),
       $container->get('renderer'),
-      $container->get('girchi_my_party_list.party_list_calculator')
+      $container->get('girchi_my_party_list.party_list_calculator'),
+      $container->get('config.factory')
     );
   }
 
@@ -125,40 +137,48 @@ class PartyListController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function updateUser(Request $request) {
-    $currentUser = $this->entityTypeManager->getStorage('user')->load($this->currentUser()->id());
-    $userList = $request->get('list') ? $request->get('list') : [];
-    $redirectUrl = Url::fromRoute('girchi_my_party_list.party_list_controller_partyList')->toString();
+    $party_list_closed = $this->configFactory->get('om_site_settings.site_settings')->get('party_list');
+    if ($party_list_closed == FALSE) {
+      $currentUser = $this->entityTypeManager->getStorage('user')->load($this->currentUser()->id());
+      $userList = $request->get('list') ? $request->get('list') : [];
+      $redirectUrl = Url::fromRoute('girchi_my_party_list.party_list_controller_partyList')->toString();
 
-    $max_value = 100;
-    foreach ($userList as $userListItem) {
-      $percentage = (int) $userListItem['percentage'];
-      if ($percentage > 100 || $percentage < 0) {
-        $redirectUrl .= '?error=percentage';
-        return new RedirectResponse($redirectUrl);
-      }
+      $max_value = 100;
+      foreach ($userList as $userListItem) {
+        $percentage = (int) $userListItem['percentage'];
+        if ($percentage > 100 || $percentage < 0) {
+          $redirectUrl .= '?error=percentage';
+          return new RedirectResponse($redirectUrl);
+        }
 
-      if ($percentage > $max_value) {
-        $redirectUrl .= '?error=percentage';
-        return new RedirectResponse($redirectUrl);
+        if ($percentage > $max_value) {
+          $redirectUrl .= '?error=percentage';
+          return new RedirectResponse($redirectUrl);
+        }
+        else {
+          $max_value -= $percentage;
+        }
       }
-      else {
-        $max_value -= $percentage;
+      $userInfo = array_map(function ($tag) {
+        return [
+          'target_id' => $tag['politician'],
+          'value' => $tag['percentage'] ? (int) $tag['percentage'] : 0,
+        ];
+      }, $userList);
+      $currentUser->get('field_my_party_list')->setValue($userInfo);
+      $currentUser->save();
+
+      // If user has not checked publicity checkbox add this message.
+      if ($currentUser->get('field_publicity')->value != 1) {
+        $this->messenger()->addWarning($this->t('If you want your activities to appear in party list, you need to check "I agree on publicity" on your profile.'));
       }
+      return new RedirectResponse($redirectUrl);
     }
-    $userInfo = array_map(function ($tag) {
-      return [
-        'target_id' => $tag['politician'],
-        'value' => $tag['percentage'] ? (int) $tag['percentage'] : 0,
-      ];
-    }, $userList);
-    $currentUser->get('field_my_party_list')->setValue($userInfo);
-    $currentUser->save();
-
-    // If user has not checked publicity checkbox add this message.
-    if ($currentUser->get('field_publicity')->value != 1) {
-      $this->messenger()->addWarning($this->t('If you want your activities to appear in party list, you need to check "I agree on publicity" on your profile.'));
+    else {
+      $this->messenger()->addWarning($this->t('Party list is temporarily closed.'));
+      $redirectUrl = Url::fromRoute('girchi_my_party_list.party_list_controller_partyList')->toString();
+      return new RedirectResponse($redirectUrl);
     }
-    return new RedirectResponse($redirectUrl);
   }
 
   /**

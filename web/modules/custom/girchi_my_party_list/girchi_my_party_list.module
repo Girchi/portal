@@ -68,41 +68,48 @@ function girchi_my_party_list_form_alter(&$form, FormStateInterface $form_state,
  * Implements hook_cron().
  */
 function girchi_my_party_list_cron() {
-  /**
-   * @var \Drupal\girchi_my_party_list\PartyListCalculatorService $party_list_calculator
-   */
-  $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
-  $party_list_calculator->calculate();
+  $party_list_closed = \Drupal::config('om_site_settings.site_settings')->get('party_list');
+  if ($party_list_closed == FALSE) {
+    /**
+     * @var \Drupal\girchi_my_party_list\PartyListCalculatorService $party_list_calculator
+     */
+    $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
+    $party_list_calculator->calculate();
+  }
 }
 
 /**
  * Implements hook_user_presave().
  */
 function girchi_my_party_list_user_presave(EntityInterface $user) {
-  if ($user->original !== NULL && $user->original->get('field_politician')->value == 1 && $user->get('field_politician')->value == 0) {
-    $user->set('field_political_ged', 0);
-    $user->set('field_rating_in_party_list', NULL);
-    $user_storage = Drupal::entityTypeManager()->getStorage('user');
-    $user_ids = $user_storage
-      ->getQuery()
-      ->condition('field_ged', '0', '>')
-      ->condition('field_my_party_list', $user->id(), 'IN')
-      ->execute();
-    if (!empty($user_ids)) {
-      $users = $user_storage->loadMultiple($user_ids);
-      foreach ($users as $supporter) {
-        $supporter_party_list = $supporter->get('field_my_party_list')->getValue();
-        $key = array_search($user->id(), array_column($supporter_party_list, 'target_id'));
-        $supporter->get('field_my_party_list')->removeItem((int) $key);
-        $supporter->save();
+  $party_list_closed = \Drupal::config('om_site_settings.site_settings')->get('party_list');
+  if ($party_list_closed == FALSE) {
+    if ($user->original !== NULL && $user->original->get('field_politician')->value == 1 && $user->get('field_politician')->value == 0) {
+      $user->set('field_political_ged', 0);
+      $user->set('field_rating_in_party_list', NULL);
+      $user_storage = Drupal::entityTypeManager()->getStorage('user');
+      $user_ids = $user_storage
+        ->getQuery()
+        ->condition('field_ged', '0', '>')
+        ->condition('field_my_party_list', $user->id(), 'IN')
+        ->execute();
+      if (!empty($user_ids)) {
+        $users = $user_storage->loadMultiple($user_ids);
+        foreach ($users as $supporter) {
+          $supporter_party_list = $supporter->get('field_my_party_list')->getValue();
+          $key = array_search($user->id(), array_column($supporter_party_list, 'target_id'));
+          $supporter->get('field_my_party_list')->removeItem((int) $key);
+          $supporter->save();
+        }
       }
     }
-  }
 
-  if (!$user->isNew()) {
-    /** @var Drupal\girchi_my_party_list\PartyListChangeDetectionService $partyListChangeDetectionService */
-    $partyListChangeDetectionService = \Drupal::service('girchi_my_party_list.party_list_change_detection_service');
-    $partyListChangeDetectionService->partyListChangeDetection($user);
+    if (!$user->isNew()) {
+      /** @var Drupal\girchi_my_party_list\PartyListChangeDetectionService $partyListChangeDetectionService */
+      $partyListChangeDetectionService = \Drupal::service('girchi_my_party_list.party_list_change_detection_service');
+      $partyListChangeDetectionService->partyListChangeDetection($user);
+    }
+
   }
 
 }

@@ -4384,8 +4384,13 @@ msgstr ""
 "ბეჯის მოსაპოვებლად "
 "გაგზავნეთ მოთხოვნა"
 
+
+msgid "Party list is temporarily closed."
+msgstr ""
+"პარტიული სია დროებით "
+"დაკეტილია"
+
 msgid "I want to be a politician is temporarly disabled"
 msgstr ""
 "პოლიტიკოსობის მონიშნვა "
 "დროებით გამორთულია"
-
