@@ -250,7 +250,7 @@ class GirchiUsersCommands extends DrushCommands {
    * @command girchi_users:special-transactions
    * @aliases special-transactions
    */
-  public  function specialTransactins() {
+  public  function specialTransactions() {
     try {
       $user_storage = $this->entityTypeManager->getStorage('user');
       $queue = $this->queueFactory->get('special_transactions');
@@ -752,15 +752,69 @@ class GirchiUsersCommands extends DrushCommands {
 
       $users = $user_storage->loadMultiple($user_ids);
 
-      // TODO:: ჯედების განაწილების ლოგიკა.
+      $alreadyUsedIds = [];
+
       foreach ($users as $user) {
-        // TODO:: change amount of GED.
-        $queue->createItem([
-          'uid' => $user->id(),
-          'special_uid' => 14,
-          'amount' => '6141',
-        ]);
+        if (in_array($user->get('field_personal_id')->value, $alreadyUsedIds)) {
+          print_r($user->get('field_personal_id')->value);
+          print(' ');
+        }
+        else {
+          $alreadyUsedIds[] = $user->get('field_personal_id')->value;
+          $queue->createItem([
+            'uid' => $user->id(),
+            'special_uid' => 14,
+            'amount' => '2066',
+          ]);
+        }
       }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_users')->error($e->getMessage());
+    }
+
+  }
+
+  /**
+   * Test special transactions.
+   *
+   * @command girchi_users:test-special-transactions
+   * @aliases test-special-transactions
+   */
+  public  function testSpecialTransactions() {
+    try {
+      $ged_transactions_storage = $this->entityTypeManager->getStorage('ged_transaction');
+      $new_transaction_ja_ids = $ged_transactions_storage->getQuery()
+        ->condition('created', (time() - (60 * 60)), '>')
+        ->condition('transaction_type', '1370')
+        ->execute();
+
+      $japata_return_ids = $ged_transactions_storage->getQuery()
+        ->condition('created', (time() - (60 * 60)), '>')
+        ->condition('transaction_type', '2007')
+        ->execute();
+
+      $new_transaction_ja = $ged_transactions_storage->loadMultiple($new_transaction_ja_ids);
+      $japara_return = $ged_transactions_storage->loadMultiple($japata_return_ids);
+
+      $charicxva = 0;
+      $ukugatareba = 0;
+
+      foreach ($new_transaction_ja as $tran) {
+        $amount = $tran->get('ged_amount')->value;
+        $charicxva = $charicxva + $amount;
+      }
+      foreach ($japara_return as $tran2) {
+        $amount = $tran2->get('ged_amount')->value;
+        $ukugatareba = $ukugatareba + $amount;
+      }
+      print($charicxva);
+      print (' ');
+      print($ukugatareba);
+      exit;
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->get('girchi_users')->error($e->getMessage());
