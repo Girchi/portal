@@ -18,7 +18,7 @@ permissions:
   - 'access user profiles'
   - 'opt-in or out of google analytics tracking'
   - 'search content'
-  - 'use text format basic_html'
+  - 'use text format user_info'
   - 'view error messages'
   - 'view media'
   - 'view status messages'
