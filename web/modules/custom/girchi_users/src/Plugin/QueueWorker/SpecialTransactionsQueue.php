@@ -3,6 +3,7 @@
 namespace Drupal\girchi_users\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\girchi_notifications\GetUserInfoService;
@@ -41,6 +42,13 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
   protected $userInfo;
 
   /**
+   * Logger Factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   */
+  protected $loggerFactory;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(array $configuration,
@@ -48,11 +56,13 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
                               $plugin_definition,
                               EntityTypeManagerInterface $entityTypeManager,
                               NotifyUserService $notifyUserService,
-                              GetUserInfoService $getUserInfoService) {
+                              GetUserInfoService $getUserInfoService,
+                              LoggerChannelFactory $loggerChannelFactory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entityTypeManager;
     $this->notifyUser = $notifyUserService;
     $this->userInfo = $getUserInfoService;
+    $this->loggerFactory = $loggerChannelFactory->get('girchi_users');
   }
 
   /**
@@ -65,7 +75,8 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
       $plugin_definition,
       $container->get('entity_type.manager'),
       $container->get('girchi_notifications.notify_user'),
-      $container->get('girchi_notifications.get_user_info')
+      $container->get('girchi_notifications.get_user_info'),
+      $container->get('logger.factory')
     );
 
   }
@@ -74,41 +85,43 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function processItem($data) {
-    $uid = $data['uid'];
-    $special_user = $data['special_uid'];
-    $ged_amount = (int) $data['amount'];
+    try {
+      $uid = $data['uid'];
+      $special_user = $data['special_uid'];
+      $ged_amount = (int) $data['amount'];
 
-    $ged_transactions_storage = $this->entityTypeManager->getStorage('ged_transaction');
-    // TODO:: 1369 არი ფულადი კონტრიბუცია.
-    // სავარაუდოდ ახალს დაამატებენ და id შეცვალე
-    // /admin/structure/taxonomy/manage/transaction_type/overview
-    // აქედან ამატებ.
-    $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(2007);
-    $transaction_type_id2 = $this->entityTypeManager->getStorage('taxonomy_term')->load(1370);
+      $ged_transactions_storage = $this->entityTypeManager->getStorage('ged_transaction');
+      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(2007);
+      $transaction_type_id2 = $this->entityTypeManager->getStorage('taxonomy_term')->load(1370);
 
-    $new_transaction = $ged_transactions_storage->create([
-      'user_id' => "1",
-      'user' => $uid,
-      'ged_amount' => $ged_amount,
-      'Description' => "ზურაბ ჯაფარიძემ გადაურიცხა",
-      'title' => 'Japara',
-      'name' => 'Japara',
-      'transaction_type' => $transaction_type_id,
-      'status' => TRUE,
-    ]);
-    $new_transaction->save();
+      $new_transaction = $ged_transactions_storage->create([
+        'user_id' => "1",
+        'user' => $uid,
+        'ged_amount' => $ged_amount,
+        'Description' => "ზურაბ ჯაფარიძემ გადაურიცხა",
+        'title' => 'Japara',
+        'name' => 'Japara',
+        'transaction_type' => $transaction_type_id,
+        'status' => TRUE,
+      ]);
+      $new_transaction->save();
 
-    $return_transaction = $ged_transactions_storage->create([
-      'user_id' => "1",
-      'user' => $special_user,
-      'ged_amount' => -$ged_amount,
-      'Description' => "უკუგატარება",
-      'title' => 'Japara',
-      'name' => 'Japara',
-      'transaction_type' => $transaction_type_id2,
-      'status' => TRUE,
-    ]);
-    $return_transaction->save();
+      $return_transaction = $ged_transactions_storage->create([
+        'user_id' => "1",
+        'user' => $special_user,
+        'ged_amount' => -$ged_amount,
+        'Description' => "უკუგატარება",
+        'title' => 'Japara',
+        'name' => 'Japara',
+        'transaction_type' => $transaction_type_id2,
+        'status' => TRUE,
+      ]);
+      $return_transaction->save();
+    }
+    catch (\Exception $e) {
+      $this->loggerFactory->error($e->getMessage());
+
+    }
 
   }
 
