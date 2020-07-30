@@ -822,19 +822,7 @@ function girchi_preprocess_menu(array &$variables) {
  *
  */
 function girchi_preprocess_views_view_fields(&$variables) {
-  $view = $variables['view'];
 
-  if ($view->id() == 'party_list') {
-    $politician_ids = [];
-    foreach ($view->result as $user) {
-      $politician_ids[] = $user->_entity->id();
-    }
-    if (!empty($politician_ids)) {
-      $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
-      $supporters = $party_list_calculator->getPoliticiansSupporters($politician_ids);
-      $variables['supporters'] = $supporters;
-    }
-  }
 }
 
 /**
