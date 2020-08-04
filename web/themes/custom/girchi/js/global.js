@@ -208,6 +208,24 @@ $(document).ready(function() {
     });
 
 
+    // Load lead partners modal on click.
+    $('.lead-partners-list').on("click", e => {
+        let leadPartnerModal = $("#leadPartnerFullList table tbody");
+        leadPartnerModal.html('');
+        let source =  $(e.target).attr('data-source');
+        $.ajax({
+            type: "POST",
+            url: "/api/lead-partners/getLeadPartners",
+            data: { source: source }
+        }).done(data => {
+            if(data.status === 'success') {
+                source = '';
+                leadPartnerModal.html(data.data);
+            }
+        });
+    });
+
+
 
 
 

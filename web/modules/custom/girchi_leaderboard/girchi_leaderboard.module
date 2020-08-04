@@ -38,5 +38,10 @@ function girchi_leaderboard_theme() {
         ],
       'template' => 'lead-partners',
     ],
+    'girchi_leadPartners' => [
+      'variables' => [
+        'final_partners' => NULL,
+      ],
+    ],
   ];
 }
