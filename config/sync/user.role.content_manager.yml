@@ -44,6 +44,7 @@ permissions:
   - 'update any media'
   - 'update media'
   - 'use add another'
+  - 'use text format basic_html'
   - 'view all revisions'
   - 'view any unpublished article content'
   - 'view article revisions'

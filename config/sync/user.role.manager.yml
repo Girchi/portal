@@ -27,6 +27,7 @@ permissions:
   - 'edit own page content'
   - 'revert article revisions'
   - 'revert page revisions'
+  - 'use text format basic_html'
   - 'view all revisions'
   - 'view any unpublished article content'
   - 'view article revisions'
