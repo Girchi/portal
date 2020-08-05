@@ -225,9 +225,22 @@ $(document).ready(function() {
         });
     });
 
-
-
-
+    // Load Top referrals modal on click.
+    $('.top-referrals-list').on("click", e => {
+        let topReferralsModal = $("#topReferralsFullList table tbody");
+        topReferralsModal.html('');
+        let source =  $(e.target).attr('data-source');
+        $.ajax({
+            type: "POST",
+            url: "/api/top-referrals/getTopReferrals",
+            data: { source: source }
+        }).done(data => {
+            if(data.status === 'success') {
+                source = '';
+                topReferralsModal.html(data.data);
+            }
+        });
+    });
 
 });
 

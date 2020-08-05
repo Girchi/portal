@@ -1,0 +1,109 @@
+{% for user in topReferrals %}
+    <tr>
+        <th scope="row" class="pl-3 w-auto w-md-80-px text-center align-middle">
+            <span class="font-size-4 font-size-xl-5 text-dark-silver font-weight-normal">{{ loop.index }}</span>
+        </th>
+        <td class="align-middle">
+            <div class="d-flex w-100 align-items-center">
+                <a
+                    href="{{ path('entity.user.canonical', {'user' : user.uid}) }}"
+                    class="rounded-circle overflow-hidden d-none d-md-block">
+                    <img
+                        src= "{{ user.img ? image_style_url(user.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                        class="rounded"
+                        alt="..."
+                    />
+                </a>
+                <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
+                    <a href="{{ path('entity.user.canonical', {'user' : user.uid}) }}" class="d-inline-block text-hover-success">
+                              <span class="text-decoration-none d-inline-block">
+                                <span>{{ user.uid ?  user.user_name : 'Anonymous'|t  }}</span>
+                                <span class="font-weight-bold">{{ user.uid ? user.user_surname : 'User'|t }}</span>
+                              </span>
+                    </a>
+                </h6>
+            </div>
+        </td>
+        <td class="text-right text-md-center align-middle">
+            {% if user.referral_count <= 4  %}
+                <ul
+                    class="list-unstyled m-0 align-items-center d-md-flex"
+                >
+                    {% for referral in user.referrals %}
+
+                        <li class="align-items-center hidden-referrals">
+                            <a
+                                title="{{ referral.referral_name ~ ' ' ~ referral.referral_surname}}"
+                                href="{{ path('entity.user.canonical', {'user' : referral.referral_id}) }}"
+                                class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal"
+                            >
+                                <img
+                                    src="{{ referral.referral_img ? image_style_url(referral.referral_img, 'avatar_xs') : theme_path() ~ '/images/avatar.png' }}"
+                                    class="rounded"
+                                    width="34"
+                                    alt="..."
+                                />
+                            </a>
+                        </li>
+                    {% endfor %}
+                    <!-- only for mobile version -->
+                    {% if user.referral_count >=1 %}
+                        <li class="referral-count" >
+                            <a
+                                href="{{ path('entity.user.canonical', {'user' : user.uid, 'show_referral_modal' : 'true'}) }}"
+                                class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white politician-modal"
+                            >
+                                {{ user.referral_count }} +
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% else %}
+                <ul
+                    class="list-unstyled m-0 align-items-center d-md-flex"
+                >
+                    {% for i in 0..3 %}
+                        <li class="align-items-center hidden-referrals">
+                            <a
+                                title="{{ user.referrals[i]['referral_name'] ~ ' ' ~user.referrals[i]['referral_surname'] }}"
+                                href="{{ path('entity.user.canonical', {'user' : user.referrals[i]['referral_id']}) }}"
+                                class="rounded-circle overflow-hidden d-inline-block m-1 politician-modal"
+                            >
+                                <img
+                                    src="{{ user.referrals[i]['referral_img'] ? image_style_url(user.referrals[i]['referral_img'],  'avatar_xs') : theme_path() ~ '/images/avatar.png' }}"
+                                    class="rounded"
+                                    width="34"
+                                    alt="..."
+                                />
+                            </a>
+                        </li>
+                    {% endfor %}
+                    <li class="ref-count">
+                        <a
+                            href="{{ path('entity.user.canonical', {'user' : user.uid, 'show_referral_modal' : 'true'}) }}"
+                            class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white politician-modal"
+                        >
+                            {{ user.referral_count - 4 }} +
+                        </a>
+                    </li>
+                    <!-- only for mobile version -->
+                    <li class="referral-count" >
+                        <a
+                            href="{{ path('entity.user.canonical', {'user' : user.uid, 'show_referral_modal' : 'true'}) }}"
+                            class="btn btn-light btn-sm m-1 px-2 bg-hover-success text-hover-white politician-modal"
+                        >
+                            {{ user.referral_count }} +
+                        </a>
+                    </li>
+                </ul>
+            {% endif %}
+        </td>
+
+        <td class="text-right text-md-center align-middle font-weight-bold">
+                                 <span
+                                     class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+                                 >{{ user.referral_benefits > 1 ? user.referral_benefits|ged_long_format  : user.referral_benefits}} ₾</span
+                                 >
+        </td>
+    </tr>
+{% endfor %}
