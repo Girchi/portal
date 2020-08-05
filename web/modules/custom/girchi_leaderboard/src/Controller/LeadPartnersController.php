@@ -5,7 +5,7 @@ namespace Drupal\girchi_leaderboard\Controller;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Render\Renderer;
 use Drupal\girchi_leaderboard\LeadPartnersService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -20,7 +20,7 @@ class LeadPartnersController extends ControllerBase {
   /**
    * Logger Factory.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
 
@@ -41,14 +41,14 @@ class LeadPartnersController extends ControllerBase {
   /**
    * Constructs a new PartyListController object.
    *
-   * @param \Drupal\Core\Logger\LoggerChannelFactory $loggerChannelFactory
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerChannelFactory
    *   LoggerChannelFactory.
    * @param \Drupal\Core\Render\Renderer $renderer
    *   Renderer.
    * @param \Drupal\girchi_leaderboard\LeadPartnersService $leadPartnersService
    *   LeadPartnersService.
    */
-  public function __construct(LoggerChannelFactory $loggerChannelFactory,
+  public function __construct(LoggerChannelFactoryInterface $loggerChannelFactory,
                               Renderer $renderer,
                               LeadPartnersService $leadPartnersService) {
     $this->loggerFactory = $loggerChannelFactory->get('girchi_leaderboard');

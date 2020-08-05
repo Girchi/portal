@@ -5,7 +5,7 @@ namespace Drupal\girchi_leaderboard\Plugin\Block;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\girchi_leaderboard\LeadPartnersService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -27,7 +27,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
   /**
    * Logger Factory.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
 
@@ -45,7 +45,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
   public function __construct(array $configuration,
                               $plugin_id,
                               $plugin_definition,
-                              LoggerChannelFactory $loggerFactory,
+                              LoggerChannelFactoryInterface $loggerFactory,
                               LeadPartnersService $leadPartnersService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->loggerFactory = $loggerFactory->get('girchi_leaderboard');

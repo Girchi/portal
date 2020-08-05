@@ -5,8 +5,8 @@ namespace Drupal\girchi_leaderboard;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 /**
  * LeadPartnersService.
@@ -15,14 +15,14 @@ class LeadPartnersService {
   /**
    * Entity type manager.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManager
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
    * Logger Factory.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
 
@@ -36,8 +36,8 @@ class LeadPartnersService {
   /**
    * {@inheritDoc}
    */
-  public function __construct(EntityTypeManager $entity_type_manager,
-                              LoggerChannelFactory $loggerFactory,
+  public function __construct(EntityTypeManagerInterface $entity_type_manager,
+                              LoggerChannelFactoryInterface $loggerFactory,
                               Connection $database) {
     $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $loggerFactory->get('girchi_leaderboard');

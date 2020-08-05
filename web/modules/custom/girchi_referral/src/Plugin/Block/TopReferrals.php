@@ -8,7 +8,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\girchi_referral\TopReferralsService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,7 +35,7 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
   /**
    * Logger Factory.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
 
@@ -61,7 +61,7 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
                               $plugin_id,
                               $plugin_definition,
                               EntityTypeManagerInterface $entity_type_manager,
-                              LoggerChannelFactory $loggerFactory,
+                              LoggerChannelFactoryInterface $loggerFactory,
                               Connection $connection,
                               TopReferralsService $topReferralsService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
