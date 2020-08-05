@@ -83,7 +83,7 @@ class LeadPartnersController extends ControllerBase {
         $result = $this->leadPartners->getLeadPartners($source, TRUE);
         $build = [
           '#type' => 'markup',
-          '#theme' => 'girchi_leadPartners',
+          '#theme' => 'lead_partners_modal',
           '#final_partners' => $result,
         ];
         $html = $this->renderer->renderRoot($build);
