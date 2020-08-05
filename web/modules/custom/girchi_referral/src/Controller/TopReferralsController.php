@@ -5,7 +5,6 @@ namespace Drupal\girchi_referral\Controller;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Render\Renderer;
 use Drupal\girchi_referral\TopReferralsService;
@@ -32,13 +31,6 @@ class TopReferralsController extends ControllerBase {
   protected $renderer;
 
   /**
-   * Database.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  private $database;
-
-  /**
    * TopReferralsService.
    *
    * @var \Drupal\girchi_referral\TopReferralsService
@@ -52,18 +44,14 @@ class TopReferralsController extends ControllerBase {
    *   LoggerChannelFactory.
    * @param \Drupal\Core\Render\Renderer $renderer
    *   Renderer.
-   * @param \Drupal\Core\Database\Connection $database
-   *   Database.
    * @param \Drupal\girchi_referral\TopReferralsService $topReferralsService
    *   TopReferralsService.
    */
   public function __construct(LoggerChannelFactoryInterface $loggerChannelFactory,
                               Renderer $renderer,
-                              Connection $database,
                               TopReferralsService $topReferralsService) {
     $this->loggerFactory = $loggerChannelFactory->get('girchi_referrals');
     $this->renderer = $renderer;
-    $this->database = $database;
     $this->topReferrals = $topReferralsService;
   }
 
@@ -74,7 +62,6 @@ class TopReferralsController extends ControllerBase {
     return new static(
       $container->get('logger.factory'),
       $container->get('renderer'),
-      $container->get('database'),
       $container->get('girchi_referral.top_referrals_service')
     );
   }

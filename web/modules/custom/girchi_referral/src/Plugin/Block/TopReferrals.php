@@ -6,8 +6,6 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\girchi_referral\TopReferralsService;
@@ -26,26 +24,11 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
   private const REFERRALS_MONTHLY = 'monthly';
 
   /**
-   * Entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * Logger Factory.
    *
    * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
-
-
-  /**
-   * Database.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  private $database;
 
   /**
    * TopReferralsService.
@@ -60,14 +43,10 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
   public function __construct(array $configuration,
                               $plugin_id,
                               $plugin_definition,
-                              EntityTypeManagerInterface $entity_type_manager,
                               LoggerChannelFactoryInterface $loggerFactory,
-                              Connection $connection,
                               TopReferralsService $topReferralsService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $loggerFactory->get('girchi_referrals');
-    $this->database = $connection;
     $this->topReferrals = $topReferralsService;
   }
 
@@ -91,9 +70,7 @@ class TopReferrals extends BlockBase implements ContainerFactoryPluginInterface 
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
       $container->get('logger.factory'),
-      $container->get('database'),
       $container->get('girchi_referral.top_referrals_service')
     );
   }
