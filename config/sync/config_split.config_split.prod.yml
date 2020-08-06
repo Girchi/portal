@@ -1,6 +1,6 @@
 uuid: 9a6adb87-69cb-4e3c-8492-48ecb596a311
 langcode: ka
-status: false
+status: true
 dependencies: {  }
 id: prod
 label: prod
@@ -9,7 +9,9 @@ folder: ../config/environments/prod
 module:
   static_server: 0
 theme: {  }
-blacklist: {  }
+blacklist:
+  - om_site_settings.site_settings
+  - sendgrid_integration.settings
 graylist: {  }
 graylist_dependents: true
 graylist_skip_equal: true
