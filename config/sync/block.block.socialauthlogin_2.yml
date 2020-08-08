@@ -9,7 +9,7 @@ dependencies:
 id: socialauthlogin_2
 theme: girchi
 region: header
-weight: -5
+weight: -7
 provider: null
 plugin: social_auth_login
 settings:
