@@ -9,7 +9,7 @@ dependencies:
 id: categoryfilterblock
 theme: girchi
 region: header
-weight: -4
+weight: -6
 provider: null
 plugin: category_filter_block
 settings:

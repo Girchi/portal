@@ -11,7 +11,7 @@ dependencies:
 id: mainnavigation
 theme: girchi
 region: header_nav
-weight: -4
+weight: -8
 provider: null
 plugin: 'system_menu_block:main'
 settings:
