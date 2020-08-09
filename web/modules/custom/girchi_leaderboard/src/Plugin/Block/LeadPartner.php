@@ -97,17 +97,18 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
     try {
       $user_storage = $this->entityTypeManager->getStorage('user');
       $donation_storage = $this->entityTypeManager->getStorage('donation');
+
       $donation_entity_ids_query = $donation_storage->getQuery()
         ->condition('status', 'OK')
         ->condition('user_id', '0', '!=')
         ->sort('amount', 'DESC');
+
       if ($mode === self::DONATION_DAILY) {
         $group = $donation_entity_ids_query
           ->andConditionGroup()
           ->condition('created', strtotime("now"), '<')
           ->condition('created', strtotime("-1 days"), '>');
         $donation_entity_ids_query->condition($group);
-        $donation_entity_ids = $donation_entity_ids_query->execute();
       }
       elseif ($mode === self::DONATION_WEEKLY) {
         $group = $donation_entity_ids_query
@@ -115,7 +116,6 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
           ->condition('created', strtotime("now"), '<')
           ->condition('created', strtotime("-1 week"), '>');
         $donation_entity_ids_query->condition($group);
-        $donation_entity_ids = $donation_entity_ids_query->execute();
       }
       elseif ($mode === self::DONATION_MONTHLY) {
         $group = $donation_entity_ids_query
@@ -123,11 +123,11 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
           ->condition('created', strtotime("now"), '<')
           ->condition('created', strtotime("-1 month"), '>');
         $donation_entity_ids_query->condition($group);
-        $donation_entity_ids = $donation_entity_ids_query->execute();
       }
-      else {
-        $donation_entity_ids = $donation_entity_ids_query->execute();
-      }
+
+      $donation_entity_ids_query->range(0, 5);
+      $donation_entity_ids = $donation_entity_ids_query->execute();
+
       $top_partners = $donation_storage->loadMultiple($donation_entity_ids);
       $final_partners = [];
       /** @var \Drupal\girchi_donations\Entity\Donation $top_partner */
