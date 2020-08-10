@@ -4,7 +4,7 @@ namespace Drupal\girchi_users\Commands;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\girchi_referral\GetUserReferralsService;
@@ -57,7 +57,7 @@ class GirchiUsersCommands extends DrushCommands {
   /**
    * EntityTypeManager.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   EntityManager.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerChannelFactory
    *   Logger.
@@ -66,7 +66,7 @@ class GirchiUsersCommands extends DrushCommands {
    * @param \Drupal\girchi_referral\GetUserReferralsService $referralsService
    *   ReferralService.
    */
-  public function __construct(EntityTypeManager $entityTypeManager,
+  public function __construct(EntityTypeManagerInterface $entityTypeManager,
                               LoggerChannelFactoryInterface $loggerChannelFactory,
                               QueueFactory $queueFactory,
                               GetUserReferralsService $referralsService) {

@@ -4,7 +4,7 @@ namespace Drupal\girchi_my_party_list\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\girchi_users\GEDHelperService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -50,14 +50,14 @@ class PoliticianRatingBlock extends BlockBase implements ContainerFactoryPluginI
    *   Plugin id.
    * @param string $plugin_definition
    *   Plugin definition.
-   * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   Entity type manager.
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   ConfigFactory.
    * @param \Drupal\girchi_users\GEDHelperService $gedFormatter
    *   Ged formatter.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, ConfigFactory $configFactory, GEDHelperService $gedFormatter) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactory $configFactory, GEDHelperService $gedFormatter) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->configFactory = $configFactory;

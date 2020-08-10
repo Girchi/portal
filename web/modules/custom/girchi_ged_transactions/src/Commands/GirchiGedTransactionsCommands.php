@@ -5,7 +5,7 @@ namespace Drupal\girchi_ged_transactions\Commands;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drush\Commands\DrushCommands;
 
@@ -38,12 +38,12 @@ class GirchiGedTransactionsCommands extends DrushCommands {
   /**
    * Construct.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   ET manager.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
    *   Logger.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerFactory) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, LoggerChannelFactoryInterface $loggerFactory) {
     parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
     $this->loggerFactory = $loggerFactory;
@@ -98,7 +98,6 @@ class GirchiGedTransactionsCommands extends DrushCommands {
     }
   }
 
-
   /**
    * Fix transaction type for regular donations.
    *
@@ -107,11 +106,11 @@ class GirchiGedTransactionsCommands extends DrushCommands {
    */
   public function fixRegTransactionType() {
     try {
-      $ged_t_storage =$this->entityTypeManager->getStorage('ged_transaction');
+      $ged_t_storage = $this->entityTypeManager->getStorage('ged_transaction');
       $ged_transaction_ids = $ged_t_storage->getQuery()
         ->condition('transaction_type', '1360', '=')
         ->execute();
-      $ged_transactions =  $ged_t_storage->loadMultiple($ged_transaction_ids);
+      $ged_transactions = $ged_t_storage->loadMultiple($ged_transaction_ids);
       $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369);
 
       foreach ($ged_transactions as $transaction) {
@@ -119,11 +118,14 @@ class GirchiGedTransactionsCommands extends DrushCommands {
         $transaction->save();
       }
 
-    } catch (InvalidPluginDefinitionException $e) {
+    }
+    catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->get('girchi_ged_transactions')->error($e->getMessage());
-    } catch (PluginNotFoundException $e) {
+    }
+    catch (PluginNotFoundException $e) {
       $this->loggerFactory->get('girchi_ged_transactions')->error($e->getMessage());
-    } catch (EntityStorageException $e) {
+    }
+    catch (EntityStorageException $e) {
       $this->loggerFactory->get('girchi_ged_transactions')->error($e->getMessage());
     }
   }

@@ -6,7 +6,7 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drush\Commands\DrushCommands;
 
@@ -39,14 +39,14 @@ class GirchiNotificationsCommands extends DrushCommands {
   /**
    * Construct.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   ET manager.
    * @param \Drupal\Core\Config\ConfigFactory $configFactory
    *   ConfigFactory.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
    *   Logger.
    */
-  public function __construct(EntityTypeManager $entityTypeManager, ConfigFactory $configFactory, LoggerChannelFactoryInterface $loggerFactory) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, ConfigFactory $configFactory, LoggerChannelFactoryInterface $loggerFactory) {
     parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
     $this->configFactory = $configFactory;

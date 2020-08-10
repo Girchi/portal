@@ -2,7 +2,7 @@
 
 namespace Drupal\girchi_paypal\Commands;
 
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -28,10 +28,10 @@ class GirchiPaypalCommands extends DrushCommands {
   /**
    * GirchiPaypalCommands constructor.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Entity type manager.
    */
-  public function __construct(EntityTypeManager $entityTypeManager) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
 
     $this->entityTypeManager = $entityTypeManager;
   }
