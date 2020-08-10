@@ -3,7 +3,7 @@ langcode: ka
 status: false
 dependencies:
   module:
-    - girchi_utils
+    - girchi_leaderboard
   theme:
     - girchi
 id: leadpartner
