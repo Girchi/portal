@@ -1,0 +1,35 @@
+{% for partner in final_partners %}
+    <tr>
+        <th scope="row" class="pl-3 w-auto w-md-80-px text-center align-middle">
+            <span class="font-size-4 font-size-xl-5 text-dark-silver font-weight-normal">{{ loop.index }}</span>
+        </th>
+        <td class="align-middle">
+            <div class="d-flex w-100 align-items-center">
+                <a
+                    href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}"
+                    class="rounded-circle overflow-hidden d-none d-md-block">
+                    <img
+                        src= "{{ partner.img ? image_style_url(partner.img, 'partner_image') : theme_path() ~ "/images/avatar50x50.png"  }}"
+                        class="rounded"
+                        alt="..."
+                    />
+                </a>
+                <h6 class="w-100 w-sm-auto text-uppercase line-height-1-2 font-size-3 font-size-md-3 font-size-xl-base mb-0 mx-0 mx-md-3">
+                    <a href="{{ path('entity.user.canonical', {'user' : partner.uid}) }}" class="d-inline-block text-hover-success">
+          <span class="text-decoration-none d-inline-block">
+            <span>{{ partner.uid ?  partner.user_name : 'Anonymous'|t  }}</span>
+            <span class="font-weight-bold">{{ partner.uid ? partner.user_surname : 'User'|t }}</span>
+          </span>
+                    </a>
+                </h6>
+            </div>
+        </td>
+        <td class="text-right text-md-center align-middle font-weight-bold">
+             <span
+                 class="text-success font-size-4 font-size-xl-4 font-weight-bold ml-auto"
+             >{{ partner.donation }} ₾</span
+             >
+        </td>
+    </tr>
+{% endfor %}
+

@@ -1,0 +1,4 @@
+services:
+  girchi_leaderboard.get_lead_partners:
+    class: Drupal\girchi_leaderboard\LeadPartnersService
+    arguments: ['@entity_type.manager','@logger.factory', '@database']

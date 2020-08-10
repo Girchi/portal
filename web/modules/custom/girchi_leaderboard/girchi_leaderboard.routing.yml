@@ -7,3 +7,11 @@ girchi_leaderboard.leaderboard_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+
+girchi_leaderboard.girchi_leaderboard_controller_getLeadPartners:
+  path: '/api/lead-partners/getLeadPartners'
+  defaults:
+    _controller: '\Drupal\girchi_leaderboard\Controller\LeadPartnersController::getLeadPartners'
+    _title: 'GetLeadPartners'
+  requirements:
+    _permission: 'access content'

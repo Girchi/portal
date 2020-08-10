@@ -71,7 +71,7 @@ function girchi_referral_user_login(EntityInterface $entity) {
  * Implements hook_theme().
  */
 function girchi_referral_theme($existing, $type, $theme, $path) {
-  $templates = [
+  return [
     'top_referrals' => [
       'variables' =>
         [
@@ -80,6 +80,10 @@ function girchi_referral_theme($existing, $type, $theme, $path) {
         ],
       'template' => 'top-referrals',
     ],
+    'top_referrals_modal' => [
+      'variables' => [
+        'topReferrals' => NULL,
+      ],
+    ],
   ];
-  return $templates;
 }

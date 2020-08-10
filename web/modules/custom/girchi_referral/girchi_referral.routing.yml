@@ -1,0 +1,7 @@
+girchi_referrals.girchi_referrals_controller_getTopReferrals:
+  path: '/api/top-referrals/getTopReferrals'
+  defaults:
+    _controller: '\Drupal\girchi_referral\Controller\TopReferralsController::getTopReferrals'
+    _title: 'GetTopReferrals'
+  requirements:
+    _permission: 'access content'

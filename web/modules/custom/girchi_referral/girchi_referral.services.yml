@@ -13,3 +13,6 @@ services:
   girchi_referral.referral_count:
     class: Drupal\girchi_referral\ReferralCount
     arguments: ['@entity_type.manager','@logger.factory']
+  girchi_referral.top_referrals_service:
+    class: Drupal\girchi_referral\TopReferralsService
+    arguments: ['@entity_type.manager','@logger.factory', '@database']

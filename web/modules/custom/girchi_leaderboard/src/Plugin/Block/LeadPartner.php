@@ -5,9 +5,9 @@ namespace Drupal\girchi_leaderboard\Plugin\Block;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\girchi_leaderboard\LeadPartnersService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,32 +19,37 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
-  private const DONATION_ALL = 0;
-  private const DONATION_DAILY = 1;
-  private const DONATION_WEEKLY = 2;
-  private const DONATION_MONTHLY = 3;
-
-  /**
-   * Entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManager
-   */
-  protected $entityTypeManager;
+  private const DONATION_ALL = 'full';
+  private const DONATION_DAILY = 'daily';
+  private const DONATION_WEEKLY = 'weekly';
+  private const DONATION_MONTHLY = 'monthly';
 
   /**
    * Logger Factory.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
+
+
+  /**
+   * LeadPartnersService.
+   *
+   * @var \Drupal\girchi_leaderboard\LeadPartnersService
+   */
+  protected $leadPartners;
 
   /**
    * {@inheritDoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManager $entity_type_manager, LoggerChannelFactory $loggerFactory) {
+  public function __construct(array $configuration,
+                              $plugin_id,
+                              $plugin_definition,
+                              LoggerChannelFactoryInterface $loggerFactory,
+                              LeadPartnersService $leadPartnersService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityTypeManager = $entity_type_manager;
     $this->loggerFactory = $loggerFactory->get('girchi_leaderboard');
+    $this->leadPartners = $leadPartnersService;
 
   }
 
@@ -68,8 +73,8 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('logger.factory')
+      $container->get('logger.factory'),
+      $container->get('girchi_leaderboard.get_lead_partners')
     );
   }
 
@@ -95,81 +100,7 @@ class LeadPartner extends BlockBase implements ContainerFactoryPluginInterface {
    */
   private function getDonations($mode = self::DONATION_ALL) {
     try {
-      $user_storage = $this->entityTypeManager->getStorage('user');
-      $donation_storage = $this->entityTypeManager->getStorage('donation');
-      $donation_entity_ids_query = $donation_storage->getQuery()
-        ->condition('status', 'OK')
-        ->condition('user_id', '0', '!=')
-        ->sort('amount', 'DESC');
-      if ($mode === self::DONATION_DAILY) {
-        $group = $donation_entity_ids_query
-          ->andConditionGroup()
-          ->condition('created', strtotime("now"), '<')
-          ->condition('created', strtotime("-1 days"), '>');
-        $donation_entity_ids_query->condition($group);
-        $donation_entity_ids = $donation_entity_ids_query->execute();
-      }
-      elseif ($mode === self::DONATION_WEEKLY) {
-        $group = $donation_entity_ids_query
-          ->andConditionGroup()
-          ->condition('created', strtotime("now"), '<')
-          ->condition('created', strtotime("-1 week"), '>');
-        $donation_entity_ids_query->condition($group);
-        $donation_entity_ids = $donation_entity_ids_query->execute();
-      }
-      elseif ($mode === self::DONATION_MONTHLY) {
-        $group = $donation_entity_ids_query
-          ->andConditionGroup()
-          ->condition('created', strtotime("now"), '<')
-          ->condition('created', strtotime("-1 month"), '>');
-        $donation_entity_ids_query->condition($group);
-        $donation_entity_ids = $donation_entity_ids_query->execute();
-      }
-      else {
-        $donation_entity_ids = $donation_entity_ids_query->execute();
-      }
-      $top_partners = $donation_storage->loadMultiple($donation_entity_ids);
-      $final_partners = [];
-      /** @var \Drupal\girchi_donations\Entity\Donation $top_partner */
-      foreach ($top_partners as $top_partner) {
-        if ($top_partner->getUser()) {
-          $donation_amount = $top_partner->getAmount();
-          $uid = $top_partner->getUser()->id();
-          $user = $user_storage->load($uid);
-          $user_name = $user->get('field_first_name')->value;
-          $user_surname = $user->get('field_last_name')->value;
-          $publicity = $user->get('field_publicity')->value;
-          if ($user->get('user_picture')->entity) {
-            $profilePictureEntity = $user->get('user_picture')->entity;
-            $profilePicture = $profilePictureEntity->getFileUri();
-          }
-          else {
-            $profilePicture = NULL;
-          }
-          if (empty($user_name) || empty($user_surname)) {
-            continue;
-          }
-          elseif ($publicity != 1) {
-            continue;
-          }
-          if (array_key_exists($uid, $final_partners)) {
-            $final_partners[$uid]['donation'] += $donation_amount;
-          }
-          else {
-            $final_partners[$uid] = [
-              'uid' => $uid,
-              'user_name' => $user_name,
-              'user_surname' => $user_surname,
-              'donation' => $donation_amount,
-              'img' => $profilePicture,
-            ];
-          }
-        }
-      }
-      usort($final_partners, function ($a, $b) {
-        return $b['donation'] - $a['donation'];
-      });
-      return $final_partners;
+      return $this->leadPartners->getLeadPartners($mode, FALSE);
     }
     catch (InvalidPluginDefinitionException $e) {
       $this->loggerFactory->error($e->getMessage());

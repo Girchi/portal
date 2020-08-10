@@ -208,8 +208,39 @@ $(document).ready(function() {
     });
 
 
+    // Load lead partners modal on click.
+    $('.lead-partners-list').on("click", e => {
+        let leadPartnerModal = $("#leadPartnerFullList table tbody");
+        leadPartnerModal.html('');
+        let source =  $(e.target).attr('data-source');
+        $.ajax({
+            type: "POST",
+            url: "/api/lead-partners/getLeadPartners",
+            data: { source: source }
+        }).done(data => {
+            if(data.status === 'success') {
+                source = '';
+                leadPartnerModal.html(data.data);
+            }
+        });
+    });
 
-
+    // Load Top referrals modal on click.
+    $('.top-referrals-list').on("click", e => {
+        let topReferralsModal = $("#topReferralsFullList table tbody");
+        topReferralsModal.html('');
+        let source =  $(e.target).attr('data-source');
+        $.ajax({
+            type: "POST",
+            url: "/api/top-referrals/getTopReferrals",
+            data: { source: source }
+        }).done(data => {
+            if(data.status === 'success') {
+                source = '';
+                topReferralsModal.html(data.data);
+            }
+        });
+    });
 
 });
 
