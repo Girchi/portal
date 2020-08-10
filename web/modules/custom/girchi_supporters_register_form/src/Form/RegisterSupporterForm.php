@@ -99,18 +99,10 @@ class RegisterSupporterForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    if ($this->referral) {
-      $team = $this->referral->getDisplayName();
-    }
-    else {
-      $team = '--';
-    }
-
     $form['registrator'] = [
       '#markup' => '
             <div class="registrator-box">
                 <strong>Registrator: <span class="registrator-name">' . $this->currentUser->getDisplayName() . '</span></strong><br />
-                <strong>Team: <span class="team">' . $team . '</span></strong><br />
                 <strong>Total registrations: <span class="total-registrations">' . (int) $this->registeredSupportersNumber . '</span></strong><br />
             </div>
        ',
@@ -156,7 +148,7 @@ class RegisterSupporterForm extends FormBase {
       '#type' => 'number',
       '#title' => 'GED amount',
       '#weight' => '5',
-      '#default' => 0,
+      '#default_value' => 0,
     ];
     $form['submit'] = [
       '#type' => 'submit',
@@ -206,7 +198,7 @@ class RegisterSupporterForm extends FormBase {
     $user->set('field_personal_id', $values['gov_id']);
     $user->set('field_first_name', $values['firstname']);
     $user->set('field_last_name', $values['lastname']);
-    $user->set('field_referral', $this->referral->id());
+    $user->set('field_referral', $this->currentUser()->id());
     $user->set('field_ged', $values['ged_amount']);
 
     $user->activate();
