@@ -35,7 +35,7 @@
             >
                 <ul class="list-group list-group-flush mt-2">
                     {% if topReferralsMonthly %}
-                        {% for key,user in topReferralsMonthly  | slice(0, 5) %}
+                        {% for key,user in topReferralsMonthly %}
                             <li
                                 class=" {{ loop.first ? 'first-ref' : ''  }} list-group-item d-flex align-items-center px-0"
                             >
@@ -75,17 +75,17 @@
                             </li>
 
                         {% endfor %}
-                        {% if topReferralsMonthly|length >= 5 %}
-                            <a
-                                href="#"
-                                class="top-referrals-list ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap top-block-arrow"
-                                data-toggle="modal"
-                                data-target="#topReferralsFullList"
-                                data-source="monthly"
-                            >{{ 'Full list'|t }}
-                                <i class="icon-arrow-right2 text-dark-silver"></i>
-                            </a>
-                        {% endif %}
+{#                        {% if topReferralsMonthly|length >= 5 %}#}
+{#                            <a#}
+{#                                href="#"#}
+{#                                class="top-referrals-list ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap top-block-arrow"#}
+{#                                data-toggle="modal"#}
+{#                                data-target="#topReferralsFullList"#}
+{#                                data-source="monthly"#}
+{#                            >{{ 'Full list'|t }}#}
+{#                                <i class="icon-arrow-right2 text-dark-silver"></i>#}
+{#                            </a>#}
+{#                        {% endif %}#}
                     {% endif %}
 
                 </ul>
@@ -98,7 +98,7 @@
             >
                 <ul class="list-group list-group-flush mt-2">
                     {% if topReferrals %}
-                        {% for key,user in topReferrals  | slice(0, 5) %}
+                        {% for key,user in topReferrals  %}
                             <li
                                 class=" {{ loop.first ? 'first-ref' : ''  }} list-group-item d-flex align-items-center px-0"
                             >
@@ -138,17 +138,17 @@
                             </li>
 
                         {% endfor %}
-                        {% if topReferrals|length >= 5 %}
-                            <a
-                                href="#"
-                                class="top-referrals-list ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap top-block-arrow"
-                                data-toggle="modal"
-                                data-target="#topReferralsFullList"
-                                data-source="full"
-                            >{{ 'Full list'|t }}
-                                <i class="icon-arrow-right2 text-dark-silver"></i>
-                            </a>
-                        {% endif %}
+{#                        {% if topReferrals|length >= 5 %}#}
+{#                            <a#}
+{#                                href="#"#}
+{#                                class="top-referrals-list ml-auto card-view-all font-weight-normal text-grey text-decoration-none text-nowrap top-block-arrow"#}
+{#                                data-toggle="modal"#}
+{#                                data-target="#topReferralsFullList"#}
+{#                                data-source="full"#}
+{#                            >{{ 'Full list'|t }}#}
+{#                                <i class="icon-arrow-right2 text-dark-silver"></i>#}
+{#                            </a>#}
+{#                        {% endif %}#}
                     {% endif %}
                 </ul>
             </div>

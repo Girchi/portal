@@ -95,7 +95,7 @@
                         <ul class="list-group list-group-flush mt-2">
                             {% set i=0 %}
                             {% if leadPartnerDaily %}
-                                {% for partner in leadPartnerDaily  | slice(0, 4)%}
+                                {% for partner in leadPartnerDaily %}
                                     {% set i=i+1 %}
                                     <li
                                         class="list-group-item d-flex align-items-center px-0"
@@ -137,13 +137,13 @@
                                     </li>
                                 {% endfor %}
                                 {% if leadPartnerDaily|length >4 %}
-                                <button href="#"
-                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"
-                                        data-toggle="modal"
-                                        data-target="#leadPartnerFullList"
-                                        data-source="daily">
-                                    {{ 'Full list'|t }}
-                                </button>
+{#                                <button href="#"#}
+{#                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"#}
+{#                                        data-toggle="modal"#}
+{#                                        data-target="#leadPartnerFullList"#}
+{#                                        data-source="daily">#}
+{#                                    {{ 'Full list'|t }}#}
+{#                                </button>#}
                                 {% endif %}
                             {% endif %}
                         </ul>
@@ -157,7 +157,7 @@
                         <ul class="list-group list-group-flush mt-2">
                             {% set i=0 %}
                             {% if leadPartnerWeekly %}
-                                {% for partner in leadPartnerWeekly  | slice(0, 4)%}
+                                {% for partner in leadPartnerWeekly %}
                                     {% set i=i+1 %}
                                     <li
                                         class="list-group-item d-flex align-items-center px-0"
@@ -199,13 +199,13 @@
                                     </li>
                                 {% endfor %}
                                 {% if leadPartnerWeekly|length > 4 %}
-                                <button href="#"
-                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"
-                                        data-toggle="modal"
-                                        data-target="#leadPartnerFullList"
-                                        data-source="weekly">
-                                    {{ 'Full list'|t }}
-                                </button>
+{#                                <button href="#"#}
+{#                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"#}
+{#                                        data-toggle="modal"#}
+{#                                        data-target="#leadPartnerFullList"#}
+{#                                        data-source="weekly">#}
+{#                                    {{ 'Full list'|t }}#}
+{#                                </button>#}
                                 {% endif %}
                             {% endif %}
                         </ul>
@@ -219,7 +219,7 @@
                         <ul class="list-group list-group-flush mt-2">
                             {% set i=0 %}
                             {% if leadPartnerMonthly %}
-                                {% for partner in leadPartnerMonthly  | slice(0, 4)%}
+                                {% for partner in leadPartnerMonthly %}
                                     {% set i=i+1 %}
                                     <li
                                         class="list-group-item d-flex align-items-center px-0"
@@ -261,13 +261,13 @@
                                     </li>
                                 {% endfor %}
                                 {% if leadPartnerMonthly|length >4 %}
-                                <button href="#"
-                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"
-                                        data-toggle="modal"
-                                        data-target="#leadPartnerFullList"
-                                        data-source="monthly">
-                                    {{ 'Full list'|t }}
-                                </button>
+{#                                <button href="#"#}
+{#                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"#}
+{#                                        data-toggle="modal"#}
+{#                                        data-target="#leadPartnerFullList"#}
+{#                                        data-source="monthly">#}
+{#                                    {{ 'Full list'|t }}#}
+{#                                </button>#}
                                 {% endif %}
                             {% endif %}
                         </ul>
@@ -281,7 +281,7 @@
                         <ul class="list-group list-group-flush mt-2">
                             {% set i=0 %}
                             {% if leadPartner %}
-                                {% for partner in leadPartner | slice(0, 4) %}
+                                {% for partner in leadPartner %}
                                     {% set i=i+1 %}
                                     <li
                                         class="list-group-item d-flex align-items-center px-0"
@@ -322,13 +322,13 @@
                                         </div>
                                     </li>
                                 {% endfor %}
-                                <button href="#"
-                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"
-                                        data-toggle="modal"
-                                        data-target="#leadPartnerFullList"
-                                        data-source="full">
-                                    {{ 'Full list'|t }}
-                                </button>
+{#                                <button href="#"#}
+{#                                        class="lead-partners-list text-white text-decoration-none btn btn-block btn-success mt-3 py-2"#}
+{#                                        data-toggle="modal"#}
+{#                                        data-target="#leadPartnerFullList"#}
+{#                                        data-source="full">#}
+{#                                    {{ 'Full list'|t }}#}
+{#                                </button>#}
                             {% endif %}
                         </ul>
                     </div>
