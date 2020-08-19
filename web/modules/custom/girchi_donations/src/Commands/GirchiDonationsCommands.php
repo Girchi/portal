@@ -210,6 +210,39 @@ class GirchiDonationsCommands extends DrushCommands {
   }
 
   /**
+   * Main command.
+   *
+   * @command girchi_donations:fix-aims
+   * @aliases fix-aims
+   */
+  public function fixAims() {
+    try {
+      $reg_donations_storage = $this->entityTypeManager
+        ->getStorage('regular_donation');
+      $reg_donations_ids = $reg_donations_storage->getQuery()
+        ->condition('status', 'FAILED', '!=')
+        ->condition('status', 'INITIAL', '!=')
+        ->execute();
+
+      $term = $this->entityTypeManager
+        ->getStorage('taxonomy_term')->load(1035);
+      $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+      foreach ($reg_donations as $reg_donation) {
+        if (!$reg_donation->get('aim_id')->entity) {
+          $reg_donation->set('aim_id', $term);
+          $reg_donation->save();
+        }
+      }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+  }
+
+  /**
    * Helper.
    */
   public function getMothDays() {
