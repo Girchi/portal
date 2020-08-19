@@ -138,7 +138,7 @@ function girchi_donations_cron() {
 
     }
   }
-  if ($hour > 18) {
+  if ($hour > 19) {
     if ($day != $key_value->get('execution_day')) {
       try {
         $today = Carbon::now()
