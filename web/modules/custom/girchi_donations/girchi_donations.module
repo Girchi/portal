@@ -138,49 +138,49 @@ function girchi_donations_cron() {
 
     }
   }
-//  if ($hour > 18) {
-//    if ($day != $key_value->get('execution_day')) {
-//      try {
-//        $today = Carbon::now()
-//          ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
-//        $logger_factory->info(
-//          sprintf('Start filling regular donation queue execution date: %s',
-//            Carbon::now()
-//              ->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
-//        );
-//        /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
-//      /**  $queue_factory = \Drupal::service('queue');
-//        /** @var \Drupal\Core\Entity\EntityStorageBase $reg_donations_storage */
-//        $reg_donations_storage = \Drupal::entityTypeManager()
-//          ->getStorage('regular_donation');
-//        $reg_donations_ids = $reg_donations_storage->getQuery()
-//          ->condition('status', 'FAILED', '!=')
-//          ->condition('status', 'INITIAL', '!=')
-//          ->condition('next_payment_date', $today)
-//          ->execute();
-//        if (!empty($reg_donations_ids)) {
-//          $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
-//          $queue = $queue_factory->get('regular_donation_processor');
-//          /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
-//          foreach ($reg_donations as $reg_donation) {
-//            $queue->createItem($reg_donation);
-//          }
-//        }
-//        $logger_factory->info(
-//          sprintf('Regular payment queue is ready. date: %s',
-//            Carbon::now()
-//              ->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
-//        );
-//        $key_value->set('execution_day', $day);
-//      }
-//      catch (InvalidPluginDefinitionException $e) {
-//        $logger_factory->error($e->getMessage());
-//      }
-//      catch (PluginNotFoundException $e) {
-//        $logger_factory->error($e->getMessage());
-//      }
-//    }
-//  }
+  if ($hour > 18) {
+    if ($day != $key_value->get('execution_day')) {
+      try {
+        $today = Carbon::now()
+          ->format(DateTimeItemInterface::DATE_STORAGE_FORMAT);
+        $logger_factory->info(
+          sprintf('Start filling regular donation queue execution date: %s',
+            Carbon::now()
+              ->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+        );
+        /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
+        $queue_factory = \Drupal::service('queue');
+        /** @var \Drupal\Core\Entity\EntityStorageBase $reg_donations_storage */
+        $reg_donations_storage = \Drupal::entityTypeManager()
+          ->getStorage('regular_donation');
+        $reg_donations_ids = $reg_donations_storage->getQuery()
+          ->condition('status', 'FAILED', '!=')
+          ->condition('status', 'INITIAL', '!=')
+          ->condition('next_payment_date', $today)
+          ->execute();
+        if (!empty($reg_donations_ids)) {
+          $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+          $queue = $queue_factory->get('regular_donation_processor');
+          /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
+          foreach ($reg_donations as $reg_donation) {
+            $queue->createItem($reg_donation);
+          }
+        }
+        $logger_factory->info(
+          sprintf('Regular payment queue is ready. date: %s',
+            Carbon::now()
+              ->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT))
+        );
+        $key_value->set('execution_day', $day);
+      }
+      catch (InvalidPluginDefinitionException $e) {
+        $logger_factory->error($e->getMessage());
+      }
+      catch (PluginNotFoundException $e) {
+        $logger_factory->error($e->getMessage());
+      }
+    }
+  }
 }
 
 /**
@@ -201,4 +201,34 @@ function girchi_donations_update_8701() {
     \Drupal::logger('girchi_donations')->error($e->getMessage());
   }
 
+}
+
+/**
+ * Implements hook_taxonomy_term_delete().
+ */
+function girchi_donations_taxonomy_term_delete($term) {
+  if ($term->bundle() == 'donation_issues') {
+    /** @var \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory */
+    $logger_factory = Drupal::service('logger.factory')->get('girchi_donations');
+    try {
+      $reg_donations_storage = \Drupal::entityTypeManager()
+        ->getStorage('regular_donation');
+      $reg_donations_ids = $reg_donations_storage->getQuery()
+        ->condition('status', 'FAILED', '!=')
+        ->condition('status', 'INITIAL', '!=')
+        ->condition('aim_id', $term->id(), '=')
+        ->execute();
+
+      $term = \Drupal::entityTypeManager()
+        ->getStorage('taxonomy_term')->load(1035);
+      $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+      foreach ($reg_donations as $reg_donation) {
+        $reg_donation->set('aim_id', $term);
+        $reg_donation->save();
+      }
+    }
+    catch (Exception $exception) {
+      $logger_factory->info($exception->getMessage());
+    }
+  }
 }
