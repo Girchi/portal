@@ -1,0 +1,5 @@
+girchi_supporters_register_form.users_report_form:
+  title: "Quick Registrations Report"
+  parent: system.admin_reports
+  route_name: girchi_supporters_register_form.users_report_form
+  description: "Quick registrations' overview in specific time period."

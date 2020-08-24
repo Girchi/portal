@@ -5,3 +5,13 @@ girchi_supporters_register_form.register_supporter_form:
     _title: 'RegisterSupporterForm'
   requirements:
     _role: 'missioner'
+
+girchi_supporters_register_form.users_report_form:
+  path: '/admin/reports/quick-registrations'
+  defaults:
+    _form: '\Drupal\girchi_supporters_register_form\Form\UsersReportForm'
+    _title: 'New Registrations Report'
+  requirements:
+    _permission: 'administer users'
+  options:
+    _admin_route: TRUE
