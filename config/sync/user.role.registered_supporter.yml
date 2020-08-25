@@ -1,0 +1,9 @@
+uuid: 6f14142a-4c34-4bdc-a64c-4656b07867f7
+langcode: en
+status: true
+dependencies: {  }
+id: registered_supporter
+label: 'Registered Supporter'
+weight: -2
+is_admin: null
+permissions: {  }

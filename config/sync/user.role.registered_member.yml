@@ -1,0 +1,9 @@
+uuid: 07a229a3-c982-447d-949a-2ce854e7d44d
+langcode: en
+status: true
+dependencies: {  }
+id: registered_member
+label: 'Registered Member'
+weight: -1
+is_admin: null
+permissions: {  }

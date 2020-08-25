@@ -125,9 +125,9 @@ class UsersReportForm extends FormBase {
       $i++;
       $form['wrapper']['table']['#rows'][$i]['#'] = $i;
       $form['wrapper']['table']['#rows'][$i]['name'] = $obj['registrator']->getUsername();
-      $form['wrapper']['table']['#rows'][$i]['new_members'] = $obj['count'];
-      $form['wrapper']['table']['#rows'][$i]['new_supporters'] = '0';
-      $form['wrapper']['table']['#rows'][$i]['geds'] = $obj['count'] * 1000;
+      $form['wrapper']['table']['#rows'][$i]['new_members'] = $obj['member']['count'];
+      $form['wrapper']['table']['#rows'][$i]['new_supporters'] = $obj['supporter']['count'];
+      $form['wrapper']['table']['#rows'][$i]['geds'] = $obj['member']['count'] * 1000 + $obj['supporter']['count'] * 500;
     }
 
     return $form;
@@ -162,6 +162,7 @@ class UsersReportForm extends FormBase {
       ->condition('created', strtotime($start_date), '>=')
       ->condition('created', strtotime($end_date), '<=')
       ->condition('field_referral', $misioner_ids, 'IN')
+      ->condition('roles', ['registered_supporter', 'registered_member'], 'IN')
       ->execute();
 
     if ($misioners = $usersStorage->loadMultiple($misioner_ids)) {
@@ -170,11 +171,19 @@ class UsersReportForm extends FormBase {
         foreach ($users as $user) {
           $referral_id = $user->get('field_referral')->getValue()[0]['target_id'];
           $report_group_by_referrals[$referral_id]['registrator'] = $misioners[$referral_id];
-          if (isset($report_group_by_referrals[$referral_id]['count'])) {
-            $report_group_by_referrals[$referral_id]['count']++;
+
+          if (in_array('registered_member', $user->getRoles())) {
+            $type = 'member';
+          }
+          elseif (in_array('registered_supporter', $user->getRoles())) {
+            $type = 'supporter';
+          }
+
+          if (isset($report_group_by_referrals[$referral_id][$type]['count'])) {
+            $report_group_by_referrals[$referral_id][$type]['count']++;
           }
           else {
-            $report_group_by_referrals[$referral_id]['count'] = 1;
+            $report_group_by_referrals[$referral_id][$type]['count'] = 1;
           }
         }
         usort($report_group_by_referrals, function ($a, $b) {
