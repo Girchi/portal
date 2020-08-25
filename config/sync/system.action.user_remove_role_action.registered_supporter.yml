@@ -1,0 +1,14 @@
+uuid: ce22f2e1-f486-4ba4-b5bc-3e69dd9d50e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.registered_supporter
+  module:
+    - user
+id: user_remove_role_action.registered_supporter
+label: 'Remove the Registered Supporter role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: registered_supporter

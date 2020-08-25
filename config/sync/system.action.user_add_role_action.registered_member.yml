@@ -1,0 +1,14 @@
+uuid: a8eaecca-debd-418a-af71-4cdabd8af267
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.registered_member
+  module:
+    - user
+id: user_add_role_action.registered_member
+label: 'Add the Registered Member role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: registered_member

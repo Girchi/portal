@@ -135,7 +135,7 @@ class RegisterSupporterForm extends FormBase {
       '#type' => 'email',
       '#title' => 'Email',
       '#weight' => '3',
-      '#required' => 1,
+      '#required' => 0,
     ];
     $form['phone'] = [
       '#type' => 'tel',
@@ -192,7 +192,15 @@ class RegisterSupporterForm extends FormBase {
 
     $user->setPassword('girchi');
     $user->enforceIsNew();
-    $user->setEmail($values['email']);
+    if (!empty($values['email'])) {
+      $user->setEmail($values['email']);
+      $user->addRole('registered_member');
+    }
+    else {
+      $email = trim($values['firstname']) . '_' . trim($values['lastname']) . '@example.com';
+      $user->setEmail($email);
+      $user->addRole('registered_supporter');
+    }
     $user->setUsername($userName);
     $user->set('field_tel', $values['phone']);
     $user->set('field_personal_id', $values['gov_id']);
@@ -201,7 +209,9 @@ class RegisterSupporterForm extends FormBase {
     $user->set('field_referral', $this->currentUser()->id());
     $user->set('field_ged', $values['ged_amount']);
 
-    $user->activate();
+    if (!empty($values['email'])) {
+      $user->activate();
+    }
 
     // Save user account.
     if ($user->save()) {

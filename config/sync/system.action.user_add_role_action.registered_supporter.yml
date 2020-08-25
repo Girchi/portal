@@ -1,0 +1,14 @@
+uuid: 78ee48d9-2c76-447d-93b6-3da23e62a0ab
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.registered_supporter
+  module:
+    - user
+id: user_add_role_action.registered_supporter
+label: 'Add the Registered Supporter role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: registered_supporter
