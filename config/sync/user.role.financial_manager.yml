@@ -13,6 +13,7 @@ permissions:
   - 'administer ged_transaction display'
   - 'administer ged_transaction fields'
   - 'administer ged_transaction form display'
+  - 'use text format basic_html'
   - 'view published ged transaction entities'
   - 'view the administration theme'
   - 'view unpublished ged transaction entities'

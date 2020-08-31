@@ -15,5 +15,6 @@ permissions:
   - 'administer statistics'
   - 'configure facebook_pixel'
   - 'use PHP for google analytics tracking visibility'
+  - 'use text format basic_html'
   - 'view post access counter'
   - 'view the administration theme'
