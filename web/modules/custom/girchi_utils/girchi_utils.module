@@ -458,6 +458,7 @@ function user_registration_form_validate($form, FormStateInterface &$form_state)
  */
 function user_form_validate($form, FormStateInterface &$form_state)
 {
+  $value = $form_state->getUserInput();
   $referral_id = $form_state->getValue('field_referral')[0]['target_id'];
   $uid = \Drupal::currentUser()->id();
   if ($referral_id) {
@@ -472,6 +473,11 @@ function user_form_validate($form, FormStateInterface &$form_state)
           $form_state->unsetValue('field_referral');
         }
       }
+    }
+  }
+  if(!isset($value['region']) ) {
+    if(empty($form['field_region']['widget'][0]['target_id']['#value'])) {
+      $form_state->setErrorByName('title', t("Please choose region"));
     }
   }
 }
@@ -746,27 +752,16 @@ function girchi_utils_user_presave(User $account)
     }
   }
   // TODO:: Uncomment if statement.
-  //  if ($account->original != NULL) {
-  //    $original_referral = $account->original->get('field_referral')->target_id;
-  //    $updated_value = $account->get('field_referral')->target_id;
-  //    if ($original_referral != $updated_value) {
-  //      $referral_date = $account->get('field_referral_date')->value;
-  //      $referral_date_unix = strtotime($account->get('field_referral_date')->value);
-  //      $one_year = strtotime('+1 year', $referral_date_unix);
-  //      $today = strtotime(date('Y-m-d'));
-  //
-  //      if ($today > $one_year) {
-  //        $account->set('field_referral_date', date('Y-m-d'));
-  //      }
-  //      else {
-  //        $response = new RedirectResponse(\Drupal::request()->getRequestUri());
-  //        $response->send();
-  //        \Drupal::messenger()->addError(t("You can't change your referral within one year from") . ' ' . $referral_date);
-  //        exit;
-  //      }
-  //
-  //    }
-  //  }.
+    if ($account->original != NULL) {
+      $original_referral = $account->original->get('field_referral')->target_id;
+      $updated_value = $account->get('field_referral')->target_id;
+      if ($original_referral != NULL && $original_referral != $updated_value) {
+          $response = new RedirectResponse(\Drupal::request()->getRequestUri());
+          $response->send();
+          \Drupal::messenger()->addError(t("You can't change your referral"));
+          exit;
+      }
+    }
 }
 
 function girchi_utils_preprocess_page(&$variables) {
