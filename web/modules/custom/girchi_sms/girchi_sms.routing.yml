@@ -1,0 +1,7 @@
+girchi_sms.message:
+  path: '/admin/girchi-sms'
+  defaults:
+    _title: 'Message'
+    _form: 'Drupal\girchi_sms\Form\MessageForm'
+  requirements:
+    _permission: 'access administration pages'
