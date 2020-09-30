@@ -53,6 +53,7 @@ module:
   girchi_notifications: 0
   girchi_paypal: 0
   girchi_referral: 0
+  girchi_sms: 0
   girchi_supporters_register_form: 0
   girchi_users: 0
   girchi_utils: 0
