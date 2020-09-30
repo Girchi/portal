@@ -38,6 +38,21 @@ class MessageForm extends FormBase {
       ],
       '#weight' => '0',
     ];
+    $form['badges'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'taxonomy_term',
+      '#title' => $this->t('Badges'),
+      '#description' => $this->t('Select Badges.'),
+      '#tags' => TRUE,
+      '#selection_settings' => [
+        'target_bundles' => ['badges'],
+      ],
+      '#weight' => '0',
+    ];
+    $form['id_number'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('პირადი ნომერი შევსებულია'),
+    ];
 
     $form['actions'] = [
       '#type' => 'actions',
@@ -65,9 +80,17 @@ class MessageForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $message = $form_state->getValue('message');
     $regions = $form_state->getValue('regions');
+    $badges = $form_state->getValue('badges');
+    $idNumber = $form_state->getValue('id_number');
+    $options = [
+      "message" => $message,
+      "regions" => $regions,
+      "badges" => $badges,
+      "idNumber" => $idNumber,
+    ];
     /** @var \Drupal\girchi_sms\SmsSender $date */
     $smsService = \Drupal::service('girchi_sms.sms_sender');
-    $res = $smsService->sendMultipleSms($message, $regions);
+    $res = $smsService->sendMultipleSms($options);
     $res = json_decode($res);
     if ($res->Success) {
       $this->messenger()->addStatus($this->t('The message has been sent.'));

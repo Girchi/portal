@@ -51,13 +51,27 @@ class Utils {
   /**
    * Method description.
    */
-  public function getNumbersByRegions($regions) {
+  public function getNumbersByFilters($options) {
     $query = $this->database->select('user__field_tel', 'tl');
     $query->fields('tl', ['field_tel_value']);
-    if (!empty($regions)) {
-      $regions = $this->loadChildRegions($regions);
+    $query->leftJoin('	user__field_personal_id', 'pi', 'tl.entity_id = pi.entity_id');
+    if (!empty($options['regions'])) {
+      $regions = $this->loadChildRegions($options['regions']);
       $query->leftJoin('user__field_region', 'rg', 'tl.entity_id = rg.entity_id');
       $query->condition('rg.field_region_target_id', $regions, 'IN');
+    }
+    if (!empty($options['badges'])) {
+      $badges = array_map(function ($a) {
+        return $a['target_id'];
+      }, $options['badges']);
+      $query->leftJoin('user__field_approved_badges', 'bg', 'tl.entity_id = bg.entity_id');
+      $query->condition('bg.field_approved_badges_target_id', $badges, 'IN');
+    }
+    if ($options['idNumber'] == 1) {
+      $query->condition('pi.field_personal_id_value', NULL, 'IS NOT NULL');
+    }
+    else {
+      $query->condition('pi.field_personal_id_value', NULL, 'IS NULL');
     }
     $results = $query->execute()->fetchAll();
     $numbers = $this->normalizeNumbers($results);

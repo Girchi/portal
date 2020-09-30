@@ -81,14 +81,14 @@ class SmsSender {
   /**
    * Method description.
    */
-  public function sendMultipleSms($text, $regions) {
-    $numbers = $this->girchiSmsUtils->getNumbersByRegions($regions);
+  public function sendMultipleSms($options) {
+    $numbers = $this->girchiSmsUtils->getNumbersByFilters($options);
     $options = [
       'form_params' => [
         'key' => '',
         'destination' => $numbers,
         'sender' => 'Girchi',
-        'content' => $text,
+        'content' => $options['message'],
       ],
     ];
     $res = $this->httpClient->post($this->apiUrl, $options);
