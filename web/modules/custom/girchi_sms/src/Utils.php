@@ -67,10 +67,10 @@ class Utils {
       $query->leftJoin('user__field_approved_badges', 'bg', 'tl.entity_id = bg.entity_id');
       $query->condition('bg.field_approved_badges_target_id', $badges, 'IN');
     }
-    if ($options['idNumber'] == 1) {
+    if ($options['idNumber'] == 'filled') {
       $query->condition('pi.field_personal_id_value', NULL, 'IS NOT NULL');
     }
-    else {
+    elseif ($options['idNumber'] == 'empty') {
       $query->condition('pi.field_personal_id_value', NULL, 'IS NULL');
     }
     $results = $query->execute()->fetchAll();

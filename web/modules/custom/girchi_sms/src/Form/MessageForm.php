@@ -50,8 +50,13 @@ class MessageForm extends FormBase {
       '#weight' => '0',
     ];
     $form['id_number'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('პირადი ნომერი შევსებულია'),
+      '#type' => 'select',
+      '#title' => 'პირადი ნომერი',
+      '#options' => [
+        '0' => "არცერთი",
+        'filled' => 'შევსებულია',
+        'empty' => 'ცარიელია',
+      ],
     ];
 
     $form['actions'] = [
