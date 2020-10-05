@@ -1,0 +1,8 @@
+services:
+  girchi_sms.utils:
+    class: Drupal\girchi_sms\Utils
+    arguments: ['@logger.factory', '@entity_type.manager','@database']
+
+  girchi_sms.sms_sender:
+    class: Drupal\girchi_sms\SmsSender
+    arguments: ['@logger.factory', '@entity_type.manager', '@girchi_sms.utils','@http_client','@module_handler']

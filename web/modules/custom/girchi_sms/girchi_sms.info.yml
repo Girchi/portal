@@ -1,0 +1,6 @@
+name: girchi_sms
+type: module
+description: Module for sending sms.
+package: girchi
+core: 8.x
+core_version_requirement: ^8 || ^9
