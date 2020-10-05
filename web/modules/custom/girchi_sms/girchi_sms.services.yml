@@ -5,4 +5,4 @@ services:
 
   girchi_sms.sms_sender:
     class: Drupal\girchi_sms\SmsSender
-    arguments: ['@logger.factory', '@entity_type.manager', '@girchi_sms.utils','@http_client']
+    arguments: ['@logger.factory', '@entity_type.manager', '@girchi_sms.utils','@http_client','@module_handler']

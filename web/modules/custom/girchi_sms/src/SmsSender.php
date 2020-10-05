@@ -3,8 +3,10 @@
 namespace Drupal\girchi_sms;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use GuzzleHttp\Client;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * SmsSender service.
@@ -64,17 +66,25 @@ class SmsSender {
    *   The girchi_sms.utils service.
    * @param \GuzzleHttp\Client $httpClient
    *   HttpClient.
+   * @param \Drupal\Core\Extension\ModuleHandler $moduleHandler
+   *   Module handler.
    */
   public function __construct(LoggerChannelFactoryInterface $logger,
                               EntityTypeManagerInterface $entity_type_manager,
                               Utils $girchi_sms_utils,
-  Client $httpClient) {
+                              Client $httpClient,
+                              ModuleHandler $moduleHandler) {
 
     $this->logger = $logger;
     $this->entityTypeManager = $entity_type_manager;
     $this->girchiSmsUtils = $girchi_sms_utils;
     $this->httpClient = $httpClient;
     $this->apiUrl = "http://smsoffice.ge/api/v2/send/";
+    $modulePath = $moduleHandler->getModule('girchi_sms')->getPath();
+
+    // Load api key.
+    $this->dotEnv = new Dotenv();
+    $this->dotEnv->load($modulePath . '/key/.key.env');
 
   }
 
@@ -85,7 +95,7 @@ class SmsSender {
     $numbers = $this->girchiSmsUtils->getNumbersByFilters($options);
     $options = [
       'form_params' => [
-        'key' => '',
+        'key' => $_ENV['API_KEY'],
         'destination' => $numbers,
         'sender' => 'Girchi',
         'content' => $options['message'],
