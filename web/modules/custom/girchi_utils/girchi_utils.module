@@ -755,7 +755,7 @@ function girchi_utils_user_presave(User $account)
     if ($account->original != NULL) {
       $original_referral = $account->original->get('field_referral')->target_id;
       $updated_value = $account->get('field_referral')->target_id;
-      if ($original_referral != NULL && $original_referral != $updated_value) {
+      if ($original_referral != NULL && $original_referral != $updated_value && !in_array('administrator',$user->getRoles())) {
           $response = new RedirectResponse(\Drupal::request()->getRequestUri());
           $response->send();
           \Drupal::messenger()->addError(t("You can't change your referral"));
