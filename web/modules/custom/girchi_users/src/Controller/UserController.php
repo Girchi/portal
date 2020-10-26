@@ -425,7 +425,7 @@ class UserController extends ControllerBase {
 
             }
             else {
-              $text = "გათამაშებაში მონაწილეობის მისაღებად სავალდებულოა შეავსოთ Facebook ან Instagram ლინკი.";
+              $text = "გათამაშებაში მონაწილეობის მისაღებად, სავალდებულოა საჯარო პროფილში შეავსოთ Facebook ან Instagram ლინკი.";
               return new JsonResponse(['status' => FALSE, 'text' => $text]);
             }
 
