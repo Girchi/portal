@@ -163,7 +163,11 @@ function girchi_donations_cron() {
           $queue = $queue_factory->get('regular_donation_processor');
           /** @var \Drupal\girchi_donations\Entity\RegularDonation $reg_donation */
           foreach ($reg_donations as $reg_donation) {
-            $queue->createItem($reg_donation);
+            $user = $reg_donation->getOwnerId();
+            $user_entity = \Drupal::entityTypeManager()->getStorage('user')->load($user);
+            if (!empty($user_entity)) {
+              $queue->createItem($reg_donation);
+            }
           }
         }
         $logger_factory->info(
