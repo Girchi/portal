@@ -170,6 +170,7 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
           'Regular donation'
         );
         if ($result === NULL) {
+
           $this->loggerChannelFactory->get('girchi_donations')->error('Error while executing payment');
           return;
         }
