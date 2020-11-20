@@ -10,6 +10,8 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use ABGEO\NBG\Currency;
 use Drupal\Core\Database\Driver\mysql\Schema;
 use Carbon\Carbon;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
@@ -235,4 +237,42 @@ function girchi_donations_taxonomy_term_delete($term) {
       $logger_factory->info($exception->getMessage());
     }
   }
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function girchi_donations_user_presave(EntityInterface $user) {
+  // If user is no longer politician,
+  // But someone sponsors with regular donation
+  // Regular donation type should be changed to AIM.
+  try {
+    /** @var  \Drupal\Core\Logger\LoggerChannel $logger_factory */
+    $logger_factory = Drupal::service('logger.factory')->get('girchi_donations');
+    $origin_is_politician = $user->original->get('field_politician')->value;
+    $is_politician = $user->get('field_politician')->value;
+    if ($origin_is_politician == TRUE && $is_politician == FALSE) {
+      $reg_d_storage = \Drupal::entityTypeManager()->getStorage('regular_donation');
+      $entities = $reg_d_storage->getQuery()
+        ->condition('politician_id', $user->id())
+        ->execute();
+      $reg_donations = $reg_d_storage->loadMultiple($entities);
+      foreach ($reg_donations as $reg_donation) {
+        $reg_donation->set('politician_id', NULL);
+        $reg_donation->set('aim_id', 1035);
+        $reg_donation->set('type', 1);
+        $reg_donation->save();
+      }
+    }
+  }
+  catch (InvalidPluginDefinitionException $e) {
+    $logger_factory->error($e->getMessage());
+  }
+  catch (PluginNotFoundException $e) {
+    $logger_factory->error($e->getMessage());
+  }
+  catch (EntityStorageException $e) {
+    $logger_factory->error($e->getMessage());
+  }
+
 }

@@ -324,6 +324,27 @@ function girchi_users_user_predelete(EntityInterface $entity) {
         $active_donation->save();
       }
     }
+    // If deleted user was sponsored with Regular Donation,
+    // Type for that regular donations should be changed to AIM.
+    $reg_donation_storage = \Drupal::entityTypeManager()->getStorage('regular_donation');
+    $active_donation_ids = $reg_donation_storage->getQuery()
+      // With below line we consider that someone
+      // Can be a partner of them self
+      // And That kind of regular donation should be paused
+      // With following logic: see Line 313.
+      ->condition('user_id', $user_id, '!=')
+      ->condition('type', 2)
+      ->condition('politician_id', $user_id)
+      ->execute();
+    $active_donations = $reg_donation_storage->loadMultiple($active_donation_ids);
+    if (!empty($active_donations)) {
+      foreach ($active_donations as $active_donation) {
+        $active_donation->set('type', '1');
+        $active_donation->set('aim_id', 1035);
+        $active_donation->set('politician_id', NULL);
+        $active_donation->save();
+      }
+    }
   }
   catch (InvalidPluginDefinitionException $e) {
     $logger_factory->error($e->getMessage());
