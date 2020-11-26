@@ -9,11 +9,21 @@
         display: none !important;
     }
 
+
+}
+@media screen and (min-width: 1200px) {
+    .notifications {
+        right: -71.5%!important;
+    }
 }
 .referral-count{
     display: none;
 }
-
+@media screen and (min-width: 992px) {
+    .notifications {
+        right: -76.5% !important;
+    }
+}
 .fix {
   margin: 0 !important;
 }
@@ -211,6 +221,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #inputElectionDonate {
-    font-size: 0.8em
-;
+    font-size: 0.8em;
 }
+
