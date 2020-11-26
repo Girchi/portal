@@ -2,6 +2,8 @@
 
 namespace Drupal\girchi_my_party_list\Commands;
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drush\Commands\DrushCommands;
@@ -42,8 +44,9 @@ class GirchiMyPartyListCommands extends DrushCommands {
    *   Logger.
    */
   public function __construct(EntityTypeManager $entityTypeManager, LoggerChannelFactoryInterface $loggerFactory) {
+    parent::__construct();
     $this->entityTypeManager = $entityTypeManager;
-    $this->loggerFactory = $loggerFactory;
+    $this->loggerFactory = $loggerFactory->get('girchi_my_party_list');
   }
 
   /**
@@ -53,30 +56,38 @@ class GirchiMyPartyListCommands extends DrushCommands {
    * @aliases fix-party-list
    */
   public function fixPartyList() {
-    $userStorage = $this->entityTypeManager->getStorage('user');
-    $userIds = $userStorage->getQuery()
-      ->condition('field_my_party_list', NULL, 'IS NOT NULL')
-      ->execute();
+    try {
+      $userStorage = $this->entityTypeManager->getStorage('user');
+      $userIds = $userStorage->getQuery()
+        ->condition('field_my_party_list', NULL, 'IS NOT NULL')
+        ->execute();
 
-    $users = $userStorage->loadMultiple($userIds);
-    foreach ($users as $user) {
-      $party_list = $user->get('field_my_party_list');
-      foreach ($party_list as $politician) {
-        $politician = $userStorage->load($politician->target_id);
-        if ($politician) {
-          if ($politician->field_politician->value == 0) {
-            try {
-              $key = array_search($politician->id(), array_column($party_list, 'target_id'));
-              $user->get('field_my_party_list')->removeItem((int) $key);
-              $user->save();
-            }
-            catch (\Exception $e) {
-              $this->loggerFactory->get('girchi_my_party_list')->error($e->getMessage());
-              echo $e->getMessage();
+      $users = $userStorage->loadMultiple($userIds);
+      foreach ($users as $user) {
+        $party_list = $user->get('field_my_party_list');
+        foreach ($party_list as $politician) {
+          $politician = $userStorage->load($politician->target_id);
+          if ($politician) {
+            if ($politician->field_politician->value == 0) {
+              try {
+                $key = array_search($politician->id(), array_column($party_list->getValue(), 'target_id'));
+                $user->get('field_my_party_list')->removeItem((int) $key);
+                $user->save();
+              }
+              catch (\Exception $e) {
+                $this->loggerFactory->error($e->getMessage());
+                echo $e->getMessage();
+              }
             }
           }
         }
       }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->error($e->getMessage());
     }
 
   }

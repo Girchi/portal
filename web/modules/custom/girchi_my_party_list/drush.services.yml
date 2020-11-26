@@ -1,6 +1,6 @@
 services:
   girchi_my_party_list.commands:
-    class: \Drupal\girchi_my_party_list\Commands\GirchiMyPartyListCommands
+    class: Drupal\girchi_my_party_list\Commands\GirchiMyPartyListCommands
     tags:
       - { name: drush.command }
     arguments:
