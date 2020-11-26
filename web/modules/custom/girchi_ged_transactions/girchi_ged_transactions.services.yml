@@ -4,4 +4,4 @@ services:
     arguments: ['@database']
   girchi_ged_transactions.summarygedcalculation:
     class: Drupal\girchi_ged_transactions\SummaryGedCalculationService
-    arguments: ['@entity_type.manager','@logger.factory']
+    arguments: ['@logger.factory', '@database']

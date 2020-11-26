@@ -2,10 +2,8 @@
 
 namespace Drupal\girchi_utils;
 
-use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
-use Drupal\Component\Plugin\Exception\PluginNotFoundException;
-use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 
 /**
  * Class GedRaitingService.
@@ -13,52 +11,71 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 class GedRaitingService {
 
   /**
-   * EntityTypeManagerInterface definition.
+   * Database.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Database\Connection
    */
-  protected $entityTypeManager;
+  protected $database;
+
+  /**
+   * Logger Factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerFactory;
 
   /**
    * Constructs a new PartyListCalculatorService object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *
-   *   Entity type manager.
+   * @param \Drupal\Core\Database\Connection $database
+   *   Database.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
+   *   LoggerChannelFactoryInterface.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
-    $this->entityTypeManager = $entity_type_manager;
+  public function __construct(Connection $database,
+                              LoggerChannelFactoryInterface $loggerFactory) {
+    $this->database = $database;
+    $this->loggerFactory = $loggerFactory->get('girchi_utils');
   }
 
   /**
    * CalculateRankRating.
+   *
+   * @param int $uid
+   *   User id.
+   *
+   * @return int
+   *   Rating.
    */
-  public function calculateRankRating() {
-    $users = NULL;
+  public function calculateRankRating($uid) {
     try {
-      $user_storage = $this->entityTypeManager->getStorage('user');
-      $user_ids = $user_storage->getQuery()
-        ->condition('mail', NULL, 'IS NOT NULL')
-        ->sort('field_ged', 'DESC')
-        ->sort('field_last_name', 'ASC')
-        ->execute();
-      /** @var \Drupal\user\Entity\User $users */
-      $users = $user_storage->loadMultiple($user_ids);
-      $ged_rank = 1;
-      foreach ($users as $user) {
-        $user->set('field_rank', $ged_rank);
-        try {
-          $user->save();
-          $ged_rank++;
-        }
-        catch (EntityStorageException $e) {
-        }
-      }
+      $this->database->query("SET SQL_MODE=''");
+      $query = $this->database->select('users', 'u');
+
+      $query->leftJoin('user__field_last_name', 'ln', 'u.uid = ln.entity_id');
+      $query->leftJoin('user__field_ged', 'ged', 'u.uid = ged.entity_id');
+      $query->addField('ged', 'field_ged_value', 'ged_value');
+      $query->addField('ln', 'field_last_name_value', 'last_name');
+      $query->addField('u', 'uid', 'user_id');
+      $query
+        ->orderBy('ged_value', 'DESC')
+        ->orderBy('last_name', 'ASC');
+      $results = $query->execute()->fetchAll();
+
+      // Since result of the query is multi-dimensional array
+      // First we need to return the values
+      // From a single column in the input array
+      // And Then return array key to get rank rating for given user.
+      $array_of_ids = array_column($results, 'user_id');
+      $found_key = array_search($uid, $array_of_ids);
+
+      return (int) $found_key + 1;
+
     }
-    catch (InvalidPluginDefinitionException $e) {
+    catch (\Exception $e) {
+      $this->loggerFactory->error($e->getMessage());
     }
-    catch (PluginNotFoundException $e) {
-    }
+    return 0;
   }
 
 }

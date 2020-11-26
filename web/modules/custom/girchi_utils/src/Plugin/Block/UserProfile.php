@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\girchi_utils\GedRaitingService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -34,12 +35,25 @@ class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
   protected $accountProxy;
 
   /**
+   * GedRatingService.
+   *
+   * @var \Drupal\girchi_utils\GedRaitingService
+   */
+  protected $gedRatingService;
+
+  /**
    * {@inheritDoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $accountProxy) {
+  public function __construct(array $configuration,
+                              $plugin_id,
+                              $plugin_definition,
+                              EntityTypeManagerInterface $entity_type_manager,
+                              AccountProxyInterface $accountProxy,
+                              GedRaitingService $gedRatingService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->accountProxy = $accountProxy;
+    $this->gedRatingService = $gedRatingService;
   }
 
   /**
@@ -51,7 +65,8 @@ class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('girchi_utils.ged_raiting')
     );
   }
 
@@ -94,7 +109,7 @@ class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
     $currentUserGed = $currentUser->get('field_ged')->value ? $currentUser->get('field_ged')->value : 0;
     /** @var \Drupal\file\Entity\File $avatarEntity */
     $avatarEntity = $currentUser->get('user_picture')->entity;
-    $currentRank = $currentUser->get('field_rank')->value;
+    $currentRank = $this->gedRatingService->calculateRankRating($currentUserId);
     $numberOfUsers = $user_storage
       ->getQuery()
       ->sort('created', 'DESC')
@@ -124,6 +139,9 @@ class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
       '#user_count' => $numberOfUsers - 1,
       '#user_rank' => $currentRank,
       '#is_avatar' => $isAvatar,
+      '#cache' => [
+        'tags' => ['ged_transactions'],
+      ],
     ];
   }
 
