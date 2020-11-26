@@ -190,8 +190,9 @@ function girchi_preprocess_page(array &$variables)
     $supporters = [];
     if($is_politician) {
       $party_list_calculator = Drupal::service('girchi_my_party_list.party_list_calculator');
-      $supporters = $party_list_calculator->getPoliticiansSupporters([$uid]);
-      $supporters = $supporters[$uid];
+      if($supporters = $party_list_calculator->getPoliticiansSupporters([$uid])) {
+        $supporters = $supporters[$uid];
+      }
     }
 
     $referralsImage = [];
