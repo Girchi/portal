@@ -4,4 +4,4 @@ services:
     arguments: ['@entity_type.manager']
   girchi_utils.ged_raiting:
     class: Drupal\girchi_utils\GedRaitingService
-    arguments: ['@entity_type.manager']
+    arguments: ['@database','@logger.factory']

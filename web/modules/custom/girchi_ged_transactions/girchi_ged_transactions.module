@@ -5,6 +5,7 @@
  * Contains girchi_ged_transactions.module.
  */
 
+use Drupal\Core\Cache\Cache;
 use Drupal\user\Entity\User;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -93,6 +94,7 @@ function girchi_ged_transactions_entity_presave(EntityInterface $entity) {
       $newTitle = $firsName . ' ' . $lastName . ' ' . $uGed . ' GeD';
 
       $entity->set('title', $newTitle)->value;
+      Cache::invalidateTags(['ged_transactions']);
     }
   }
 }
