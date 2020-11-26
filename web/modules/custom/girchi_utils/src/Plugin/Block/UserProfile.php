@@ -44,7 +44,9 @@ class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritDoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition,
+  public function __construct(array $configuration,
+                              $plugin_id,
+                              $plugin_definition,
                               EntityTypeManagerInterface $entity_type_manager,
                               AccountProxyInterface $accountProxy,
                               GedRaitingService $gedRatingService) {
@@ -139,7 +141,7 @@ class UserProfile extends BlockBase implements ContainerFactoryPluginInterface {
       '#is_avatar' => $isAvatar,
       '#cache' => [
         'tags' => ['ged_transactions'],
-      ]
+      ],
     ];
   }
 
