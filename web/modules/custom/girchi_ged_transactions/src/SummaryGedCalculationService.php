@@ -48,6 +48,9 @@ class SummaryGedCalculationService {
       $query->addExpression('sum(gt.ged_amount)', 'gedValue');
       $results = $query->execute()->fetchAll();
       $gedValue = $results[0]->gedValue;
+      if (empty($gedValue)) {
+        $gedValue = 0;
+      }
       $gedPercentage = $gedValue / 50000000;
       $arr = [
         'gedValue' => $gedValue,
