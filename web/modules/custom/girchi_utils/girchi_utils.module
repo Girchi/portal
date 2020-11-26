@@ -706,18 +706,18 @@ function telephone_validation(array $form, FormStateInterface $form_state)
  */
 function girchi_utils_user_presave(User $account)
 {
-  $user = \Drupal::currentUser();
-  $user->getRoles();
-  if ($account->original != NULL && !in_array('administrator',$user->getRoles())) {
-    $original_politician = $account->original->get('field_politician')->value;
-    $politician = $account->get('field_politician')->value;
-    if($politician != $original_politician) {
-      $response = new RedirectResponse(\Drupal::request()->getRequestUri());
-      $response->send();
-      \Drupal::messenger()->addError(t("You can't change 'I want to be a politicain' value."));
-      exit;
-    }
-  }
+//  $user = \Drupal::currentUser();
+//  $user->getRoles();
+//  if ($account->original != NULL && !in_array('administrator',$user->getRoles())) {
+//    $original_politician = $account->original->get('field_politician')->value;
+//    $politician = $account->get('field_politician')->value;
+//    if($politician != $original_politician) {
+//      $response = new RedirectResponse(\Drupal::request()->getRequestUri());
+//      $response->send();
+//      \Drupal::messenger()->addError(t("You can't change 'I want to be a politicain' value."));
+//      exit;
+//    }
+//  }
   // TODO:: Uncomment if statement.
     if ($account->original != NULL) {
       $original_referral = $account->original->get('field_referral')->target_id;
