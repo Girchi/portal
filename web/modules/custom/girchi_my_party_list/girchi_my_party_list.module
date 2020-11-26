@@ -113,3 +113,31 @@ function girchi_my_party_list_user_presave(EntityInterface $user) {
   }
 
 }
+
+/**
+ * Implements hook_user_delete().
+ */
+function girchi_my_party_list_user_delete($account) {
+  if ($account->field_politician->value == TRUE) {
+    $logger_factory = Drupal::service('logger.factory')->get('girchi_my_party_list');
+    try {
+      $user_storage = Drupal::entityTypeManager()->getStorage('user');
+      $user_ids = $user_storage
+        ->getQuery()
+        ->condition('field_my_party_list', $account->id(), 'IN')
+        ->execute();
+      if (!empty($user_ids)) {
+        $users = $user_storage->loadMultiple($user_ids);
+        foreach ($users as $supporter) {
+          $supporter_party_list = $supporter->get('field_my_party_list')->getValue();
+          $key = array_search($account->id(), array_column($supporter_party_list, 'target_id'));
+          $supporter->get('field_my_party_list')->removeItem((int) $key);
+          $supporter->save();
+        }
+      }
+    }
+    catch (Exception $e) {
+      $logger_factory->error($e->getMessage());
+    }
+  }
+}
