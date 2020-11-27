@@ -5,6 +5,8 @@
  * Contains girchi_users.module.
  */
 
+use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -286,6 +288,69 @@ function girchi_users_user_presave(EntityInterface $user) {
       }
 
     }
+  }
+
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function girchi_users_user_predelete(EntityInterface $entity) {
+  /** @var  \Drupal\Core\Logger\LoggerChannel $logger_factory */
+  $logger_factory = Drupal::service('logger.factory')->get('girchi_users');
+  try {
+    $user_id = $entity->id();
+    // If deleted user was someones referral, that value should be erased.
+    $user_entity = \Drupal::entityTypeManager()->getStorage('user');
+    $ids = $user_entity->getQuery()
+      ->condition('field_referral', $user_id)
+      ->execute();
+    $user_referrals = $user_entity->loadMultiple($ids);
+    foreach ($user_referrals as $user_referral) {
+      $user_referral->set('field_referral', NULL);
+      $user_referral->save();
+    }
+    // If deleted user had ACTIVE regular donations,
+    // Those regular donations should be paused.
+    $reg_donation_storage = \Drupal::entityTypeManager()->getStorage('regular_donation');
+    $active_donation_ids = $reg_donation_storage->getQuery()
+      ->condition('user_id', $user_id)
+      ->condition('status', 'ACTIVE')
+      ->execute();
+    $active_donations = $reg_donation_storage->loadMultiple($active_donation_ids);
+    if (!empty($active_donations)) {
+      foreach ($active_donations as $active_donation) {
+        $active_donation->set('status', 'PAUSED');
+        $active_donation->save();
+      }
+    }
+    // If deleted user was sponsored with Regular Donation,
+    // Type for that regular donations should be changed to AIM.
+    $reg_donation_storage = \Drupal::entityTypeManager()->getStorage('regular_donation');
+    $active_donation_ids = $reg_donation_storage->getQuery()
+      // With below line we consider that someone
+      // Can be a partner of them self
+      // And That kind of regular donation should be paused
+      // With following logic: see Line 313.
+      ->condition('user_id', $user_id, '!=')
+      ->condition('type', 2)
+      ->condition('politician_id', $user_id)
+      ->execute();
+    $active_donations = $reg_donation_storage->loadMultiple($active_donation_ids);
+    if (!empty($active_donations)) {
+      foreach ($active_donations as $active_donation) {
+        $active_donation->set('type', '1');
+        $active_donation->set('aim_id', 1035);
+        $active_donation->set('politician_id', NULL);
+        $active_donation->save();
+      }
+    }
+  }
+  catch (InvalidPluginDefinitionException $e) {
+    $logger_factory->error($e->getMessage());
+  }
+  catch (PluginNotFoundException $e) {
+    $logger_factory->error($e->getMessage());
   }
 
 }

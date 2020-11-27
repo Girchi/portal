@@ -6,7 +6,7 @@ services:
     class: Drupal\girchi_referral\EventSubscriber\DonationSubscriber
     tags:
       - { name: 'event_subscriber' }
-    arguments: ['@girchi_referral.create_referral_transaction']
+    arguments: ['@girchi_referral.create_referral_transaction','@entity_type.manager','@logger.factory']
   girchi_referral.create_referral_transaction:
     class: Drupal\girchi_referral\CreateReferralTransactionService
     arguments: ['@entity_type.manager','@logger.factory']

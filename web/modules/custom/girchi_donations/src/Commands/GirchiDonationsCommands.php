@@ -570,4 +570,66 @@ class GirchiDonationsCommands extends DrushCommands {
     return $response;
   }
 
+  /**
+   * Delete aim_id if politician_id already exists in regular donation.
+   *
+   * @command girchi_donations:delete-aim
+   * @aliases delete-aim
+   */
+  public function deleteAim() {
+    try {
+      $reg_donations_storage = $this->entityTypeManager
+        ->getStorage('regular_donation');
+      $reg_donations_ids = $reg_donations_storage->getQuery()
+        ->condition('aim_id', NULL, 'IS NOT NULL')
+        ->condition('politician_id', NULL, 'IS NOT NULL')
+        ->condition('type', 2)
+        ->execute();
+      $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+      foreach ($reg_donations as $reg_donation) {
+        $reg_donation->set('aim_id', NULL);
+        $reg_donation->save();
+      }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+  }
+
+  /**
+   * Main command.
+   *
+   * @command girchi_donations:change-donation-type
+   * @aliases change-donation-type
+   */
+  public function changeDeletedPolitician() {
+    try {
+      $reg_donations_storage = $this->entityTypeManager
+        ->getStorage('regular_donation');
+      $reg_donations_ids = $reg_donations_storage->getQuery()
+        ->condition('type', 2)
+        ->execute();
+      $reg_donations = $reg_donations_storage->loadMultiple($reg_donations_ids);
+      foreach ($reg_donations as $reg_donation) {
+        $polit_id = $reg_donation->get('politician_id')->target_id;
+        $load_polit = $this->entityTypeManager->getStorage('user')->load($polit_id);
+        if (empty($load_polit) || $load_polit->get('field_politician')->value == FALSE) {
+          $reg_donation->set('aim_id', 1035);
+          $reg_donation->set('type', 1);
+          $reg_donation->set('politician_id', NULL);
+          $reg_donation->save();
+        }
+      }
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+  }
+
 }
