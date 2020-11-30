@@ -22,7 +22,7 @@ donation:
   version: 1.1
   js:
     js/donation.js: {}
-    js/paypal.js: {}
+#    js/paypal.js: {}
   dependencies:
     - core/jquery
 

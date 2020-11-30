@@ -4,7 +4,7 @@ girchi_paypal.paypal_controller:
     _controller: '\Drupal\girchi_paypal\Controller\PaypalController::finishDonation'
     _title: 'Donate finish'
   requirements:
-    _permission: 'access content'
+    _permission: 'access administration pages'
   options:
     no_cache: 'TRUE'
 
@@ -14,7 +14,7 @@ girchi_paypal.finish_page:
     _controller: '\Drupal\girchi_paypal\Controller\PaypalController::donationPage'
     _title: 'Donate page'
   requirements:
-    _permission: 'access content'
+    _permission: 'access administration pages'
 
 girchi_paypal.paypal_settings_form:
   path: '/admin/config/girchi_paypal/paypalsettings'
