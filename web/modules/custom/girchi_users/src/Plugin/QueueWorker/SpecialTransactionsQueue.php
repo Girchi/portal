@@ -91,16 +91,28 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
       $ged_amount = (int) $data['amount'];
 
       $ged_transactions_storage = $this->entityTypeManager->getStorage('ged_transaction');
-      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(2007);
+      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(944);
       $transaction_type_id2 = $this->entityTypeManager->getStorage('taxonomy_term')->load(1370);
+
+      $new_girchi_transaction = $ged_transactions_storage->create([
+        'user_id' => "1",
+        'user' => $uid,
+        'ged_amount' => 1379,
+        'Description' => "გირჩის ბიუჯეტიდან ჩარიცხვა",
+        'title' => 'Girchi',
+        'name' => 'Girchi',
+        'transaction_type' => $transaction_type_id,
+        'status' => TRUE,
+      ]);
+      $new_girchi_transaction->save();
 
       $new_transaction = $ged_transactions_storage->create([
         'user_id' => "1",
         'user' => $uid,
         'ged_amount' => $ged_amount,
-        'Description' => "ზურაბ ჯაფარიძემ გადაურიცხა",
-        'title' => 'Japara',
-        'name' => 'Japara',
+        'Description' => "ლევან ჯგერენაიამ გადაურიცხა",
+        'title' => 'Levan Jgerenaia',
+        'name' => 'Levan Jgerenaia',
         'transaction_type' => $transaction_type_id,
         'status' => TRUE,
       ]);
@@ -111,8 +123,8 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
         'user' => $special_user,
         'ged_amount' => -$ged_amount,
         'Description' => "უკუგატარება",
-        'title' => 'Japara',
-        'name' => 'Japara',
+        'title' => 'Levan Jgerenaia',
+        'name' => 'Levan Jgerenaia',
         'transaction_type' => $transaction_type_id2,
         'status' => TRUE,
       ]);
