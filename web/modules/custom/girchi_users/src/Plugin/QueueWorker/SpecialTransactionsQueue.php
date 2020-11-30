@@ -91,7 +91,7 @@ class SpecialTransactionsQueue extends QueueWorkerBase implements ContainerFacto
       $ged_amount = (int) $data['amount'];
 
       $ged_transactions_storage = $this->entityTypeManager->getStorage('ged_transaction');
-      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(2007);
+      $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(944);
       $transaction_type_id2 = $this->entityTypeManager->getStorage('taxonomy_term')->load(1370);
 
       $new_girchi_transaction = $ged_transactions_storage->create([
