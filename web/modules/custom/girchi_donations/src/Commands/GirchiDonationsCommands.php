@@ -8,6 +8,7 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Queue\QueueFactory;
@@ -628,6 +629,34 @@ class GirchiDonationsCommands extends DrushCommands {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
     }
     catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+  }
+
+  /**
+   * Delete reg donations.
+   *
+   * @command girchi_donations:delete-reg-donations
+   * @aliases delete-reg-donations
+   */
+  public function deleteRegDonations() {
+    try {
+      $reg_donations_storage = $this->entityTypeManager
+        ->getStorage('regular_donation');
+      $donations = ["13","16","26","58","63","64","67","69","70","85","90","92","94","105","106","120","125","130","133","134","135","137","138","143","144","148","149","163","178","188","192","193","203","204","205","206","207","213","220","221","234","235","240","244","250","254","263","267","287","290","291","294","300","302","307","310","314","315","316","317","326","327","328","344","347","358","366","383","384","389","395","397","403","405","415","417","420","422","425","426","436","437","439","442","447","450","452","463","478","487","488","491","494","497","505","506","509","512","514","515","524","527","529","535","539","541","543","545","546","547","554","558","559","561","567","573","576","584","586","590","595","602","603","612","614","617","619","620","626","628","632","633","638","647","648","649","651","659","661","662","666","670","672","679","681","688","691","692","693","694","695","697","699","701","704","706","708","712","717","721","725","728","731","740","746","749","751","752","768","770","771","775","778","779","780","781","785","787","791","797","799","800","801"];
+      $reg_donations = $reg_donations_storage->getQuery()
+        ->condition('id', $donations, 'IN')
+        ->condition('aim_id', 1035, '=')
+        ->execute();
+      $reg_donations = $reg_donations_storage->loadMultiple($reg_donations);
+      $reg_donations_storage->delete($reg_donations);
+    }
+    catch (InvalidPluginDefinitionException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    }
+    catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    } catch (EntityStorageException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
     }
   }

@@ -155,83 +155,83 @@ class RegularDonationProcessor extends QueueWorkerBase implements ContainerFacto
 
       $transaction_type_id = $this->entityTypeManager->getStorage('taxonomy_term')->load(1369) ? '1369' : NULL;
 
-//      if ($data->getStatus() === 'ACTIVE') {
-//        $card_id = $data->get('card_id')->value;
-//        $type = $data->get('type')->value;
-//        if ($type === '1') {
-//          $target_id = $data->get('aim_id')->target_id;
-//        }
-//        else {
-//          $target_id = $data->get('politician_id')->target_id;
-//        }
-//        $result = $this->omediaPayment->executePayment(
-//          $card_id,
-//          $data->get('amount')->value,
-//          'Regular donation'
-//        );
-//        if ($result === NULL) {
-//
-//          $this->loggerChannelFactory->get('girchi_donations')->error('Error while executing payment');
-//          return;
-//        }
-//        else {
-//          $trans_id = $result['transaction_id'];
-//          $resp_result = $result['code'];
-//          if ($resp_result === '000') {
-//            $status = 'OK';
-//            $ged_t = $ged_t_storage->create([
-//              'user_id' => "1",
-//              'user' => $data->getOwnerId(),
-//              'ged_amount' => $this->gedCalculator->calculate($data->get('amount')->value),
-//              'title' => 'Donation',
-//              'name' => 'Donation',
-//              'status' => TRUE,
-//              'Description' => 'Transaction was created by donation',
-//              'transaction_type' => $transaction_type_id,
-//
-//            ]);
-//            $ged_t->save();
-//          }
-//          else {
-//            $status = 'FAILED';
-//          }
-//          /** @var \Drupal\girchi_donations\Entity\Donation $donation */
-//          $donation = $this->donationUtils->addDonationRecord(
-//            $type,
-//            [
-//              'trans_id' => $trans_id,
-//              'user_id' => $data->getOwnerId(),
-//              'amount' => $data->get('amount')->value,
-//              'status' => $status,
-//              'field_regular_donation' => $data->id(),
-//              'field_donation_type' => 1,
-//              'field_ged_transaction' => $ged_t ? $ged_t->id() : NULL,
-//              'field_source' => 'tbc',
-//            ], $target_id);
-//
-//          if ($status != 'FAILED') {
-//            $donationEvent = new DonationEvents($donation);
-//            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
-//            $this->notifyDonationService->notifyDonation($donation);
-//            $this->userBadgeChangeDetection->addDonationBadge($data->getOwnerId(), FALSE);
-//          }
-//
-//          $this->loggerChannelFactory->get('girchi_donations')->info(
-//            sprintf(
-//              'Donation status was updated to: %s , user: %s',
-//              $status,
-//              $data->getOwner()->get('name')->value));
-//          /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $donations */
-//          $donations = $data->get('field_donations');
-//          $donations->appendItem($donation->id());
-//        }
-//
-//        $this->loggerChannelFactory->get('girchi_donations')->info(
-//          sprintf(
-//            'Regular donation execution finished for user: %s , status:%s',
-//            $data->getOwner()->get('name')->value,
-//            $status));
-//      }
+      if ($data->getStatus() === 'ACTIVE') {
+        $card_id = $data->get('card_id')->value;
+        $type = $data->get('type')->value;
+        if ($type === '1') {
+          $target_id = $data->get('aim_id')->target_id;
+        }
+        else {
+          $target_id = $data->get('politician_id')->target_id;
+        }
+        $result = $this->omediaPayment->executePayment(
+          $card_id,
+          $data->get('amount')->value,
+          'Regular donation'
+        );
+        if ($result === NULL) {
+
+          $this->loggerChannelFactory->get('girchi_donations')->error('Error while executing payment');
+          return;
+        }
+        else {
+          $trans_id = $result['transaction_id'];
+          $resp_result = $result['code'];
+          if ($resp_result === '000') {
+            $status = 'OK';
+            $ged_t = $ged_t_storage->create([
+              'user_id' => "1",
+              'user' => $data->getOwnerId(),
+              'ged_amount' => $this->gedCalculator->calculate($data->get('amount')->value),
+              'title' => 'Donation',
+              'name' => 'Donation',
+              'status' => TRUE,
+              'Description' => 'Transaction was created by donation',
+              'transaction_type' => $transaction_type_id,
+
+            ]);
+            $ged_t->save();
+          }
+          else {
+            $status = 'FAILED';
+          }
+          /** @var \Drupal\girchi_donations\Entity\Donation $donation */
+          $donation = $this->donationUtils->addDonationRecord(
+            $type,
+            [
+              'trans_id' => $trans_id,
+              'user_id' => $data->getOwnerId(),
+              'amount' => $data->get('amount')->value,
+              'status' => $status,
+              'field_regular_donation' => $data->id(),
+              'field_donation_type' => 1,
+              'field_ged_transaction' => $ged_t ? $ged_t->id() : NULL,
+              'field_source' => 'tbc',
+            ], $target_id);
+
+          if ($status != 'FAILED') {
+            $donationEvent = new DonationEvents($donation);
+            $this->dispatcher->dispatch(DonationEventsConstants::DONATION_SUCCESS, $donationEvent);
+            $this->notifyDonationService->notifyDonation($donation);
+            $this->userBadgeChangeDetection->addDonationBadge($data->getOwnerId(), FALSE);
+          }
+
+          $this->loggerChannelFactory->get('girchi_donations')->info(
+            sprintf(
+              'Donation status was updated to: %s , user: %s',
+              $status,
+              $data->getOwner()->get('name')->value));
+          /** @var \Drupal\Core\Field\EntityReferenceFieldItemList $donations */
+          $donations = $data->get('field_donations');
+          $donations->appendItem($donation->id());
+        }
+
+        $this->loggerChannelFactory->get('girchi_donations')->info(
+          sprintf(
+            'Regular donation execution finished for user: %s , status:%s',
+            $data->getOwner()->get('name')->value,
+            $status));
+      }
       $data->set('next_payment_date', $next_payment_date);
       $data->save();
 
