@@ -8,6 +8,7 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Queue\QueueFactory;
@@ -653,6 +654,8 @@ class GirchiDonationsCommands extends DrushCommands {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
     }
     catch (PluginNotFoundException $e) {
+      $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
+    } catch (EntityStorageException $e) {
       $this->loggerFactory->get('girchi_donations')->error($e->getMessage());
     }
   }
