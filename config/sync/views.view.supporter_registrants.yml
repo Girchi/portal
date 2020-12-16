@@ -9,6 +9,7 @@ dependencies:
     - field.storage.user.field_personal_id
     - field.storage.user.field_phone
     - field.storage.user.field_referral
+    - user.role.administrator
   module:
     - user
 id: supporter_registrants
@@ -27,9 +28,10 @@ display:
     position: 0
     display_options:
       access:
-        type: perm
+        type: role
         options:
-          perm: 'access user profiles'
+          role:
+            administrator: administrator
       cache:
         type: tag
         options: {  }
@@ -792,7 +794,7 @@ display:
         - url
         - url.query_args
         - user
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_ged'
@@ -816,7 +818,7 @@ display:
         - url
         - url.query_args
         - user
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.user.field_first_name'
         - 'config:field.storage.user.field_ged'
